@@ -52,6 +52,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -59,7 +60,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [os.path.join(BASE_DIR, 'html')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -79,9 +80,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': env('DB_DEFAULT_ENGINE'),
+        'NAME': env('DB_DEFAULT_NAME'),
+        'USER': env('DB_DEFAULT_USER'),
+        'PASSWORD': env('DB_DEFAULT_PASSWORD'),
+        'HOST': env('DB_DEFAULT_HOST'),
+        'PORT': env('DB_DEFAULT_PORT'),
     }
 }
 
@@ -108,21 +113,68 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True
 
+USE_TZ = False
+
+MAINTENANCE_MODE_TEMPLATE = os.path.join(BASE_DIR, 'html/maintenance.html')
+MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_state.txt')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+
+LOG_BASE_DIR = os.path.join(BASE_DIR, "log")
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"simple": {"format": "%(asctime)s [%(levelname)s] %(message)s"}},
+    "handlers": {
+        "info": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_BASE_DIR, "info.log"),
+            "formatter": "simple",
+        },
+        "warning": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_BASE_DIR, "warning.log"),
+            "formatter": "simple",
+        },
+        "error": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_BASE_DIR, "error.log"),
+            "formatter": "simple",
+        },
+    },
+    "root": {
+        "handlers": ["info", "warning", "error"],
+        "level": "INFO",
+    },
+}
