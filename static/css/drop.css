@@ -1,0 +1,22 @@
+.account-drop-zone {
+    padding: 10px;
+    width: 100%;
+    background: #FFF;
+    border: 2px dashed rgba(0,0,0,0.3);
+    border-radius: 30px;
+    cursor: pointer;
+}
+.account-drop-icon {
+    font-size: 36px;
+}
+.account-drop-text {
+    font-size: 14px;
+}
+.account-drop-mute-text {
+    color: #74788d !important;
+    font-size: 11px;
+}
+.account-drop-description {
+    color: #3B86FF;
+    font-size: 11px;
+}

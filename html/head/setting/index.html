@@ -1,0 +1,47 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/setting.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+        <div class="col-8 d-flex justify-content-start align-items-center text-end">
+            <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_email_modal">
+                <i class='bx bxs-edit me-1'></i>
+                <span>メールアドレス変更</span>
+            </button>
+            <button id="change_password_button" class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_password_modal">
+                <i class='bx bxs-edit me-1'></i>
+                <span>パスワード変更</span>
+            </button>
+            {% if request.user.authority > 2 %}
+                <button class="btn main-button plus ms-auto p-0 ps-3 mb-3" data-bs-toggle="modal" data-bs-target="#add_manager_modal">統括者を追加する</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-4">
+                {% include 'head/setting/profile.html' %}
+            </div>
+            <div class="col-8">
+                {% include 'head/setting/list.html' %}
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'head/setting/modal/manager.html' %}
+        {% include 'head/setting/modal/email.html' %}
+        {% include 'head/setting/modal/password.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/head/setting/data.js' %}"></script>
+    <script src="{% static 'js/head/setting/action.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,712 @@
+[
+	{
+		"model": "fixture.country",
+		"pk": "93e535c3-fc0a-18d6-f8cb-ac8d47188a10",
+		"fields": {
+			"number": "1",
+			"name": "日本",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "f61547b0-719b-7ee6-2232-74871ae5f9d4",
+		"fields": {
+			"number": "2",
+			"name": "台湾",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "4a5e7e8c-1faa-6d74-0df5-7f3fd8f816ce",
+		"fields": {
+			"number": "3",
+			"name": "タイ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "c0d7e2eb-327e-2b04-abf4-f1ff46cf153a",
+		"fields": {
+			"number": "4",
+			"name": "インドネシア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "be7c869f-6400-1a4c-5324-7a751d9a7fc8",
+		"fields": {
+			"number": "5",
+			"name": "アラブ首長国連邦",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "5da85e5b-eea6-8f1a-404d-35b178075d81",
+		"fields": {
+			"number": "6",
+			"name": "オーストリア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "6a469f5d-312d-38ce-e820-c7b303704595",
+		"fields": {
+			"number": "7",
+			"name": "オーストラリア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "6974e265-afb4-7de9-0061-9fbf2c527442",
+		"fields": {
+			"number": "8",
+			"name": "バングラデシュ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "ad542546-f7ca-bcba-074d-6227a9178623",
+		"fields": {
+			"number": "9",
+			"name": "ベルギー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "e8f00e88-e1ac-f440-a866-af8de668737b",
+		"fields": {
+			"number": "10",
+			"name": "ブルガリア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "565d4088-8005-8c93-bd1c-363397986bc9",
+		"fields": {
+			"number": "11",
+			"name": "ブラジル",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "f320798b-6bf3-fc5a-2091-081aa2732284",
+		"fields": {
+			"number": "12",
+			"name": "カナダ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "d36c8c25-83ea-5224-9551-118b486117ba",
+		"fields": {
+			"number": "13",
+			"name": "スイス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "7b1059c5-a8aa-7d44-d465-3b7126adcd89",
+		"fields": {
+			"number": "14",
+			"name": "中国",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "c9e710b3-5cbf-5da9-24dc-7d139e601a7a",
+		"fields": {
+			"number": "15",
+			"name": "キプロス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "e040da98-4195-e257-9802-82cf9572efbd",
+		"fields": {
+			"number": "16",
+			"name": "チェコ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "5be4dbe0-1f39-0170-a4ba-10ca41c9abb9",
+		"fields": {
+			"number": "17",
+			"name": "ドイツ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "8cd06e4d-2162-11a2-0dc2-f480e0fe32c2",
+		"fields": {
+			"number": "18",
+			"name": "デンマーク",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "44a0abc6-481e-ac66-7da0-06e7f2c0d4d3",
+		"fields": {
+			"number": "19",
+			"name": "エストニア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "64977af0-d80d-17d4-d8d1-4aa2d9aa7999",
+		"fields": {
+			"number": "20",
+			"name": "スペイン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "df45e672-8c1d-ebd9-77ef-4728b5f5fe21",
+		"fields": {
+			"number": "21",
+			"name": "フィンランド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "8f522b46-a796-e4fd-93c9-cd27cd618b13",
+		"fields": {
+			"number": "22",
+			"name": "フランス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "403f15c1-f61c-cd47-a664-b74dff53ccba",
+		"fields": {
+			"number": "23",
+			"name": "イギリス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "4d86d3eb-9903-cf52-7cef-d820f5d67f32",
+		"fields": {
+			"number": "24",
+			"name": "ギリシャ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "8d5e55c7-ee9b-0eaa-8242-d3b9a2d0e745",
+		"fields": {
+			"number": "25",
+			"name": "香港",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "7164861c-fc99-6e04-0031-538975b41f2e",
+		"fields": {
+			"number": "26",
+			"name": "クロアチア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "f88ed147-f666-14fa-4b8f-7595745ebd32",
+		"fields": {
+			"number": "27",
+			"name": "ハイチ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "b53171c0-e674-d54e-1616-82faf04a3a3c",
+		"fields": {
+			"number": "28",
+			"name": "ハンガリー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "97febfda-4eac-9593-a4f4-59ba637a9651",
+		"fields": {
+			"number": "29",
+			"name": "アイルランド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "3550363f-b42d-a69f-020e-5721281c663b",
+		"fields": {
+			"number": "30",
+			"name": "イスラエル",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "4473fc4a-0b37-8e9b-cb80-4fed81cf23cd",
+		"fields": {
+			"number": "31",
+			"name": "インド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "921b5590-3a85-260c-47ce-86c1db784460",
+		"fields": {
+			"number": "32",
+			"name": "イラン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "25343763-2261-c7cc-ab7a-6c23c80c6b01",
+		"fields": {
+			"number": "33",
+			"name": "アイスランド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "5cdc3050-3c93-2616-f09c-5207c602180d",
+		"fields": {
+			"number": "34",
+			"name": "イタリア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "6c4f3973-9efe-d68d-47f3-ce021e624564",
+		"fields": {
+			"number": "35",
+			"name": "キルギス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "610e200e-29af-2022-5049-77dc20724ef6",
+		"fields": {
+			"number": "36",
+			"name": "カンボジア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "1cd6d4da-5f8c-18dc-8937-3ef706ee1ab9",
+		"fields": {
+			"number": "37",
+			"name": "韓国",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "e029557e-54dc-4143-9a53-42ba63d19bcb",
+		"fields": {
+			"number": "38",
+			"name": "カザフスタン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "982029db-d73f-21a0-847c-4f15905c8baa",
+		"fields": {
+			"number": "39",
+			"name": "ラオス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "51c7352f-bd4a-7369-45c0-addf60af8bd0",
+		"fields": {
+			"number": "40",
+			"name": "リヒテンシュタイン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "efe3036b-741a-9af1-177a-d9245a57db03",
+		"fields": {
+			"number": "41",
+			"name": "スリランカ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "7eac0e69-cf8b-4581-f6b5-d1df1dd98fed",
+		"fields": {
+			"number": "42",
+			"name": "リトアニア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "36e66c07-6474-0780-9c0f-749b56d6a27c",
+		"fields": {
+			"number": "43",
+			"name": "ルクセンブルク",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "1eb6d562-894a-bf76-8386-52b63b51e10c",
+		"fields": {
+			"number": "44",
+			"name": "ラトビア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "f84ddcd7-d6bc-49aa-1e6c-160a56672f4a",
+		"fields": {
+			"number": "45",
+			"name": "モロッコ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "abc3e662-dd12-101f-c833-a7ea4da0842f",
+		"fields": {
+			"number": "46",
+			"name": "ミャンマー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "95385c4e-a507-156e-34ae-8053501cd3db",
+		"fields": {
+			"number": "47",
+			"name": "マルタ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "455247ee-e818-0eb6-4f0b-0fd235c8cda6",
+		"fields": {
+			"number": "48",
+			"name": "メキシコ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "d5817ea6-55a7-e038-043d-35a629e5f4ab",
+		"fields": {
+			"number": "49",
+			"name": "マレーシア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "7fe82ef8-90af-7e83-30ec-79a587967665",
+		"fields": {
+			"number": "50",
+			"name": "ナイジェリア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "df904d65-21dd-067d-0972-e3165478c06f",
+		"fields": {
+			"number": "51",
+			"name": "オランダ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "abca15db-d842-d7d2-aa35-204fa889ffb3",
+		"fields": {
+			"number": "52",
+			"name": "ノルウェー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "3b840b93-875d-b87c-2099-1f6cb7f535cf",
+		"fields": {
+			"number": "53",
+			"name": "ニュージーランド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "86fdd2cb-6649-a05c-0cc3-bbebba26335f",
+		"fields": {
+			"number": "54",
+			"name": "オマーン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "04e7346e-505d-7a90-1934-ff470a13f85e",
+		"fields": {
+			"number": "55",
+			"name": "フィリピン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "5f01589d-6390-312a-8599-91e5f03393a8",
+		"fields": {
+			"number": "56",
+			"name": "ポーランド",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "ee802bea-d848-de26-3f7d-066e5753e50b",
+		"fields": {
+			"number": "57",
+			"name": "ポルトガル",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "6dea0edf-d0ca-2695-39ad-930e59e69a9c",
+		"fields": {
+			"number": "58",
+			"name": "カタール",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "5b16d0a4-0eb7-1437-a6eb-d47bf5b31601",
+		"fields": {
+			"number": "59",
+			"name": "ルーマニア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "adfba75d-6735-8285-c0f7-b2f62b0bdaaf",
+		"fields": {
+			"number": "60",
+			"name": "ロシア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "4b7b07eb-e8a3-cdd3-e655-610dd0451a13",
+		"fields": {
+			"number": "61",
+			"name": "サウジアラビア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "9c536725-610e-f8c9-ac55-d6d35baa4f24",
+		"fields": {
+			"number": "62",
+			"name": "スウェーデン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "0056a6c2-9d69-f878-4973-37294ecc78ea",
+		"fields": {
+			"number": "63",
+			"name": "シンガポール",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "ef0f7e79-7509-c54e-bc57-449e11985e69",
+		"fields": {
+			"number": "64",
+			"name": "スロベニア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "8c18a89a-44df-3272-3fa7-82b560a9c052",
+		"fields": {
+			"number": "65",
+			"name": "スロバキア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "f08d7c77-9bf2-2b3b-546a-efcd203c247d",
+		"fields": {
+			"number": "66",
+			"name": "トルコ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "e403d1da-57f2-63ac-7ddf-ee495158bb65",
+		"fields": {
+			"number": "67",
+			"name": "トリニダード・トバゴ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "4b35f602-055f-acf1-c0f2-8a2fc29c34ec",
+		"fields": {
+			"number": "68",
+			"name": "ウクライナ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "302cd0db-e2f6-2967-bf34-2ce4209c6218",
+		"fields": {
+			"number": "69",
+			"name": "アメリカ合衆国",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "3ee2f589-c06b-742f-eab6-e33e0708a962",
+		"fields": {
+			"number": "70",
+			"name": "ベトナム",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.country",
+		"pk": "fbe37189-7828-f6fb-9cae-550d19f36b6f",
+		"fields": {
+			"number": "71",
+			"name": "南アフリカ",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	}
+]

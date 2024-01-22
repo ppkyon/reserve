@@ -1,0 +1,67 @@
+.header {
+    top: 0.2rem;
+    right: 0.75rem;
+    justify-content: space-between;
+    z-index: 1000;
+}
+.header .header-dropdown .name {
+    max-width: 110px;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    text-overflow: ellipsis;
+    line-height: 1.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.header .header-dropdown .manager-image {
+    width: 2.75rem;
+    height: 2.75rem;
+}
+.header .header-dropdown button {
+    max-width: 15rem;
+    height: 100%;
+    color: #000;
+    border-radius: 1.3rem;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+}
+.header .header-dropdown button:focus {
+    box-shadow: 0 0 0 0;
+}
+.header .header-dropdown .dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+    width: 24rem;
+    text-align: center;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 0.16);
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+.header .header-dropdown .dropdown-menu .info-area img {
+    border: 1px solid #a5c9ff;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.header .header-dropdown .dropdown-menu .info-area .authority {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 0.8rem;
+}
+.header .header-dropdown .dropdown-menu .link-area {
+    font-size: 0.8rem;
+}
+.header .header-dropdown .dropdown-menu .link-area .setting-link {
+    color: #007aff;
+    font-weight: 600;
+}
+.header .header-dropdown .dropdown-menu .link-area .logout-link {
+    color: red;
+    font-weight: 600;
+}

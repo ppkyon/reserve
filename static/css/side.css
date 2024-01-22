@@ -1,0 +1,104 @@
+.side {
+    top: 0;
+    bottom: 0;
+    margin-top: 0;
+    width: 170px;
+    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 0.03);
+    z-index: 1000;
+}
+.side-area {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-color: #fff;
+}
+
+.side-area .logo-area .logo-img {
+    width: 5.5rem;
+    height: 3.5rem;
+    vertical-align: middle;
+    object-fit: contain;
+}
+.side-area .logo-area p {
+    margin-top: -0.5rem;
+    color: #b9bbbd;
+    font-size: 0.7rem;
+    line-height: 1.4rem;
+}
+
+.side-area .menu-area ul {
+    width: 100%;
+    height: calc(100% - 81px);
+    list-style: none;
+    list-style-type: none;
+    overflow: auto;
+    flex-direction: column;
+}
+.side-area .menu-area ul li {
+    margin: 0 auto;
+    min-height: 30px;
+    width: 100%;
+}
+.side-area .menu-area ul li:before {
+    content: none;
+    position: absolute;
+    top: 0;
+    left: -0.3rem;
+    width: 0.6rem;
+    height: 1.9rem;
+    background-color: #00b074;
+    border-radius: 1rem;
+}
+.side-area .menu-area ul li.active:before {
+    content: " ";
+}
+.side-area .menu-area ul li a {
+    margin: 0 auto;
+    width: 82%;
+    height: 100%;
+    text-decoration: none;
+    align-items: center;
+    cursor: pointer;
+    transition: all .4s;
+}
+.side-area .menu-area ul li a:hover {
+    background-color: rgba(0,176,116,0.08);
+    border-radius: 0.2rem;
+}
+.side-area .menu-area ul li.active a {
+    background-color: rgba(0,176,116,0.15);
+    border-radius: 0.2rem;
+}
+.side-area .menu-area ul li a img {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+.side-area .menu-area ul li a i {
+    color: #000;
+    font-size: 0.75rem;
+}
+.side-area .menu-area ul li.active a img {
+    filter: invert(0.66) sepia(0.52) saturate(4.55) hue-rotate(108deg) brightness(0.88) contrast(0.94);
+}
+.side-area .menu-area ul li a span {
+    color: #000;
+    font-size: 0.75rem;
+    line-height: 1.4rem;
+}
+.side-area .menu-area ul li.active a span {
+    color: #3dc394;
+}
+
+.side-area .com-area {
+    margin: 0 auto;
+    width: 100%;
+    min-height: 30px;
+}
+.side-area .com-area p {
+    color: #969ba0;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.side-area .com-area p:last-child {
+    font-weight: 300;
+}

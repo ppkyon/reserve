@@ -1,0 +1,519 @@
+[
+	{
+		"model": "fixture.prefecture",
+		"pk": "83c60ab3-aa13-0485-19a2-4d720eaf1210",
+		"fields": {
+			"number": "1",
+            "value": "01",
+			"name": "北海道",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "4318b304-4cc5-5f80-289f-771def8d2316",
+		"fields": {
+			"number": "2",
+            "value": "02",
+			"name": "青森県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "98f4c1e1-e44e-d119-f211-c552b153ac35",
+		"fields": {
+			"number": "3",
+            "value": "03",
+			"name": "岩手県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "0b206249-5452-1daa-06e8-eeb2e4454ca7",
+		"fields": {
+			"number": "4",
+            "value": "04",
+			"name": "宮城県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "a51052b1-11a7-c6b2-edb8-d3193f59447c",
+		"fields": {
+			"number": "5",
+            "value": "05",
+			"name": "秋田県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "847f1de5-89be-8c4d-81f7-dc1dcec23d19",
+		"fields": {
+			"number": "6",
+            "value": "06",
+			"name": "山形県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "b68df14a-16c5-6965-b57e-0ec77d3d4843",
+		"fields": {
+			"number": "7",
+            "value": "07",
+			"name": "福島県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "5f238800-0759-78a3-3916-10410415f305",
+		"fields": {
+			"number": "8",
+            "value": "08",
+			"name": "茨城県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "c7a2302b-ca7d-5ad4-b7ce-03dcc91b9d9c",
+		"fields": {
+			"number": "9",
+            "value": "09",
+			"name": "栃木県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "65de1147-3203-d6da-95d6-7f87e7e92f09",
+		"fields": {
+			"number": "10",
+			"value": "10",
+			"name": "群馬県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "1c48aca7-6981-f5bb-1884-d5598741b744",
+		"fields": {
+			"number": "11",
+			"value": "11",
+			"name": "埼玉県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "76208bc6-e8ca-2566-7fb4-956e53f6f26d",
+		"fields": {
+			"number": "12",
+			"value": "12",
+			"name": "千葉県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "2ed78717-d9ee-47c9-a177-d0b134084ef4",
+		"fields": {
+			"number": "13",
+			"value": "13",
+			"name": "東京都",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "d42cf661-24df-1a50-1c9e-d91fcd581f75",
+		"fields": {
+			"number": "14",
+			"value": "14",
+			"name": "神奈川県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "b775bb59-7062-1a44-c0b3-6f845c0d3ffa",
+		"fields": {
+			"number": "15",
+			"value": "15",
+			"name": "新潟県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "e5756d25-2007-071a-020f-32378834e29f",
+		"fields": {
+			"number": "16",
+			"value": "16",
+			"name": "富山県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "0b65725b-9499-eeaa-8ffa-ed9238f526df",
+		"fields": {
+			"number": "17",
+			"value": "17",
+			"name": "石川県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "b2453597-1fe7-488d-9249-4e7acc43a0d1",
+		"fields": {
+			"number": "18",
+			"value": "18",
+			"name": "福井県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "9bca38e5-bc35-99e2-35db-c62aa0ae6494",
+		"fields": {
+			"number": "19",
+			"value": "19",
+			"name": "山梨県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "f0bc18e2-8551-75ba-6746-9f7fc25831ef",
+		"fields": {
+			"number": "20",
+			"value": "20",
+			"name": "長野県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "b9a196aa-1c2e-1a8d-b142-7ea3ac295e54",
+		"fields": {
+			"number": "21",
+			"value": "21",
+			"name": "岐阜県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "e753b500-e14d-9e03-8f5b-2318d0624098",
+		"fields": {
+			"number": "22",
+			"value": "22",
+			"name": "静岡県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "bab441cb-d738-938d-f48c-d24e0d88ad82",
+		"fields": {
+			"number": "23",
+			"value": "23",
+			"name": "愛知県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "cbc64b54-e77c-bc69-3983-b9817a15af8c",
+		"fields": {
+			"number": "24",
+			"value": "24",
+			"name": "三重県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "1dd9002d-e651-70f6-aa77-7e61417809b2",
+		"fields": {
+			"number": "25",
+			"value": "25",
+			"name": "滋賀県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "30328e67-1075-5a0b-2928-b86a9cff582b",
+		"fields": {
+			"number": "26",
+			"value": "26",
+			"name": "京都府",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "6ff5bc4d-2724-9630-7e12-f3766f66b235",
+		"fields": {
+			"number": "27",
+			"value": "27",
+			"name": "大阪府",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "92c33fab-dcc1-5e00-90ec-d352bfc5852c",
+		"fields": {
+			"number": "28",
+			"value": "28",
+			"name": "兵庫県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "c9bfc116-9fee-7ab7-3301-0cab1d2c5d62",
+		"fields": {
+			"number": "29",
+			"value": "29",
+			"name": "奈良県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "5dea78da-9a01-e0a9-3673-583037a0eb6f",
+		"fields": {
+			"number": "30",
+			"value": "30",
+			"name": "和歌山県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "d5c83fb7-bde4-b3c0-4c6a-61f04e008c38",
+		"fields": {
+			"number": "31",
+			"value": "31",
+			"name": "鳥取県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "4bf03394-d80e-67c2-c293-daaa38d48177",
+		"fields": {
+			"number": "32",
+			"value": "32",
+			"name": "島根県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "229df7d7-7196-c977-6a09-905d5824f912",
+		"fields": {
+			"number": "33",
+			"value": "33",
+			"name": "岡山県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "9179d490-7a5e-bcb8-670a-a439c28b419a",
+		"fields": {
+			"number": "34",
+			"value": "34",
+			"name": "広島県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "a97e77c7-2d6a-ae0d-7d32-3b15d233fd24",
+		"fields": {
+			"number": "35",
+			"value": "35",
+			"name": "山口県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "ce052e88-9252-6a93-fdcf-f7b7d519c820",
+		"fields": {
+			"number": "36",
+			"value": "36",
+			"name": "徳島県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "e6770d54-5ca7-7370-c157-c0252e085532",
+		"fields": {
+			"number": "37",
+			"value": "37",
+			"name": "香川県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "f4a972a9-8442-3cbb-ef46-d1f1194b8295",
+		"fields": {
+			"number": "38",
+			"value": "38",
+			"name": "愛媛県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "c4b95ed1-dfa6-5157-6f50-8a0742f9ce10",
+		"fields": {
+			"number": "39",
+			"value": "39",
+			"name": "高知県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "39167bb8-8437-8217-5921-1ee916be2bd3",
+		"fields": {
+			"number": "40",
+			"value": "40",
+			"name": "福岡県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "a25b9ad9-5e00-ea5e-34db-1ddd9e3044b4",
+		"fields": {
+			"number": "41",
+			"value": "41",
+			"name": "佐賀県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "c00d339a-5f58-c0d8-79a2-1c16f83e6cf1",
+		"fields": {
+			"number": "42",
+			"value": "42",
+			"name": "長崎県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "7ad1025d-c723-5b1e-3adc-23b2ed5dec8f",
+		"fields": {
+			"number": "43",
+			"value": "43",
+			"name": "熊本県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "5849a985-05c8-3957-f147-234c6bd0ab03",
+		"fields": {
+			"number": "44",
+			"value": "44",
+			"name": "大分県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "3a88383b-d6a9-dc40-cf8c-4d8db57d4dd2",
+		"fields": {
+			"number": "45",
+			"value": "45",
+			"name": "宮崎県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "1f5ffcdc-3687-65f1-88a8-209f4f4de7a0",
+		"fields": {
+			"number": "46",
+			"value": "46",
+			"name": "鹿児島県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.prefecture",
+		"pk": "f7b731c7-aa66-c758-e823-d8f892d6c8b5",
+		"fields": {
+			"number": "47",
+			"value": "47",
+			"name": "沖縄県",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	}
+]

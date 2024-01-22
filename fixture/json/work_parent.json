@@ -1,0 +1,453 @@
+[
+	{
+		"model": "fixture.workparent",
+		"pk": "d143ca4f-e697-ff7a-56b0-05f4d140b8bf",
+		"fields": {
+			"number": "1",
+            "value": "あ",
+			"name": "飲食店・レストラン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "f78519d4-652a-e947-21a5-9e51a2fa8f81",
+		"fields": {
+			"number": "2",
+            "value": "い",
+			"name": "グルメ・食料品店",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "5dba3803-a4b5-da42-ae7a-019b69c3a83c",
+		"fields": {
+			"number": "3",
+            "value": "う",
+			"name": "ショッピング",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "58deeeca-3077-73e9-cdcc-b7b8022090c4",
+		"fields": {
+			"number": "4",
+            "value": "え",
+			"name": "ファッション",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "f95846e2-dbad-b210-3c1d-64708080b84e",
+		"fields": {
+			"number": "5",
+            "value": "お",
+			"name": "スポーツ用品店",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "fd3960ea-d21a-057c-b93e-33f4f2631a42",
+		"fields": {
+			"number": "6",
+            "value": "か",
+			"name": "スポーツ施設・教室",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "8f83b23e-260c-518f-1a64-07b2dcb46fa7",
+		"fields": {
+			"number": "7",
+            "value": "き",
+			"name": "教育・習い事",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "38614017-4b57-145a-06e2-b18eb854f8b8",
+		"fields": {
+			"number": "8",
+            "value": "く",
+			"name": "保育・学校",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "3942684a-d415-a48d-1122-c17d4238b88d",
+		"fields": {
+			"number": "9",
+            "value": "け",
+			"name": "美容・サロン",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "4d23b583-73a3-0884-2413-b88527679a79",
+		"fields": {
+			"number": "10",
+            "value": "こ",
+			"name": "医療機関・診療所",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "bb24d20e-7633-00e6-d2e0-5d4587481fb9",
+		"fields": {
+			"number": "11",
+            "value": "さ",
+			"name": "専門サービス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "5bdcb2d4-c29a-a687-cfa4-02a9b72f3eaa",
+		"fields": {
+			"number": "12",
+            "value": "し",
+			"name": "生活関連サービス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "c1005d4f-dc47-1c9c-6a7c-0a265d80b3fd",
+		"fields": {
+			"number": "13",
+            "value": "す",
+			"name": "ペット",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "8487794f-8fa9-120c-f3cb-4ca7b07bc0fc",
+		"fields": {
+			"number": "14",
+            "value": "せ",
+			"name": "冠婚葬祭",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "977d3a4a-bca2-101c-041a-e104af7a1749",
+		"fields": {
+			"number": "15",
+            "value": "そ",
+			"name": "宿泊施設",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "690fe58b-5e52-a909-eb6c-a418192fceb0",
+		"fields": {
+			"number": "16",
+            "value": "た",
+			"name": "旅行・エンタメ・レジャー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "b71e307b-6238-67af-8f59-a3534a1cdb50",
+		"fields": {
+			"number": "17",
+            "value": "ち",
+			"name": "自動車・バイク",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "202420ec-16b1-3937-b7ba-e101b2b638fc",
+		"fields": {
+			"number": "18",
+            "value": "つ",
+			"name": "交通機関・サービス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "3b1fe6e6-72c7-0841-a332-6e5dbf64ee9b",
+		"fields": {
+			"number": "19",
+            "value": "て",
+			"name": "銀行・保険・金融",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "965f47ee-a354-fca4-9eef-c5679b0da9f8",
+		"fields": {
+			"number": "20",
+            "value": "と",
+			"name": "寺院・神社・教会",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "24910cb3-65ed-85e5-8300-c97245501f41",
+		"fields": {
+			"number": "21",
+            "value": "な",
+			"name": "団体",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "43436092-b493-0409-470d-aec33e07fe30",
+		"fields": {
+			"number": "22",
+            "value": "に",
+			"name": "スポーツチーム・団体",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "75c3c03d-56be-b638-6b85-3940b376ecf1",
+		"fields": {
+			"number": "23",
+            "value": "ぬ",
+			"name": "公共機関・施設",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "27b20474-4401-324c-ed26-857dff61b94d",
+		"fields": {
+			"number": "24",
+            "value": "ね",
+			"name": "福祉・介護",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "81e3c3d5-5987-fcd8-35f4-de15ed62d139",
+		"fields": {
+			"number": "25",
+            "value": "の",
+			"name": "電気・ガス・エネルギー",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "39bb1aa5-e4a1-7069-f018-023033ddd623",
+		"fields": {
+			"number": "26",
+            "value": "は",
+			"name": "通信・情報・メディア",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "6c474cf3-89c8-1486-4c4f-6aff59b09c5a",
+		"fields": {
+			"number": "27",
+            "value": "ひ",
+			"name": "テレビ番組",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "ee445dff-7ea3-8421-2fca-071920cbfb74",
+		"fields": {
+			"number": "28",
+            "value": "ふ",
+			"name": "ラジオ番組",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "28abbd96-66c2-53c7-fe30-0a63a88dd850",
+		"fields": {
+			"number": "29",
+            "value": "へ",
+			"name": "ウェブサービス",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "e03c97d3-cbf2-99ba-3a4a-0b6c77916ce5",
+		"fields": {
+			"number": "30",
+            "value": "ほ",
+			"name": "雑誌・本",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "ae30a9d8-5b86-4276-9a43-5d9b16552604",
+		"fields": {
+			"number": "31",
+            "value": "ま",
+			"name": "映画",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "1884ede7-dd1c-96e1-f0ce-3c0bbc12245b",
+		"fields": {
+			"number": "32",
+            "value": "み",
+			"name": "ゲーム",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "8539d56c-82e2-ca34-ab46-cf68f3fc6134",
+		"fields": {
+			"number": "33",
+            "value": "む",
+			"name": "製造業",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "5e3868d4-5442-2be4-254d-f6eba50d1e47",
+		"fields": {
+			"number": "34",
+            "value": "め",
+			"name": "商業",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "33871223-80ea-4ee6-43bd-51ed4f514ce9",
+		"fields": {
+			"number": "35",
+            "value": "も",
+			"name": "水産・農林",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "63a1ff4e-1349-9a41-4600-560e7caf60ed",
+		"fields": {
+			"number": "36",
+            "value": "や",
+			"name": "鉱業",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "d30b774e-440a-fbfb-c5ee-054994f2a793",
+		"fields": {
+			"number": "37",
+            "value": "ゆ",
+			"name": "建設・土木",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "7e287129-7e71-7301-04e4-87eb3d004ee9",
+		"fields": {
+			"number": "38",
+            "value": "よ",
+			"name": "印刷・出版",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "c75bc169-3118-68ed-45cc-29d370e87b3b",
+		"fields": {
+			"number": "39",
+            "value": "わ",
+			"name": "運送・倉庫",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "ab3ab04b-90c5-4d2c-5813-e28689ad1feb",
+		"fields": {
+			"number": "40",
+            "value": "を",
+			"name": "有名人",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	},
+    {
+		"model": "fixture.workparent",
+		"pk": "938e4abe-a438-18ca-f73f-b61c08634608",
+		"fields": {
+			"number": "41",
+            "value": "ん",
+			"name": "個人",
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z"
+		}
+	}
+]

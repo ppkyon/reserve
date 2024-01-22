@@ -1,0 +1,46 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="logo-area">
+        <img src="{% static 'img/logo.svg' %}">
+        <p class="title h2">Welcome to Atelle</p>
+    </div>
+    {% if messages %}
+        <div class="mt-2 mb-4">
+            {% for message in messages %}
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="error-message-area d-flex align-items-center justify-content-center p-2"> 
+                            <img src="{% static 'img/icon/warning.svg' %}" class="error-message-icon">
+                            <span class="error-message ms-1">{{ message }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="input-area">
+        <form id="login_form" action="{% url 'login' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% csrf_token %}
+            <div id="email-error-form" class="input-form">
+                <label>User ID</label>
+                <input type="text" name="username" placeholder="IDを入力してください" data-parsley-errors-container="#email-error" data-parsley-class-handler="#email-error-form" required>
+                <label id="email-error" class="d-none"></label>
+            </div>
+            <div id="password-error-form" class="input-form">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="PASSWORDを入力してください" data-parsley-errors-container="#password-error" data-parsley-class-handler="#password-error-form" required>
+                <label id="password-error" class="d-none"></label>
+            </div>
+            <button type="submit" class="btn login-button">ログイン</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

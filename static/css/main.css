@@ -1,0 +1,43 @@
+html {
+    overflow: overlay;
+}
+
+.main {
+    margin-left: 170px;
+    width: calc(100% - 170px);
+    min-height: 100vh;
+    background-color: #fafafa;
+}
+.main .main-title {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.main .main-button {
+    margin-right: 8.5rem;
+    color: #007aff;
+    font-size: 0.85rem;
+    line-height: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: 0;
+}
+.main .main-button.plus {
+    background-image: url(../img/icon/plus.svg);
+    background-size: 0.8rem 0.8rem;
+}
+.main .main-button i {
+    font-size: 1.2rem;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #707070;
+    border-radius: 5px;
+}

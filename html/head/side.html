@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="side position-fixed">
+    <div class="side-area">
+        <div class="row">
+            <div class="col-12">
+                <div class="logo-area text-center pt-2">
+                    <img src="{% static 'img/logo.svg' %}" class="logo-img">
+                    <p>管理画面ダッシュボード</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="menu-area">
+                    <ul class="d-flex position-relative m-0 p-0 pb-1">
+                        {% if '/head/setting/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'head:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>設定</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'head:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>設定</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="com-area position-relative mt-5 mb-0 ps-3 pe-3">
+                    <p class="m-0">@L Admin Dashboard</p>
+                    <p class="m-0">©2022 All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

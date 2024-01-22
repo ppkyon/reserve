@@ -1,0 +1,19 @@
+[
+	{
+		"model": "sign.authuser",
+		"pk": "6129e087-3cb9-7e47-1acd-b4bded032e80",
+		"fields": {
+			"display_id": "471384896971",
+			"email": "isnear.localhost@gmail.com",
+			"authority": "3",
+			"status": "3",
+			"author": null,
+			"head_flg": 1,
+			"company_flg": 1,
+			"delete_flg": 0,
+			"updated_at": null,
+			"created_at": "2021-08-01T00:00:00.000Z",
+			"password": "pbkdf2_sha256$216000$5WxV86NJnmD0$uiQHfwBgmf+kDJm+8NRqFftx4g9KS9e8Os0lcTW/85I="
+		}
+	}
+]
