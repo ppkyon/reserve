@@ -14,6 +14,13 @@
     table-layout: fixed;
     overflow-y: overlay;
 }
+.table-area .table .sort-area {
+    cursor: pointer;
+}
+.table-area .table .sort-area button {
+    color: #000;
+    font-weight: 600;
+}
 .table-area .table thead {
     text-align: left;
     border: 0;
@@ -44,6 +51,10 @@
 .table-area .table tbody tr.active {
     background-color: rgba(0,176,116,.15);
 }
+.table-area .parent-table tbody tr.active,
+.table-area .children-table tbody tr.active {
+    background-color: #ebebeb;
+}
 
 .table-area table tbody tr td .dropdown > button {
     padding-top: 0;
@@ -59,6 +70,55 @@
 .table-area table tbody tr td .dropdown-menu .dropdown-item {
     height: 100%;
     background-color: #FFF;
+}
+
+.table-area .table tbody .content-title {
+    width: 100%;
+    height: 1.05rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.table-area .table tbody .menu-icon {
+    color: #707070;
+    font-size: 20px;
+    cursor: pointer;
+}
+.table-area .table tbody .favorite-icon {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.table-area .table tbody .folder-icon {
+    font-size: 16px;
+}
+
+.table-area .table tbody .genre-mark {
+    color: #707070;
+    font-size: 0.7rem;
+    background-color: #FFF;
+    border: 1px solid #707070;
+    border-radius: 0.2rem;
+}
+
+.table-area {
+    transition: 0.3s;
+}
+.table-loader {
+    width: 3rem;
+    height: 3rem;
+}
+.table-loader-area {
+    top: calc(50% + 15px);
+    left: 50%;
+    color: #000;
+    text-align: center;
+    transform: translateY(-50%) translateX(-50%);
+    transition: 0.3s;
 }
 
 .table > :not(caption) > * > * {

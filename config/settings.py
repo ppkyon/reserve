@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
     'fixture',
     'sign',
+    'table',
+    'tag',
     
     'maintenance_mode',
 ]
@@ -75,6 +77,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 'context.env_data',
                 'context.header_data',
+                'context.table_data',
             ],
         },
     },

@@ -1,0 +1,16 @@
+{% load static %}
+
+<button type="button" class="btn p-0" value="{{ target }}">
+    <span class="me-2">{{ text }}</span>
+    {% if table_sort_target == target %}
+        {% if table_sort == 0 %}
+            <img src="{% static 'img/icon/sort.svg' %}">
+        {% elif table_sort == 1 %}
+            <img src="{% static 'img/icon/sort-select.svg' %}">
+        {% elif table_sort == 2 %}
+            <img src="{% static 'img/icon/sort-select.svg' %}" style="transform: rotateX(180deg);">
+        {% endif %}
+    {% else %}
+        <img src="{% static 'img/icon/sort.svg' %}">
+    {% endif %}
+</button>

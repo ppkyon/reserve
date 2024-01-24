@@ -1,0 +1,29 @@
+.table-control-area button i {
+    font-size: 20px;
+}
+.table-control-area .add-genre-button,
+.table-control-area .add-tag-button {
+    width: 8.5rem;
+    height: 2rem;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.2rem;
+    transition: all .4s ease-in-out;
+}
+.table-control-area .add-genre-button {
+    background-color: #00b074;
+}
+.table-control-area .add-tag-button {
+    background-color: #007aff;
+}
+.table-control-area .add-genre-button:hover,
+.table-control-area .add-tag-button:hover {
+    color: #fff;
+    box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 0.16);
+}
+
+.table-area tbody tr {
+    cursor: pointer;
+}

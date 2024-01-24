@@ -1,3 +1,4 @@
+from django.db import models
 
 import datetime
 import itertools
@@ -33,3 +34,20 @@ def create_password():
 def create_expiration_date(hours):
     now = datetime.datetime.now()
     return now + datetime.timedelta(hours=hours)
+
+
+
+def get_model_field(model, old=False):
+    if old:
+        field_list = list()
+        for field_index, field_value in enumerate(model._meta.get_fields()):
+            field_list.append(field_value.name)
+        return field_list
+    else:
+        meta_fields = model._meta.get_fields()
+        filtered_fields = filter(
+            lambda x: not isinstance(x, models.ManyToOneRel),
+            meta_fields
+        )
+        meta_field_names = map(lambda x: x.name, filtered_fields)
+        return list(meta_field_names)

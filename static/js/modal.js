@@ -141,6 +141,35 @@ $( function() {
         });
     });
     action_reload( 'delete' );
+
+    $( '#favorite_on_modal' ).on( 'hidden.bs.modal', function () {
+        if ( $( '#reload_url' ).length ) {
+            window.location.href = $( '#reload_url' ).val();
+        } else {
+            window.location.reload();
+        }
+    });
+    $( '#favorite_on_modal .close-button' ).on( 'click', function () {
+        if ( $( '#reload_url' ).length ) {
+            window.location.href = $( '#reload_url' ).val();
+        } else {
+            window.location.reload();
+        }
+    });
+    $( '#favorite_off_modal' ).on( 'hidden.bs.modal', function () {
+        if ( $( '#reload_url' ).length ) {
+            window.location.href = $( '#reload_url' ).val();
+        } else {
+            window.location.reload();
+        }
+    });
+    $( '#favorite_off_modal .close-button' ).on( 'click', function () {
+        if ( $( '#reload_url' ).length ) {
+            window.location.href = $( '#reload_url' ).val();
+        } else {
+            window.location.reload();
+        }
+    });
 });
 
 function get_form_data( target, data ) {

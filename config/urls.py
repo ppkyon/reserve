@@ -12,6 +12,7 @@ urlpatterns = [
     path('head/password/change/<str:uidb64>/', sign_views.HeadPasswordChangeView.as_view(), name='head_change_password'),
     
     path('head/', include('head.urls')),
+    path('table/', include('table.urls')),
 ]
 
 if settings.DEBUG:
