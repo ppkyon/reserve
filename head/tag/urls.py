@@ -1,6 +1,6 @@
 from django.urls import path
 
-from head.tag.action import genre, tag
+from head.tag.action import genre, tag, list
 from head.tag import views
 
 app_name = 'tag'
@@ -16,4 +16,6 @@ urlpatterns = [
     path('tag/delete/', tag.delete, name='delete_tag'),
     path('tag/favorite/', tag.favorite, name='favorite_tag'),
     path('tag/get/', tag.get, name='get_tag'),
+    
+    path('tag/all/get/', tag.get_all, name='get_all_tag'),
 ]

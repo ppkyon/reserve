@@ -1,0 +1,56 @@
+.offcanvas {
+    display: flex;
+    position: fixed;
+    top: 4rem;
+    bottom: 0;
+    width: 18rem;
+    max-height: calc(100vh - 8rem);
+    background-color: #FFF;
+    background-clip: padding-box;
+    border-radius: 0.75rem 0 0 0.75rem;
+    box-shadow: 0 0.5rem 0.75rem rgb(0 0 0 / 0.14);
+    outline: 0;
+    visibility: hidden;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1055;
+}
+
+.offcanvas .offcanvas-header .title {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.offcanvas .offcanvas-header .sub {
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+.offcanvas .offcanvas-header .edit-button {
+    color: #fff;
+    font-size: 0.7rem;
+    background-color: #00b074;
+    border-radius: 0.25rem;
+    border: none;
+}
+
+.offcanvas .offcanvas-body {
+    height: auto;
+}
+.offcanvas .offcanvas-body .input-label {
+    color: #000;
+    font-size: 0.8rem;
+}
+.offcanvas .offcanvas-body .input-text {
+    width: 175px;
+}
+.offcanvas .offcanvas-body .input-textarea {
+    margin: 0;
+    width: 175px;
+}
+.offcanvas .offcanvas-body .tag-area {
+    width: 175px;
+}
+
+.main .modal-backdrop {
+    background-color: transparent;
+    z-index: 1040;
+}

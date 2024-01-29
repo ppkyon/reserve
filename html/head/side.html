@@ -14,6 +14,21 @@
             <div class="col-12">
                 <div class="menu-area">
                     <ul class="d-flex position-relative m-0 p-0 pb-1">
+                        {% if '/head/company/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'head:company:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>企業管理</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'head:company:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>企業管理</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if '/head/tag/' in request.path %}
                             <li class="active position-relative">
                                <a href="{% url 'head:tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">

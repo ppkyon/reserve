@@ -1,0 +1,65 @@
+{% load static %}
+
+<div class="offcanvas offcanvas-end" id="offcanvas_company_profile">
+    <div class="offcanvas-header border-bottom">
+        <div class="d-flex align-items-center">
+            <img src="{% static 'img/user-none.png' %}" class="company-image me-2">
+            <div style="width: 100px;">
+                <p class="title mb-0"></p>
+            </div>
+            <button type="button" class="btn edit-button">企業情報編集</button>
+            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#edit_company_modal"></button>
+            <button type="button" class="d-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="offcanvas-body border-bottom p-0 pt-3 pb-3">
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">登録日</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">ID</label>
+            <input type="text" value="" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">会社名</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">代表氏名</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">フリガナ</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">郵便番号</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">都道府県</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">住所</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center ps-3 pe-3 mb-2">
+            <label class="input-label mb-0">電話番号</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-center border-bottom ps-3 pe-3 pb-3 mb-3">
+            <label class="input-label mb-0">メール</br>アドレス</label>
+            <input type="text" class="input-text readonly ps-2" readonly>
+        </div>
+        <div class="d-flex justify-content-between align-items-start border-bottom ps-3 pe-3 pb-3 mb-3">
+            <label class="input-label mb-0"># タグ</label>
+            <div class="tag-area"></div>
+        </div>
+        <div class="d-flex justify-content-between align-items-start ps-3 pe-3">
+            <label class="input-label mb-0">メモ</label>
+            <textarea class="input-textarea d-block ms-auto ps-2" style="height: 100px;" readonly></textarea>
+        </div>
+    </div>
+</div>

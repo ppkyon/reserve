@@ -1,0 +1,40 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 col-sm-10 col-12 offset-lg-2 offset-sm-1">
+            {% include 'account/company/status.html' %}
+            <div class="message-area">
+                <div class="row text-center">
+                    <div class="col-12">
+                        {% if status == 0 %}
+                            <div class="mx-auto">
+                                <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                            </div>
+                            <div class="p-2 mt-2">
+                                <p class="message-title h4">企業アカウントの作成申し込みが完了しました。</p>
+                                <p class="message-description">申し込み頂いた内容から企業アカウントの作成をすすめますので、しばらくお待ちください。</p>
+                            </div>
+                        {% elif status == 1 %}
+                            <div class="mx-auto">
+                                <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                            </div>
+                            <div class="p-2 mt-2">
+                                <p class="message-title h4">企業アカウントの作成申し込みに失敗しました。</p>
+                                <p class="message-description">お手数をおかけして申し訳ありませんが、担当者へご連絡お願いします。</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

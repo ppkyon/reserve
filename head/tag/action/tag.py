@@ -57,3 +57,12 @@ def get(request):
     for tag_index, tag_item in enumerate( tag_list ):
         tag_list[tag_index]['display_date'] = tag_item['created_at'].strftime('%Y/%m/%d %H:%M')
     return JsonResponse( list(tag_list), safe=False )
+
+
+
+def get_all(request):
+    tag_genre_list = HeadTagGenre.objects.order_by('-favorite_flg', '-created_at').values(*get_model_field(HeadTagGenre)).all()
+    tag_list = HeadTag.objects.filter(genre=HeadTagGenre.objects.order_by('-favorite_flg', '-created_at').first()).order_by('-favorite_flg', '-created_at').values(*get_model_field(HeadTag)).all()
+    for tag_index, tag_item in enumerate(tag_list):
+        tag_list[tag_index]['display_date'] = tag_item['created_at'].strftime('%Y/%m/%d %H:%M')
+    return JsonResponse( {'genre_list': list(tag_genre_list), 'tag_list': list(tag_list)}, safe=False )

@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        {% include './meta.html' %}
+
+        <title>{{ title }} | {{ env_site_name }}</title>
+
+        <link href="{% static 'img/favicon.jpg' %}" rel="icon" type="image/x-icon">
+
+        {% include './css.html' %}
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="main pt-4 pb-4 ps-3 pe-3">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% include './js.html' %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

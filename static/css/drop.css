@@ -20,3 +20,45 @@
     color: #3B86FF;
     font-size: 11px;
 }
+
+.drop-zone {
+    padding: 0 20px;
+    border: 2px dashed rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+.drop-zone .dz-message {
+    margin: 0 0 12px !important;
+}
+.drop-icon {
+    font-size: 150px;
+}
+.drop-text {
+    font-size: 11px;
+}
+.drop-description {
+    color: #3B86FF;
+    font-size: 12px;
+}
+.drop-button {
+    margin: 0.25rem auto 0.25rem;
+    width: 100px;
+    color: #FE4000 !important;
+    font-size: 12px;
+    border: 1px solid #FE4000 !important;
+    border-radius: 0.25rem !important;
+}
+.drop-delete-button img {
+    width: 20px;
+    height: 20px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+.drop-zone .dz-preview {
+    margin: 16px 10px;
+}
+.drop-delete-button img {
+    width: 20px;
+    height: 20px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}

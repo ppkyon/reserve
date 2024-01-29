@@ -47,3 +47,36 @@ function create_drop_zone( name, type ) {
         $( '.' + name + '-drop-zone' ).css( 'background-color', '#FFF' );
     });
 }
+
+function error_image( file, name, error = '.error-message-image', size = 10000000 ) {
+    if ( !file.type.match( 'image/jpg' ) && !file.type.match( 'image/jpeg' ) && !file.type.match( 'image/png' )) {
+        $( '#' + name + '_drop_zone [name=image_file]' ).val( '' );
+        $( error ).removeClass( 'd-none' );
+        $( error + ' p' ).each( function( index, value ) {
+            if ( index == 0 ) {
+                $( this ).removeClass( 'd-none' );
+            } else {
+                $( this ).addClass( 'd-none' );
+            }
+        });
+        return false;
+    }
+    if ( file.size > size ) {
+        $( '#' + name + '_drop_zone [name=image_file]' ).val( '' );
+        $( error ).removeClass( 'd-none' );
+        $( error + ' p' ).each( function( index, value ) {
+            if ( index == 1 ) {
+                $( this ).removeClass( 'd-none' );
+            } else {
+                $( this ).addClass( 'd-none' );
+            }
+        });
+        return false;
+    }
+    
+    $( error ).addClass( 'd-none' );
+    $( error + ' p' ).each( function( index, value ) {
+        $( this ).addClass( 'd-none' );
+    });
+    return true;
+}

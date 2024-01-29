@@ -72,6 +72,13 @@
     background-color: #FFF;
 }
 
+.table-area .table tbody .company-image {
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid #a5c9ff;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .table-area .table tbody .content-title {
     width: 100%;
     height: 1.05rem;
@@ -81,6 +88,23 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
+}
+.table-area .table tbody .content-date {
+    position: absolute;
+    bottom: 1rem;
+    font-size: 0.5rem;
+    font-weight: 500;
+    color: #707070;
+}
+.table-area .table tbody .content-tag {
+    width: 4rem;
+    font-size: 0.6rem;
+    color: #FFF;
+    background-color: #666F86;
+    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .table-area .table tbody .menu-icon {
@@ -103,6 +127,31 @@
     background-color: #FFF;
     border: 1px solid #707070;
     border-radius: 0.2rem;
+}
+
+.table-area .table tbody .preview-button {
+    width: 80px;
+    height: 1.75rem;
+    color: #FFF;
+    font-size: 0.7rem;
+    text-align: right;
+    background: url(../img/icon/search-white.svg) no-repeat;
+    background-color: #6C757D;
+    border-radius: 0.2rem;
+    background-position: 5%;
+    background-size: 0.75rem;
+    line-height: 1rem;
+    box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 0.2);
+}
+.table-area .table tbody .detail-button {
+    width: 75px;
+    height: 1.75rem;
+    color: #FFF;
+    font-size: 0.7rem;
+    background-color: #0b2b50;
+    border-radius: 0.2rem;
+    line-height: 1rem;
+    box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 0.2);
 }
 
 .table-area {

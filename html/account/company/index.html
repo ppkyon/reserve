@@ -1,0 +1,376 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    {% if company %}
+        <div class="row">
+            <div class="col-lg-8 col-sm-10 col-12 offset-lg-2 offset-sm-1">
+                <input type="hidden" id="check_email_url" value="{% url 'account:check_email' %}">
+                <form id="save_company_account_form" action="{% url 'account:company_check' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    {% csrf_token %}
+                    {% include 'account/company/status.html' %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="error-message-area text-center">
+                                <p class="error-message mt-2 mb-2">{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="title-area pt-5 mb-5">
+                        <p class="title pb-2 mb-3">企業アカウントの作成</p>
+                        <input type="hidden" name="id" value="{{ company.display_id }}">
+                    </div>
+                    <div class="input-area mb-5">
+                        <p class="title pb-2 mb-3">代表者情報</p>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">氏名</label>
+                            <div class="input-text-area">
+                                <input type="text" name="head_family_name" value="{{ input.head.family_name|default:'' }}" class="input-text ps-2 pe-2 me-3" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="head_first_name" value="{{ input.head.first_name|default:'' }}" class="input-text ps-2 pe-2" style="width: 41%" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">フリガナ</label>
+                            <div class="input-text-area">
+                                <input type="text" name="head_family_name_kana" value="{{ input.head.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="head_first_name_kana" value="{{ input.head.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">電話番号</label>
+                            <div class="input-text-area">
+                                <input type="text" name="head_phone_number" value="{{ input.head.phone_number|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">メールアドレス</label>
+                            <div class="input-text-area">
+                                <input type="email" name="head_email" value="{{ input.head.email|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">プロフィール画像</label>
+                            <div class="input-text-area">
+                                <button type="button" class="btn upload-button account-image-button p-0 me-1">画像アップロード</button>
+                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#trimming_image_modal"></button>
+                                {% if input.head.image_name %}
+                                    <span class="image-file-name mb-1">{{ input.head.image_name|default:'' }}</span>
+                                    <button type="button" class="btn image-delete-button p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% else %}
+                                    <span class="image-file-name d-none mb-1"></span>
+                                    <button type="button" class="btn image-delete-button d-none p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% endif %}
+                                <div class="upload-image-area">
+                                    <input type="hidden" name="head_image_name" value="{{ input.head.image_name|default:'' }}">
+                                    <input type="hidden" name="head_image" value="{{ input.head.image|default:'' }}">
+                                </div>
+                            </div>
+                            <label class="input-mark mb-0">任意</label>
+                        </div>
+                    </div>
+                    <div class="input-area mb-5">
+                        <div class="title d-flex justify-content-start align-items-center pb-2 mb-3">
+                            <span>担当者情報</span>
+                            <div class="input-check-wrap ps-3 ms-4 mt-1 mb-0" style="margin: 0; width: auto;">
+                                <label for="head_manager_check" class="mb-0">代表者と同一</label>
+                                {% if input.manager.check == 'on' %}
+                                    <input id="head_manager_check" name="head_manager_check" type="checkbox" class="display-label-check display-check input-check" checked>
+                                {% else %}
+                                    <input id="head_manager_check" name="head_manager_check" type="checkbox" class="display-label-check display-check input-check">
+                                {% endif %}
+                                <label for="head_manager_check" class="input-check-mark mb-0"></label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">氏名</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <input type="text" name="manager_family_name" class="input-text ps-2 pe-2 me-3" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                    <input type="text" name="manager_first_name" class="input-text ps-2 pe-2" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                {% else %}
+                                    <input type="text" name="manager_family_name" value="{{ input.manager.family_name|default:'' }}" class="input-text ps-2 pe-2 me-3" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                    <input type="text" name="manager_first_name" value="{{ input.manager.first_name|default:'' }}" class="input-text ps-2 pe-2" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                {% endif %}
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">フリガナ</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <input type="text" name="manager_family_name_kana" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                    <input type="text" name="manager_first_name_kana" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                {% else %}
+                                    <input type="text" name="manager_family_name_kana" value="{{ input.manager.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                    <input type="text" name="manager_first_name_kana" value="{{ input.manager.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                {% endif %}
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">所属部署</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <input type="text" name="manager_department" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled disabled>
+                                {% else %}
+                                    <input type="text" name="manager_department" value="{{ input.manager.department|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                {% endif %}
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">電話番号</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <input type="text" name="manager_phone_number" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled disabled>
+                                {% else %}
+                                    <input type="text" name="manager_phone_number" value="{{ input.manager.phone_number|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
+                                {% endif %}
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">メールアドレス</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <input type="email" name="manager_email" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled disabled>
+                                {% else %}
+                                    <input type="email" name="manager_email" value="{{ input.manager.email|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                {% endif %}
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">プロフィール画像</label>
+                            <div class="input-text-area">
+                                {% if input.manager.check == 'on' %}
+                                    <button type="button" class="btn upload-button account-image-button p-0 me-1" disabled>画像アップロード</button>
+                                {% else %}
+                                    <button type="button" class="btn upload-button account-image-button p-0 me-1">画像アップロード</button>
+                                {% endif %}
+                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#trimming_image_modal"></button>
+                                {% if input.manager.image_name %}
+                                    <span class="image-file-name mb-1">{{ input.manager.image_name|default:'' }}</span>
+                                    <button type="button" class="btn image-delete-button p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% else %}
+                                    <span class="image-file-name d-none mb-1"></span>
+                                    <button type="button" class="btn image-delete-button d-none p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% endif %}
+                                <div class="upload-image-area">
+                                    <input type="hidden" name="manager_image_name" value="{{ input.manager.image_name|default:'' }}">
+                                    <input type="hidden" name="manager_image" value="{{ input.manager.image|default:'' }}">
+                                </div>
+                            </div>
+                            <label class="input-mark mb-0">任意</label>
+                        </div>
+                    </div>
+                    <div class="input-area mb-3">
+                        <p class="title pb-2 mb-3">企業情報</p>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">企業名</label>
+                            <div class="input-text-area">
+                                <input type="text" name="company_name" value="{{ input.company.name|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">郵便番号</label>
+                            <div class="input-text-area">
+                                <input type="text" name="company_postcode" value="{{ input.company.postcode|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">都道府県</label>
+                            <div class="input-text-area">
+                                <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                    <input type="text" id="select_prefecture" name="company_prefecture" value="{{ input.company.prefecture|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                    <input type="hidden" name="company_prefecture_value" value="{{ input.company.prefecture_value|default:'' }}">
+                                    <div class="dropdown-menu" aria-labelledby="select_prefecture">
+                                        {% for prefecture_item in prefecture_list %}
+                                            {% if forloop.first %}
+                                                <button type="button" value="{{ prefecture_item.value }}" class="btn dropdown-item fw-bold p-1 ps-2">{{ prefecture_item.name }}</button>
+                                            {% else %}
+                                                <button type="button" value="{{ prefecture_item.value }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ prefecture_item.name }}</button>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">住所</label>
+                            <div class="input-text-area">
+                                <input type="text" name="company_address" value="{{ input.company.address|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">URL</label>
+                            <div class="input-text-area">
+                                <input type="url" name="company_url" value="{{ input.company.url|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">電話番号</label>
+                            <div class="input-text-area">
+                                <input type="text" name="company_phone_number" value="{{ input.company.phone_number|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">業種</label>
+                            <input type="hidden" id="get_work_url" value="{% url 'fixture:get_work' %}">
+                            <div class="input-text-area">
+                                <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
+                                    <div class="dropdown input-select-dropdown input-select-work-parent d-inline-block p-0" style="width: 85%;">
+                                        <input type="text" id="select_work_parent" name="company_work_parent" value="{{ input.company.work_parent|default:'' }}" class="input-text input-select ps-2 pe-2" placeholder="大業種を選択" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                        <input type="hidden" name="company_work_parent_value" value="{{ input.company.work_parent_value|default:'' }}">
+                                        <div class="dropdown-menu" aria-labelledby="select_work_parent">
+                                            {% for work_parent_item in work_parent_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ work_parent_item.value }}" class="btn dropdown-item fw-bold p-1 ps-2">{{ work_parent_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ work_parent_item.value }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ work_parent_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="dropdown input-select-dropdown input-select-work-child d-inline-block p-0" style="width: 85%;">
+                                        <input type="text" id="select_work_child" name="company_work_child" value="{{ input.company.work_child|default:'' }}" class="input-text input-select ps-2 pe-2" placeholder="小業種を選択" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                        <input type="hidden" name="company_work_child_value" value="{{ input.company.work_child_value|default:'' }}">
+                                        <div class="dropdown-menu" aria-labelledby="select_work_child"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">ロゴ画像</label>
+                            <div class="input-text-area">
+                                <button type="button" class="btn upload-button logo-image-button p-0 me-1">画像アップロード</button>
+                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#logo_image_modal"></button>
+                                {% if input.company.logo_image_name %}
+                                    <span class="logo-image-file-name mb-1">{{ input.company.logo_image_name }}</span>
+                                    <button type="button" class="btn image-delete-button p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% else %}
+                                    <span class="logo-image-file-name mb-1"></span>
+                                    <button type="button" class="btn image-delete-button d-none p-0 mb-1">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% endif %}
+                                <div class="upload-logo-image-area">
+                                    <input type="hidden" name="company_logo_image_name" value="{{ input.company.logo_image_name|default:'' }}">
+                                    <input type="hidden" name="company_logo_image" value="{{ input.company.logo_image|default:'' }}">
+                                </div>
+                            </div>
+                            <label class="input-mark mb-0">任意</label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="tag_count" value="{{ input.tag.count|default:'0' }}">
+                    {% if input.tag.count > 0 %}
+                        {% for tag_item in input.tag.data %}
+                            {% if forloop.first %}
+                                <div class="input-area">
+                                    <p class="title pb-2 mb-3"></p>
+                                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                                        <label class="input-label mb-0">タグ</label>
+                                        <div class="input-text-area">
+                                            <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
+                                                <div class="input-text-tag-genre d-inline-block p-0" style="width: 85%;">
+                                                    <input type="text" name="tag_genre_{{ forloop.counter }}" value="{{ tag_item.genre_name }}" class="input-text ps-2 pe-2" placeholder="ジャンル">
+                                                </div>
+                                                <div class="input-text-tag d-inline-block p-0" style="width: 85%;">
+                                                    <input type="text" name="tag_{{ forloop.counter }}" value="{{ tag_item.name }}" class="input-text ps-2 pe-2" placeholder="タグ名">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn add-tag-button d-flex justify-content-start align-items-center p-0">
+                                            <i class="bx bx-plus me-1"></i>
+                                            <p class="mb-0">タグを追加する</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="input-area">
+                                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                                        <label class="input-label mb-0"></label>
+                                        <div class="input-text-area">
+                                            <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
+                                                <div class="input-text-tag-genre d-inline-block p-0" style="width: 85%;">
+                                                    <input type="text" name="tag_genre_{{ forloop.counter }}" value="{{ tag_item.genre_name }}" class="input-text ps-2 pe-2" placeholder="ジャンル">
+                                                </div>
+                                                <div class="input-text-tag d-inline-block p-0" style="width: 85%;">
+                                                    <input type="text" name="tag_{{ forloop.counter }}" value="{{ tag_item.name }}" class="input-text ps-2 pe-2" placeholder="タグ名">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn add-tag-button d-flex justify-content-start align-items-center p-0"></button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="input-area">
+                            <p class="title pb-2 mb-3"></p>
+                            <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                                <label class="input-label mb-0">タグ</label>
+                                <div class="input-text-area">
+                                    <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
+                                        <div class="input-text-tag-genre d-inline-block p-0" style="width: 85%;">
+                                            <input type="text" name="tag_genre_1" class="input-text ps-2 pe-2" placeholder="ジャンル">
+                                        </div>
+                                        <div class="input-text-tag d-inline-block p-0" style="width: 85%;">
+                                            <input type="text" name="tag_1" class="input-text ps-2 pe-2" placeholder="タグ名">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn add-tag-button d-flex justify-content-start align-items-center p-0">
+                                    <i class="bx bx-plus me-1"></i>
+                                    <p class="mb-0">タグを追加する</p>
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="legal-link-area text-center mt-5 mb-4">
+                        <button type="button" class="btn link-text p-0" data-bs-toggle="modal" data-bs-target="#legal_modal">アトエルアカウント名 利用規約</button>
+                        <p class="description mb-0">上記の利用規約にご同意の上、【確認】をクリックしてください。</p>
+                    </div>
+                </form>
+                <div class="button-area text-center">
+                    {% if input.head.email %}
+                        <button type="type" id="check_button" class="btn action-button check-button">確認</button>
+                    {% else %}
+                        <button type="type" id="check_button" class="btn action-button check-button" disabled>確認</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% include 'account/company/modal/image.html' %}
+    {% include 'account/company/modal/legal.html' %}
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/account/data.js' %}"></script>
+{% endblock %}

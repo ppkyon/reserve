@@ -21,9 +21,6 @@ def manager_image_path(self, filename):
 def logo_image_path(self, filename):
     return "uploads/logo/" + str(uuid.uuid4()).replace('-', '') + os.path.splitext(filename)[-1]
 
-def shop_profile_image_path(self, filename):
-    return "uploads/shop/" + str(uuid.uuid4()).replace('-', '') + os.path.splitext(filename)[-1]
-
 def manager_profile_image_path(self, filename):
     return "uploads/profile/" + str(uuid.uuid4()).replace('-', '') + os.path.splitext(filename)[-1]
 
@@ -113,9 +110,6 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
 class CompanyProfile(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_profile")
-    account_name = models.CharField(max_length=255, null=True)
-    account_image = models.ImageField(upload_to=account_image_path, blank=True, null=True)
-    account_country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True, related_name="company_profile")
     head_family_name = models.CharField(max_length=255, null=True)
     head_first_name = models.CharField(max_length=255, null=True)
     head_family_name_kana = models.CharField(max_length=255, null=True)
@@ -150,13 +144,32 @@ class CompanyProfile(models.Model):
 class ShopProfile(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_profile")
-    image = models.ImageField(upload_to=shop_profile_image_path, blank=True, null=True)
-    name = models.CharField(max_length=255, null=True)
-    postcode = models.IntegerField(blank=True, null=True)
-    prefecture = models.ForeignKey(Prefecture, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_profile")
-    address = models.CharField(max_length=255, null=True)
-    url = models.CharField(max_length=255, null=True)
-    phone_number = models.CharField(max_length=255, null=True)
+    account_name = models.CharField(max_length=255, null=True)
+    account_image = models.ImageField(upload_to=account_image_path, blank=True, null=True)
+    account_country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True, related_name="company_profile")
+    head_family_name = models.CharField(max_length=255, null=True)
+    head_first_name = models.CharField(max_length=255, null=True)
+    head_family_name_kana = models.CharField(max_length=255, null=True)
+    head_first_name_kana = models.CharField(max_length=255, null=True)
+    head_phone_number = models.CharField(max_length=255, null=True)
+    head_email = models.EmailField(blank=True, null=True)
+    head_image = models.ImageField(upload_to=head_image_path, blank=True, null=True)
+    manager_family_name = models.CharField(max_length=255, null=True)
+    manager_first_name = models.CharField(max_length=255, null=True)
+    manager_family_name_kana = models.CharField(max_length=255, null=True)
+    manager_first_name_kana = models.CharField(max_length=255, null=True)
+    manager_department = models.CharField(max_length=255, null=True)
+    manager_phone_number = models.CharField(max_length=255, null=True)
+    manager_email = models.EmailField(blank=True, null=True)
+    manager_image = models.ImageField(upload_to=manager_image_path, blank=True, null=True)
+    shop_name = models.CharField(max_length=255, null=True)
+    shop_postcode = models.IntegerField(blank=True, null=True)
+    shop_prefecture = models.ForeignKey(Prefecture, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_profile")
+    shop_address = models.CharField(max_length=255, null=True)
+    shop_url = models.CharField(max_length=255, null=True)
+    shop_phone_number = models.CharField(max_length=255, null=True)
+    shop_logo_image = models.ImageField(upload_to=logo_image_path, blank=True, null=True)
+    memo = models.TextField(max_length=1000, blank=True, null=True)
     channel_id = models.CharField(max_length=255,null=True)
     channel_secret = models.CharField(max_length=255,null=True)
     channel_access_token = models.CharField(max_length=255,null=True)

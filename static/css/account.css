@@ -1,0 +1,307 @@
+.status-area .process {
+    display: grid;
+    width: 45px;
+    height: 45px;
+    color: #A7ACB3;
+    font-weight: bold;
+    text-align: center;
+    background-color: #EEF1F5;
+    border: none;
+    border-radius: 50%;
+    place-items: center;
+}
+.status-area .process.active {
+    color: #FFF;
+    font-weight: 500;
+    background-color: #1AC969;
+}
+.status-area .process-bar {
+    width: 30%;
+    border-bottom: 2px dotted #A7ACB3;
+}
+.status-area .process-bar.active {
+    width: 30%;
+    border-bottom: 2px dotted #1AC969;
+}
+.status-area .process-title {
+    position: absolute;
+    left: -80px;
+    bottom: -25px;
+    width: 200px;
+    color: #3B4043;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.title-area .title {
+    color: #3B4043;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(60, 60, 67, 0.16);
+}
+
+.input-area .title {
+    color: #3B4043;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(60, 60, 67, 0.16);
+}
+.input-area .description {
+    color: #3B4043;
+    font-size: 0.7rem;
+}
+.input-area .input-label {
+    width: 150px;
+    font-size: 0.8rem;
+}
+.input-area .input-text-area {
+    width: 65%;
+}
+.input-area .input-text-area .input-text {
+    width: 85%;
+    height: 2rem;
+    color: rgba(59,64,67,1);
+    font-size: 0.8rem;
+    border: 1px solid #cdd6dd;
+    border-radius: 0.4rem;
+    line-height: 1.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.input-area .input-text-area .input-text:focus-visible {
+    outline: 0px;
+}
+.input-area .input-text-area .input-select {
+    background: url(../img/icon/select-arrow.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.6rem 0.4rem;
+    cursor: pointer;
+}
+.input-area .input-text-area .input-select.disabled {
+    cursor: default !important;
+    background-color: rgba(239, 239, 239, 0.3) !important;
+}
+.input-area .input-text-area .input-select-dropdown {
+    width: 100%;
+}
+.input-area .input-text-area .dropdown .dropdown-menu {
+    width: 85%;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: overlay;
+    animation-duration: 0s;
+}
+
+.input-area .input-mark {
+    display: grid;
+    width: 60px;
+    height: 20px;
+    color: #FFF;
+    font-size: 0.6rem;
+    text-align: center;
+    background-color: #707070;
+    border: none;
+    border-radius: 5px;
+    place-items: center;
+}
+.input-area .input-mark.required {
+    background-color: #FF0000;
+}
+
+.input-area .input-text-area .image-file-name,
+.input-area .input-text-area .logo-image-file-name {
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.input-area .input-text-area .image-delete-button img {
+    width: 15px;
+    height: 15px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+
+.input-area .upload-button {
+    width: 150px;
+    height: 1.5rem;
+    color: #FFF;
+    font-size: 0.7rem;
+    background-color: #6C757D;
+}
+.input-area .add-tag-button {
+    width: 130px;
+}
+.input-area .add-tag-button i {
+    color: #CDD6DD;
+    font-size: 15px;
+    border: 1px solid #CDD6DD;
+    border-radius: 50%;
+}
+.input-area .add-tag-button p {
+    color: #707070;
+    font-size: 0.7rem;
+}
+
+.legal-link-area .link-text {
+    color: #2D86B2;
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.legal-link-area .description {
+    color: #6F6F6F;
+    font-size: 0.7rem;
+}
+
+.button-area .action-button {
+    width: 140px;
+    color: #FFF;
+    background-color: #00B074;
+}
+.button-area .back-button {
+    width: 140px;
+    color: #4d4d4d;
+    background-color: #efefef;
+}
+
+.modal .legal-area {
+    width: 100%;
+    max-height: 65vh;
+    border: 1px solid #707070;
+    border-radius: 2.5px;
+    overflow-y: auto;
+}
+.modal .legal-area .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+.modal .legal-area .sub-title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+.modal .legal-area .text {
+    font-size: 0.8rem;
+}
+.modal label.disabled {
+    color: #cdd6dd;
+}
+.modal .close-button {
+    width: 7.5rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+.modal .modal-footer .action-button {
+    width: 7.5rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+.modal .modal-footer .cancel-button {
+    color: #4d4d4d;
+    background-color: #efefef;
+}
+
+.input-check-wrap {
+    position: relative;
+    margin: auto;
+    width: 200px;
+    color: #000;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.input-check-wrap label {
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.input-check-wrap .input-check {
+    position: absolute;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.input-check-wrap .input-check-mark {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #FFF;
+    border-radius: 6px;
+    border: 1px solid #c3daff;
+}
+.input-check-wrap .input-check-mark.disabled {
+    background-color: #cdd6dd;
+}
+.input-check-wrap .input-check-mark:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.input-check-wrap .input-check-mark.disabled:after {
+    border: solid #cdd6dd;
+}
+.input-check-wrap .input-check:checked ~ .input-check-mark {
+    background-color: #3b86ff;
+    border: none;
+}
+.input-check-wrap .input-check:checked ~ .input-check-mark:after {
+    display: block;
+}
+
+.error-message-area {
+    background-color: #ffe7de;
+    border: 1px solid red;
+    border-radius: 0.5rem;
+}
+.error-message-area .error-message {
+    color: red;
+}
+
+.parsley-errors-list {
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-left: 0.5rem;
+    list-style-type: none;
+}
+.parsley-errors-list li {
+    color: red;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.parsley-error {
+    border: 1px solid red !important;
+}
+
+button:focus {
+    box-shadow: 0 0 0 0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #707070;
+    border-radius: 5px;
+}

@@ -15,6 +15,7 @@ def env_data(request):
 
     data = {
         'env_static_url': settings.STATIC_URL,
+        'env_media_url': settings.MEDIA_URL,
         'env_site_name': site_name,
     }
     return data
@@ -36,7 +37,10 @@ def table_data(request):
             
         }
     else:
-        if '/head/' in request.path:
+        if '/account/' in request.path:
+            company = None
+            shop = None
+        elif '/head/' in request.path:
             company = None
             shop = None
         elif '/company/' in request.path:

@@ -1,0 +1,51 @@
+<input type="hidden" id="get_head_tag_all_url" value="{% url 'head:tag:get_all_tag' %}">
+<input type="hidden" id="get_head_tag_url" value="{% url 'head:tag:get_tag' %}">
+<div id="head_tag_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">タグを追加する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="table-area">
+                            <table class="table genre-table mb-0">
+                                <thead>
+                                    <tr style="height: 46.22px;">
+                                        <th>ジャンル</th>
+                                        <th style="width: 50px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="table-area">
+                            <table class="table tag-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>タグ名</th>
+                                        <th style="width: 150px;">作成日時</th>
+                                        <th style="width: 50px;"></th>
+                                        <th style="width: 100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                {% include 'loader.html' %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

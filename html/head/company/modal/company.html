@@ -1,0 +1,297 @@
+{% load static %}
+
+<div id="add_company_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">企業の新規アカウントを追加</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <form id="add_company_form" action="{% url 'head:company:add' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-between mb-0">
+                                    <label class="mt-2 mb-0">メールアドレス</label>
+                                    <div style="width: 65%;">
+                                        <input type="email" name="email" class="input-text w-100 ps-2 pe-2" data-parsley-errors-container="#error_email" required>
+                                        <div id="error_email" class="text-start"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button d-block">アカウント登録用URLを送信する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_check_modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_company_check_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="content-area" style="opacity: 1;">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <div class="mx-auto">
+                                <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                            </div>
+                            <div class="ps-5 pe-5">
+                                <p class="modal-title mb-3">アカウント登録用URLを送信してもよろしいですか？</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col-5 offset-1">
+                            <button type="button" class="btn yes-button">送信</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_success_modal"></button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_error_modal"></button>
+                        </div>
+                        <div class="col-5">
+                            <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="loader-area" style="opacity: 0;">
+                    <div class="modal-loader-area d-flex justify-content-center align-items-center">
+                        <div class="form-loader spinner-border">
+                            <span class="visually-hidden">追加中...</span>
+                        </div>
+                        <p class="h5 fw-bold ms-3 mb-0">追加中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_company_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">送信しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_company_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">送信に失敗しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit_company_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'img/user-none.png' %}" class="company-image me-2">
+                            <div>
+                                <p class="title mb-0"></p>
+                            </div>
+                            <button type="button" class="btn edit-button save-button ms-auto" value="company">編集を保存</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block p-0">
+                <input type="hidden" id="save_check_form" value="{% url 'head:company:save_check' %}">
+                <form id="save_company_form" action="{% url 'head:company:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <input type="hidden" name="id" value="">
+                    <div class="content ps-4 pe-4 mt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label mb-0">登録日</label>
+                                    <input type="text" class="input-text readonly ps-2 pe-2" value="" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">ID</label>
+                                    <input type="text" value="" class="input-text readonly ps-2 pe-2" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">会社名</label>
+                                    <input type="text" name="company_name" value="" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">代表氏名</label>
+                                    <div class="input-content">
+                                        <input type="text" name="head_family_name" value="" class="input-text ps-2 pe-2">
+                                        <input type="text" name="head_first_name" value="" class="input-text ps-2 pe-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">フリガナ</label>
+                                    <div class="input-content">
+                                        <input type="text" name="head_family_name_kana" value="" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" data-parsley-errors-messages-disabled>
+                                        <input type="text" name="head_first_name_kana" value="" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" data-parsley-errors-messages-disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">郵便番号</label>
+                                    <input type="text" name="company_postcode" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">都道府県</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        <input type="text" id="select_sex" name="company_prefecture" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="">
+                                        <div class="dropdown-menu" aria-labelledby="select_sex">
+                                            {% for prefecture_item in prefecture_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ prefecture_item.value }}" class="btn dropdown-item fw-bold p-1 ps-2">{{ prefecture_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ prefecture_item.value }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ prefecture_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">住所</label>
+                                    <input type="text" name="company_address" value="" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">電話番号</label>
+                                    <input type="text" name="company_phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content border-bottom ps-4 pe-4 pb-3 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <label class="mb-0">メールアドレス</label>
+                                    <input type="email" name="head_email" value="" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content border-bottom ps-4 pe-4 pb-3 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <label class="mb-0"># タグ</label>
+                                    <div class="tag-area">
+                                        <div class="add-tag-area d-flex align-items-start justify-content-start flex-wrap"></div>
+                                        <div class="add-tag-button-area">
+                                            <button type="button" class="btn add-tag-button ps-3">タグを追加する</button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_tag_modal"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <label class="mb-0">メモ</label>
+                                    <textarea name="memo" class="input-textarea d-block ms-auto" style="height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

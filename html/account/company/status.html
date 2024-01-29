@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="status-area mb-5">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="position-relative">
+            <label class="process active mb-0">1</label>
+            <span class="process-title">企業情報を登録</span>
+        </div>
+        {% if '/check/' in request.path or '/end/' in request.path %}
+            <label class="process-bar active mb-0"></label>
+            <div class="position-relative">
+                <label class="process active mb-0">2</label>
+                <span class="process-title">入力内容の確認</span>
+            </div>
+        {% else %}
+            <label class="process-bar mb-0"></label>
+            <div class="position-relative">
+                <label class="process mb-0">2</label>
+                <span class="process-title">入力内容の確認</span>
+            </div>
+        {% endif %}
+        {% if '/end/' in request.path %}
+            <label class="process-bar active mb-0"></label>
+            <div class="position-relative">
+                <label class="process active mb-0">3</label>
+                <span class="process-title">申し込み完了</span>
+            </div>
+        {% else %}
+            <label class="process-bar mb-0"></label>
+            <div class="position-relative">
+                <label class="process mb-0">3</label>
+                <span class="process-title">申し込み完了</span>
+            </div>
+        {% endif %}
+    </div>
+</div>

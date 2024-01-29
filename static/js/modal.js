@@ -246,3 +246,6 @@ function up_modal() {
         }
     });
 }
+function down_modal() {
+    $( '.offcanvas' ).css( 'z-index', '1045' );
+}

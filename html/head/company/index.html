@@ -1,0 +1,100 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/head/company.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="d-flex justify-content-start align-items-center">
+                <p class="main-title me-4 mb-0">{{ title }} - 統括 - </p>
+                {% if request.user.authority > 1 %}
+                    <button class="btn main-button plus ms-auto p-0 ps-3" data-bs-toggle="modal" data-bs-target="#add_company_modal">企業の新規アカウント登録</button>
+                {% endif %}
+                <input type="hidden" id="get_profile_url" value="{% url 'head:company:get_profile' %}">
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"></th>
+                                <th class="sort-area">
+                                    {% include 'sort.html' with text='企業名' target='company_name' %}
+                                </th>
+                                <th class="sort-area" style="width: 120px;">
+                                    {% include 'sort.html' with text='代表氏名' target='name' %}
+                                </th>
+                                <th class="sort-area" style="width: 120px;">
+                                    {% include 'sort.html' with text='都道府県' target='prefecture' %}
+                                </th>
+                                <th style="width: 230px;"># タグ</th>
+                                <th style="width: 130px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for company in company_list %}
+                                <tr>
+                                    <td class="p-1"></td>
+                                    <td class="position-relative p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            {% if company.profile.company_logo_image %}
+                                                <img src="{{ company.profile.company_logo_image.url }}" class="company-image me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/user-none.png' %}" class="company-image me-2">
+                                            {% endif %}
+                                            <p class="content-title mb-0">{{ company.profile.company_name }}</p>
+                                        </div>
+                                        <p class="content-date mb-0">#{{ company.display_id }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        <p class="content-title mb-0">{{ company.profile.head_family_name }}{{ company.profile.head_first_name }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        <p class="content-title mb-0">{{ company.profile.company_prefecture.name }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        {% for company_tag in company.tag %}
+                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ company_tag.tag.name }}</label>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="text-center p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <button type="button" value="{{ company.display_id }}" class="btn preview-button p-1 me-1">プレビュー</button>
+                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_company_profile"></button>
+                                            <div class="dropdown button-area text-center d-inline-block p-0 me-3">
+                                                <button type="button" class="btn p-0" data-bs-toggle="dropdown">
+                                                    <i class='bx bx-dots-vertical-rounded menu-icon'></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a href="#" class="btn edit-button dropdown-item fw-bold text-center">企業ログイン</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'head/company/modal/company.html' %}
+        {% include 'head/company/offcanvas.html' %}
+        {% include 'head/tag/modal/tag.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/head/tag/modal.js' %}"></script>
+    <script src="{% static 'js/head/company/data.js' %}"></script>
+    <script src="{% static 'js/head/company/action.js' %}"></script>
+{% endblock %}
