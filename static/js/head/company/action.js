@@ -299,4 +299,30 @@ $( function() {
         $( '#edit_company_modal #save_company_form .tag-area .add-tag-area' ).append( html );
         $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
     });
+
+    $( document ).on( 'click', '.start-button', function () {
+        $( '#start_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+    });
+    $( document ).on( 'click', '#start_check_modal .yes-button', function () {
+        $( this ).prop( 'disabled', true );
+        $( '#start_check_modal .no-button' ).trigger( 'click' );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#start_company_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( target ).next().trigger( 'click' );
+        }).fail( function(){
+            $( target ).next().next().trigger( 'click' );
+        });
+    });
+    action_reload( 'start' );
 });

@@ -238,8 +238,8 @@ class PasswordChangeToken(models.Model):
 class AuthLogin(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name="auth_login")
-    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, related_name="auth_login")
-    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, related_name="auth_login")
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="auth_login")
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="auth_login")
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 

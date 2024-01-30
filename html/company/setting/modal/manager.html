@@ -24,9 +24,9 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" id="add_manager_check_form" value="{% url 'head:setting:add_manager_check' %}">
+                <input type="hidden" id="add_manager_check_form" value="{% url 'company:setting:add_manager_check' %}">
                 <input type="hidden" id="add_manager_check_description" value="True">
-                <form id="add_manager_form" action="{% url 'head:setting:add_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <form id="add_manager_form" action="{% url 'company:setting:add_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
@@ -95,8 +95,8 @@
                 </div>
             </div>
             <div class="modal-body d-block ps-4 pe-4">
-                <input type="hidden" id="save_check_form" value="{% url 'head:setting:save_manager_check' %}">
-                <form id="save_manager_form" action="{% url 'head:setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <input type="hidden" id="save_check_form" value="{% url 'company:setting:save_manager_check' %}">
+                <form id="save_manager_form" action="{% url 'company:setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     <div class="content">
                         <div class="row">
                             <div class="col-12 d-inline-flex align-items-center mb-4">
@@ -513,7 +513,7 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <form id="save_authority_{{ manager_item.display_id }}_form" action="{% url 'head:setting:save_authority' %}" method="POST" enctype="multipart/form-data">
+                                <form id="save_authority_{{ manager_item.display_id }}_form" action="{% url 'company:setting:save_authority' %}" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="{{ manager_item.display_id }}">
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div class="author-area d-flex align-items-center pt-1">

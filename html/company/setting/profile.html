@@ -1,0 +1,195 @@
+{% load static %}
+
+<div class="profile-area ps-3 pe-3">
+    <div class="top border-bottom mb-2 pb-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center pt-1">
+                    {% if manager.profile.image %}
+                        <img src="{{ manager.profile.image.url }}" class="me-2">
+                    {% else %}
+                        <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                    {% endif %}
+                    <div>
+                        {% if manager.profile.family_name and manager.profile.first_name %}
+                            <p class="name mb-0">{{ manager.profile.family_name }} {{ manager.profile.first_name }}</p>
+                        {% elif manager.profile.family_name %}
+                            <p class="name mb-0">{{ manager.profile.family_name }}</p>
+                        {% elif manager.profile.first_name %}
+                            <p class="name mb-0">{{ manager.profile.first_name }}</p>
+                        {% else %}
+                            <p class="name mb-0">-</p>
+                        {% endif %}
+                        {% if manager.authority == 3 %}
+                            <p class="authority mb-0">管理者</p>
+                        {% elif manager.authority == 2 %}
+                            <p class="authority mb-0">編集者</p>
+                        {% elif manager.authority == 1 %}
+                            <p class="authority mb-0">閲覧者</p>
+                        {% endif %}
+                    </div>
+                    {% if not request.user.head_flg %}
+                        <button type="button" id="save_manager_button" class="btn" data-bs-toggle="modal" data-bs-target="#save_manager_modal">担当者情報編集</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">登録日</label>
+                    {% if manager.created_at %}
+                        <input type="text" value="{{ manager.created_at|default:'-'|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">ID</label>
+                    {% if manager.display_id %}
+                        <input type="text" value="#{{ manager.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">氏名</label>
+                    {% if manager.profile.family_name and manager.profile.first_name %}
+                        <input type="text" value="{{ manager.profile.family_name }} {{ manager.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% elif manager.profile.family_name %}
+                        <input type="text" value="{{ manager.profile.family_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% elif manager.profile.first_name %}
+                        <input type="text" value="{{ manager.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">フリガナ</label>
+                    {% if manager.profile.family_name_kana and manager.profile.first_name_kana %}
+                        <input type="text" value="{{ manager.profile.family_name_kana }} {{ manager.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% elif manager.profile.family_name_kana %}
+                        <input type="text" value="{{ manager.profile.family_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% elif manager.profile.first_name_kana %}
+                        <input type="text" value="{{ manager.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">年齢</label>
+                    {% if manager.profile.age %}
+                        <input type="text" value="{{ manager.profile.age }}歳" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">性別</label>
+                    {% if manager.profile.sex == 1 %}
+                        <input type="text" value="男性" class="input-text readonly ps-2 pe-2" readonly>
+                    {% elif manager.profile.sex == 2 %}
+                        <input type="text" value="女性" class="input-text readonly ps-2 pe-2" readonly>
+                    {% else %}
+                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">電話番号</label>
+                    <input type="text" value="{{ manager.profile.phone_number|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">メールアドレス</label>
+                    <input type="text" value="{{ manager.email|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">所属部署</label>
+                    <input type="text" value="{{ manager.profile.department|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">役職名</label>
+                    <input type="text" value="{{ manager.profile.job|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content border-bottom pb-2 mb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="mb-0">職務</label>
+                    <input type="text" value="{{ manager.profile.work|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="button pb-4">
+        <div class="row">
+            <div class="col-12">
+                {% if not request.user.head_flg %}
+                    <form id="delete_manager_form" action="{% url 'company:setting:delete_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <input type="hidden" name="id" value="{{ manager.display_id }}">
+                    </form>
+                    <button type="button" class="btn delete-button d-block ms-auto me-auto" value="manager" style="background-color: red;">この担当者を削除する</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

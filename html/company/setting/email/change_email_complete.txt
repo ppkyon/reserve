@@ -1,0 +1,11 @@
+「{{ site_name }}」の担当者アカウントのメールアドレス変更が完了しました。
+
+■ログイン情報
+メールアドレス：{{ user.email }}
+パスワード：個人情報のため非表示にしております
+
+■ログインページ
+{{ protocol }}://{{ domain }}{% url 'login' %}
+
+■登録情報変更ページ
+{{ protocol }}://{{ domain }}{% url 'company:setting:index' %}

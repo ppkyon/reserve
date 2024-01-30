@@ -1,14 +1,15 @@
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.template.loader import get_template
 
 from fixture.models import Prefecture
-from sign.models import AuthCompany, CompanyProfile
+from sign.models import AuthCompany, AuthUser, CompanyProfile, ManagerProfile
 from tag.models import HeadTag, CompanyHashTag
 
-from common import create_code, get_model_field
+from common import create_code, create_password, get_model_field
 
 import environ
 import phonenumbers
@@ -71,6 +72,57 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def start(request):
+    company = AuthCompany.objects.filter(display_id=request.POST.get('id')).first()
+    company_profile = CompanyProfile.objects.filter(company=company).first()
+    if not AuthUser.objects.filter(email=company_profile.manager_email).exists():
+        password = create_password()
+        manager = AuthUser.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, AuthUser),
+            company = company,
+            shop = None,
+            email = company_profile.manager_email,
+            password = make_password(password),
+            authority = 3,
+            status = 1,
+            author = None,
+            company_flg = True,
+        )
+
+        ManagerProfile.objects.create(
+            id = str(uuid.uuid4()),
+            manager = manager,
+            family_name = company_profile.manager_family_name,
+            first_name = company_profile.manager_first_name,
+            family_name_kana = company_profile.manager_family_name_kana,
+            first_name_kana = company_profile.manager_first_name_kana,
+            image = company_profile.manager_image,
+            phone_number = company_profile.manager_phone_number,
+            department = company_profile.manager_department,
+        )
+
+        if env('ENCODING') == 'True':
+            site_name = env('SITE_NAME').encode("shift-jis").decode("utf-8", errors="ignore")
+        else:
+            site_name = env('SITE_NAME')
+        subject = '【アトエル】IDとパスワードの送付'
+        template = get_template('company/setting/email/add_manager.txt')
+        site = get_current_site(request)
+        context = {
+            'protocol': 'https' if request.is_secure() else 'http',
+            'domain': site.domain,
+            'site_name': site_name,
+            'user': manager,
+            'password': password,
+        }
+        send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [manager.email])
+    
+    company.status = 3
+    company.save()
+
+    return JsonResponse( {}, safe=False )
 
 
 

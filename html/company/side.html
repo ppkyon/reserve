@@ -1,0 +1,93 @@
+{% load static %}
+
+<div class="side position-fixed">
+    <div class="side-area">
+        <div class="row">
+            <div class="col-12">
+                <div class="logo-area text-center pt-2">
+                    <img src="{% static 'img/logo.svg' %}" class="logo-img">
+                    <p>管理画面ダッシュボード</p>
+                    {% if side_logo_image %}
+                        <div class="d-flex align-items-center text-start ps-2 mt-2 mb-2">
+                            <img src="{{ side_logo_image }}" class="account-img me-1">
+                            <span>{{ side_logo_name }}</span>
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center text-start ps-2 mt-2 mb-2">
+                            <img src="{% static 'img/manager-none.png' %}" class="account-img me-1">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="menu-area">
+                    <ul class="d-flex position-relative m-0 p-0 pb-1">
+                        {% if '/company/shop/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'company:shop:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>店舗管理</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'company:shop:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>店舗管理</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if '/company/tag/' in request.path %}
+                            <li class="active position-relative">
+                               <a href="{% url 'company:tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-tag.svg' %}" class="me-2">
+                                    <span>タグ</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'company:tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-tag.svg' %}" class="me-2">
+                                    <span>タグ</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if '/company/setting/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'company:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>設定</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'company:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>設定</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if request.user.head_flg %}
+                            <li class="position-relative">
+                                <a href="{% url 'head:company:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <i class='bx bxs-group me-2'></i>
+                                    <span>統括</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="com-area position-relative mt-5 mb-0 ps-3 pe-3">
+                    <p class="m-0">@L Admin Dashboard</p>
+                    <p class="m-0">©2022 All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

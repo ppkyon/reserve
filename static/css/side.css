@@ -25,6 +25,20 @@
     font-size: 0.7rem;
     line-height: 1.4rem;
 }
+.side-area .logo-area .account-img {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #a5c9ff;
+    border-radius: 50%;
+    vertical-align: middle;
+    object-fit: contain;
+}
+.side-area .logo-area span {
+    font-size: 0.7rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
 
 .side-area .menu-area ul {
     width: 100%;

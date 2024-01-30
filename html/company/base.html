@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        {% include './meta.html' %}
+
+        <title>{{ title }}-企業- | {{ env_site_name }}</title>
+
+        <link href="{% static 'img/favicon.jpg' %}" rel="icon" type="image/x-icon">
+
+        {% include './css.html' %}
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        {% include './header.html' %}
+        {% include './side.html' %}
+        <div class="main pt-4 pb-4 ps-5 pe-5">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% include './js.html' %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

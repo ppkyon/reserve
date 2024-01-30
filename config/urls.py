@@ -11,7 +11,11 @@ urlpatterns = [
     path('head/email/change/<str:uidb64>/', sign_views.HeadEmailChangeView.as_view(), name='head_change_email'),
     path('head/password/change/<str:uidb64>/', sign_views.HeadPasswordChangeView.as_view(), name='head_change_password'),
     
+    path('company/email/change/<str:uidb64>/', sign_views.CompanyEmailChangeView.as_view(), name='company_change_email'),
+    path('company/password/change/<str:uidb64>/', sign_views.CompanyPasswordChangeView.as_view(), name='company_change_password'),
+    
     path('account/', include('account.urls')),
+    path('company/', include('company.urls')),
     path('fixture/', include('fixture.urls')),
     path('head/', include('head.urls')),
     path('table/', include('table.urls')),

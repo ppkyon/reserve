@@ -74,7 +74,13 @@
                                                     <i class='bx bx-dots-vertical-rounded menu-icon'></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a href="#" class="btn edit-button dropdown-item fw-bold text-center">企業ログイン</a>
+                                                    {% if company.status <= 2 %}
+                                                        <button type="button" class="btn start-button dropdown-item fw-bold text-center p-1 pt-2" value="{{ company.display_id }}">アカウント開始</button>
+                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#start_check_modal"></button>
+                                                        <a href="{% url 'company:shop:index' %}?login_id={{ company.display_id }}" class="btn dropdown-item fw-bold border-top text-center">企業ログイン</a>
+                                                    {% else %}
+                                                        <a href="{% url 'company:shop:index' %}?login_id={{ company.display_id }}" class="btn dropdown-item fw-bold text-center">企業ログイン</a>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

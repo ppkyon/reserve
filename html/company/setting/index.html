@@ -1,0 +1,58 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/setting.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <p class="main-title mb-3">{{ title }} - 企業 - </p>
+        </div>
+        <div class="col-8 d-flex justify-content-start align-items-center text-end">
+            {% if request.user.authority > 2 and not request.user.head_flg %}
+                <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_email_modal">
+                    <i class='bx bxs-edit me-1'></i>
+                    <span>メールアドレス変更</span>
+                </button>
+                <button id="change_password_button" class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_password_modal">
+                    <i class='bx bxs-edit me-1'></i>
+                    <span>パスワード変更</span>
+                </button>
+                <button class="btn main-button plus ms-auto p-0 ps-3 mb-3" data-bs-toggle="modal" data-bs-target="#add_manager_modal">担当者を追加する</button>
+            {% elif request.user.head_flg %}
+                <button class="btn main-button plus ms-auto p-0 ps-3 mb-3" data-bs-toggle="modal" data-bs-target="#add_manager_modal">担当者を追加する</button>
+            {% else %}
+                <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_email_modal">
+                    <i class='bx bxs-edit me-1'></i>
+                    <span>メールアドレス変更</span>
+                </button>
+                <button id="change_password_button" class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_password_modal">
+                    <i class='bx bxs-edit me-1'></i>
+                    <span>パスワード変更</span>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="company">
+        <div class="row">
+            <div class="col-4">
+                {% include 'company/setting/profile.html' %}
+            </div>
+            <div class="col-8">
+                {% include 'company/setting/list.html' %}
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'company/setting/modal/manager.html' %}
+        {% include 'company/setting/modal/email.html' %}
+        {% include 'company/setting/modal/password.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/setting/data.js' %}"></script>
+    <script src="{% static 'js/company/setting/action.js' %}"></script>
+{% endblock %}
