@@ -9,7 +9,7 @@ def sort(request):
     if '/head/' in request.POST.get('url'):
         company = None
         shop = None
-    elif '/company/' in request.POST.get('url'):
+    elif '/company/' in request.POST.get('url') and not '/shop/' in request.POST.get('url'):
         company = AuthLogin.objects.filter(user=request.user).first().company
         shop = None
     else:
@@ -43,18 +43,21 @@ def sort(request):
 
 
 def set_search(request, shop, company):
-    if TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).exists():
-        search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user).first()
-        search.text = request.POST.get('text')
-        search.save()
+    if request.POST.get('text'):
+        if TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).exists():
+            search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user).first()
+            search.text = request.POST.get('text')
+            search.save()
+        else:
+            search = TableSearch.objects.create(
+                id = str(uuid.uuid4()),
+                url = request.POST.get('url'),
+                company = company,
+                shop = shop,
+                manager = request.user,
+                text = request.POST.get('text'),
+            )
+        return search
     else:
-        search = TableSearch.objects.create(
-            id = str(uuid.uuid4()),
-            url = request.POST.get('url'),
-            company = company,
-            shop = shop,
-            manager = request.user,
-            text = request.POST.get('text'),
-        )
-
-    return search
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).all().delete()
+        return None

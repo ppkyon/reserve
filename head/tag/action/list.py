@@ -1,5 +1,4 @@
 from django.db.models import Q
-from django.http import JsonResponse
 
 from table.models import TableSearch, TableSort
 from tag.models import HeadTag

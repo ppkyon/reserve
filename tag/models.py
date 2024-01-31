@@ -32,7 +32,7 @@ class HeadTag(models.Model):
 class CompanyTagGenre(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
-    shop = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="tag_genre")
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="tag_genre")
     name = models.CharField(max_length=255,null=True)
     count = models.IntegerField(blank=True, null=True)
     favorite_flg = models.BooleanField(default=False)
@@ -45,7 +45,7 @@ class CompanyTagGenre(models.Model):
 class CompanyTag(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
-    genre = models.ForeignKey(HeadTagGenre, on_delete=models.CASCADE, related_name="company_tag")
+    genre = models.ForeignKey(CompanyTagGenre, on_delete=models.CASCADE, related_name="company_tag")
     name = models.CharField(max_length=255,null=True)
     favorite_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)

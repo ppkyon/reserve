@@ -1,7 +1,6 @@
 $( function() {
     $( '.table-area .table .sort-area' ).on( 'click', function() {
         var form_data = new FormData();
-        form_data.append( 'shop_id', $( '#login_shop_id' ).val() );
         form_data.append( 'target', $( this ).find( 'button' ).val() );
         form_data.append( 'url', location.pathname );
         $.ajax({
@@ -33,7 +32,6 @@ $( function() {
         if ( $( this ).parent().find( 'form' ).length ) {
             var target = $( this );
             var form_data = new FormData();
-            form_data.append( 'shop_id', $( '#login_shop_id' ).val() );
             form_data.append( 'id', $( this ).parents( 'td' ).find( 'form [name=id]' ).val() );
             $.ajax({
                 'data': form_data,

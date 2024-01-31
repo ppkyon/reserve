@@ -3,10 +3,56 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/tag.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        <div class="row mb-2">
+            <div class="col-4">
+                <div class="table-control-area">
+                    {% if request.user.authority > 1 or request.user.head_flg %}
+                        <button type="button" class="btn add-genre-button d-flex justify-content-center align-items-center">
+                            <i class="bx bx-plus me-1"></i>
+                            <span>新しいジャンル</span>
+                        </button>
+                        <input type="hidden" id="save_genre_url" value="{% url 'company:tag:save_genre' %}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="table-control-area">
+                    <div class="d-flex align-items-center">
+                        {% if request.user.authority > 1 or request.user.head_flg %}
+                            <button type="button" class="btn add-tag-button me-2">新規タグ登録</button>
+                            <input type="hidden" id="save_tag_url" value="{% url 'company:tag:save_tag' %}">
+                        {% endif %}
+                        <input type="text" class="input-text tag-search ps-2 pe-2" value="{{ table_search }}" placeholder="タグ名">
+                        <input type="hidden" id="search_tag_url" value="{% url 'company:tag:get_tag' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                {% include 'company/tag/genre.html' %}
+            </div>
+            <div class="col-8">
+                {% include 'company/tag/tag.html' %}
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        {% include 'modal.html' %}
+    </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/company/tag/append.js' %}"></script>
+    <script src="{% static 'js/company/tag/genre.js' %}"></script>
+    <script src="{% static 'js/company/tag/tag.js' %}"></script>
 {% endblock %}

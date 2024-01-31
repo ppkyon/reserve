@@ -17,6 +17,8 @@
         {% include './header.html' %}
         {% include './side.html' %}
         <div class="main pt-4 pb-4 ps-5 pe-5">
+            <input type="hidden" id="env_static_url" value="{{ env_static_url }}">
+            <input type="hidden" id="env_media_url" value="{{ env_media_url }}">
             {% block content %}
             {% endblock %}
         </div>
