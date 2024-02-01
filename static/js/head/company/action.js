@@ -254,6 +254,7 @@ $( function() {
     $( document ).on( 'keyup', '#edit_company_modal #save_company_form [name=company_postcode]', function () {
         AjaxZip3.zip2addr( 'company_postcode', '', 'company_prefecture', 'company_address' );
     });
+    
     $( '#edit_company_modal .modal-body .add-tag-button-area .add-tag-button' ).on( 'click', function() {
         var target = $( this );
         var form_data = new FormData();

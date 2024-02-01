@@ -3,10 +3,99 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/company/shop.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="d-flex justify-content-start align-items-center">
+                <p class="main-title me-4 mb-0">{{ title }} - 統括 - </p>
+                {% if request.user.authority > 1 or request.user.head_flg %}
+                    <button class="btn main-button plus ms-auto p-0 ps-3" data-bs-toggle="modal" data-bs-target="#add_shop_modal">店舗の新規アカウント登録</button>
+                {% endif %}
+                <input type="hidden" id="get_profile_url" value="{% url 'company:shop:get_profile' %}">
+            </div>
+        </div>
+    </div>
+    <div class="company">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"></th>
+                                <th class="sort-area">
+                                    {% include 'sort.html' with text='店舗名' target='shop_name' %}
+                                </th>
+                                <th class="sort-area" style="width: 120px;">
+                                    {% include 'sort.html' with text='代表氏名' target='name' %}
+                                </th>
+                                <th class="sort-area" style="width: 120px;">
+                                    {% include 'sort.html' with text='都道府県' target='prefecture' %}
+                                </th>
+                                <th style="width: 230px;"># タグ</th>
+                                <th style="width: 210px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for shop in shop_list %}
+                                <tr>
+                                    <td class="p-1"></td>
+                                    <td class="position-relative p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            {% if shop.profile.shop_logo_image %}
+                                                <img src="{{ shop.profile.shop_logo_image.url }}" class="shop-image me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/user-none.png' %}" class="shop-image me-2">
+                                            {% endif %}
+                                            <p class="content-title mb-0">{{ shop.profile.shop_name }}</p>
+                                        </div>
+                                        <p class="content-date mb-0">#{{ shop.display_id }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        <p class="content-title mb-0">{{ shop.profile.head_family_name }}{{ shop.profile.head_first_name }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        <p class="content-title mb-0">{{ shop.profile.shop_prefecture.name }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        {% for shop_tag in shop.tag %}
+                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ shop_tag.tag.name }}</label>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="text-center p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <button type="button" value="{{ shop.display_id }}" class="btn preview-button p-1 me-1">プレビュー</button>
+                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_shop_profile"></button>
+                                            <a href="#" class="btn detail-button p-1 me-2">詳細</a>
+                                            <div class="dropdown button-area text-center d-inline-block p-0 me-3">
+                                                <button type="button" class="btn p-0" data-bs-toggle="dropdown">
+                                                    <i class='bx bx-dots-vertical-rounded menu-icon'></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a href="#" class="btn dropdown-item fw-bold text-center">店舗ログイン</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'company/shop/modal/shop.html' %}
+        {% include 'company/shop/offcanvas.html' %}
+        {% include 'company/tag/modal/tag.html' %}
+    </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/company/tag/modal.js' %}"></script>
+    <script src="{% static 'js/company/shop/data.js' %}"></script>
+    <script src="{% static 'js/company/shop/action.js' %}"></script>
 {% endblock %}

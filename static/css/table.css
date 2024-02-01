@@ -72,7 +72,8 @@
     background-color: #FFF;
 }
 
-.table-area .table tbody .company-image {
+.table-area .table tbody .company-image,
+.table-area .table tbody .shop-image {
     width: 2.2rem;
     height: 2.2rem;
     border: 1px solid #a5c9ff;

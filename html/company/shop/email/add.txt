@@ -1,8 +1,8 @@
-「{{ site_name }}」の企業の新規アカウント登録用URLを送付します。
+「{{ site_name }}」の店舗の新規アカウント登録用URLを送付します。
 下記URLより「{{ site_name }}」登録へおすすみください。
 
-■企業の新規アカウント登録用URL
-{{ protocol }}://{{ domain }}{% url 'account:company' %}?id={{ id }}
+■店舗の新規アカウント登録用URL
+{{ protocol }}://{{ domain }}{% url 'account:shop' %}?id={{ id }}
 
 ※当メールは送信専用メールアドレスから配信されています。
 返信頂いても返答できません。

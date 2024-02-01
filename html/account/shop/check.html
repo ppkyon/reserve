@@ -8,12 +8,45 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-8 col-sm-10 col-12 offset-lg-2 offset-sm-1">
-            <form id="save_company_account_form" action="#" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            <form id="save_shop_account_form" action="#" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                 {% csrf_token %}
-                {% include 'account/company/status.html' %}
+                {% include 'account/shop/status.html' %}
                 <div class="title-area pt-5 mb-5">
-                    <p class="title pb-2 mb-3">企業アカウントの作成</p>
+                    <p class="title pb-2 mb-3">店舗アカウントの作成</p>
                     <input type="hidden" name="id" value="{{ input.id|default:'' }}">
+                </div>
+                <div class="input-area mb-5">
+                    <p class="title pb-2 mb-3">アトエルカウント情報</p>
+                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                        <label class="input-label mb-0">アカウント名</label>
+                        <div class="input-text-area">
+                            <input type="text" value="{{ input.account.name|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="account_name" value="{{ input.account.name|default:'' }}">
+                        </div>
+                        <label class="input-mark required mb-0">必須</label>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                        <label class="input-label mb-0">アカウント画像</label>
+                        <div class="input-text-area">
+                            <span class="image-file-name mb-1">{{ input.account.image_name|default:'' }}</span>
+                            <div class="upload-image-area">
+                                <input type="hidden" name="account_image_name" value="{{ input.account.image_name|default:'' }}">
+                                <input type="hidden" name="account_image" value="{{ input.account.image|default:'' }}">
+                            </div>
+                        </div>
+                        <label class="input-mark mb-0">任意</label>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                        <label class="input-label mb-0">会社・事業者の<br>所在国・地域</label>
+                        <div class="input-text-area">
+                            <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                <input type="text" value="{{ input.account.country|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                                <input type="hidden" name="account_country" value="{{ input.account.country|default:'' }}">
+                                <input type="hidden" name="account_country_value" value="{{ input.account.country_value|default:'' }}">
+                            </div>
+                        </div>
+                        <label class="input-mark required mb-0">必須</label>
+                    </div>
                 </div>
                 <div class="input-area mb-5">
                     <p class="title pb-2 mb-3">代表者情報</p>
@@ -136,20 +169,20 @@
                     </div>
                 </div>
                 <div class="input-area mb-3">
-                    <p class="title pb-2 mb-3">会社情報</p>
+                    <p class="title pb-2 mb-3">店舗情報</p>
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
-                        <label class="input-label mb-0">会社名</label>
+                        <label class="input-label mb-0">店舗名</label>
                         <div class="input-text-area">
-                            <input type="text" value="{{ input.company.name|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                            <input type="hidden" name="company_name" value="{{ input.company.name|default:'' }}">
+                            <input type="text" value="{{ input.shop.name|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="shop_name" value="{{ input.shop.name|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>
                     </div>
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">郵便番号</label>
                         <div class="input-text-area">
-                            <input type="text" value="{{ input.company.postcode|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                            <input type="hidden" name="company_postcode" value="{{ input.company.postcode|default:'' }}">
+                            <input type="text" value="{{ input.shop.postcode|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="shop_postcode" value="{{ input.shop.postcode|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>
                     </div>
@@ -157,9 +190,9 @@
                         <label class="input-label mb-0">都道府県</label>
                         <div class="input-text-area">
                             <div class="dropdown input-select-dropdown d-inline-block p-0">
-                                <input type="text" value="{{ input.company.prefecture|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                                <input type="hidden" name="company_prefecture" value="{{ input.company.prefecture|default:'' }}">
-                                <input type="hidden" name="company_prefecture_value" value="{{ input.company.prefecture_value|default:'' }}">
+                                <input type="text" value="{{ input.shop.prefecture|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                                <input type="hidden" name="shop_prefecture" value="{{ input.shop.prefecture|default:'' }}">
+                                <input type="hidden" name="shop_prefecture_value" value="{{ input.shop.prefecture_value|default:'' }}">
                             </div>
                         </div>
                         <label class="input-mark required mb-0">必須</label>
@@ -167,57 +200,40 @@
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">住所</label>
                         <div class="input-text-area">
-                            <input type="text" value="{{ input.company.address|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                            <input type="hidden" name="company_address" value="{{ input.company.address|default:'' }}">
+                            <input type="text" value="{{ input.shop.address|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="shop_address" value="{{ input.shop.address|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>
                     </div>
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">URL</label>
                         <div class="input-text-area">
-                            <input type="url" value="{{ input.company.url|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                            <input type="hidden" name="company_url" value="{{ input.company.url|default:'' }}">
+                            <input type="url" value="{{ input.shop.url|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="shop_url" value="{{ input.shop.url|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>
                     </div>
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">電話番号</label>
                         <div class="input-text-area">
-                            <input type="text" value="{{ input.company.phone_number|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                            <input type="hidden" name="company_phone_number" value="{{ input.company.phone_number|default:'' }}">
-                        </div>
-                        <label class="input-mark required mb-0">必須</label>
-                    </div>
-                    <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
-                        <label class="input-label mb-0">業種</label>
-                        <div class="input-text-area">
-                            <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
-                                <div class="dropdown input-select-dropdown input-select-work-parent d-inline-block p-0" style="width: 85%;">
-                                    <input type="text" value="{{ input.company.work_parent|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                                    <input type="hidden" name="company_work_parent" value="{{ input.company.work_parent|default:'' }}">
-                                    <input type="hidden" name="company_work_parent_value" value="{{ input.company.work_parent_value|default:'' }}">
-                                </div>
-                                <div class="dropdown input-select-dropdown input-select-work-child d-inline-block p-0" style="width: 85%;">
-                                    <input type="text" value="{{ input.company.work_child|default:'' }}" class="input-text ps-2 pe-2" disabled>
-                                    <input type="hidden" name="company_work_child" value="{{ input.company.work_child|default:'' }}">
-                                    <input type="hidden" name="company_work_child_value" value="{{ input.company.work_child_value|default:'' }}">
-                                </div>
-                            </div>
+                            <input type="text" value="{{ input.shop.phone_number|default:'' }}" class="input-text ps-2 pe-2" disabled>
+                            <input type="hidden" name="shop_phone_number" value="{{ input.shop.phone_number|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>
                     </div>
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">ロゴ画像</label>
                         <div class="input-text-area">
-                            <span class="logo-image-file-name mb-1">{{ input.company.logo_image_name|default:'' }}</span>
+                            <span class="logo-image-file-name mb-1">{{ input.shop.logo_image_name|default:'' }}</span>
                             <div class="upload-logo-image-area">
-                                <input type="hidden" name="company_logo_image_name" value="{{ input.company.logo_image_name|default:'' }}">
-                                <input type="hidden" name="company_logo_image" value="{{ input.company.logo_image|default:'' }}">
+                                <input type="hidden" name="shop_logo_image_name" value="{{ input.shop.logo_image_name|default:'' }}">
+                                <input type="hidden" name="shop_logo_image" value="{{ input.shop.logo_image|default:'' }}">
                             </div>
                         </div>
                         <label class="input-mark mb-0">任意</label>
                     </div>
                 </div>
+                
                 <input type="hidden" name="tag_count" value="{{ input.tag.count|default:'0' }}">
                 {% for tag_item in input.tag.data %}
                     {% if forloop.first %}
@@ -261,8 +277,8 @@
                 {% endfor %}
             </form>
             <div class="button-area text-center mt-5">
-                <button type="button" value="company" class="btn action-button save-button me-3">申し込み</button>
-                <button type="button" value="company" class="btn back-button">戻る</button>
+                <button type="button" value="shop" class="btn action-button save-button me-3">申し込み</button>
+                <button type="button" value="shop" class="btn back-button">戻る</button>
             </div>
         </div>
     </div>

@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block content %}
-    {% if company %}
+    {% if shop %}
         <div class="row">
             <div class="col-lg-8 col-sm-10 col-12 offset-lg-2 offset-sm-1">
                 <input type="hidden" id="check_email_url" value="{% url 'account:check_email' %}">
-                <form id="save_company_account_form" action="{% url 'account:company_check' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <form id="save_shop_account_form" action="{% url 'account:shop_check' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     {% csrf_token %}
-                    {% include 'account/company/status.html' %}
+                    {% include 'account/shop/status.html' %}
                     {% if messages %}
                         {% for message in messages %}
                             <div class="error-message-area text-center">
@@ -21,8 +21,64 @@
                         {% endfor %}
                     {% endif %}
                     <div class="title-area pt-5 mb-5">
-                        <p class="title pb-2 mb-3">企業アカウントの作成</p>
-                        <input type="hidden" name="id" value="{{ company.display_id }}">
+                        <p class="title pb-2 mb-3">店舗アカウントの作成</p>
+                        <input type="hidden" name="id" value="{{ shop.display_id }}">
+                    </div>
+                    <div class="input-area mb-5">
+                        <p class="title pb-2 mb-3">アトエルアカウント情報</p>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-auto mt-1 mb-0">アカウント名</label>
+                            <div class="input-text-area">
+                                <input type="text" name="account_name" value="{{ input.account.name|default:'' }}" class="input-text ps-2 pe-2 mb-1" data-parsley-errors-messages-disabled required>
+                                <p class="description mb-0">LINEの友だちリストやトーク画面に表示される名称です。</p>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-auto mt-1 mb-0">アカウント画像</label>
+                            <div class="input-text-area">
+                                <button type="button" class="btn upload-button account-image-button p-0 me-1 mb-1">画像アップロード</button>
+                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#trimming_image_modal"></button>
+                                {% if input.account.image_name %}
+                                    <span class="image-file-name mb-1">{{ input.account.image_name|default:'' }}</span>
+                                    <button type="button" class="btn image-delete-button p-0">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% else %}
+                                    <span class="image-file-name d-none mb-1"></span>
+                                    <button type="button" class="btn image-delete-button d-none p-0">
+                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                    </button>
+                                {% endif %}
+                                <div class="upload-image-area">
+                                    <input type="hidden" name="account_image_name" value="{{ input.account.image_name|default:'' }}">
+                                    <input type="hidden" name="account_image" value="{{ input.account.image|default:'' }}">
+                                    <input type="text" name="error_account_image" value="{{ input.account.image|default:'' }}" class="d-none" data-parsley-errors-container="#error_account_image" data-parsley-error-message="選択してください" required>
+                                </div>
+                                <div id="error_account_image" class="mb-1"></div>
+                                <p class="description mb-0">LINEの友だちリストやトーク画面に表示される画像です。</p>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
+                            <label class="input-label mb-0">会社・事業者の<br>所在国・地域</label>
+                            <div class="input-text-area">
+                                <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                    <input type="text" id="select_country" name="account_country" value="{{ input.account.country|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                    <input type="hidden" name="account_country_value" value="{{ input.account.country_value|default:'' }}">
+                                    <div class="dropdown-menu" aria-labelledby="select_country">
+                                        {% for country_item in country_list %}
+                                            {% if forloop.first %}
+                                                <button type="button" value="{{ country_item.number }}" class="btn dropdown-item fw-bold p-1 ps-2">{{ country_item.name }}</button>
+                                            {% else %}
+                                                <button type="button" value="{{ country_item.number }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ country_item.name }}</button>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="input-mark required mb-0">必須</label>
+                        </div>
                     </div>
                     <div class="input-area mb-5">
                         <p class="title pb-2 mb-3">代表者情報</p>
@@ -181,18 +237,18 @@
                         </div>
                     </div>
                     <div class="input-area mb-3">
-                        <p class="title pb-2 mb-3">企業情報</p>
+                        <p class="title pb-2 mb-3">店舗情報</p>
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
-                            <label class="input-label mb-0">企業名</label>
+                            <label class="input-label mb-0">店舗名</label>
                             <div class="input-text-area">
-                                <input type="text" name="company_name" value="{{ input.company.name|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="shop_name" value="{{ input.shop.name|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">郵便番号</label>
                             <div class="input-text-area">
-                                <input type="text" name="company_postcode" value="{{ input.company.postcode|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="shop_postcode" value="{{ input.shop.postcode|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
@@ -200,8 +256,8 @@
                             <label class="input-label mb-0">都道府県</label>
                             <div class="input-text-area">
                                 <div class="dropdown input-select-dropdown d-inline-block p-0">
-                                    <input type="text" id="select_prefecture" name="company_prefecture" value="{{ input.company.prefecture|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
-                                    <input type="hidden" name="company_prefecture_value" value="{{ input.company.prefecture_value|default:'' }}">
+                                    <input type="text" id="select_prefecture" name="shop_prefecture" value="{{ input.shop.prefecture|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                    <input type="hidden" name="shop_prefecture_value" value="{{ input.shop.prefecture_value|default:'' }}">
                                     <div class="dropdown-menu" aria-labelledby="select_prefecture">
                                         {% for prefecture_item in prefecture_list %}
                                             {% if forloop.first %}
@@ -218,48 +274,21 @@
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">住所</label>
                             <div class="input-text-area">
-                                <input type="text" name="company_address" value="{{ input.company.address|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="shop_address" value="{{ input.shop.address|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">URL</label>
                             <div class="input-text-area">
-                                <input type="url" name="company_url" value="{{ input.company.url|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                <input type="url" name="shop_url" value="{{ input.shop.url|default:'' }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">電話番号</label>
                             <div class="input-text-area">
-                                <input type="text" name="company_phone_number" value="{{ input.company.phone_number|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
-                            </div>
-                            <label class="input-mark required mb-0">必須</label>
-                        </div>
-                        <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
-                            <label class="input-label mb-0">業種</label>
-                            <input type="hidden" id="get_work_url" value="{% url 'fixture:get_work' %}">
-                            <div class="input-text-area">
-                                <div class="d-flex justify-content-start align-items-center" style="width: 92%;">
-                                    <div class="dropdown input-select-dropdown input-select-work-parent d-inline-block p-0" style="width: 85%;">
-                                        <input type="text" id="select_work_parent" name="company_work_parent" value="{{ input.company.work_parent|default:'' }}" class="input-text input-select ps-2 pe-2" placeholder="大業種を選択" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
-                                        <input type="hidden" name="company_work_parent_value" value="{{ input.company.work_parent_value|default:'' }}">
-                                        <div class="dropdown-menu" aria-labelledby="select_work_parent">
-                                            {% for work_parent_item in work_parent_list %}
-                                                {% if forloop.first %}
-                                                    <button type="button" value="{{ work_parent_item.value }}" class="btn dropdown-item fw-bold p-1 ps-2">{{ work_parent_item.name }}</button>
-                                                {% else %}
-                                                    <button type="button" value="{{ work_parent_item.value }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ work_parent_item.name }}</button>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="dropdown input-select-dropdown input-select-work-child d-inline-block p-0" style="width: 85%;">
-                                        <input type="text" id="select_work_child" name="company_work_child" value="{{ input.company.work_child|default:'' }}" class="input-text input-select ps-2 pe-2" placeholder="小業種を選択" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
-                                        <input type="hidden" name="company_work_child_value" value="{{ input.company.work_child_value|default:'' }}">
-                                        <div class="dropdown-menu" aria-labelledby="select_work_child"></div>
-                                    </div>
-                                </div>
+                                <input type="text" name="shop_phone_number" value="{{ input.shop.phone_number|default:'' }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
@@ -268,8 +297,8 @@
                             <div class="input-text-area">
                                 <button type="button" class="btn upload-button logo-image-button p-0 me-1">画像アップロード</button>
                                 <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#logo_image_modal"></button>
-                                {% if input.company.logo_image_name %}
-                                    <span class="logo-image-file-name mb-1">{{ input.company.logo_image_name }}</span>
+                                {% if input.shop.logo_image_name %}
+                                    <span class="logo-image-file-name mb-1">{{ input.shop.logo_image_name }}</span>
                                     <button type="button" class="btn image-delete-button p-0 mb-1">
                                         <img src="{% static 'img/icon/cross-white.svg' %}">
                                     </button>
@@ -280,8 +309,8 @@
                                     </button>
                                 {% endif %}
                                 <div class="upload-logo-image-area">
-                                    <input type="hidden" name="company_logo_image_name" value="{{ input.company.logo_image_name|default:'' }}">
-                                    <input type="hidden" name="company_logo_image" value="{{ input.company.logo_image|default:'' }}">
+                                    <input type="hidden" name="shop_logo_image_name" value="{{ input.shop.logo_image_name|default:'' }}">
+                                    <input type="hidden" name="shop_logo_image" value="{{ input.shop.logo_image|default:'' }}">
                                 </div>
                             </div>
                             <label class="input-mark mb-0">任意</label>
@@ -359,9 +388,9 @@
                 </form>
                 <div class="button-area text-center">
                     {% if input.head.email %}
-                        <button type="type" id="check_button" value="company" class="btn action-button check-button">確認</button>
+                        <button type="type" id="check_button" value="shop" class="btn action-button check-button">確認</button>
                     {% else %}
-                        <button type="type" id="check_button" value="company" class="btn action-button check-button" disabled>確認</button>
+                        <button type="type" id="check_button" value="shop" class="btn action-button check-button" disabled>確認</button>
                     {% endif %}
                 </div>
             </div>

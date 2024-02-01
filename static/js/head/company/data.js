@@ -15,7 +15,6 @@ $( function() {
         form_data.append( 'company_prefecture', $( '#save_company_form [name=company_prefecture]' ).next().val() );
         form_data.append( 'company_address', $( '#save_company_form [name=company_address]' ).val() );
         form_data.append( 'company_phone_number', $( '#save_company_form [name=company_phone_number]' ).val() );
-        form_data.append( 'head_email', $( '#save_company_form [name=head_email]' ).val() );
         form_data.append( 'memo', $( '#save_company_form [name=memo]' ).val() );
         var tag = [];
         $( '#save_company_form [name="tag[]"]' ).each( function( index, value ) {

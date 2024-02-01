@@ -50,7 +50,6 @@ def save(request):
     company_profile.head_first_name = request.POST.get('head_first_name')
     company_profile.head_family_name_kana = request.POST.get('head_family_name_kana')
     company_profile.head_first_name_kana = request.POST.get('head_first_name_kana')
-    company_profile.head_email = request.POST.get('head_email')
     company_profile.company_name = request.POST.get('company_name')
     company_profile.company_postcode = request.POST.get('company_postcode').replace('-', '')
     company_profile.company_prefecture = Prefecture.objects.filter(value=request.POST.get('company_prefecture')).first()
@@ -134,7 +133,7 @@ def get_profile(request):
     company['display_date'] = company['created_at'].strftime('%Y年%m月%d日 %H:%M')
 
     tag_list = list()
-    for shop_tag_item in CompanyHashTag.objects.filter(company__id=company['id']).order_by('number').all():
-        tag_list.append( HeadTag.objects.filter(id=shop_tag_item.tag.id).values(*get_model_field(HeadTag)).first())
+    for company_tag_item in CompanyHashTag.objects.filter(company__id=company['id']).order_by('number').all():
+        tag_list.append( HeadTag.objects.filter(id=company_tag_item.tag.id).values(*get_model_field(HeadTag)).first())
     company['tag'] = tag_list
     return JsonResponse( {'company': company}, safe=False )

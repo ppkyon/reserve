@@ -1,12 +1,12 @@
 {% load static %}
 
-<div id="add_company_modal" class="modal fade">
+<div id="add_shop_modal" class="modal fade">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
                     <div class="col-11">
-                        <p class="modal-title">企業の新規アカウントを追加</p>
+                        <p class="modal-title">店舗の新規アカウントを追加</p>
                     </div>
                     <div class="col-1">
                         <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="modal-body d-block text-center ps-4 pe-4">
-                <form id="add_company_form" action="{% url 'head:company:add' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <form id="add_shop_form" action="{% url 'company:shop:add' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
@@ -32,12 +32,12 @@
             </div>
             <div class="modal-footer justify-content-center ps-4 pe-4">
                 <button type="button" class="btn action-button d-block">アカウント登録用URLを送信する</button>
-                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_check_modal"></button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_shop_check_modal"></button>
             </div>
         </div>
     </div>
 </div>
-<div id="add_company_check_modal" class="modal up-modal fade">
+<div id="add_shop_check_modal" class="modal up-modal fade">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-body">
@@ -55,8 +55,8 @@
                     <div class="row text-center mt-2">
                         <div class="col-5 offset-1">
                             <button type="button" class="btn yes-button">送信</button>
-                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_success_modal"></button>
-                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_company_error_modal"></button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_shop_success_modal"></button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_shop_error_modal"></button>
                         </div>
                         <div class="col-5">
                             <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
@@ -75,7 +75,7 @@
         </div>
     </div>
 </div>
-<div id="add_company_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
+<div id="add_shop_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-body">
@@ -98,7 +98,7 @@
         </div>
     </div>
 </div>
-<div id="add_company_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
+<div id="add_shop_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-body">
@@ -122,18 +122,18 @@
     </div>
 </div>
 
-<div id="edit_company_modal" class="modal fade">
+<div id="edit_shop_modal" class="modal fade">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
                     <div class="col-11">
                         <div class="d-flex align-items-center">
-                            <img src="{% static 'img/user-none.png' %}" class="company-image me-2">
+                            <img src="{% static 'img/user-none.png' %}" class="shop-image me-2">
                             <div>
                                 <p class="title mb-0"></p>
                             </div>
-                            <button type="button" class="btn edit-button save-button ms-auto" value="company">編集を保存</button>
+                            <button type="button" class="btn edit-button save-button ms-auto" value="shop">編集を保存</button>
                             <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
                         </div>
                     </div>
@@ -143,8 +143,8 @@
                 </div>
             </div>
             <div class="modal-body d-block p-0">
-                <input type="hidden" id="save_check_form" value="{% url 'head:company:save_check' %}">
-                <form id="save_company_form" action="{% url 'head:company:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <input type="hidden" id="save_check_form" value="{% url 'company:shop:save_check' %}">
+                <form id="save_shop_form" action="{% url 'company:shop:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     <input type="hidden" name="id" value="">
                     <div class="content ps-4 pe-4 mt-3">
                         <div class="row">
@@ -171,7 +171,7 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">会社名</label>
-                                    <input type="text" name="company_name" value="" class="input-text ps-2 pe-2">
+                                    <input type="text" name="shop_name" value="" class="input-text ps-2 pe-2">
                                 </div>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">郵便番号</label>
-                                    <input type="text" name="company_postcode" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$">
+                                    <input type="text" name="shop_postcode" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$">
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">都道府県</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0">
-                                        <input type="text" id="select_sex" name="company_prefecture" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="text" id="select_sex" name="shop_prefecture" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         <input type="hidden" value="">
                                         <div class="dropdown-menu" aria-labelledby="select_sex">
                                             {% for prefecture_item in prefecture_list %}
@@ -239,7 +239,7 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">住所</label>
-                                    <input type="text" name="company_address" value="" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
+                                    <input type="text" name="shop_address" value="" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +249,7 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">電話番号</label>
-                                    <input type="text" name="company_phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                    <input type="text" name="shop_phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
                                 </div>
                             </div>
                         </div>
@@ -273,7 +273,7 @@
                                         <div class="add-tag-area d-flex align-items-start justify-content-start flex-wrap"></div>
                                         <div class="add-tag-button-area">
                                             <button type="button" class="btn add-tag-button ps-3">タグを追加する</button>
-                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_tag_modal"></button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_tag_modal"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -291,85 +291,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<input type="hidden" id="start_company_url" value="{% url 'head:company:start' %}">
-<div id="start_check_modal" class="modal up-modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row text-center mb-2">
-                    <div class="col-12">
-                        <div class="mx-auto">
-                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
-                        </div>
-                        <div class="ps-3 pe-3">
-                            <p class="modal-title mb-1">この企業のアトエルを開始してもよろしいですか？</p>
-                        </div>
-                        <div class="modal-description-area ps-3 pe-3">
-                            <p class="modal-description mb-0">担当者のアカウントが自動で発行されアカウント情報メールを送信します。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center mt-2">
-                    <div class="col-5 offset-1">
-                        <button type="button" class="btn yes-button" style="background-color: #007AFF;">開始</button>
-                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#start_success_modal"></button>
-                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#start_error_modal"></button>
-                    </div>
-                    <div class="col-5">
-                        <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="start_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <div class="mx-auto">
-                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
-                        </div>
-                        <div class="ps-5 pe-5">
-                            <p class="modal-title mb-0">アトエルを開始しました</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center mt-3">
-                    <div class="col-12">
-                        <button type="button" class="btn close-button">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="start_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <div class="mx-auto">
-                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
-                        </div>
-                        <div class="ps-5 pe-5">
-                            <p class="modal-title mb-0">アトエルの開始に失敗しました</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center mt-3">
-                    <div class="col-12">
-                        <button type="button" class="btn close-button">閉じる</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

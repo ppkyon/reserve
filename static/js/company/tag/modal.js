@@ -1,5 +1,5 @@
 $( function() {
-    $( document ).on( 'click', '#head_tag_modal .genre-table tbody tr', function () {
+    $( document ).on( 'click', '#company_tag_modal .genre-table tbody tr', function () {
         $( this ).parent().find( 'tr' ).each( function( index, value ) {
             $( this ).css( 'background-color', '#FFF' );
             $( this ).removeClass( 'active' );
@@ -7,35 +7,35 @@ $( function() {
         $( this ).css( 'background-color', '' );
         $( this ).addClass( 'active' );
 
-        $( '#head_tag_modal .tag-table tbody' ).css( 'opacity', '0' );
+        $( '#company_tag_modal .tag-table tbody' ).css( 'opacity', '0' );
         $( '.table-loader-area' ).css( 'opacity', '1' );
         
         var form_data = new FormData();
         form_data.append( 'id', $( this ).children( 'input' ).val() );
         $.ajax({
             'data': form_data,
-            'url': $( '#get_head_tag_url' ).val(),
+            'url': $( '#get_company_tag_url' ).val(),
             'type': 'POST',
             'dataType': 'json',
             'processData': false,
             'contentType': false,
         }).done( function( response ){
             setTimeout( function() {
-                $( '#head_tag_modal .tag-table tbody' ).empty();
+                $( '#company_tag_modal .tag-table tbody' ).empty();
                 $.each( response, function( index, value ) {
-                    $( '#head_tag_modal .tag-table tbody' ).append( append_tag_modal( index, value, $( '#edit_company_modal .modal-body .add-tag-area input' ) ) );
+                    $( '#company_tag_modal .tag-table tbody' ).append( append_tag_modal( index, value, $( '#edit_shop_modal .modal-body .add-tag-area input' ) ) );
                 });
-                $( '#head_tag_modal .tag-table tbody' ).css( 'opacity', '1' );
+                $( '#company_tag_modal .tag-table tbody' ).css( 'opacity', '1' );
                 $( '.table-loader-area' ).css( 'opacity', '0' );
             }, 750 );
         }).fail( function(){
             setTimeout( function() {
-                $( '#head_tag_modal .tag-table tbody' ).css( 'opacity', '1' );
+                $( '#company_tag_modal .tag-table tbody' ).css( 'opacity', '1' );
                 $( '.table-loader-area' ).css( 'opacity', '0' );
             }, 750 );
         });
     });
-    $( document ).on( 'click', '#head_tag_modal .tag-table tbody tr', function () {
+    $( document ).on( 'click', '#company_tag_modal .tag-table tbody tr', function () {
         $( this ).parent().find( 'tr' ).each( function( index, value ) {
             $( this ).css( 'background-color', '#FFF' );
             $( this ).removeClass( 'active' );

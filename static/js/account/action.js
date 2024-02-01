@@ -3,9 +3,17 @@ $( function() {
         $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).val( $( this ).text() );
         $( this ).parents( '.dropdown' ).find( 'input[type=hidden]' ).val( $( this ).val() );
     });
-    $( document ).on( 'keyup', '[name=company_postcode]', function () {
-        AjaxZip3.zip2addr( 'company_postcode', '', 'company_prefecture', 'company_address' );
-    });
+
+    if ( $( '[name=company_postcode]' ).length ) {
+        $( document ).on( 'keyup', '[name=company_postcode]', function () {
+            AjaxZip3.zip2addr( 'company_postcode', '', 'company_prefecture', 'company_address' );
+        });
+    }
+    if ( $( '[name=shop_postcode]' ).length ) {
+        $( document ).on( 'keyup', '[name=shop_postcode]', function () {
+            AjaxZip3.zip2addr( 'shop_postcode', '', 'shop_prefecture', 'shop_address' );
+        });
+    }
 
     $( document ).on( 'change', '[name=head_manager_check]', function () {
         if ( $( this ).prop( 'checked' ) ) {
@@ -128,38 +136,76 @@ $( function() {
         $( '.error-message-area' ).each( function( index, value ) {
             $( this ).remove();
         });
-        if ( $( '#save_company_account_form' ).parsley().validate() ) {
-            var form_data = new FormData();
-            form_data.append( 'head_email', $( '#save_company_account_form [name=head_email]' ).val() );
-            form_data.append( 'manager_email', $( '#save_company_account_form [name=manager_email]' ).val() );
-            $.ajax({
-                'data': form_data,
-                'url': $( '#check_email_url' ).val(),
-                'type': 'POST',
-                'dataType': 'json',
-                'processData': false,
-                'contentType': false,
-            }).done( function( response ){
-                if ( response.check ) {
-                    $( '#save_company_account_form' ).submit();
-                } else {
-                    var html = '<div class="error-message-area text-center">';
-                    html += '<p class="error-message mt-2 mb-2">メールアドレスが既に登録されています</p>';
-                    html += '</div>';
-                    $( '.status-area' ).after(html);
-                    $( window ).scrollTop(0);
-                }
-            }).fail( function(){
-                
-            });
+        if ( $( this ).val() == 'company' ) {
+            if ( $( '#save_company_account_form' ).parsley().validate() ) {
+                var form_data = new FormData();
+                form_data.append( 'head_email', $( '#save_company_account_form [name=head_email]' ).val() );
+                form_data.append( 'manager_email', $( '#save_company_account_form [name=manager_email]' ).val() );
+                $.ajax({
+                    'data': form_data,
+                    'url': $( '#check_email_url' ).val(),
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'processData': false,
+                    'contentType': false,
+                }).done( function( response ){
+                    if ( response.check ) {
+                        $( '#save_company_account_form' ).submit();
+                    } else {
+                        var html = '<div class="error-message-area text-center">';
+                        html += '<p class="error-message mt-2 mb-2">メールアドレスが既に登録されています</p>';
+                        html += '</div>';
+                        $( '.status-area' ).after(html);
+                        $( window ).scrollTop(0);
+                    }
+                }).fail( function(){
+                    
+                });
+            }
+        } else if ( $( this ).val() == 'shop' ) {
+            if ( $( '#save_shop_account_form' ).parsley().validate() ) {
+                var form_data = new FormData();
+                form_data.append( 'head_email', $( '#save_shop_account_form [name=head_email]' ).val() );
+                form_data.append( 'manager_email', $( '#save_shop_account_form [name=manager_email]' ).val() );
+                $.ajax({
+                    'data': form_data,
+                    'url': $( '#check_email_url' ).val(),
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'processData': false,
+                    'contentType': false,
+                }).done( function( response ){
+                    if ( response.check ) {
+                        $( '#save_shop_account_form' ).submit();
+                    } else {
+                        var html = '<div class="error-message-area text-center">';
+                        html += '<p class="error-message mt-2 mb-2">メールアドレスが既に登録されています</p>';
+                        html += '</div>';
+                        $( '.status-area' ).after(html);
+                        $( window ).scrollTop(0);
+                    }
+                }).fail( function(){
+                    
+                });
+            }
         }
     });
     $( '.button-area .save-button' ).on( 'click', function() {
-        $( '#save_company_account_form' ).attr( 'action', '/account/company/end/' );
-        $( '#save_company_account_form' ).submit();
+        if ( $( this ).val() == 'company' ) {
+            $( '#save_company_account_form' ).attr( 'action', '/account/company/end/' );
+            $( '#save_company_account_form' ).submit();
+        } else if ( $( this ).val() == 'shop' ) {
+            $( '#save_shop_account_form' ).attr( 'action', '/account/shop/end/' );
+            $( '#save_shop_account_form' ).submit();
+        }
     });
     $( '.button-area .back-button' ).on( 'click', function() {
-        $( '#save_company_account_form' ).attr( 'action', '/account/company/?id=' + $( '#save_company_account_form [name=id]' ).val() );
-        $( '#save_company_account_form' ).submit();
+        if ( $( this ).val() == 'company' ) {
+            $( '#save_company_account_form' ).attr( 'action', '/account/company/?id=' + $( '#save_company_account_form [name=id]' ).val() );
+            $( '#save_company_account_form' ).submit();
+        } else if ( $( this ).val() == 'shop' ) {
+            $( '#save_shop_account_form' ).attr( 'action', '/account/shop/?id=' + $( '#save_shop_account_form [name=id]' ).val() );
+            $( '#save_shop_account_form' ).submit();
+        }
     });
 });
