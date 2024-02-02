@@ -1,0 +1,82 @@
+{% load static %}
+
+<div class="profile-area pb-3 me-3">
+    <div class="top border-bottom mb-2 p-3 pt-2 pb-2">
+        <div class="d-flex align-items-center pt-1">
+            {% if shop.profile.account_image %}
+                <img src="{{ shop.profile.shop_logo_image.url }}" class="shop-image me-2">
+            {% else %}
+                <img src="{% static 'img/user-none.png' %}" class="shop-image me-2">
+            {% endif %}
+            <div class="me-2" style="width: 100px;">
+                {% if shop.profile.shop_name %}
+                    <p class="title mb-0">{{ shop.profile.shop_name }}</p>
+                {% else %}
+                    <p class="title mb-0">-</p>
+                {% endif %}
+            </div>
+            <button type="button" class="btn ms-auto edit-button" data-bs-toggle="modal" data-bs-target="#edit_shop_modal">店舗情報編集</button>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">登録日</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.created_at|default:'-'|date:'Y年m月d日 H:i' }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">ID</label>
+        <input type="text" value="#{{ shop.display_id }}" class="input-text readonly ps-2" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">店舗名</label>
+        <input type="text" value="{{ shop.profile.shop_name }}" class="input-text readonly ps-2" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">代表氏名</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.head_family_name }}{{ shop.profile.head_first_name }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">フリガナ</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.head_family_name_kana }}{{ shop.profile.head_first_name_kana }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">郵便番号</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.shop_postcode }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">都道府県</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.shop_prefecture.name }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">住所</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.shop_address }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">電話番号</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.shop_phone_number }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0">メール</br>アドレス</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ shop.profile.head_email }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-start border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0"># タグ</label>
+        <div class="tag-area">
+            {% for shop_tag_item in shop.tag %}
+                <label class="tag-label text-center p-1 me-1 mb-0">{{ shop_tag_item.name }}</label>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-start border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0">メモ</label>
+        <textarea class="input-textarea d-block ms-auto ps-2" style="height: 100px;" readonly>{{ shop.profile.memo|default:'' }}</textarea>
+    </div>
+    <div class="mb-2">
+        <form id="delete_shop_form" action="{% url 'company:shop:delete' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            <input type="hidden" name="id" value="{{ shop.display_id }}">
+        </form>
+        {% if request.user.authority > 1 %}
+            <button type="button" class="btn delete-button d-block ms-auto me-auto" value="shop" style="background-color: red;">この店舗を削除する</button>
+            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_shop_check_modal"></button>
+        {% endif %}
+    </div>
+</div>

@@ -14,6 +14,7 @@ class IndexView(CompanyLoginMixin, View):
 
     def get(self, request, **kwargs):
         auth_login = AuthLogin.objects.filter(user=request.user).first()
+        print(CompanyTagGenre.objects.filter(company=auth_login.company).order_by('-favorite_flg','-created_at').all())
         data = {
             'title': self.title,
             'tag_genre_list': CompanyTagGenre.objects.filter(company=auth_login.company).order_by('-favorite_flg','-created_at').all(),

@@ -1,0 +1,212 @@
+{% load static %}
+
+<div class="data-area">
+    <div class="setting-area mb-5">
+        <div class="d-flex justify-content-start align-items-center">
+            <input type="hidden" id="save_shop_line_url" value="{% url 'company:shop:save_line' %}">
+            <p class="p-2 pt-3 pb-3 mb-0">アトエル/LINE公式アカウント設定</p>
+            {% if shop.status <= 2 %}
+                <button type="button" class="btn start-button p-0 me-3">アトエルを開始する</button>
+                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#start_check_modal"></button>
+            {% endif %}
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">アトエルURL</p>
+            <div class="input-area">
+                <input type="text" value="" class="input-text readonly ps-2 ms-2" readonly>
+            </div>
+            <div class="button-area text-center">
+                <a href="#" class="btn login-button p-0">アトエルログイン</a>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">Channel ID</p>
+            <div class="input-area position-relative">
+                <input type="text" id="channel_id" value="{{ shop.line.channel_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_channel_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_channel_id">
+                    <button type="button" value="channel_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">Channel Secret</p>
+            <div class="input-area position-relative">
+                <input type="text" id="channel_secret" value="{{ shop.line.channel_secret|default:'' }}" class="input-text readonly ps-2 pe-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_channel_secret" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_channel_secret">
+                    <button type="button" value="channel_secret" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">Channel Access Token</p>
+            <div class="input-area position-relative">
+                <input type="text" id="channel_access_token" value="{{ shop.line.channel_access_token|default:'' }}" class="input-text readonly ps-2 pe-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_channel_access_token" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_channel_access_token">
+                    <button type="button" value="channel_access_token" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">Bot basic ID</p>
+            <div class="input-area position-relative">
+                <input type="text" id="bot_id" value="{{ shop.line.bot_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_bot_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_bot_id">
+                    <button type="button" value="bot_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(回答フォーム)</p>
+            <div class="input-area position-relative">
+                <input type="text" id="liff_id" value="{{ shop.line.liff_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_liff_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_liff_id">
+                    <button type="button" value="liff_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(予約フォーム)</p>
+            <div class="input-area position-relative">
+                <input type="text" id="reserve_id" value="{{ shop.line.reserve_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_reserve_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_reserve_id">
+                    <button type="button" value="reserve_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(アナリティクス)</p>
+            <div class="input-area position-relative">
+                <input type="text" id="analytics_id" value="{{ shop.line.analytics_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_analytics_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_analytics_id">
+                    <button type="button" value="analytics_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(QRコード)</p>
+            <div class="input-area position-relative">
+                <input type="text" id="qrcode_id" value="{{ shop.line.qrcode_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_qrcode_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_qrcode_id">
+                    <button type="button" value="qrcode_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">友だち追加URL</p>
+            <div class="input-area position-relative">
+                <input type="text" id="follow_url" value="{{ shop.line.follow_url|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_follow_url" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_follow_url">
+                    <button type="button" value="follow_url" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

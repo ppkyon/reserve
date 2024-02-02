@@ -170,6 +170,15 @@ class ShopProfile(models.Model):
     shop_phone_number = models.CharField(max_length=255, null=True)
     shop_logo_image = models.ImageField(upload_to=logo_image_path, blank=True, null=True)
     memo = models.TextField(max_length=1000, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_profile'
+        
+class ShopLine(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_line")
     channel_id = models.CharField(max_length=255,null=True)
     channel_secret = models.CharField(max_length=255,null=True)
     channel_access_token = models.CharField(max_length=255,null=True)
@@ -183,7 +192,7 @@ class ShopProfile(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        db_table = 'shop_profile'
+        db_table = 'shop_line'
 
 class ManagerProfile(models.Model):
     sex_choice = (

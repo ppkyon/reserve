@@ -1,3 +1,104 @@
+.profile-area {
+    width: 18rem;
+    background: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.8rem 1rem rgb(0 0 0 / 0.14);
+}
+.profile-area .shop-image {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.profile-area .title {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.profile-area .edit-button {
+    color: #fff;
+    font-size: 0.7rem;
+    background-color: #00b074;
+    border-radius: 0.25rem;
+    border: none;
+}
+.profile-area .input-label {
+    color: #000;
+    font-size: 0.7rem;
+}
+.profile-area .input-textarea {
+    margin: 0;
+    width: 12rem;
+}
+.profile-area .tag-area {
+    width: 12rem;
+}
+.profile-area .tag-area .tag-label {
+    width: 4.25rem;
+    font-size: 0.6rem;
+    color: #FFF;
+    background-color: #666F86;
+    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.profile-area .delete-button {
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    transition: all .4s;
+}
+
+.data-area {
+    width: calc(100% - 18rem);
+}
+.setting-area {
+    width: 100%;
+    background: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.8rem 1rem rgb(0 0 0 / 0.14);
+}
+.setting-area .content {
+    border-top: 1px solid rgb(60 60 67 / 0.36);
+}
+.setting-area .title {
+    width: 25%;
+    background-color: #EBEBEB;
+}
+.setting-area .input-area {
+    width: 60%;
+}
+.setting-area .input-area input[type=text] {
+    width: 95%;
+}
+.setting-area .button-area {
+    width: 20%;
+}
+.setting-area .button-area .login-button {
+    width: 85%;
+    height: 2rem;
+    color: #fff;
+    font-size: 0.7rem;
+    background-color: #00b074;
+    border-radius: 0.25rem;
+    border: none;
+    line-height: 2rem;
+}
+.setting-area .start-button {
+    margin-left: auto;
+    width: 10rem;
+    height: 1.9rem;
+    color: #fff;
+    font-size: 0.75rem;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+
 .table-area tbody tr {
     height: 79px;
 }

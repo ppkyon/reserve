@@ -31,7 +31,7 @@
     border: 1px solid #a5c9ff;
     border-radius: 50%;
     vertical-align: middle;
-    object-fit: contain;
+    object-fit: cover;
 }
 .side-area .logo-area span {
     font-size: 0.7rem;

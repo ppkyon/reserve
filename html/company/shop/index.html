@@ -69,7 +69,7 @@
                                         <div class="d-flex justify-content-start align-items-center">
                                             <button type="button" value="{{ shop.display_id }}" class="btn preview-button p-1 me-1">プレビュー</button>
                                             <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_shop_profile"></button>
-                                            <a href="#" class="btn detail-button p-1 me-2">詳細</a>
+                                            <a href="{% url 'company:shop:detail' %}?id={{ shop.display_id }}" class="btn detail-button p-1 me-2">詳細</a>
                                             <div class="dropdown button-area text-center d-inline-block p-0 me-3">
                                                 <button type="button" class="btn p-0" data-bs-toggle="dropdown">
                                                     <i class='bx bx-dots-vertical-rounded menu-icon'></i>

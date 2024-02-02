@@ -1,0 +1,40 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/company/shop.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+        <div class="col-8 d-flex justify-content-start align-items-center text-end">
+            <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#edit_notice_modal">
+                <i class='bx bxs-edit me-1'></i>
+                <span>通知設定</span>
+            </button>
+        </div>
+    </div>
+    <div class="company">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-start align-items-top">
+                    {% include 'company/shop/profile.html' %}
+                    {% include 'company/shop/data.html' %}
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'company/shop/modal/detail.html' %}
+        {% include 'company/tag/modal/tag.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/tag/modal.js' %}"></script>
+    <script src="{% static 'js/company/shop/data.js' %}"></script>
+    <script src="{% static 'js/company/shop/detail.js' %}"></script>
+{% endblock %}

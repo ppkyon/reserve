@@ -32,12 +32,15 @@ $( function() {
         
     };
 
-    $( '#add_shop_form' ).parsley();
-    $( '#add_shop_form' ).parsley().options.requiredMessage = "入力してください";
-    $( '#add_shop_form' ).parsley().options.typeMessage = "正しい形式で入力してください";
-
-    $( '#save_shop_form' ).parsley();
-    $( '#save_shop_form' ).parsley().options.requiredMessage = "入力してください";
-    $( '#save_shop_form' ).parsley().options.typeMessage = "正しい形式で入力してください";
-    $( '#save_shop_form' ).parsley().options.patternMessage = "正しい形式で入力してください";
+    if ( $( '#add_shop_form' ).length ) {
+        $( '#add_shop_form' ).parsley();
+        $( '#add_shop_form' ).parsley().options.requiredMessage = "入力してください";
+        $( '#add_shop_form' ).parsley().options.typeMessage = "正しい形式で入力してください";
+    }
+    if ( $( '#save_shop_form' ).length ) {
+        $( '#save_shop_form' ).parsley();
+        $( '#save_shop_form' ).parsley().options.requiredMessage = "入力してください";
+        $( '#save_shop_form' ).parsley().options.typeMessage = "正しい形式で入力してください";
+        $( '#save_shop_form' ).parsley().options.patternMessage = "正しい形式で入力してください";
+    }
 });

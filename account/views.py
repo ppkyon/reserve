@@ -345,6 +345,7 @@ class ShopEndView(View):
                         tag_genre = CompanyTagGenre.objects.create(
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, CompanyTagGenre),
+                            company = shop.company,
                             name = request.POST.get('tag_genre_'+str(i+1)),
                             count = 0,
                         )

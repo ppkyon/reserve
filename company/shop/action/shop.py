@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.template.loader import get_template
 
 from fixture.models import Prefecture
-from sign.models import AuthShop, ShopProfile, AuthLogin
+from sign.models import AuthShop, ShopProfile, ShopLine, AuthLogin
 from tag.models import CompanyTag, ShopHashTag
 
 from common import create_code, get_model_field
@@ -72,6 +72,44 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def delete(request):
+    shop = AuthShop.objects.filter(display_id=request.POST.get('id')).first()
+    shop.delete_flg = True
+    shop.save()
+    return JsonResponse( {}, safe=False )
+
+
+
+def save_line(request):
+    shop = AuthShop.objects.filter(display_id=request.POST.get('id')).first()
+    if ShopLine.objects.filter(shop=shop).exists():
+        shop_line = ShopLine.objects.filter(shop=shop).first()
+        shop_line.channel_id = request.POST.get('channel_id')
+        shop_line.channel_secret = request.POST.get('channel_secret')
+        shop_line.channel_access_token = request.POST.get('channel_access_token')
+        shop_line.bot_id = request.POST.get('bot_id')
+        shop_line.liff_id = request.POST.get('liff_id')
+        shop_line.analytics_id = request.POST.get('analytics_id')
+        shop_line.qrcode_id = request.POST.get('qrcode_id')
+        shop_line.reserve_id = request.POST.get('reserve_id')
+        shop_line.follow_url = request.POST.get('follow_url')
+        shop_line.save()
+    else:
+        ShopLine.objects.create(
+            id = str(uuid.uuid4()),
+            shop = shop,
+            channel_id = request.POST.get('channel_id'),
+            channel_secret = request.POST.get('channel_secret'),
+            channel_access_token = request.POST.get('channel_access_token'),
+            bot_id = request.POST.get('bot_id'),
+            liff_id = request.POST.get('liff_id'),
+            analytics_id = request.POST.get('analytics_id'),
+            qrcode_id = request.POST.get('qrcode_id'),
+            reserve_id = request.POST.get('reserve_id'),
+            follow_url = request.POST.get('follow_url'),
+        )
+    return JsonResponse( {}, safe=False )
 
 
 
