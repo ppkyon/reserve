@@ -295,25 +295,27 @@
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">ロゴ画像</label>
                             <div class="input-text-area">
-                                <button type="button" class="btn upload-button logo-image-button p-0 me-1">画像アップロード</button>
-                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#logo_image_modal"></button>
+                                <button type="button" class="btn upload-button account-image-button p-0 me-1 mb-1">画像アップロード</button>
+                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#trimming_image_modal"></button>
                                 {% if input.shop.logo_image_name %}
-                                    <span class="logo-image-file-name mb-1">{{ input.shop.logo_image_name }}</span>
+                                    <span class="image-file-name mb-1">{{ input.shop.logo_image_name }}</span>
                                     <button type="button" class="btn image-delete-button p-0 mb-1">
                                         <img src="{% static 'img/icon/cross-white.svg' %}">
                                     </button>
                                 {% else %}
-                                    <span class="logo-image-file-name mb-1"></span>
+                                    <span class="image-file-name mb-1"></span>
                                     <button type="button" class="btn image-delete-button d-none p-0 mb-1">
                                         <img src="{% static 'img/icon/cross-white.svg' %}">
                                     </button>
                                 {% endif %}
-                                <div class="upload-logo-image-area">
+                                <div class="upload-image-area">
                                     <input type="hidden" name="shop_logo_image_name" value="{{ input.shop.logo_image_name|default:'' }}">
                                     <input type="hidden" name="shop_logo_image" value="{{ input.shop.logo_image|default:'' }}">
+                                    <input type="text" name="error_shop_logo_image" value="{{ input.shop.logo_image|default:'' }}" class="d-none" data-parsley-errors-container="#error_company_logo_image" data-parsley-error-message="選択してください" required>
                                 </div>
+                                <div id="error_shop_logo_image" class="mb-1"></div>
                             </div>
-                            <label class="input-mark mb-0">任意</label>
+                            <label class="input-mark required mb-0">必須</label>
                         </div>
                     </div>
                     <input type="hidden" name="tag_count" value="{{ input.tag.count|default:'0' }}">

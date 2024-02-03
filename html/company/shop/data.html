@@ -13,10 +13,10 @@
         <div class="content d-flex justify-content-start align-items-center">
             <p class="title p-2 pt-3 pb-3 mb-0">アトエルURL</p>
             <div class="input-area">
-                <input type="text" value="" class="input-text readonly ps-2 ms-2" readonly>
+                <input type="text" value="{{ env_domain_url }}{% url 'dashboard:index' %}?login_id={{ shop.display_id }}" class="input-text readonly ps-2 ms-2" readonly>
             </div>
             <div class="button-area text-center">
-                <a href="#" class="btn login-button p-0">アトエルログイン</a>
+                <a href="{{ env_domain_url }}{% url 'dashboard:index' %}?login_id={{ shop.display_id }}" class="btn login-button p-0">アトエルログイン</a>
             </div>
         </div>
         <div class="content d-flex justify-content-start align-items-center">

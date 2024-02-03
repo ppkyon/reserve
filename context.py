@@ -12,11 +12,16 @@ def env_data(request):
     site_name = env('SITE_NAME')
     if env('ENCODING') == 'True':
         site_name = env('SITE_NAME').encode("shift-jis").decode("utf-8", errors="ignore")
+    web_index = 'False'
+    if env('WEB_INDEX'):
+        web_index = env('WEB_INDEX')
 
     data = {
+        'env_domain_url': settings.DOMAIN_URL,
         'env_static_url': settings.STATIC_URL,
         'env_media_url': settings.MEDIA_URL,
         'env_site_name': site_name,
+        'env_web_index': web_index,
     }
     return data
 
@@ -51,7 +56,6 @@ def side_data(request):
                     image = shop_profile.shop_logo_image.url
                     name = shop_profile.shop_name
         
-
     data = {
         'side_logo_image': image,
         'side_logo_name': name,

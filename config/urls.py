@@ -14,8 +14,10 @@ urlpatterns = [
     path('company/email/change/<str:uidb64>/', sign_views.CompanyEmailChangeView.as_view(), name='company_change_email'),
     path('company/password/change/<str:uidb64>/', sign_views.CompanyPasswordChangeView.as_view(), name='company_change_password'),
     
+    path('', include('dashboard.urls')),
     path('account/', include('account.urls')),
     path('company/', include('company.urls')),
+    path('dashboard/', include('dashboard.urls')),
     path('fixture/', include('fixture.urls')),
     path('head/', include('head.urls')),
     path('table/', include('table.urls')),

@@ -48,8 +48,10 @@
                 <div class="link-area">
                     {% if header_manager.head_flg %}
                         <a href="{% url 'head:setting:index' %}" class="setting-link me-3">設定</a>
-                    {% else %}
+                    {% elif header_manager.company_flg %}
                         <a href="{% url 'company:setting:index' %}" class="setting-link me-3">設定</a>
+                    {% else %}
+                        <a href="{% url 'setting:index' %}" class="setting-link me-3">設定</a>
                     {% endif %}
                     <a href="{% url 'logout' %}" class="logout-link">ログアウト</a>
                 </div>
