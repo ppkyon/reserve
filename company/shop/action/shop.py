@@ -1,14 +1,15 @@
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.template.loader import get_template
 
 from fixture.models import Prefecture
-from sign.models import AuthShop, ShopProfile, ShopLine, AuthLogin
+from sign.models import AuthShop, AuthUser, ShopProfile, ShopLine, ManagerProfile, AuthLogin
 from tag.models import CompanyTag, ShopHashTag
 
-from common import create_code, get_model_field
+from common import create_code, create_password, get_model_field
 
 import environ
 import phonenumbers
@@ -77,6 +78,56 @@ def delete(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('id')).first()
     shop.delete_flg = True
     shop.save()
+    return JsonResponse( {}, safe=False )
+
+def start(request):
+    shop = AuthShop.objects.filter(display_id=request.POST.get('id')).first()
+    shop_profile = ShopProfile.objects.filter(shop=shop).first()
+    if not AuthUser.objects.filter(email=shop_profile.manager_email).exists():
+        password = create_password()
+        manager = AuthUser.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, AuthUser),
+            company = None,
+            shop = shop,
+            email = shop_profile.manager_email,
+            password = make_password(password),
+            authority = 3,
+            status = 1,
+            author = None,
+        )
+
+        ManagerProfile.objects.create(
+            id = str(uuid.uuid4()),
+            manager = manager,
+            family_name = shop_profile.manager_family_name,
+            first_name = shop_profile.manager_first_name,
+            family_name_kana = shop_profile.manager_family_name_kana,
+            first_name_kana = shop_profile.manager_first_name_kana,
+            image = shop_profile.manager_image,
+            phone_number = shop_profile.manager_phone_number,
+            department = shop_profile.manager_department,
+        )
+
+        if env('ENCODING') == 'True':
+            site_name = env('SITE_NAME').encode("shift-jis").decode("utf-8", errors="ignore")
+        else:
+            site_name = env('SITE_NAME')
+        subject = '【アトエル】IDとパスワードの送付'
+        template = get_template('setting/email/add_manager.txt')
+        site = get_current_site(request)
+        context = {
+            'protocol': 'https' if request.is_secure() else 'http',
+            'domain': site.domain,
+            'site_name': site_name,
+            'user': manager,
+            'password': password,
+        }
+        send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [manager.email])
+    
+    shop.status = 3
+    shop.save()
+
     return JsonResponse( {}, safe=False )
 
 

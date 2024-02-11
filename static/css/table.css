@@ -1,10 +1,12 @@
-.table-area {
+.table-area,
+.mini-table-area {
     width: 100%;
     border-radius: 0.5rem;
     background: rgba(0,0,0,0);
     box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
 }
-.table-area .table {
+.table-area .table,
+.mini-table-area .table {
     width: 100%;
     color: #000;
     font-weight: 600;
@@ -14,24 +16,29 @@
     table-layout: fixed;
     overflow-y: overlay;
 }
-.table-area .table .sort-area {
+.table-area .table .sort-area,
+.mini-table-area .table .sort-area {
     cursor: pointer;
 }
-.table-area .table .sort-area button {
+.table-area .table .sort-area button,
+.mini-table-area .table .sort-area button {
     color: #000;
     font-weight: 600;
 }
-.table-area .table thead {
+.table-area .table thead,
+.mini-table-area .table thead {
     text-align: left;
     border: 0;
 }
-.table-area .table thead th {
+.table-area .table thead th,
+.mini-table-area .table thead th {
     position: sticky;
     background: #fff;
     border: 0;
     z-index: 100;
 }
-.table-area .table thead th:before {
+.table-area .table thead th:before,
+.mini-table-area .table thead th:before {
     content: "";
     position: absolute;
     top: -1px;
@@ -40,34 +47,42 @@
     height: 100%;
     border-bottom: 0.05rem solid rgba(60,60,67,0.36);
 }
-.table-area .table tbody {
+.table-area .table tbody,
+.mini-table-area .table tbody {
     max-height: 340px;
     vertical-align: middle;
     overflow-y: overlay;
 }
-.table-area .table tbody tr:nth-child(2n) {
+.table-area .table tbody tr:nth-child(2n),
+.mini-table-area .table tbody tr:nth-child(2n) {
     background-color: #ebebeb;
 }
-.table-area .table tbody tr.active {
+.table-area .table tbody tr.active,
+.mini-table-area .table tbody tr.active {
     background-color: rgba(0,176,116,.15);
 }
 .table-area .parent-table tbody tr.active,
-.table-area .children-table tbody tr.active {
+.table-area .children-table tbody tr.active,
+.mini-table-area .parent-table tbody tr.active,
+.mini-table-area .children-table tbody tr.active {
     background-color: #ebebeb;
 }
 
-.table-area table tbody tr td .dropdown > button {
+.table-area table tbody tr td .dropdown > button,
+.mini-table-area table tbody tr td .dropdown > button {
     padding-top: 0;
     padding-bottom: 0;
 }
-.table-area table tbody tr td .dropdown-menu {
+.table-area table tbody tr td .dropdown-menu,
+.mini-table-area table tbody tr td .dropdown-menu {
     left: -100% !important;
     min-width: 85px;
     inset: auto !important;
     transform: none !important;
     z-index: 10001;
 }
-.table-area table tbody tr td .dropdown-menu .dropdown-item {
+.table-area table tbody tr td .dropdown-menu .dropdown-item,
+.mini-table-area table tbody tr td .dropdown-menu .dropdown-item {
     height: 100%;
     background-color: #FFF;
 }

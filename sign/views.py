@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import View
 
-from sign.mixins import HeadLoginMixin, CompanyLoginMixin
+from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
 from sign.forms import ManagerLoginForm
 
@@ -33,7 +33,7 @@ class ManagerLoginView(LoginView):
             if request.user.head_flg:
                 return redirect('/head/shop/')
             elif request.user.company_flg:
-                return redirect('/head/shop/')
+                return redirect('/company/shop/')
             elif request.user.status <= 1:
                 return redirect('/setting/')
             else:
@@ -166,6 +166,45 @@ class CompanyEmailChangeView(CompanyLoginMixin, View):
             
             return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0})
 
+class ShopEmailChangeView(ShopLoginMixin, View):
+    template_name = 'sign/shop/change_email.html'
+    title = 'メールアドレス変更'
+
+    def get(self, request, **kwargs):
+        user = None
+        try:
+            token = force_str(urlsafe_base64_decode(kwargs.get("uidb64")))
+            temp_user = get_object_or_404(EmailChangeToken, token=token)
+            user = temp_user.manager
+        except:
+            user = None
+        
+        EmailChangeToken.objects.filter(token=token).delete()
+        if user == None:
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1})
+        elif datetime.datetime.now() > temp_user.expiration_date:
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2})
+        else:
+            user.email = temp_user.email
+            user.save()
+
+            if env('ENCODING') == 'True':
+                site_name = env('SITE_NAME').encode("shift-jis").decode("utf-8", errors="ignore")
+            else:
+                site_name = env('SITE_NAME')
+            subject = '【' + site_name + '】メールアドレス変更完了メール'
+            template = get_template('setting/email/change_email_complete.txt')
+            site = get_current_site(request)
+            context = {
+                'protocol': 'https' if request.is_secure() else 'http',
+                'domain': site.domain,
+                'user': user,
+                'site_name': site_name,
+            }
+            send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
+            
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0})
+
 
 
 class HeadPasswordChangeView(HeadLoginMixin, View):
@@ -251,6 +290,53 @@ class CompanyPasswordChangeView(CompanyLoginMixin, View):
                 site_name = env('SITE_NAME')
             subject = '【' + site_name + '】パスワード変更完了メール'
             template = get_template('company/setting/email/change_password_complete.txt')
+            site = get_current_site(request)
+            context = {
+                'protocol': 'https' if request.is_secure() else 'http',
+                'domain': site.domain,
+                'user': user,
+                'site_name': site_name,
+            }
+            send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
+
+        return render(self.request, self.template_name, {'title': self.title, 'status': 0})
+
+class ShopPasswordChangeView(ShopLoginMixin, View):
+    template_name = 'sign/shop/change_password.html'
+    title = 'パスワード変更'
+
+    def get(self, request, **kwargs):
+        user = None
+        try:
+            token = force_str(urlsafe_base64_decode(kwargs.get("uidb64")))
+            temp_user = get_object_or_404(PasswordChangeToken, token=token)
+            user = temp_user.manager
+        except:
+            user = None
+
+        PasswordChangeToken.objects.filter(token=token).delete()
+        if user == None:
+            return render(self.request, self.template_name, {'title': self.title, 'status': 1})
+        elif datetime.datetime.now() > temp_user.expiration_date:
+            return render(self.request, self.template_name, {'title': self.title, 'status': 2})
+        else:
+            if ManagerProfile.objects.filter(manager=user).exists():
+                profile = ManagerProfile.objects.filter(manager=user).first()
+                if profile.family_name and profile.first_name:
+                    user.status = 3
+                else:
+                    user.status = 2
+            else:
+                user.status = 2
+            user.password = temp_user.password
+            user.save()
+
+            if env('ENCODING') == 'True':
+                site_name = env('SITE_NAME').encode("shift-jis").decode("utf-8", errors="ignore")
+            else:
+                site_name = env('SITE_NAME')
+            subject = '【' + site_name + '】パスワード変更完了メール'
+            template = get_template('setting/email/change_password_complete.txt')
             site = get_current_site(request)
             context = {
                 'protocol': 'https' if request.is_secure() else 'http',

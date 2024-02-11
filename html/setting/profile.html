@@ -28,7 +28,7 @@
                             <p class="authority mb-0">閲覧者</p>
                         {% endif %}
                     </div>
-                    {% if not request.user.head_flg %}
+                    {% if not manager.head_flg and not manager.company_flg %}
                         <button type="button" id="save_manager_button" class="btn" data-bs-toggle="modal" data-bs-target="#save_manager_modal">担当者情報編集</button>
                     {% endif %}
                 </div>
@@ -40,11 +40,7 @@
             <div class="col-12">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <label class="mb-0">登録日</label>
-                    {% if manager.created_at %}
-                        <input type="text" value="{{ manager.created_at|default:'-'|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
-                    {% else %}
-                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                    {% endif %}
+                    <input type="text" value="{{ manager.created_at|default:'-'|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
                 </div>
             </div>
         </div>
@@ -54,11 +50,7 @@
             <div class="col-12">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <label class="mb-0">ID</label>
-                    {% if manager.display_id %}
-                        <input type="text" value="#{{ manager.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
-                    {% else %}
-                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                    {% endif %}
+                    <input type="text" value="#{{ manager.display_id|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
                 </div>
             </div>
         </div>
@@ -169,7 +161,7 @@
             </div>
         </div>
     </div>
-    {% if request.user.head_flg %}
+    {% if request.user.head_flg or request.user.company_flg or request.user.authority > 2 %}
         <div class="content pb-2 mb-3">
             <div class="row">
                 <div class="col-12">
@@ -181,7 +173,7 @@
             </div>
         </div>
     {% else %}
-        <div class="content border-bottom pb-2 mb-3">
+        <div class="content">
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex align-items-center justify-content-between mb-2">
@@ -191,10 +183,20 @@
                 </div>
             </div>
         </div>
+        <div class="content border-bottom pb-2 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <label class="mb-0">パスワード</label>
+                        <input type="text" value="{{ manager.profile.password|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="button pb-4">
             <div class="row">
                 <div class="col-12">
-                    <form id="delete_manager_form" action="{% url 'company:setting:delete_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <form id="delete_manager_form" action="{% url 'setting:delete_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                         <input type="hidden" name="id" value="{{ manager.display_id }}">
                     </form>
                     <button type="button" class="btn delete-button d-block ms-auto me-auto" value="manager" style="background-color: red;">この担当者を削除する</button>

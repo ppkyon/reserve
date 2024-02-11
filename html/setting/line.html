@@ -1,0 +1,80 @@
+{% load static %}
+{% load humanize %}
+
+<div class="line-area mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="line-info-area d-flex justify-content-start align-items-center">
+                <div class="title-area d-flex justify-content-start align-items-center">
+                    <p class="ms-3 mb-0">{{ line_info.now|date:'n' }}月の<br>メッセージ送信数</p>
+                </div>
+                <div class="message-area d-flex justify-content-center align-items-center position-relative">
+                    {% if line_info.max_message and line_info.remaining_message %}
+                        {% if line_info.max_message == 200 %}
+                            {% if line_info.remaining_message <= 50 %}
+                                <div>
+                                    <img src="{% static 'img/icon/warning.svg' %}" class="me-2 alert-image" width="15" height="15">
+                                    <label class="alert-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% elif line_info.remaining_message <= 100 %}
+                                <div>
+                                    <img src="{% static 'img/icon/notice.png' %}" class="me-2 notice-image" width="15" height="15">
+                                    <label class="notice-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% endif %}
+                        {% elif line_info.max_message == 5000 %}
+                            {% if line_info.remaining_message <= 200 %}
+                                <div>
+                                    <img src="{% static 'img/icon/warning.svg' %}" class="me-2 alert-image" width="15" height="15">
+                                    <label class="alert-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% elif line_info.remaining_message <= 500 %}
+                                <div>
+                                    <img src="{% static 'img/icon/notice.png' %}" class="me-2 notice-image" width="15" height="15">
+                                    <label class="notice-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% endif %}
+                        {% elif line_info.max_message == 15000 %}
+                            {% if line_info.remaining_message <= 500 %}
+                                <div>
+                                    <img src="{% static 'img/icon/warning.svg' %}" class="me-2 alert-image" width="15" height="15">
+                                    <label class="alert-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% elif line_info.remaining_message <= 1000 %}
+                                <div>
+                                    <img src="{% static 'img/icon/notice.png' %}" class="me-2 notice-image" width="15" height="15">
+                                    <label class="notice-text mb-0 p-1 ps-2 pe-2">送信可能メッセージ数が残りわずかです。0になるとメッセージが送信されなくなります。</label>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    <div>
+                        <p class="mb-0">送信可能数</p>
+                        <p class="text-center mb-0">
+                            <span style="font-size: 0.6rem;">残り</span>
+                            <span class="fw-bold" style="font-size: 1rem;">{{ line_info.remaining_message|intcomma }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="bar-area">
+                    <div class="progress ms-3 me-3 mb-1">
+                        <div class="progress-bar" role="progressbar" style="width: {{ line_info.percent_message }}%" aria-valuenow="{{ line_info.percent_message }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="bar-text-area d-flex justify-content-start align-items-center ms-3 me-3">
+                        {% if line_info.max_message > 15000 %}
+                            <p class="mb-0">スタンダードプラン</p>
+                        {% elif line_info.max_message > 5000 %}
+                            <p class="mb-0">ライトプラン</p>
+                        {% else %}
+                            <p class="mb-0">フリープラン</p>
+                        {% endif %}
+                        <p class="ms-auto mb-0">{{ line_info.count_message }}/{{ line_info.max_message }}</p>
+                    </div>
+                </div>
+                <div class="button-area text-center ms-auto me-3">
+                    <a href="https://manager.line.biz/account/{{ shop.line.bot_id }}/purchase/monthly-plan" class="d-block" target=_blank>アップグレード</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

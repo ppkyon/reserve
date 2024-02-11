@@ -1,0 +1,645 @@
+{% load static %}
+
+<div id="add_manager_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">担当者を追加</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <input type="hidden" id="add_manager_check_form" value="{% url 'setting:add_manager_check' %}">
+                <input type="hidden" id="add_manager_check_description" value="True">
+                <form id="add_manager_form" action="{% url 'setting:add_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end">
+                                    <label id="error_add_email" class="form-error-message mb-0"></label>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">氏名</label>
+                                    <div class="input-content d-flex">
+                                        <input type="text" name="family_name" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                        <input type="text" name="first_name" class="input-text ps-2 pe-2 ms-auto" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end">
+                                    <label id="error_add_email" class="form-error-message mb-0"></label>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">フリガナ</label>
+                                    <div class="input-content d-flex">
+                                        <input type="text" name="family_name_kana" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled required>
+                                        <input type="text" name="first_name_kana" class="input-text ps-2 pe-2 ms-auto" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="mb-0">パスワード</label>
+                                    <input type="text" value="※自動で発行されます" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">権限</label>
+                                    <div class="d-flex authority-area">
+                                        <input type="radio" id="add_authority_editer" name="authority" value="2" class="authority-input" style="display: none;" checked>
+                                        <label for="add_authority_editer" class="authority d-flex mb-0 me-1">編集</label>
+                                        <input type="radio" id="add_authority_readonly" name="authority" value="1" class="authority-input" style="display: none;">
+                                        <label for="add_authority_readonly" class="authority d-flex mb-0 me-1">閲覧</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button add-button d-block" value="manager">担当者を追加する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_check_modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="save_manager_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            <p class="modal-title">担当者情報編集</p>
+                            <button type="button" class="btn action-button save-button d-block" value="manager">編集を保存</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block ps-4 pe-4">
+                <input type="hidden" id="save_check_form" value="{% url 'setting:save_manager_check' %}">
+                <form id="save_manager_form" action="{% url 'setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 d-inline-flex align-items-center mb-4">
+                                {% if manager.profile.image %}
+                                    <img id="profile_image" src="{{ manager.profile.image.url }}" class="rounded-circle ms-3 me-2 mb-2" width="50" height="50">
+                                {% else %}
+                                    <img id="profile_image" src="{% static 'img/manager-none.png' %}" class="rounded-circle ms-3 me-2 mb-2" width="50" height="50">
+                                {% endif %}
+                                <section class="ms-auto me-2">
+                                    <div id="account_drop_zone" class="account-drop-zone position-relative">
+                                        <input type="file" name="image_file" accept="image/*" style="display: none;">
+                                        <input type="hidden" name="upload_image">
+                                        <div id="account_drop_area" class="d-flex">
+                                            <i class="bx bxs-cloud-upload account-drop-icon text-muted ms-3 me-2"></i>
+                                            <div class="me-4">
+                                                <p class="account-drop-text text-center mb-0">プロフィール画像をアップロードする</p>
+                                                <p class="account-drop-mute-text text-center mb-0">ドラッグ＆ドロップまたは選択</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">登録日</label>
+                                    <input type="text" value="{{ manager.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">ID</label>
+                                    <input type="text" value="#{{ manager.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">氏名</label>
+                                    <div class="input-content d-flex">
+                                        <input type="text" name="family_name" class="input-text ps-2 pe-2" value="{{ manager.profile.family_name|default:'' }}" data-parsley-errors-messages-disabled required>
+                                        <input type="text" name="first_name" class="input-text ps-2 pe-2 ms-auto" value="{{ manager.profile.first_name|default:'' }}" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">フリガナ</label>
+                                    <div class="input-content d-flex">
+                                        <input type="text" name="family_name_kana" class="input-text ps-2 pe-2" value="{{ manager.profile.family_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
+                                        <input type="text" name="first_name_kana" class="input-text ps-2 pe-2 ms-auto" value="{{ manager.profile.first_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">年齢</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        {% if manager.profile.age %}
+                                            <input type="text" id="select_age" name="age" value="{{ manager.profile.age }}歳" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden" value="{{ manager.profile.age }}">
+                                        {% else %}
+                                            <input type="text" id="select_age" name="age" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden">
+                                        {% endif %}
+                                        <div class="dropdown-menu" aria-labelledby="select_age">
+                                            {% for age_item in age_list %}
+                                                {% if age_item >= 15 %}
+                                                    {% if age_item == 15 %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center">{{ age_item }}歳</button>
+                                                    {% else %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ age_item }}歳</button>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        {% if manager.profile.sex == 1 %}
+                                            <input type="text" id="select_sex" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden" value="{{ manager.profile.sex }}">
+                                        {% elif manager.profile.sex == 2 %}
+                                            <input type="text" id="select_sex" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden" value="{{ manager.profile.sex }}">
+                                        {% else %}
+                                            <input type="text" id="select_sex" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden">
+                                        {% endif %}
+                                        <div class="dropdown-menu" aria-labelledby="select_sex">
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center">男性</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">電話番号</label>
+                                    <input type="text" name="phone_number" class="input-text ps-2 pe-2" value="{{ manager.profile.phone_number|default:'' }}" data-parsley-errors-messages-disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">メールアドレス</label>
+                                    <input type="text" value="{{ manager.email|default:'' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">所属部署</label>
+                                    <input type="text" name="department" class="input-text ps-2 pe-2" value="{{ manager.profile.department|default:'' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">役職名</label>
+                                    <input type="text" name="job" class="input-text ps-2 pe-2" value="{{ manager.profile.job|default:'' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if request.user.head_flg or request.user.company_flg or request.user.authority > 2 %}
+                        <div class="content pb-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">職務</label>
+                                        <input type="text" name="work" class="input-text ps-2 pe-2" value="{{ manager.profile.work|default:'' }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">職務</label>
+                                        <input type="text" name="work" class="input-text ps-2 pe-2" value="{{ manager.profile.work|default:'' }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content pb-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">パスワード</label>
+                                        <input type="text" class="input-text readonly ps-2 pe-2" value="{{ manager.profile.password|default:'' }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for manager_item in manager_list %}
+    <div id="detail_manager_{{ manager_item.display_id }}_modal" class="detail-manager-modal modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header d-block ps-4 pe-4">
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="d-flex align-items-center pt-1">
+                                {% if manager_item.profile.image %}
+                                    <img src="{{ manager_item.profile.image.url }}" class="me-2">
+                                {% else %}
+                                    <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                                {% endif %}
+                                <div>
+                                    {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                        <p class="name mb-0">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</p>
+                                    {% elif manager_item.profile.family_name %}
+                                        <p class="name mb-0">{{ manager_item.profile.family_name }}</p>
+                                    {% elif manager_item.profile.first_name %}
+                                        <p class="name mb-0">{{ manager_item.profile.first_name }}</p>
+                                    {% else %}
+                                        <p class="name mb-0">-</p>
+                                    {% endif %}
+                                    {% if manager_item.authority == 3 %}
+                                        <p class="authority mb-0">管理者</p>
+                                    {% elif manager_item.authority == 2 %}
+                                        <p class="authority mb-0">編集者</p>
+                                    {% elif manager_item.authority == 1 %}
+                                        <p class="authority mb-0">閲覧者</p>
+                                    {% endif %}
+                                </div>
+                                {% if request.user.id != manager_item.id %}
+                                    {% if request.user.authority > 2 %}
+                                        <button type="button" class="btn reset-button d-block" value="{{ manager_item.display_id }}">パスワードリセット</button>
+                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#reset_password_check_modal"></button>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body d-block ps-4 pe-4">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">登録日</label>
+                                    <input type="text" value="{{ manager_item.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">ID</label>
+                                    <input type="text" value="#{{ manager_item.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">氏名</label>
+                                    {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                        <input type="text" value="{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% elif manager_item.profile.family_name %}
+                                        <input type="text" value="{{ manager_item.profile.family_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% elif manager_item.profile.first_name %}
+                                        <input type="text" value="{{ manager_item.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% else %}
+                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">フリガナ</label>
+                                    {% if manager_item.profile.family_name_kana and manager_item.profile.first_name_kana %}
+                                        <input type="text" value="{{ manager_item.profile.family_name_kana }} {{ manager_item.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% elif manager_item.profile.family_name_kana %}
+                                        <input type="text" value="{{ manager_item.profile.family_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% elif manager_item.profile.first_name_kana %}
+                                        <input type="text" value="{{ manager_item.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% else %}
+                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">年齢</label>
+                                    {% if manager_item.profile.age %}
+                                        <input type="text" value="{{ manager_item.profile.age }}歳" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% else %}
+                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">性別</label>
+                                    {% if manager_item.profile.sex == 1 %}
+                                        <input type="text" value="男性" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% elif manager_item.profile.sex == 2 %}
+                                        <input type="text" value="女性" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% else %}
+                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">電話番号</label>
+                                    <input type="text" value="{{ manager_item.profile.phone_number|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">メールアドレス</label>
+                                    <input type="text" value="{{ manager_item.email|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">所属部署</label>
+                                    <input type="text" value="{{ manager_item.profile.department|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">役職名</label>
+                                    <input type="text" value="{{ manager_item.profile.job|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if manager_item.head_flg or manager_item.company_flg or manager_item.authority > 2 %}
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">職務</label>
+                                        <input type="text" value="{{ manager_item.profile.work|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">職務</label>
+                                        <input type="text" value="{{ manager_item.profile.work|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content pb-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">パスワード</label>
+                                        <input type="text" name="password" value="{{ manager_item.profile.password|default:'' }}" class="input-text readonly ps-2 pe-2"readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if manager_item.author_profile %}
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="mb-0">追加者</label>
+                                        <div class="author-area d-flex align-items-center">
+                                            {% if manager_item.author_profile.image %}
+                                                <img src="{{ manager_item.author_profile.image.url }}" class="me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                                            {% endif %}
+                                            {% if manager_item.author_profile.family_name and manager_item.author_profile.first_name %}
+                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }} {{ manager_item.author_profile.first_name }}</p>
+                                            {% elif manager_item.author_profile.family_name %}
+                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }}</p>
+                                            {% elif manager_item.author_profile.first_name %}
+                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.first_name }}</p>
+                                            {% else %}
+                                                <p class="fw-bold mb-0">-</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% for manager_item in manager_list %}
+    <div id="save_authority_{{ manager_item.display_id }}_modal" class="modal save-authority-modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header d-block ps-4 pe-4">
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="d-flex align-items-center">
+                                <p class="modal-title">権限変更</p>
+                                <button type="button" class="btn action-button save-button d-block" value="authority_{{ manager_item.display_id }}">編集を保存</button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body d-block ps-4 pe-4">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <form id="save_authority_{{ manager_item.display_id }}_form" action="{% url 'setting:save_authority' %}" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{ manager_item.display_id }}">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="author-area d-flex align-items-center pt-1">
+                                            {% if manager_item.profile.image %}
+                                                <img src="{{ manager_item.profile.image.url }}" class="me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                                            {% endif %}
+                                            <div>
+                                                {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                                    <p class="name mb-0">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</p>
+                                                {% elif manager_item.profile.family_name %}
+                                                    <p class="name mb-0">{{ manager_item.profile.family_name }}</p>
+                                                {% elif manager_item.profile.first_name %}
+                                                    <p class="name mb-0">{{ manager_item.profile.first_name }}</p>
+                                                {% else %}
+                                                    <p class="name mb-0">-</p>
+                                                {% endif %}
+                                                {% if manager_item.authority == 3 %}
+                                                    <p class="authority mb-0">管理者</p>
+                                                {% elif manager_item.authority == 2 %}
+                                                    <p class="authority mb-0">編集者</p>
+                                                {% elif manager_item.authority == 1 %}
+                                                    <p class="authority mb-0">閲覧者</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="{{ manager_item.authority }}">
+                                        <div class="authority-area d-flex">
+                                            {% if manager_item.head_flg or manager_item.company_flg or manager_item.authority > 2 %}
+                                                {% if manager_item.authority == 3 %}
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_manager" name="authority" value="3" class="authority-input" style="display: none;" checked>
+                                                    <label for="save_authority_{{ manager_item.display_id }}_manager" class="authority active d-flex mb-0 me-1">管理</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_editer" name="authority" value="2" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_editer" class="authority d-flex mb-0 me-1">編集</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_readonly" name="authority" value="1" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_readonly" class="authority d-flex mb-0 me-1">閲覧</label>
+                                                {% elif manager_item.authority == 2 %}
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_manager" name="authority" value="3" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_manager" class="authority d-flex mb-0 me-1">管理</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_editer" name="authority" value="2" class="authority-input" style="display: none;" checked>
+                                                    <label for="save_authority_{{ manager_item.display_id }}_editer" class="authority active d-flex mb-0 me-1">編集</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_readonly" name="authority" value="1" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_readonly" class="authority d-flex mb-0 me-1">閲覧</label>
+                                                {% elif manager_item.authority == 1 %}
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_manager" name="authority" value="3" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_manager" class="authority d-flex mb-0 me-1">管理</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_editer" name="authority" value="2" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_editer" class="authority d-flex mb-0 me-1">編集</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_readonly" name="authority" value="1" class="authority-input" style="display: none;" checked>
+                                                    <label for="save_authority_{{ manager_item.display_id }}_readonly" class="authority active d-flex mb-0 me-1">閲覧</label>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if manager_item.authority == 2 %}
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_editer" name="authority" value="2" class="authority-input" style="display: none;" checked>
+                                                    <label for="save_authority_{{ manager_item.display_id }}_editer" class="authority active d-flex mb-0 me-1">編集</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_readonly" name="authority" value="1" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_readonly" class="authority d-flex mb-0 me-1">閲覧</label>
+                                                {% elif manager_item.authority == 1 %}
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_editer" name="authority" value="2" class="authority-input" style="display: none;">
+                                                    <label for="save_authority_{{ manager_item.display_id }}_editer" class="authority d-flex mb-0 me-1">編集</label>
+                                                    <input type="radio" id="save_authority_{{ manager_item.display_id }}_readonly" name="authority" value="1" class="authority-input" style="display: none;" checked>
+                                                    <label for="save_authority_{{ manager_item.display_id }}_readonly" class="authority active d-flex mb-0 me-1">閲覧</label>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

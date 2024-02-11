@@ -70,6 +70,32 @@ $( function() {
         });
     });
 
+    $( document ).on( 'click', '.setting-area .start-button', function () {
+        $( '#start_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+    });
+    $( document ).on( 'click', '#start_check_modal .yes-button', function () {
+        $( this ).prop( 'disabled', true );
+        $( '#start_check_modal .no-button' ).trigger( 'click' );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#start_shop_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( target ).next().trigger( 'click' );
+        }).fail( function(){
+            $( target ).next().next().trigger( 'click' );
+        });
+    });
+    action_reload( 'start' );
+
     $( document ).on( 'click', '.setting-area .content .dropdown .edit-button', function () {
         $( '#line_edit_check_modal .yes-button' ).val( $( this ).val() );
         if ( $( '.setting-area .content .input-area #' + $( this ).val() ).val() == '' ) {

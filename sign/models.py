@@ -214,6 +214,7 @@ class ManagerProfile(models.Model):
     job = models.CharField(max_length=255,null=True)
     work = models.CharField(max_length=255,null=True)
     color = models.CharField(max_length=255,null=True)
+    password = models.CharField(max_length=255,null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 

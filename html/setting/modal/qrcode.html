@@ -1,0 +1,35 @@
+{% load static %}
+
+<div id="display_qrcode_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="modal-title mb-3">QRコードを出力しました</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="image-area mb-3">
+                            <img src="{{ line_info.qrcode }}" class="w-100 h-100">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <input type="text" value="{{ shop.line.follow_url }}" class="input-text readonly ps-2 pe-2" readonly>
+                            <button type="button" class="btn copy-button ms-2">コピー</button>
+                            <div class="copy-toast-area">
+                                <div class="toast align-items-center copy-toast">
+                                    <div class="toast-body text-center">コピーしました</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

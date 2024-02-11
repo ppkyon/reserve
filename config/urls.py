@@ -14,12 +14,15 @@ urlpatterns = [
     path('company/email/change/<str:uidb64>/', sign_views.CompanyEmailChangeView.as_view(), name='company_change_email'),
     path('company/password/change/<str:uidb64>/', sign_views.CompanyPasswordChangeView.as_view(), name='company_change_password'),
     
+    path('email/change/<str:uidb64>/', sign_views.ShopEmailChangeView.as_view(), name='shop_change_email'),
+    path('password/change/<str:uidb64>/', sign_views.ShopPasswordChangeView.as_view(), name='shop_change_password'),
+    
     path('', include('dashboard.urls')),
     path('account/', include('account.urls')),
     path('company/', include('company.urls')),
-    path('dashboard/', include('dashboard.urls')),
     path('fixture/', include('fixture.urls')),
     path('head/', include('head.urls')),
+    path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
 ]
 

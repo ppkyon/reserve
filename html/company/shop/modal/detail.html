@@ -216,6 +216,85 @@
     </div>
 </div>
 
+<input type="hidden" id="start_shop_url" value="{% url 'company:shop:start' %}">
+<div id="start_check_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center mb-2">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-3 pe-3">
+                            <p class="modal-title mb-1">この企業のアトエルを開始してもよろしいですか？</p>
+                        </div>
+                        <div class="modal-description-area ps-3 pe-3">
+                            <p class="modal-description mb-0">担当者のアカウントが自動で発行されアカウント情報メールを送信します。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-2">
+                    <div class="col-5 offset-1">
+                        <button type="button" class="btn yes-button" style="background-color: #007AFF;">開始</button>
+                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#start_success_modal"></button>
+                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#start_error_modal"></button>
+                    </div>
+                    <div class="col-5">
+                        <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="start_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">アトエルを開始しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="start_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">アトエルの開始に失敗しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="line_edit_check_modal" class="modal up-modal fade">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">

@@ -1,0 +1,82 @@
+{% load static %}
+
+{% if request.user.authority > 2 or request.user.head_flg or request.user.company_flg %}
+    <div class="mini-table-area manager-list-table mb-2">
+        <div class="row">
+            <div class="col-12">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4" style="vertical-align: middle;">担当者</th>
+                            <th style="width: 150px; vertical-align: middle;">編集権限</th>
+                            <th style="width: 260px;">
+
+                            </th>
+                            <th style="width: 75px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for manager_item in manager_list %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if manager_item.profile.image %}
+                                            <img src="{{ manager_item.profile.image.url }}" class="manager-image ms-2 me-2">
+                                        {% else %}
+                                            <img src="{% static 'img/manager-none.png' %}" class="manager-image ms-2 me-2">
+                                        {% endif %}
+                                        {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                            <input type="text" class="input-text readonly ps-2 pe-2" value="{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}" readonly>
+                                        {% elif manager_item.profile.family_name %}
+                                            <input type="text" class="input-text readonly ps-2 pe-2" value="{{ manager_item.profile.family_name }}" readonly>
+                                        {% elif manager_item.profile.first_name %}
+                                            <input type="text" class="input-text readonly ps-2" value="{{ manager_item.profile.first_name }}" readonly>
+                                        {% else %}
+                                            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex">
+                                        {% if manager_item.authority == 3 %}
+                                            <p class="authority active d-flex mb-0 me-1">管理</p>
+                                            <p class="authority d-flex mb-0 me-1">編集</p>
+                                            <p class="authority d-flex mb-0 me-1">閲覧</p>
+                                        {% elif manager_item.authority == 2 %}
+                                            <p class="authority d-flex mb-0 me-1">管理</p>
+                                            <p class="authority active d-flex mb-0 me-1">編集</p>
+                                            <p class="authority d-flex mb-0 me-1">閲覧</p>
+                                        {% elif manager_item.authority == 1 %}
+                                            <p class="authority d-flex mb-0 me-1">管理</p>
+                                            <p class="authority d-flex mb-0 me-1">編集</p>
+                                            <p class="authority active d-flex mb-0 me-1">閲覧</p>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <div class="dropdown d-inline-block p-0">
+                                        <button type="button" id="dropdown_{{ manager_item.display_id }}" class="btn" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdown_{{ manager_item.display_id }}">
+                                            <button type="button" class="btn dropdown-item fw-bold text-center" data-bs-toggle="modal" data-bs-target="#detail_manager_{{ manager_item.display_id }}_modal">詳細</button>
+                                            <button type="button" value="{{ manager_item.display_id }}" class="btn change-button dropdown-item fw-bold text-center border-top p-1 pt-2">変更</button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_authority_{{ manager_item.display_id }}_modal"></button>
+                                            <button type="button" class="btn dropdown-item delete-button fw-bold text-center border-top p-1 pt-2" value="manager_{{ manager_item.display_id }}" data-bs-toggle="modal" data-bs-target="#delete_check_modal">削除</button>
+                                            <form id="delete_manager_{{ manager_item.display_id }}_form" action="{% url 'setting:delete_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                                <input type="hidden" name="id" value="{{ manager_item.display_id }}">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}

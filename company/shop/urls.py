@@ -13,6 +13,7 @@ urlpatterns = [
     path('save/', shop.save, name='save'),
     path('save/check', shop.save_check, name='save_check'),
     path('delete/', shop.delete, name='delete'),
+    path('start/', shop.start, name='start'),
     path('profile/get', shop.get_profile, name='get_profile'),
     
     path('line/save/', shop.save_line, name='save_line'),

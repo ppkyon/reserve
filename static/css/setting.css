@@ -61,14 +61,65 @@
     transition: all .4s;
 }
 
-.table-area .table tbody .manager-image {
+.line-area .line-info-area {
+    width: 100%;
+    height: 60px;
+    border-radius: 0.5rem;
+    background: rgba(0,0,0,0);
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 16%);
+}
+.line-area .line-info-area .title-area {
+    width: 150px;
+    height: 100%;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 0.5rem 0 0 0.5rem;
+    background-color: #EBEBEB;
+}
+.line-area .line-info-area .message-area {
+    width: 120px;
+    height: 100%;
+    color: #000;
+}
+.line-area .line-info-area .bar-area {
+    width: calc(100% - 270px - 7.5rem);
+}
+.line-area .line-info-area .bar-area .progress {
+    background-color: #707070;
+}
+.line-area .line-info-area .bar-area .progress .progress-bar {
+    background-color: #3B86FF;
+}
+.line-area .line-info-area .bar-area .bar-text-area {
+    font-size: 0.65rem;
+}
+.line-area .line-info-area .button-area {
+    width: 7.5rem;
+}
+.line-area .line-info-area .button-area a {
+    margin-right: auto;
+    margin-left: auto;
+    width: 7rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.7rem;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.25rem;
+    line-height: 30px;
+}
+
+.table-area .table tbody .manager-image,
+.mini-table-area .table tbody .manager-image {
     width: 2.8rem;
     height: 2.8rem;
     border: 1px solid #a5c9ff;
     border-radius: 50%;
     object-fit: cover;
 }
-.table-area .table tbody .authority {
+.table-area .table tbody .authority,
+.mini-table-area .table tbody .authority {
     width: 40px;
     height: 40px;
     color: #707070;
@@ -79,7 +130,8 @@
     justify-content: center;
     align-items: center;
 }
-.table-area .table tbody .authority.active {
+.table-area .table tbody .authority.active,
+.mini-table-area .table tbody .authority.active {
     color: #fff;
     background-color: #007AFF;
     border: 1px solid #007AFF;
@@ -104,6 +156,19 @@
 .modal .modal-body .content .authority-area {
     width: 65%;
 }
+.modal .modal-body .image-area {
+    border: 1px solid #cdd6dd;
+}
+.modal .modal-body .copy-button {
+    width: 4.5rem;
+    color: #fff;
+    font-size: 0.75rem;
+    background-color: #6C757D;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+
 .modal .modal-content .authority-area .authority {
     width: 40px;
     height: 40px;

@@ -6,7 +6,7 @@
             <input type="hidden" id="save_shop_line_url" value="{% url 'company:shop:save_line' %}">
             <p class="p-2 pt-3 pb-3 mb-0">アトエル/LINE公式アカウント設定</p>
             {% if shop.status <= 2 %}
-                <button type="button" class="btn start-button p-0 me-3">アトエルを開始する</button>
+                <button type="button" value="{{ shop.display_id }}" class="btn start-button p-0 me-3">アトエルを開始する</button>
                 <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#start_check_modal"></button>
             {% endif %}
         </div>
