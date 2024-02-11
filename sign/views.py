@@ -12,7 +12,7 @@ from django.views.generic import View
 
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
-from sign.forms import ManagerLoginForm
+from sign.forms import ManagerLoginForm, SimpleLoginForm
 
 from sign.models import AuthLogin, ManagerProfile, EmailChangeToken, PasswordChangeToken
 
@@ -43,8 +43,7 @@ class ManagerLoginView(LoginView):
     
     def get_success_url(self):
         if self.request.user.head_flg:
-            # return self.get_redirect_url() or resolve_url('head:shop:index')
-            return self.get_redirect_url() or resolve_url('head:setting:index')
+            return self.get_redirect_url() or resolve_url('head:company:index')
         elif self.request.user.company_flg:
             if AuthLogin.objects.filter(user=self.request.user).exists():
                 auth_login = AuthLogin.objects.filter(user=self.request.user).first()
@@ -85,6 +84,67 @@ class ManagerLoginView(LoginView):
 
 class ManagerLogoutView(LogoutView):
     next_page = '/login'
+
+
+
+class SimpleLoginView(LoginView):
+    title = 'ログイン'
+    form_class = SimpleLoginForm
+    template_name = 'sign/simple.html'
+
+    def get(self, request, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.head_flg:
+                return redirect('/head/shop/')
+            elif request.user.company_flg:
+                return redirect('/company/shop/')
+            elif request.user.status <= 1:
+                return redirect('/setting/')
+            else:
+                return redirect('/dashboard/')
+        else:
+            return render(self.request, self.template_name, {'title': self.title})
+    
+    def get_success_url(self):
+        if self.request.user.head_flg:
+            return self.get_redirect_url() or resolve_url('head:company:index')
+        elif self.request.user.company_flg:
+            if AuthLogin.objects.filter(user=self.request.user).exists():
+                auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+                auth_login.company = self.request.user.company
+                auth_login.save()
+            else:
+                AuthLogin.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = self.request.user,
+                    company = self.request.user.company,
+                )
+                
+            if self.request.user.status <= 1:
+                return self.get_redirect_url() or resolve_url('company:setting:index')
+            else:
+                return self.get_redirect_url() or resolve_url('company:shop:index')
+        else:
+            if AuthLogin.objects.filter(user=self.request.user).exists():
+                auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+                auth_login.shop = self.request.user.shop
+                auth_login.save()
+            else:
+                AuthLogin.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = self.request.user,
+                    company = self.request.user.company,
+                    shop = self.request.user.shop,
+                )
+            if self.request.user.status <= 1:
+                return self.get_redirect_url() or resolve_url('setting:index')
+            else:
+                return self.get_redirect_url() or resolve_url('dashboard:index')
+
+    def form_invalid(self, form):
+        for error_message in form.errors.as_data():
+            messages.add_message( self.request, messages.ERROR, form.errors.as_data()[error_message][0].message )
+        return render(self.request, self.template_name, {'title': self.title, 'form': form})
 
 
 

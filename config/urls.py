@@ -7,6 +7,7 @@ from sign import views as sign_views
 urlpatterns = [
     path('login/', sign_views.ManagerLoginView.as_view(), name='login'),
     path('logout/', sign_views.ManagerLogoutView.as_view(), name='logout'),
+    path('simple/login/', sign_views.SimpleLoginView.as_view(), name='simple'),
     
     path('head/email/change/<str:uidb64>/', sign_views.HeadEmailChangeView.as_view(), name='head_change_email'),
     path('head/password/change/<str:uidb64>/', sign_views.HeadPasswordChangeView.as_view(), name='head_change_password'),
