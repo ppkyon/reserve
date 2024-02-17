@@ -5,7 +5,7 @@ from table.models import TableSearch
 from tag.models import HeadTagGenre, HeadTag
 
 from common import create_code, get_model_field
-from table.action import set_search
+from table.action import action_search
 from head.tag.action.list import get_action_tag_list
 
 import uuid
@@ -50,7 +50,7 @@ def favorite(request):
     return JsonResponse( {'check': tag.favorite_flg}, safe=False )
 
 def get(request):
-    set_search(request, None, None)
+    action_search(request, None, None)
     tag_list = get_action_tag_list(request.POST.get('url'), request.user, HeadTagGenre.objects.filter(display_id=request.POST.get('id')).first())
     for tag_index, tag_item in enumerate( tag_list ):
         tag_list[tag_index]['display_date'] = tag_item['created_at'].strftime('%Y/%m/%d %H:%M')

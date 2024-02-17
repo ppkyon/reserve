@@ -1,0 +1,49 @@
+{% load static %}
+{% load original %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-paging-area mb-3">
+            <div class="d-flex align-items-end justify-content-end">
+                <p class="me-3 mb-0">ALL DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ table.count_start }} - {{ table.count_end }} / {{ table.count }}</p>
+                {% if table.count_end < table.count %}
+                    <ul class="pagination d-flex m-0 p-0">
+                        <li class="page-item d-inline active">
+                            <button type="button" value="1" class="btn d-flex justify-content-center align-items-center position-relative" disabled>
+                                <img src="{% static 'img/icon/paging-left.svg' %}">
+                            </button>
+                        </li>
+                        <li class="page-item d-inline active">
+                            <button type="button" value="1" class="btn d-flex justify-content-center align-items-center position-relative" disabled>1</button>
+                        </li>
+                        <li class="page-item d-inline">
+                            <button type="button" value="2" class="btn d-flex justify-content-center align-items-center position-relative">2</button>
+                        </li>
+                        {% if table.count_end|multiplication:2 < table.count %}
+                            <li class="page-item d-inline">
+                                <button type="button" value="3" class="btn d-flex justify-content-center align-items-center position-relative">3</button>
+                            </li>
+                        {% endif %}
+                        {% if table.count_end|multiplication:3 < table.count %}
+                            <li class="page-item d-inline">
+                                <button type="button" value="4" class="btn d-flex justify-content-center align-items-center position-relative">4</button>
+                            </li>
+                        {% endif %}
+                        {% if table.count_end|multiplication:4 < table.count %}
+                            <li class="page-item d-inline">
+                                <button type="button" value="5" class="btn d-flex justify-content-center align-items-center position-relative">5</button>
+                            </li>
+                        {% endif %}
+                        <li class="page-item d-inline">
+                            <button type="button" value="2" class="btn d-flex justify-content-center align-items-center position-relative">
+                                <img src="{% static 'img/icon/paging-right.svg' %}">
+                            </button>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <input type="hidden" id="table_total_count" value="{{ table.count }}">
+        <input type="hidden" id="table_number" value="{{ table.number }}">
+    </div>
+</div>

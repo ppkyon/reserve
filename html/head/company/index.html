@@ -26,15 +26,9 @@
                         <thead>
                             <tr>
                                 <th style="width: 30px;"></th>
-                                <th class="sort-area">
-                                    {% include 'sort.html' with text='企業名' target='company_name' %}
-                                </th>
-                                <th class="sort-area" style="width: 120px;">
-                                    {% include 'sort.html' with text='代表氏名' target='name' %}
-                                </th>
-                                <th class="sort-area" style="width: 120px;">
-                                    {% include 'sort.html' with text='都道府県' target='prefecture' %}
-                                </th>
+                                {% include 'table/sort.html' with text='企業名' target='company_name' %}
+                                {% include 'table/sort.html' with text='代表氏名' target='name' width='120' %}
+                                {% include 'table/sort.html' with text='都道府県' target='prefecture' width='120' %}
                                 <th style="width: 230px;"># タグ</th>
                                 <th style="width: 130px;"></th>
                             </tr>

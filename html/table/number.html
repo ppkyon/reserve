@@ -1,0 +1,13 @@
+{% load static %}
+
+<div class="dropdown input-select-dropdown input-select-table-number-dropdown d-inline-block ms-auto p-0">
+    <input type="text" value="{{ table.number }}件" class="input-text input-select ps-2 pe-2" style="width: 4rem;" data-bs-toggle="dropdown" readonly>
+    <input type="hidden" value="{{ table.number }}">
+    <div class="dropdown-menu">
+        <button type="button" value="5" class="btn dropdown-item fw-bold text-center">5件</button>
+        <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10件</button>
+        <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20件</button>
+        <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30件</button>
+        <button type="button" value="50" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">50件</button>
+    </div>
+</div>

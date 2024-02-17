@@ -1,0 +1,194 @@
+.table-area tbody tr {
+    height: 6rem;
+}
+
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.title-area .input-label {
+    width: 4.8rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text,
+.title-area .input-textarea {
+    width: 40%;
+}
+.title-area img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+.title-area .color-area button {
+    padding: 0.3em 0.4em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.input-area,
+.button-area {
+    max-width: 850px;
+}
+.content-area {
+    width: 70%;
+}
+.action-area {
+    width: 30%;
+}
+
+.input-area .input-title {
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.input-area .display-area {
+    background-color: #FFF;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: 2px;
+}
+.input-area .display-area .input-label {
+    width: 4.4rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.input-area .display-area .item-area input {
+    width: 75%;
+    font-size: 0.8rem;
+    border: none !important;
+    border-bottom: 1px solid #adb3b7 !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.input-area .display-area .item-area input:focus-visible {
+    border-bottom: 1px solid #000;
+    outline: 0;
+}
+.input-area .display-area .item-area i {
+    font-size: 20px;
+    color: #707070;
+    border: 1px solid #707070;
+    border-radius: 50%;
+}
+.input-area .display-area .item-area p {
+    color: #707070;
+    font-size: 0.75rem;
+}
+.input-area .display-area .item-area img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.input-area .display-area .pin-area span {
+    width: 2rem;
+    color: #707070;
+    font-size: 0.8rem;
+}
+.input-area .display-area .pin-area input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+.input-area .display-area .pin-area label {
+    width: 35px;
+    height: 18px;
+    background: grey;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.input-area .display-area .pin-area label:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 0.9rem;
+    height: 0.9rem;
+    background: #fff;
+    border-radius: 90px;
+    transition: .3s;
+}
+.input-area .display-area .pin-area input:checked + label {
+    background: #00a389;
+}
+.input-area .display-area .pin-area input:checked + label:after {
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
+}
+
+.input-area .display-area .action-area {
+    width: 3rem;
+}
+.input-area .display-area .action-area .copy-item-button i {
+    color: #707070;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+.input-area .display-area .action-area .delete-item-button img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.input-area .display-area .action-area .drag-item-button img {
+    cursor: grab;
+}
+.input-area .add-display-area i {
+    font-size: 25px;
+    border: 1px solid #707070;
+    border-radius: 50%;
+}
+
+.button-area .save-area .save-button {
+    background-color: #00b074;
+    border: 2px solid #00b074;
+}
+.button-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
+.button-area .save-area .save-button,
+.button-area .save-area .copy-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.button-area .save-area .save-button:hover,
+.button-area .save-area .copy-button {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.delete-area .delete-button {
+    width: 200px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 0.3rem;
+    border: none;
+    transition: all 0.4s;
+}
+.delete-area .delete-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}

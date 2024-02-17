@@ -1,0 +1,87 @@
+{% load static %}
+
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="title-area">
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0">登録名</label>
+                    <input type="text" name="name" class="input-text ps-2 pe-2 me-2" value="{{ question.name|default:'' }}" placeholder="登録名を入力" data-parsley-errors-container="#error_title" required>
+                </div>
+                <div id="error_title" class="ps-5 mb-1" style="margin-left: 2.5rem;"></div>
+                <p class="description ps-5 ms-5 mb-3">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0">タイトル</label>
+                    <input type="text" name="title" class="input-text ps-2 pe-2 me-2" value="{{ question.title|default:'' }}" placeholder="タイトルを入力" data-parsley-errors-container="#error_name" required>
+                </div>
+                <div id="error_name" class="ps-5 mb-2" style="margin-left: 2.5rem;"></div>
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0"></label>
+                    <textarea name="description" class="d-block input-textarea m-0" placeholder="概要を入力" data-parsley-errors-container="#error_description" required>{{ question.description|default:'' }}</textarea>
+                </div>
+                <div id="error_description" class="ps-5 mb-2" style="margin-left: 2.5rem;"></div>
+                <p class="description ps-5 ms-5 mb-2">タイトル、タイトル概要はユーザー画面に表示されます。</p>
+                <input type="hidden" name="color" value="{{ question.color|default:'0' }}">
+                <div class="color-label-area color-area">
+                    <label class="input-label fw-bold me-3 mb-0">テーマカラー</label>
+                    <button type="button" value="0" class="btn me-1" style="color: #fff; background-color: #666f86;">
+                        {% if question.color == '0' or not question.color %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="1" class="btn me-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">
+                        {% if question.color == '1' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="2" class="btn me-1" style="color: #fff; background-color: #eb4e3d;">
+                        {% if question.color == '2' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="3" class="btn me-1" style="color: #fff; background-color: #ed8537;">
+                        {% if question.color == '3' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="4" class="btn me-1" style="color: #fff; background-color: #00B900;">
+                        {% if question.color == '4' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="5" class="btn me-1" style="color: #fff; background-color: #5b82db;">
+                        {% if question.color == '5' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="6" class="btn me-1" style="color: #fff; background-color: #373688;">
+                        {% if question.color == '6' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                    <button type="button" value="7" class="btn me-1" style="color: #fff; background-color: #7b1872;">
+                        {% if question.color == '7' %}
+                            <i class="bx bx-check"></i>
+                        {% else %}
+                            <span>A</span>
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

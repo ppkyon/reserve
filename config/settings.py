@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'fixture',
+    'question',
     'sign',
     'table',
     'tag',
@@ -76,11 +77,11 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'context.env_data',
-                'context.header_data',
                 'context.side_data',
-                'context.table_data',
             ],
+            'libraries':  {
+                'original': 'htmltag',
+            },
         },
     },
 ]

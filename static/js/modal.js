@@ -142,6 +142,29 @@ $( function() {
     });
     action_reload( 'delete' );
 
+    $( '.copy-button' ).on( 'click', function() {
+        $( '#copy_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+    });
+    $( '#copy_check_modal .yes-button' ).on( 'click', function() {
+        $( this ).prop( 'disabled', true );
+        $( '#copy_check_modal .no-button' ).trigger( 'click' );
+
+        $.ajax({
+            'data': get_form_data( $( this ), copy_data ),
+            'url': $( '#copy_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            window.location.href = response.copy_url;
+        }).fail( function(){
+            $( '#copy_error_button' ).trigger( 'click' );
+            up_modal();
+        });
+    });
+
     $( '#favorite_on_modal' ).on( 'hidden.bs.modal', function () {
         if ( $( '#reload_url' ).length ) {
             window.location.href = $( '#reload_url' ).val();

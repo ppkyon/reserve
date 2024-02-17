@@ -1,9 +1,36 @@
 from django.http import JsonResponse
 
 from sign.models import AuthLogin
-from table.models import TableSearch, TableSort
+from table.models import TableSearch, TableNumber, TableSort
 
 import uuid
+
+def number(request):
+    if '/head/' in request.POST.get('url'):
+        company = None
+        shop = None
+    elif '/company/' in request.POST.get('url') and not '/shop/' in request.POST.get('url'):
+        company = AuthLogin.objects.filter(user=request.user).first().company
+        shop = None
+    else:
+        company = AuthLogin.objects.filter(user=request.user).first().company
+        shop = AuthLogin.objects.filter(user=request.user).first().shop
+    
+    if TableNumber.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).exists():
+        number = TableNumber.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).first()
+        number.number = request.POST.get('number')
+        number.save()
+    else:
+        TableNumber.objects.create(
+            id = str(uuid.uuid4()),
+            url = request.POST.get('url'),
+            company = company,
+            shop = shop,
+            manager = request.user,
+            number = request.POST.get('number'),
+        )
+
+    return JsonResponse( {}, safe=False )
 
 def sort(request):
     if '/head/' in request.POST.get('url'):
@@ -42,7 +69,7 @@ def sort(request):
 
 
 
-def set_search(request, shop, company):
+def action_search(request, shop, company):
     if request.POST.get('text'):
         if TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).exists():
             search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user).first()

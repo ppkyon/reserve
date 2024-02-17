@@ -3,17 +3,17 @@
 <div class="header d-flex position-fixed">
     <div class="dropdown header-dropdown">
         <button type="button" id="header_manager_dropdown" class="btn d-flex position-relative dropdown-toggle" data-bs-toggle="dropdown">
-            {% if header_manager.profile.family_name and header_manager.profile.first_name %}
-                <span class="name">{{ header_manager.profile.family_name }} {{ header_manager.profile.first_name }}</span>
-            {% elif header_manager.profile.family_name %}
-                <span class="name">{{ header_manager.profile.family_name }}</span>
-            {% elif header_manager.profile.first_name %}
-                <span class="name">{{ header_manager.profile.first_name }}</span>
+            {% if header.manager.profile.family_name and header.manager.profile.first_name %}
+                <span class="name">{{ header.manager.profile.family_name }} {{ header.manager.profile.first_name }}</span>
+            {% elif header.manager.profile.family_name %}
+                <span class="name">{{ header.manager.profile.family_name }}</span>
+            {% elif header.manager.profile.first_name %}
+                <span class="name">{{ header.manager.profile.first_name }}</span>
             {% else %}
                 <span class="name"></span>
             {% endif %}
-            {% if header_manager.profile.image %}
-                <img src="{{ header_manager.profile.image.url }}" class="d-block manager-image rounded-circle ms-1">
+            {% if header.manager.profile.image %}
+                <img src="{{ header.manager.profile.image.url }}" class="d-block manager-image rounded-circle ms-1">
             {% else %}
                 <img src="{% static 'img/manager-none.png' %}" class="d-block manager-image rounded-circle ms-1">
             {% endif %}
@@ -21,26 +21,26 @@
         <div class="dropdown-menu p-3 pe-5" aria-labelledby="header_manager_dropdown">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex info-area">
-                    {% if header_manager.profile.image %}
-                        <img src="{{ header_manager.profile.image.url }}" class="d-block manager-image rounded-circle me-2">
+                    {% if header.manager.profile.image %}
+                        <img src="{{ header.manager.profile.image.url }}" class="d-block manager-image rounded-circle me-2">
                     {% else %}
                         <img src="{% static 'img/manager-none.png' %}" class="d-block manager-image rounded-circle me-2">
                     {% endif %}
                     <div class="d-flex flex-column text-start">
-                        {% if header_manager.profile.family_name and header_manager.profile.first_name %}
-                            <p class="name mb-0">{{ header_manager.profile.family_name }} {{ header_manager.profile.first_name }}</p>
-                        {% elif header_manager.profile.family_name %}
-                            <p class="name mb-0">{{ header_manager.profile.family_name }}</p>
-                        {% elif header_manager.profile.first_name %}
-                            <p class="name mb-0">{{ header_manager.profile.first_name }}</p>
+                        {% if header.manager.profile.family_name and header.manager.profile.first_name %}
+                            <p class="name mb-0">{{ header.manager.profile.family_name }} {{ header.manager.profile.first_name }}</p>
+                        {% elif header.manager.profile.family_name %}
+                            <p class="name mb-0">{{ header.manager.profile.family_name }}</p>
+                        {% elif header.manager.profile.first_name %}
+                            <p class="name mb-0">{{ header.manager.profile.first_name }}</p>
                         {% else %}
                             <p class="name mb-0">-</p>
                         {% endif %}
-                        {% if header_manager.authority == 3 %}
+                        {% if header.manager.authority == 3 %}
                             <p class="authority mb-0">管理者</p>
-                        {% elif header_manager.authority == 2 %}
+                        {% elif header.manager.authority == 2 %}
                             <p class="authority mb-0">編集者</p>
-                        {% elif header_manager.authority == 1 %}
+                        {% elif header.manager.authority == 1 %}
                             <p class="authority mb-0">閲覧者</p>
                         {% endif %}
                     </div>

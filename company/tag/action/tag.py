@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from sign.models import AuthLogin
 from tag.models import CompanyTagGenre, CompanyTag
 
-from table.action import set_search
+from table.action import action_search
 from company.tag.action.list import get_action_tag_list
 
 from common import create_code, get_model_field
@@ -51,7 +51,7 @@ def favorite(request):
 
 def get(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
-    set_search(request, None, auth_login.company)
+    action_search(request, None, auth_login.company)
 
     tag_list = get_action_tag_list(request.POST.get('url'), request.user, CompanyTagGenre.objects.filter(display_id=request.POST.get('id')).first())
     for tag_index, tag_item in enumerate( tag_list ):

@@ -32,7 +32,7 @@
                             <button type="button" class="btn add-tag-button me-2">新規タグ登録</button>
                             <input type="hidden" id="save_tag_url" value="{% url 'head:tag:save_tag' %}">
                         {% endif %}
-                        <input type="text" class="input-text tag-search ps-2 pe-2" value="{{ table_search }}" placeholder="タグ名">
+                        <input type="text" class="input-text tag-search ps-2 pe-2" value="{{ table.search.text }}" placeholder="タグ名">
                         <input type="hidden" id="search_tag_url" value="{% url 'head:tag:get_tag' %}">
                     </div>
                 </div>

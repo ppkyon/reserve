@@ -1,0 +1,37 @@
+{% load static %}
+
+{% if width %}
+    <th class="sort-area" style="width: {{ width }}px;">
+        <button type="button" class="btn p-0" value="{{ target }}">
+            <span class="me-2">{{ text }}</span>
+            {% if table.sort.target == target %}
+                {% if table.sort.sort == 0 %}
+                    <img src="{% static 'img/icon/sort.svg' %}">
+                {% elif table.sort.sort == 1 %}
+                    <img src="{% static 'img/icon/sort-select.svg' %}">
+                {% elif table.sort.sort == 2 %}
+                    <img src="{% static 'img/icon/sort-select.svg' %}" style="transform: rotateX(180deg);">
+                {% endif %}
+            {% else %}
+                <img src="{% static 'img/icon/sort.svg' %}">
+            {% endif %}
+        </button>
+    </th>
+{% else %}
+    <th class="sort-area">
+        <button type="button" class="btn p-0" value="{{ target }}">
+            <span class="me-2">{{ text }}</span>
+            {% if table.sort.target == target %}
+                {% if table.sort.sort == 0 %}
+                    <img src="{% static 'img/icon/sort.svg' %}">
+                {% elif table.sort.sort == 1 %}
+                    <img src="{% static 'img/icon/sort-select.svg' %}">
+                {% elif table.sort.sort == 2 %}
+                    <img src="{% static 'img/icon/sort-select.svg' %}" style="transform: rotateX(180deg);">
+                {% endif %}
+            {% else %}
+                <img src="{% static 'img/icon/sort.svg' %}">
+            {% endif %}
+        </button>
+    </th>
+{% endif %}
