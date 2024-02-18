@@ -317,7 +317,7 @@ function append_add_online() {
 
 function append_table_area(data) {
     var item = '';
-    $.each( data.content, function( index, value ) {
+    $.each( data.item, function( index, value ) {
         if ( index < 3 ) {
             if ( value.type == 1 ) {
                 item += '<p class="content-title mb-0">氏名</p>';

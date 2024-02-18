@@ -1,4 +1,8 @@
 $( function() {
+    $( document ).on( 'click', '.table-area .table tbody tr', function () {
+        create_list_preview( $( this ).find( 'input[type=hidden]' ).val() );
+    });
+
     $( '#save_question_form .color-area button' ).on( 'click', function() {
         var target = $( this );
         $( this ).parents( '.color-area' ).prev().val( $( this ).val() );

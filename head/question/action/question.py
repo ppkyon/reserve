@@ -5,7 +5,7 @@ from question.models import HeadQuestion, HeadQuestionItem, HeadQuestionItemChoi
 
 from head.question.action.list import get_list
 
-from common import create_code
+from common import create_code, get_model_field
 from table.action import action_search
 
 import datetime
@@ -85,3 +85,10 @@ def search(request):
 
 def paging(request):
     return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
+
+def get(request):
+    question = HeadQuestion.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadQuestion)).first()
+    question['item'] = list(HeadQuestionItem.objects.filter(question__id=question['id']).values(*get_model_field(HeadQuestionItem)).all())
+    for question_index, question_item in enumerate(question['item']):
+        question['item'][question_index]['choice'] = list(HeadQuestionItemChoice.objects.filter(question_item__id=question_item['id']).values(*get_model_field(HeadQuestionItemChoice)).all())
+    return JsonResponse( question, safe=False )

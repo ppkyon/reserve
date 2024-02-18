@@ -15,4 +15,5 @@ urlpatterns = [
     path('delete/', question.delete, name='delete'),
     path('search/', question.search, name='search'),
     path('paging/', question.paging, name='paging'),
+    path('get/', question.get, name='get'),
 ]

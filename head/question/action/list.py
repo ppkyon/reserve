@@ -36,7 +36,7 @@ def get_list(request, page):
     total = HeadQuestion.objects.filter(query).count()
     
     for question_index, question_item in enumerate(question):
-        question[question_index]['content'] = list(HeadQuestionItem.objects.filter(question__id=question_item['id']).values(*get_model_field(HeadQuestionItem)).all())
+        question[question_index]['item'] = list(HeadQuestionItem.objects.filter(question__id=question_item['id']).values(*get_model_field(HeadQuestionItem)).all())
         question[question_index]['total'] = total
 
     return question

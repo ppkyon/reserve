@@ -95,6 +95,7 @@
                                     </td>
                                     <td>
                                         <a href="{% url 'head:question:edit' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                        <input type="hidden" value="{{ object_item.display_id }}">
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -105,10 +106,14 @@
             </div>
         </div>
         <input type="hidden" id="table_paging_url" value="{% url 'head:question:paging' %}">
+        <input type="hidden" id="get_question_url" value="{% url 'head:question:get' %}">
         {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/question/preview.js' %}"></script>
     <script src="{% static 'js/head/question/append.js' %}"></script>
+    <script src="{% static 'js/head/question/action.js' %}"></script>
 {% endblock %}
