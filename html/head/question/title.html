@@ -17,7 +17,7 @@
                 <div id="error_name" class="ps-5 mb-2" style="margin-left: 2.5rem;"></div>
                 <div class="d-flex justify-content-start align-items-center mb-1">
                     <label class="input-label fw-bold me-3 mb-0"></label>
-                    <textarea name="description" class="d-block input-textarea m-0" placeholder="概要を入力" data-parsley-errors-container="#error_description" required>{{ question.description|default:'' }}</textarea>
+                    <textarea name="description" class="d-block input-textarea m-0" placeholder="概要を入力" style="height: 75px;" data-parsley-errors-container="#error_description" required>{{ question.description|default:'' }}</textarea>
                 </div>
                 <div id="error_description" class="ps-5 mb-2" style="margin-left: 2.5rem;"></div>
                 <p class="description ps-5 ms-5 mb-2">タイトル、タイトル概要はユーザー画面に表示されます。</p>

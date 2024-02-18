@@ -233,10 +233,11 @@ function append_item_area(required_flg) {
 function append_list_area(target) {
     var count = $( target ).parents( '.item-area' ).find( '.col-6' ).length;
     var random = Math.floor( Math.random() * ( ( 99999999 + 1 ) - 10000000 ) ) + 2;
+    var type = $( target ).parents( '.content-area' ).find( '.type-area input[type=hidden]' ).val();
 
     var html = '<div class="col-6 mb-2">';
     html += '<span>' + count + '.</span>';
-    if ( $( target ).val() == '2' || $( target ).val() == '3' || $( target ).val() == '4' ) {
+    if ( type == '2' || type == '3' || type == '4' ) {
         html += '<input type="text" class="ps-1 ms-1" data-parsley-errors-container="#error_list_item_' + random + '" required>';
     } else {
         html += '<input type="text" class="ps-1 ms-1">';
@@ -245,7 +246,7 @@ function append_list_area(target) {
     html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/cross.svg">';
     html += '</button>';
     html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_list_check_modal"></button>';
-    if ( $( target ).val() == '2' || $( target ).val() == '3' || $( target ).val() == '4' ) {
+    if ( type == '2' || type == '3' || type == '4' ) {
         html += '<div id="error_list_item_' + random + '" class="ms-2"></div>';
     }
     html += '</div>';

@@ -31,12 +31,14 @@
             {% include 'head/question/title.html' %}
             {% include 'head/question/item.html' %}
         </form>
+        {% include 'preview.html' %}
         {% include 'modal.html' %}
         {% include 'head/question/modal/question.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/question/preview.js' %}"></script>
     <script src="{% static 'js/head/question/append.js' %}"></script>
     <script src="{% static 'js/head/question/data.js' %}"></script>
     <script src="{% static 'js/head/question/action.js' %}"></script>

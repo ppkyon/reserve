@@ -1,4 +1,9 @@
 $( function() {
+    action_preview();
+    if ( check_empty( $( '#save_question_form [name=title]' ).val() ) ) {
+        create_preview();
+    }
+
     $( document ).on( 'click', '.table-area .table tbody tr', function () {
         create_list_preview( $( this ).find( 'input[type=hidden]' ).val() );
     });
@@ -14,6 +19,7 @@ $( function() {
                 $( this ).append( '<span>A</span>' );
             }
         });
+        create_preview();
     });
 
     $( '#save_question_form .add-display-area button' ).on( 'click', function() {
@@ -34,6 +40,7 @@ $( function() {
                 });
             }
         });
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_question_form .display-area .top-area .dropdown-menu button', function () {
@@ -61,6 +68,7 @@ $( function() {
                 $( this ).parents( '.content-area' ).append( append_question_type_area() );
             }
         }
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_question_form .display-area .type-area .dropdown-menu button', function () {
@@ -71,6 +79,7 @@ $( function() {
             $( this ).parents( '.content-area' ).append( append_item_area( false ) );
         }
         $( this ).parents( '.display-area' ).find( '.add-list-button' ).val( $( this ).val() );
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_question_form .display-area .item-area .add-list-button', function () {
@@ -80,6 +89,7 @@ $( function() {
                 $( this ).append( append_list_area(target) );
             }
         });
+        create_preview();
     });
 
     var delete_clone = '';
@@ -101,6 +111,7 @@ $( function() {
             }
         });
         $( '#delete_list_check_modal .no-button' ).trigger( 'click' );
+        create_preview();
     });
 
     var delete_item_clone = '';
@@ -111,6 +122,7 @@ $( function() {
     $( '#delete_item_check_modal .yes-button' ).on( 'click', function() {
         $( delete_item_clone ).remove();
         $( '#delete_item_check_modal .no-button' ).trigger( 'click' );
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_question_form .display-area .action-area .order-up-button', function () {
@@ -118,32 +130,38 @@ $( function() {
         $( this ).parents( '.display-area' ).prev().before( clone );
         $( this ).parents( '.display-area' ).remove();
         append_order_button();
+        create_preview();
     });
     $( document ).on( 'click', '#save_question_form .display-area .action-area .order-down-button', function () {
         var clone = $( this ).parents( '.display-area' ).clone();
         $( this ).parents( '.display-area' ).next().after( clone );
         $( this ).parents( '.display-area' ).remove();
         append_order_button();
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_question_form .display-area .item-area .delete-offline-button', function () {
         var parent = $( this ).parents( '.col-6' ).parent();
         $( parent ).empty();
         $( parent ).append( append_delete_offline() );
+        create_preview();
     });
     $( document ).on( 'click', '#save_question_form .display-area .item-area .delete-online-button', function () {
         var parent = $( this ).parents( '.col-6' ).parent();
         $( parent ).empty();
         $( parent ).append( append_delete_online() );
+        create_preview();
     });
     $( document ).on( 'click', '#save_question_form .display-area .item-area .add-offline-button', function () {
         var parent = $( this ).parents( '.col-6' ).parent();
         $( parent ).empty();
         $( parent ).append( append_add_offline() );
+        create_preview();
     });
     $( document ).on( 'click', '#save_question_form .display-area .item-area .add-online-button', function () {
         var parent = $( this ).parents( '.col-6' ).parent();
         $( parent ).empty();
         $( parent ).append( append_add_online() );
+        create_preview();
     });
 });
