@@ -1,0 +1,72 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="head">
+        {% include 'head/template/tab.html' with target='video' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'head:template:edit_video' %}" class="btn edit-button me-2" style="width: 9.5rem;">新規テンプレート登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名">
+                        <input type="hidden" id="table_search_url" value="{% url 'head:template:search_video' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4" style="width: 150px;">動画</th>
+                                {% include 'table/sort.html' with text='登録名' target='name' %}
+                                {% include 'table/sort.html' with text='動画時間' target='time' width='150' %}
+                                {% include 'table/sort.html' with text='動画容量' target='size' width='150' %}
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

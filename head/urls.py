@@ -7,4 +7,5 @@ urlpatterns = [
     path('question/', include('head.question.urls')),
     path('setting/', include('head.setting.urls')),
     path('tag/', include('head.tag.urls')),
+    path('template/', include('head.template.urls')),
 ]

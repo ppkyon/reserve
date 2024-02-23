@@ -80,3 +80,53 @@ function error_image( file, name, error = '.error-message-image', size = 1000000
     });
     return true;
 }
+
+function error_video( file, name, error = '.error-message-video', type = 1 ) {
+    if ( type == 1 || type == 3 ) {
+        if ( !file.type.match( 'video/mp4' )) {
+            $( '#' + name + '_drop_zone [name=video_file]' ).val( '' );
+            $( error ).removeClass( 'd-none' );
+            $( error + ' p' ).each( function( index, value ) {
+                if ( index == 0 ) {
+                    $( this ).removeClass( 'd-none' );
+                } else {
+                    $( this ).addClass( 'd-none' );
+                }
+            });
+            return false;
+        }
+    } else if ( type == 2 ) {
+        if ( !file.type.match( 'video/mp4' ) && !file.type.match( 'video/mov' ) && !file.type.match( 'video/wmv' ) ) {
+            $( '#' + name + '_drop_zone [name=video_file]' ).val( '' );
+            $( error ).removeClass( 'd-none' );
+            $( error + ' p' ).each( function( index, value ) {
+                if ( index == 0 ) {
+                    $( this ).removeClass( 'd-none' );
+                } else {
+                    $( this ).addClass( 'd-none' );
+                }
+            });
+            return false;
+        }
+    }
+    if ( type == 1 || type == 2 ) {
+        if ( file.size > 200000000 ) {
+            $( '#' + name + '_drop_zone [name=video_file]' ).val( '' );
+            $( error ).removeClass( 'd-none' );
+            $( error + ' p' ).each( function( index, value ) {
+                if ( index == 1 ) {
+                    $( this ).removeClass( 'd-none' );
+                } else {
+                    $( this ).addClass( 'd-none' );
+                }
+            });
+            return false;
+        }
+    }
+    
+    $( error ).addClass( 'd-none' );
+    $( error + ' p' ).each( function( index, value ) {
+        $( this ).addClass( 'd-none' );
+    });
+    return true;
+}

@@ -39,6 +39,28 @@
     background-color: #8cabd9;
     overflow-y: auto;
 }
+.line-preview .line-preview-content .line-preview-body .line-preview-chat {
+    width: 80%;
+}
+.line-preview .line-preview-content .line-preview-body .line-preview-chat .manager-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.line-preview .line-preview-content .line-preview-body .line-preview-chat .line-preview-chat-box {
+    position: relative;
+    width: 100%;
+    color: #000;
+    font-size: 0.7rem !important;
+    background-color: #f3f2f7;
+    border-radius: 10px;
+    word-break: break-all;
+}
+.line-preview .line-preview-content .line-preview-body .line-preview-chat img,
+.line-preview .line-preview-content .line-preview-body .line-preview-chat video {
+    width: 82%;
+    border-radius: 10px;
+}
 
 
 

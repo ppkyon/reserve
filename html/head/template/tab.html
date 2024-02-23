@@ -1,0 +1,64 @@
+{% load static %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-tab-area mb-3">
+            <ul class="d-flex align-items-center m-0 p-0">
+                {% if target == 'text' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:text' %}">テキスト</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:text' %}">テキスト</a>
+                    </li>
+                {% endif %}
+                {% if target == 'video' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:video' %}">動画</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:video' %}">動画</a>
+                    </li>
+                {% endif %}
+                {% if target == 'richmessage' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:richmessage' %}">リッチメッセージ</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:richmessage' %}">リッチメッセージ</a>
+                    </li>
+                {% endif %}
+                {% if target == 'richvideo' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:richvideo' %}">リッチビデオ</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:richvideo' %}">リッチビデオ</a>
+                    </li>
+                {% endif %}
+                {% if target == 'cardtype' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:cardtype' %}">カードタイプ</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:cardtype' %}">カードタイプ</a>
+                    </li>
+                {% endif %}
+                {% if target == 'greeting' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'head:template:greeting' %}">あいさつメッセージ</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'head:template:greeting' %}">あいさつメッセージ</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

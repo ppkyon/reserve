@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sign',
     'table',
     'tag',
+    'template',
     
     'maintenance_mode',
 ]

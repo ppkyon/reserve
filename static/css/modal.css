@@ -45,6 +45,11 @@
     -ms-transform: translate(-50%, -50%);
 }
 
+.modal .modal-footer .cancel-button {
+    color: #4d4d4d;
+    background-color: #efefef;
+}
+
 .up-modal {
     z-index: 1065;
 }
