@@ -3,7 +3,7 @@ function create_preview() {
 
     var html = '';
     $( '#save_greeting_form .message-area' ).each( function( index, value ) {
-        var text = replace_textarea($( this ).find( '.text-area .false-textarea' ).html());
+        var text = display_textarea_replace($( this ).find( '.text-area .false-textarea' ).html());
         if ( check_empty(text) ) {
             html += '<div class="line-preview-chat d-flex justify-content-start align-items-start p-2">';
             html += '<img src="' + $( '#env_static_url' ).val() + 'img/manager-none.png" class="manager-image me-1">';
@@ -31,7 +31,7 @@ function create_preview() {
     $( '.line-preview .line-preview-content .line-preview-body' ).append(html);
 }
 
-function replace_textarea( text ) {
+function display_textarea_replace( text ) {
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/display-name.png" class="ms-1 me-1">', '【応募者の登録名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/line-name.png" class="ms-1 me-1">', '【公式LINE名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/company-name.png" class="ms-1 me-1">', '【企業名】' );

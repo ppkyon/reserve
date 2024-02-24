@@ -33,10 +33,12 @@
         </form>
         {% include 'modal.html' %}
         {% include 'head/template/text/modal.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/text/preview.js' %}"></script>
     <script src="{% static 'js/head/template/text/append.js' %}"></script>
     <script src="{% static 'js/head/template/text/data.js' %}"></script>
     <script src="{% static 'js/head/template/text/action.js' %}"></script>

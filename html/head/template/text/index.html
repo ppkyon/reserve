@@ -63,6 +63,7 @@
                                         <p class="content-title mb-0">{{ object_item.name }}</p>
                                     </td>
                                     <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
                                         <a href="{% url 'head:template:edit_text' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
                                     </td>
                                 </tr>
@@ -74,10 +75,14 @@
             </div>
         </div>
         <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_text' %}">
+        <input type="hidden" id="get_text_url" value="{% url 'head:template:get_text' %}">
         {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/text/preview.js' %}"></script>
     <script src="{% static 'js/head/template/text/append.js' %}"></script>
+    <script src="{% static 'js/head/template/text/action.js' %}"></script>
 {% endblock %}

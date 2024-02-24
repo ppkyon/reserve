@@ -25,6 +25,7 @@ urlpatterns = [
     path('text/copy/', text.copy, name='copy_text'),
     path('text/search/', text.search, name='search_text'),
     path('text/paging/', text.paging, name='paging_text'),
+    path('text/get/', text.get, name='get_text'),
 
     path('video/search/', video.search, name='search_video'),
     

@@ -9,7 +9,7 @@ from template.models import HeadTemplateText, HeadTemplateTextItem
 
 from head.template.action.list import get_text_list
 
-from common import create_code
+from common import create_code, get_model_field
 from table.action import action_search
 
 import base64
@@ -140,3 +140,8 @@ def search(request):
 
 def paging(request):
     return JsonResponse( list(get_text_list(request, int(request.POST.get('page')))), safe=False )
+
+def get(request):
+    template = HeadTemplateText.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateText)).first()
+    template['item'] = list(HeadTemplateTextItem.objects.filter(template__id=template['id']).values(*get_model_field(HeadTemplateTextItem)).all())
+    return JsonResponse( template, safe=False )

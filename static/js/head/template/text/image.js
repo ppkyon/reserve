@@ -48,6 +48,8 @@ upload.image = function( files ) {
                         $( this ).parent().parent().addClass( 'half' );
                     }
                 });
+                
+                create_preview();
 
                 $( '#image_drop_zone [name=image_file]' ).val( '' );
                 $( '#image_drop_zone [name=number]' ).val( '' );
@@ -98,6 +100,8 @@ upload.video = function( files ) {
                 $( video_area ).append( html );
                 $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '3' );
                 $( message_area ).find( '.video-area [name=upload_video_' + $( this ).val() + ']' ).val( reader.result );
+                
+                create_preview();
                 
                 $( '#video_drop_zone [name=video_file]' ).val( '' );
                 $( '#video_drop_zone [name=number]' ).val( '' );

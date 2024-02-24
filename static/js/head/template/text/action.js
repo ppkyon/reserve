@@ -5,9 +5,16 @@ var old_textarea_offset = null;
 var old_textarea_number = null;
 
 $( function() {
+    create_preview();
+
+    $( document ).on( 'click', '.table-area .table tbody tr', function () {
+        create_list_preview( $( this ).find( '[name=id]' ).val() );
+    });
+
     $( document ).on( 'click', '#save_text_form .action-button-area .name-button', function () {
         var image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/display-name.png" class="ms-1 me-1">';
         input_textarea_image( $( this ), image );
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_text_form .input-action-dropdown .dropdown-menu button', function () {
@@ -28,6 +35,7 @@ $( function() {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/online-url.png" class="ms-1 me-1">';
         }
         input_textarea_image( $( this ), image );
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_text_form .action-button-area .image-button', function () {
@@ -45,6 +53,7 @@ $( function() {
             $( this ).prop( 'disabled', false );
         });
         $( this ).parents( '.input-area' ).find( '.message-area .image-area' ).empty();
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_text_form .action-button-area .video-button', function () {
@@ -62,6 +71,7 @@ $( function() {
             $( this ).prop( 'disabled', false );
         });
         $( this ).parents( '.input-area' ).find( '.message-area .video-area' ).empty();
+        create_preview();
     });
 
     $( document ).on( 'click', '#save_text_form .action-button-area .delete-button', function () {
@@ -86,6 +96,7 @@ $( function() {
             }
         });
         $( '#delete_item_check_modal .no-button' ).trigger( 'click' );
+        create_preview();
     });
 
     $( '.button-area .add-area button' ).on( 'click', function() {
@@ -108,6 +119,7 @@ $( function() {
                 $( this ).prop( 'disabled', false );
             });
         }
+        create_preview();
     });
     $( document ).on( 'focusout', '#save_text_form .false-textarea', function () {
         old_textarea_number = Number($( this ).parents( '.input-area' ).find( '[name=number]' ).val());
