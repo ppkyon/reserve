@@ -1,16 +1,19 @@
 from django.shortcuts import redirect
 
-from view import HeadView
+from view import HeadView, HeadListView
 
-from template.models import HeadTemplateGreeting
+from template.models import HeadTemplateText, HeadTemplateGreeting
 
 class IndexView(HeadView):
     def get(self, request, **kwargs):
         return redirect('/head/template/text/')
 
-class TextView(HeadView):
+class TextView(HeadListView):
     template_name = 'head/template/text/index.html'
     title = 'テキストメッセージ管理'
+    model = HeadTemplateText
+    search_target = ['name', 'head_template_text_item__text']
+    default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -22,6 +25,11 @@ class TextEditView(HeadView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['template'] = HeadTemplateText.objects.filter(display_id=self.request.GET.get("id")).first()
+        if not context['template']:
+            context['template'] = HeadTemplateText.objects.filter(display_id=self.request.GET.get("copy")).first()
+            context['template'].display_id = ''
+            context['template'].name = context['template'].name + ' コピー'
         return context
 
 class VideoView(HeadView):

@@ -1,6 +1,7 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
 {% endblock %}
@@ -31,34 +32,52 @@
                     <table class="table mb-0">
                         <thead>
                             <tr>
-                                {% include 'table/sort.html' with text='メッセージ内容' target='text' %}
+                                {% include 'table/sort.html' with text='メッセージ内容' target='head_template_text_item__text' %}
                                 {% include 'table/sort.html' with text='登録名' target='name' width='250' %}
                                 <th style="width: 100px;"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center position-relative" style="width: 100px;">
+                                        <div class="d-flex align-items-center">
+                                            {% for text_item in object_item.head_template_text_item.all %}
+                                                {% if forloop.first %}
+                                                    {% if text_item.image %}
+                                                        <img class="content-image me-2" src="{{ text_item.image.url }}">
+                                                        <p class="content-text text-start">画像メッセージ</p>
+                                                    {% elif text_item.video %}
+                                                        <img class="content-image me-2" src="{{ text_item.video_thumbnail.url }}">
+                                                        <p class="content-text text-start">動画メッセージ</p>
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">{{ text_item.text|textarea_action_replace|default:'-'|striptags }}</p>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <p class="content-date mb-0" style="left: 5rem;">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'head:template:edit_text' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_text' %}">
+        {% include 'table/paging.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/text/append.js' %}"></script>
 {% endblock %}

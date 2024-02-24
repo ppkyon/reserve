@@ -43,7 +43,7 @@ def save(request):
             else:
                 data = request.POST.get('image_' + str( i + 1 ))
             
-            template_greeting = HeadTemplateGreeting.objects.create(
+            template = HeadTemplateGreeting.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, HeadTemplateGreeting),
                 number = number,
@@ -53,14 +53,14 @@ def save(request):
             )
 
             if env('AWS_FLG') == 'True':
-                image = cv2.imread(template_greeting.image)
+                image = cv2.imread(template.image)
             else:
-                image = cv2.imread(template_greeting.image.url[1:])
+                image = cv2.imread(template.image.url[1:])
             image_height, image_width = image.shape[:2]
 
-            template_greeting.image_width = image_width
-            template_greeting.image_height = image_height
-            template_greeting.save()
+            template.image_width = image_width
+            template.image_height = image_height
+            template.save()
             
             number += 1
         elif request.POST.get('message_type_' + str( i + 1 )) == '3':

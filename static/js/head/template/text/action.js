@@ -5,15 +5,12 @@ var old_textarea_offset = null;
 var old_textarea_number = null;
 
 $( function() {
-    create_preview();
-
-    $( document ).on( 'click', '#save_greeting_form .action-button-area .name-button', function () {
+    $( document ).on( 'click', '#save_text_form .action-button-area .name-button', function () {
         var image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/display-name.png" class="ms-1 me-1">';
         input_textarea_image( $( this ), image );
-        create_preview();
     });
 
-    $( document ).on( 'click', '#save_greeting_form .input-action-dropdown .dropdown-menu button', function () {
+    $( document ).on( 'click', '#save_text_form .input-action-dropdown .dropdown-menu button', function () {
         var image = '';
         if ( $( this ).val() == 'line' ) {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/line-name.png" class="ms-1 me-1">';
@@ -23,16 +20,21 @@ $( function() {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/manager-name.png" class="ms-1 me-1">';
         } else if ( $( this ).val() == 'phone' ) {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/manager-phone.png" class="ms-1 me-1">';
+        } else if ( $( this ).val() == 'date' ) {
+            image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/interview-date.png" class="ms-1 me-1">';
+        } else if ( $( this ).val() == 'address' ) {
+            image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/offline-address.png" class="ms-1 me-1">';
+        } else if ( $( this ).val() == 'url' ) {
+            image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/online-url.png" class="ms-1 me-1">';
         }
         input_textarea_image( $( this ), image );
-        create_preview();
     });
 
-    $( document ).on( 'click', '#save_greeting_form .action-button-area .image-button', function () {
+    $( document ).on( 'click', '#save_text_form .action-button-area .image-button', function () {
         $( '#image_upload_modal .image-drop-zone [name=number]' ).val( $( this ).parents( '.input-area' ).find( '[name=number]' ).val() );
         $( this ).next().trigger( 'click' );
     });
-    $( document ).on( 'click', '#save_greeting_form .image-area .delete-button', function () {
+    $( document ).on( 'click', '#save_text_form .image-area .delete-button', function () {
         $( this ).parents( '.input-area' ).find( '.message-area .text-area' ).removeClass( 'd-none' );
         $( this ).parents( '.input-area' ).find( '.message-area .image-area' ).addClass( 'd-none' );
         $( this ).parents( '.input-area' ).find( '.message-area .video-area' ).addClass( 'd-none' );
@@ -43,14 +45,13 @@ $( function() {
             $( this ).prop( 'disabled', false );
         });
         $( this ).parents( '.input-area' ).find( '.message-area .image-area' ).empty();
-        create_preview();
     });
 
-    $( document ).on( 'click', '#save_greeting_form .action-button-area .video-button', function () {
+    $( document ).on( 'click', '#save_text_form .action-button-area .video-button', function () {
         $( '#video_upload_modal .video-drop-zone [name=number]' ).val( $( this ).parents( '.input-area' ).find( '[name=number]' ).val() );
         $( this ).next().trigger( 'click' );
     });
-    $( document ).on( 'click', '#save_greeting_form .video-area .delete-button', function () {
+    $( document ).on( 'click', '#save_text_form .video-area .delete-button', function () {
         $( this ).parents( '.input-area' ).find( '.message-area .text-area' ).removeClass( 'd-none' );
         $( this ).parents( '.input-area' ).find( '.message-area .image-area' ).addClass( 'd-none' );
         $( this ).parents( '.input-area' ).find( '.message-area .video-area' ).addClass( 'd-none' );
@@ -61,16 +62,15 @@ $( function() {
             $( this ).prop( 'disabled', false );
         });
         $( this ).parents( '.input-area' ).find( '.message-area .video-area' ).empty();
-        create_preview();
     });
 
-    $( document ).on( 'click', '#save_greeting_form .action-button-area .delete-button', function () {
+    $( document ).on( 'click', '#save_text_form .action-button-area .delete-button', function () {
         $( '#delete_item_check_modal .yes-button' ).val( $( this ).val() );
         $( this ).next().trigger( 'click' );
     });
     $( '#delete_item_check_modal .yes-button' ).on( 'click', function() {
         var target = $( this );
-        $( '#save_greeting_form [name=number]' ).each( function( index, value ) {
+        $( '#save_text_form [name=number]' ).each( function( index, value ) {
             if ( Number($( this ).val()) == Number($( target ).val()) ) {
                 $( this ).parents( '.input-area' ).remove();
             } else if ( Number($( this ).val()) > Number($( target ).val()) ) {
@@ -86,14 +86,13 @@ $( function() {
             }
         });
         $( '#delete_item_check_modal .no-button' ).trigger( 'click' );
-        create_preview();
     });
 
     $( '.button-area .add-area button' ).on( 'click', function() {
-        $( '#save_greeting_form .input-area-wrap' ).append( append_input_area() );
+        $( '#save_text_form .input-area-wrap' ).append( append_input_area() );
     });
-    
-    $( document ).on( 'mouseup keyup', '#save_greeting_form .false-textarea', function () {
+
+    $( document ).on( 'mouseup keyup', '#save_text_form .false-textarea', function () {
         var selection = window.getSelection();
         now_textarea_node = selection.focusNode;
         now_textarea_offset = selection.focusOffset;
@@ -109,9 +108,8 @@ $( function() {
                 $( this ).prop( 'disabled', false );
             });
         }
-        create_preview();
     });
-    $( document ).on( 'focusout', '#save_greeting_form .false-textarea', function () {
+    $( document ).on( 'focusout', '#save_text_form .false-textarea', function () {
         old_textarea_number = Number($( this ).parents( '.input-area' ).find( '[name=number]' ).val());
         old_textarea_node = now_textarea_node;
         old_textarea_offset = now_textarea_offset;

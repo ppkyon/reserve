@@ -7,35 +7,20 @@
 .input-area-wrap {
     max-width: 800px;
 }
-.input-area .action-area .menu-area .input-template-dropdown > button,
-.input-area .action-area .menu-area .name-button,
-.input-area .action-area .menu-area .input-action-dropdown > button {
-    color: #007aff;
-    font-size: 12px;
-    border: none;
-    border-radius: 41px;
-    transition: all .3s ease-in-out;
-}
-.input-area .action-area .menu-area .input-template-dropdown > button:hover,
-.input-area .action-area .menu-area .name-button:hover,
-.input-area .action-area .menu-area .input-action-dropdown > button:hover {
-    background-color: rgba(59,134,255,0.15);
-}
-.input-area .action-area .menu-area button img {
-    width: 0.9rem;
-    height: 0.9rem;
-    object-fit: contain;
-}
-.input-area .action-area .menu-area button i {
-    color: rgba(59,64,67,0.65);
-    font-size: 17px;
-}
-.input-area .action-area .menu-area .dropdown-menu {
-    max-height: 180px;
-}
 
-.input-area .delete-area img {
-    width: 1.5rem;
+.title-area .input-label {
+    width: 3.2rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text {
+    width: 40%;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
 }
 
 .input-area .text-area,
@@ -128,6 +113,37 @@
     height: 0.8rem;
 }
 
+.input-area .action-area .menu-area .input-template-dropdown > button,
+.input-area .action-area .menu-area .name-button,
+.input-area .action-area .menu-area .input-action-dropdown > button {
+    color: #007aff;
+    font-size: 12px;
+    border: none;
+    border-radius: 41px;
+    transition: all .3s ease-in-out;
+}
+.input-area .action-area .menu-area .input-template-dropdown > button:hover,
+.input-area .action-area .menu-area .name-button:hover,
+.input-area .action-area .menu-area .input-action-dropdown > button:hover {
+    background-color: rgba(59,134,255,0.15);
+}
+.input-area .action-area .menu-area button img {
+    width: 0.9rem;
+    height: 0.9rem;
+    object-fit: contain;
+}
+.input-area .action-area .menu-area button i {
+    color: rgba(59,64,67,0.65);
+    font-size: 17px;
+}
+.input-area .action-area .menu-area .dropdown-menu {
+    max-height: 180px;
+}
+
+.input-area .delete-area img {
+    width: 1.5rem;
+}
+
 .button-area {
     max-width: 800px;
 }
@@ -142,10 +158,15 @@
     line-height: 12px;
     cursor: pointer;
 }
+.button-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
 .button-area .save-area .save-button {
     background-color: #00b074;
     border: 2px solid #00b074;
 }
+.button-area .save-area .copy-button,
 .button-area .save-area .save-button {
     width: 6rem;
     height: 30px;
@@ -156,6 +177,21 @@
     cursor: pointer;
     transition: all .4s ease-in-out;
 }
+.button-area .save-area .copy-button:hover,
 .button-area .save-area .save-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.delete_area .delete-button {
+    width: 200px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 0.3rem;
+    border: none;
+    transition: all 0.4s;
+}
+.delete_area .delete-button:hover {
     box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
 }

@@ -1,0 +1,269 @@
+{% load static %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="input-area-wrap ps-5 ms-1">
+                {% if template.head_template_text_item.all|length > 0 %}
+                    {% for template_item in template.head_template_text_item.all %}
+                        <div class="input-area">
+                            <input type="hidden" name="number" value="{{ template_item.number }}">
+                            <div class="message-area">
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        {% if template_item.message_type == 2 %}
+                                            <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                            <div class="text-area d-none">
+                                                <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                            </div>
+                                            {% if template_item.image_width < template_item.image_height %}
+                                                <div class="image-area half pt-2 pb-2 ps-3 pe-3">
+                                                    <div class="image position-relative">
+                                                        <img src="{{ template_item.image.url }}">
+                                                        <input type="hidden" name="upload_image_{{ template_item.number }}" value="{{ template_item.image }}">
+                                                        <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="image-area pt-2 pb-2 ps-3 pe-3">
+                                                    <div class="image position-relative">
+                                                        <img src="{{ template_item.image.url }}">
+                                                        <input type="hidden" name="upload_image_{{ template_item.number }}" value="{{ template_item.image }}">
+                                                        <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                            <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                        {% elif template_item.message_type == 3 %}
+                                            <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                            <div class="text-area d-none">
+                                                <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                            </div>
+                                            <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                            <div class="video-area pt-2 pb-2 ps-3 pe-3">
+                                                <div class="video position-relative">
+                                                    <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                    </button>
+                                                    <video src="{{ template_item.video.url }}" controls>
+                                                    <input type="hidden" name="upload_video_{{ template_item.number }}" value="{{ template_item.video }}">
+                                                </div>
+                                            </div>
+                                            <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                        {% else %}
+                                            <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                            <div class="text-area">
+                                                <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true">{{ template_item.text|safe|linebreaksbr }}</div>
+                                                <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                            </div>
+                                            <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                            <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                            <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-button-area">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="action-area d-flex justify-content-between align-items-center">
+                                            <div class="menu-area d-flex justify-content-between align-items-center">
+                                                {% if template_item.message_type == 2 or template_item.message_type == 3 %}
+                                                    <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                        <button class="btn position-relative" data-bs-toggle="dropdown" disabled>
+                                                            <span>テンプレートを使用する</span>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            {% include 'item/template_select_item.html' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                    <button type="button" class="btn name-button position-relative" disabled>
+                                                        <span>応募者の登録名</span>
+                                                    </button>
+                                                    <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                        <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown" disabled>
+                                                            <p class="mb-0">アクション</p>
+                                                        </button>
+                                                        <div class="dropdown-menu" style="overflow: scroll;">
+                                                            {% include 'item/template_action_item.html' with type='text' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn video-button" disabled>
+                                                        <i class='bx bx-play-circle mt-1'></i>
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                    <button type="button" class="btn image-button" disabled>
+                                                        <img src="{% static 'img/icon/image.svg' %}">
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                {% elif template_item.text %}
+                                                    <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                        <button class="btn position-relative" data-bs-toggle="dropdown" disabled>
+                                                            <span>テンプレートを使用する</span>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            {% include 'item/template_select_item.html' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                    <button type="button" class="btn name-button position-relative">
+                                                        <span>応募者の登録名</span>
+                                                    </button>
+                                                    <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                        <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                            <p class="mb-0">アクション</p>
+                                                        </button>
+                                                        <div class="dropdown-menu" style="overflow: scroll;">
+                                                            {% include 'item/template_action_item.html' with type='text' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn video-button" disabled>
+                                                        <i class='bx bx-play-circle mt-1'></i>
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                    <button type="button" class="btn image-button" disabled>
+                                                        <img src="{% static 'img/icon/image.svg' %}">
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                {% else %}
+                                                    <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                        <button class="btn position-relative" data-bs-toggle="dropdown">
+                                                            <span>テンプレートを使用する</span>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            {% include 'item/template_select_item.html' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                    <button type="button" class="btn name-button position-relative">
+                                                        <span>応募者の登録名</span>
+                                                    </button>
+                                                    <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                        <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                            <p class="mb-0">アクション</p>
+                                                        </button>
+                                                        <div class="dropdown-menu" style="overflow: scroll;">
+                                                            {% include 'item/template_action_item.html' with type='text' %}
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn video-button">
+                                                        <i class='bx bx-play-circle mt-1'></i>
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                    <button type="button" class="btn image-button">
+                                                        <img src="{% static 'img/icon/image.svg' %}">
+                                                    </button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                {% endif %}
+                                            </div>
+                                            <div class="delete-area ms-auto">
+                                                <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                    <img src="{% static 'img/icon/cross.svg' %}">
+                                                </button>
+                                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="input-area">
+                        <input type="hidden" name="number" value="1">
+                        <div class="message-area">
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <input type="hidden" name="message_type_1" value="1">
+                                    <div class="text-area">
+                                        <div name="text_1" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                        <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                    </div>
+                                    <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                    <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                    <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-button-area">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="action-area d-flex justify-content-between align-items-center">
+                                        <div class="menu-area d-flex justify-content-between align-items-center">
+                                            <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                <button class="btn position-relative" data-bs-toggle="dropdown">
+                                                    <span>テンプレートを使用する</span>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    {% include 'item/template_select_item.html' %}
+                                                </div>
+                                            </div>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                            <button type="button" class="btn name-button position-relative">
+                                                <span>応募者の登録名</span>
+                                            </button>
+                                            <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                    <p class="mb-0">アクション</p>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    {% include 'item/template_action_item.html' with type='text' %}
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn video-button">
+                                                <i class='bx bx-play-circle mt-1'></i>
+                                            </button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                            <button type="button" class="btn image-button">
+                                                <img src="{% static 'img/icon/image.svg' %}">
+                                            </button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                        </div>
+                                        <div class="delete-area ms-auto">
+                                            <button type="button" class="btn delete-button" value="1">
+                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                            </button>
+                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="button-area ps-5 ms-1">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="add-area">
+                            <button type="button" class="btn">+ 追加</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="save-area text-center">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                            {% if template.display_id %}
+                                <button type="button" class="btn copy-button me-3" value="text">複製する</button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#copy_check_modal"></button>
+                                <input type="hidden" id="copy_url" value="{% url 'head:template:copy_text' %}">
+                            {% endif %}
+                            <button type="button" class="btn save-button" value="text">保存する</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                            <input type="hidden" id="reload_url" value="{% url 'head:template:text' %}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

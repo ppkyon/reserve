@@ -17,8 +17,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-area pt-3 pb-3 ps-5 pe-5">
-                    <input type="hidden" id="save_greeting_check_form" value="{% url 'head:template:save_check' %}">
-                    <form id="save_greeting_form" action="{% url 'head:template:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <input type="hidden" id="save_greeting_check_form" value="{% url 'head:template:save_greeting_check' %}">
+                    <form id="save_greeting_form" action="{% url 'head:template:save_greeting' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                         <div class="input-area-wrap">
                             {% if template|length > 0 %}
                                 {% for template_item in template %}
@@ -47,7 +47,7 @@
                                                                         <p class="mb-0">アクション</p>
                                                                     </button>
                                                                     <div class="dropdown-menu">
-                                                                        {% include 'item/template_action_item.html' %}
+                                                                        {% include 'item/template_action_item.html' with type='greeting' %}
                                                                     </div>
                                                                 </div>
                                                                 <button type="button" class="btn video-button" disabled>
@@ -76,7 +76,7 @@
                                                                         <p class="mb-0">アクション</p>
                                                                     </button>
                                                                     <div class="dropdown-menu">
-                                                                        {% include 'item/template_action_item.html' %}
+                                                                        {% include 'item/template_action_item.html' with type='greeting' %}
                                                                     </div>
                                                                 </div>
                                                                 <button type="button" class="btn video-button" disabled>
@@ -105,7 +105,7 @@
                                                                         <p class="mb-0">アクション</p>
                                                                     </button>
                                                                     <div class="dropdown-menu">
-                                                                        {% include 'item/template_action_item.html' %}
+                                                                        {% include 'item/template_action_item.html' with type='greeting' %}
                                                                     </div>
                                                                 </div>
                                                                 <button type="button" class="btn video-button">
@@ -217,7 +217,7 @@
                                                                 <p class="mb-0">アクション</p>
                                                             </button>
                                                             <div class="dropdown-menu">
-                                                                {% include 'item/template_action_item.html' %}
+                                                                {% include 'item/template_action_item.html' with type='greeting' %}
                                                             </div>
                                                         </div>
                                                         <button type="button" class="btn video-button">
@@ -244,7 +244,7 @@
                                             <div class="col-12">
                                                 <input type="hidden" name="message_type_1" value="1">
                                                 <div class="text-area">
-                                                    <div name="text_1" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true">{{ template_greeting_item.text|safe|linebreaksbr }}</div>
+                                                    <div name="text_1" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
                                                     <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
                                                 </div>
                                                 <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>

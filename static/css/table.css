@@ -95,6 +95,12 @@
     border-radius: 50%;
     object-fit: cover;
 }
+.table-area .table tbody .content-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+}
 .table-area .table tbody .content-title {
     width: 100%;
     height: 1.05rem;
@@ -103,6 +109,16 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.table-area .table tbody .content-text {
+    width: 100%;
+    height: 2.15rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
 }
 .table-area .table tbody .content-date {

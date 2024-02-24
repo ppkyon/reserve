@@ -19,7 +19,12 @@ urlpatterns = [
     path('cardtype/edit/', views.CardTypeEditView.as_view(), name='edit_cardtype'),
     path('greeting/', views.GreetingView.as_view(), name='greeting'),
 
+    path('text/save/', text.save, name='save_text'),
+    path('text/save/check/', text.save_check, name='save_text_check'),
+    path('text/delete/', text.delete, name='delete_text'),
+    path('text/copy/', text.copy, name='copy_text'),
     path('text/search/', text.search, name='search_text'),
+    path('text/paging/', text.paging, name='paging_text'),
 
     path('video/search/', video.search, name='search_video'),
     
@@ -29,6 +34,6 @@ urlpatterns = [
     
     path('cardtype/search/', cardtype.search, name='search_cardtype'),
     
-    path('greeting/save/', greeting.save, name='save'),
-    path('greeting/save/check/', greeting.save_check, name='save_check'),
+    path('greeting/save/', greeting.save, name='save_greeting'),
+    path('greeting/save/check/', greeting.save_check, name='save_greeting_check'),
 ]
