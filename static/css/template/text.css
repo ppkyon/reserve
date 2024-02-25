@@ -4,10 +4,6 @@
     box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
 }
 
-.input-area-wrap {
-    max-width: 800px;
-}
-
 .title-area .input-label {
     width: 3.2rem;
     color: #000;
@@ -21,6 +17,10 @@
     color: #3b4043;
     font-size: 0.75rem;
     opacity: 0.5;
+}
+
+.input-area-wrap {
+    max-width: 800px;
 }
 
 .input-area .text-area,
@@ -194,4 +194,11 @@
 }
 .delete_area .delete-button:hover {
     box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.error-message-image p,
+.error-message-video p {
+    color: #FFF;
+    background-color: red;
+    border-radius: 5px;
 }

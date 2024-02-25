@@ -1,11 +1,20 @@
 from django import template
 from django.conf import settings
 
+import math
+import time
+
 register = template.Library()
 
 @register.filter(name="multiplication")
 def multiplication(value1, value2):
     result = value1 * value2
+    return result
+
+@register.filter(name="division")
+def division(value1, value2):
+    result = value1 / value2
+    result = math.ceil(result)
     return result
 
 @register.filter(name="textarea_action_replace")
@@ -27,3 +36,7 @@ def textarea_action_replace(value):
     value = value.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1">', '【オンラインURL】' )
     value = value.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1" style="font-size: 12.8px;">', '【オンラインURL】' )
     return value
+
+@register.filter(name="convert_time")
+def convert_time(value):
+    return time.strftime('%M:%S', time.gmtime(value))

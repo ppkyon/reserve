@@ -1,0 +1,102 @@
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.title-area .input-label {
+    width: 3.2rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text {
+    width: 40%;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.input-area {
+    max-width: 800px;
+}
+.input-area .video-area .video {
+    width: 35%;
+}
+.input-area .video-area .video > video {
+    width: 100%;
+    border-radius: 10px;
+}
+.input-area .video-area .video .delete-button > img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+.input-area .video-display-area video {
+    width: 50%;
+    border-radius: 10px;
+}
+.input-area .video-display-area .delete-button > img {
+    position: absolute;
+    top: 0;
+    left: 58%;
+    width: 20px;
+    height: 20px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.button-area {
+    max-width: 800px;
+}
+
+.button-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
+.button-area .save-area .save-button {
+    background-color: #00b074;
+    border: 2px solid #00b074;
+}
+.button-area .save-area .copy-button,
+.button-area .save-area .save-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.button-area .save-area .copy-button:hover,
+.button-area .save-area .save-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.delete_area .delete-button {
+    width: 200px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 0.3rem;
+    border: none;
+    transition: all 0.4s;
+}
+.delete_area .delete-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.error-message-video p {
+    color: #FFF;
+    background-color: red;
+    border-radius: 5px;
+}

@@ -27,7 +27,12 @@ urlpatterns = [
     path('text/paging/', text.paging, name='paging_text'),
     path('text/get/', text.get, name='get_text'),
 
+    path('video/save/', video.save, name='save_video'),
+    path('video/save/check/', video.save_check, name='save_video_check'),
+    path('video/delete/', video.delete, name='delete_video'),
+    path('video/copy/', video.copy, name='copy_video'),
     path('video/search/', video.search, name='search_video'),
+    path('video/paging/', video.paging, name='paging_video'),
     
     path('richmessage/search/', richmessage.search, name='search_richmessage'),
     

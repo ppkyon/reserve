@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 
 from view import HeadView, HeadListView
 
-from template.models import HeadTemplateText, HeadTemplateGreeting
+from template.models import HeadTemplateText, HeadTemplateVideo, HeadTemplateGreeting
 
 class IndexView(HeadView):
     def get(self, request, **kwargs):
@@ -28,13 +28,17 @@ class TextEditView(HeadView):
         context['template'] = HeadTemplateText.objects.filter(display_id=self.request.GET.get("id")).first()
         if not context['template']:
             context['template'] = HeadTemplateText.objects.filter(display_id=self.request.GET.get("copy")).first()
-            context['template'].display_id = ''
-            context['template'].name = context['template'].name + ' コピー'
+            if context['template']:
+                context['template'].display_id = ''
+                context['template'].name = context['template'].name + ' コピー'
         return context
 
-class VideoView(HeadView):
+class VideoView(HeadListView):
     template_name = 'head/template/video/index.html'
     title = '動画メッセージ管理'
+    model = HeadTemplateVideo
+    search_target = ['name']
+    default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -46,6 +50,12 @@ class VideoEditView(HeadView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['template'] = HeadTemplateVideo.objects.filter(display_id=self.request.GET.get("id")).first()
+        if not context['template']:
+            context['template'] = HeadTemplateVideo.objects.filter(display_id=self.request.GET.get("copy")).first()
+            if context['template']:
+                context['template'].display_id = ''
+                context['template'].name = context['template'].name + ' コピー'
         return context
 
 class RichMessageView(HeadView):

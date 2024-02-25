@@ -134,6 +134,62 @@ class ShopTemplateTextItem(models.Model):
 
 
 
+class HeadTemplateVideo(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    name = models.CharField(max_length=255,null=True)
+    video = models.FileField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'head_template_video'
+
+class CompanyTemplateVideo(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_template_video")
+    name = models.CharField(max_length=255,null=True)
+    video = models.FileField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'company_template_video'
+
+class ShopTemplateVideo(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_video")
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_video")
+    name = models.CharField(max_length=255,null=True)
+    video = models.FileField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_template_video'
+
+
+
 class HeadTemplateGreeting(models.Model):
     message_type_choice = (
         (1, 'text'),
