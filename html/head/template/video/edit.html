@@ -32,10 +32,12 @@
             {% include 'head/template/video/input.html' %}
         </form>
         {% include 'modal.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/video/preview.js' %}"></script>
     <script src="{% static 'js/head/template/video/data.js' %}"></script>
     <script src="{% static 'js/head/template/video/action.js' %}"></script>
     <script src="{% static 'js/head/template/video/image.js' %}"></script>

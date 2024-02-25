@@ -70,6 +70,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
                                         <a href="{% url 'head:template:edit_video' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
                                     </td>
                                 </tr>
@@ -81,10 +82,14 @@
             </div>
         </div>
         <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_video' %}">
+        <input type="hidden" id="get_video_url" value="{% url 'head:template:get_video' %}">
         {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/video/preview.js' %}"></script>
     <script src="{% static 'js/head/template/video/append.js' %}"></script>
+    <script src="{% static 'js/head/template/video/action.js' %}"></script>
 {% endblock %}

@@ -33,6 +33,7 @@ urlpatterns = [
     path('video/copy/', video.copy, name='copy_video'),
     path('video/search/', video.search, name='search_video'),
     path('video/paging/', video.paging, name='paging_video'),
+    path('video/get/', video.get, name='get_video'),
     
     path('richmessage/search/', richmessage.search, name='search_richmessage'),
     

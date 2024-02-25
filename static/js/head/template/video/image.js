@@ -32,6 +32,8 @@ upload.video = function( files ) {
         }
         $( '#video_display_area' ).find( '[name=size]' ).val( file.size );
         
+        create_preview();
+        
         $( '#video_drop_zone [name=video_file]' ).val( '' );
     }
     reader.readAsDataURL( file );

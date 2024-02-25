@@ -9,7 +9,7 @@ from template.models import HeadTemplateVideo
 
 from head.template.action.list import get_video_list
 
-from common import create_code
+from common import create_code, get_model_field
 from table.action import action_search
 
 import base64
@@ -94,3 +94,7 @@ def search(request):
 
 def paging(request):
     return JsonResponse( list(get_video_list(request, int(request.POST.get('page')))), safe=False )
+
+def get(request):
+    template = HeadTemplateVideo.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateVideo)).first()
+    return JsonResponse( template, safe=False )
