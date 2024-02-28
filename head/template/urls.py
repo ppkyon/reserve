@@ -34,8 +34,14 @@ urlpatterns = [
     path('video/search/', video.search, name='search_video'),
     path('video/paging/', video.paging, name='paging_video'),
     path('video/get/', video.get, name='get_video'),
+    path('video/all/get/', video.get_all, name='get_all_video'),
     
+    path('richmessage/save/', richmessage.save, name='save_richmessage'),
+    path('richmessage/save/check/', richmessage.save_check, name='save_richmessage_check'),
+    path('richmessage/delete/', richmessage.delete, name='delete_richmessage'),
+    path('richmessage/copy/', richmessage.copy, name='copy_richmessage'),
     path('richmessage/search/', richmessage.search, name='search_richmessage'),
+    path('richmessage/paging/', richmessage.paging, name='paging_richmessage'),
     
     path('richvideo/search/', richvideo.search, name='search_richvideo'),
     

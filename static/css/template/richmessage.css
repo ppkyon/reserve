@@ -1,0 +1,200 @@
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.title-area .input-label {
+    width: 3.2rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text {
+    width: 40%;
+}
+.title-area img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.input-area {
+    max-width: 800px;
+}
+.input-area .input-label {
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.input-area .template-area {
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+}
+.input-area .template-area p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 95%;
+    color: #3b4043;
+    font-size: 0.65rem;
+    opacity: 0.5;
+    transform: translateY(-50%) translateX(-50%);
+}
+.input-area .template-area table {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1.4rem;
+    background-color: rgba(53,58,64,0.2);
+    border: 2px solid #00B900;
+}
+.input-area .template-area table td {
+    border-width: 2px;
+    border-color: #00B900;
+}
+.input-area .template-area img {
+    width: 100%;
+    height: 100%;
+}
+.input-area .template-area video {
+    width: 100%;
+    height: 100%;
+}
+.input-area .template-button-area button {
+    width: 100%;
+    color: #FFF;
+    font-size: 0.65rem;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 3px;
+    transition: all .4s ease-in-out;
+}
+.input-area .template-button-area button:hover {
+    opacity: 0.85;
+}
+
+.input-area .action-area {
+    background-color: #FFF;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: 2px;
+}
+.input-area .action-area .number-area {
+    cursor: pointer;
+}
+.input-area .action-area .number-area img {
+    width: 10px;
+    height: 10px;
+}
+.input-area .action-area .number-area p {
+    color: #00b900;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.input-area .action-area .content-area label {
+    width: 6.5rem;
+    text-align: right;
+}
+.input-area .action-area .content-area i {
+    cursor: pointer;
+}
+.input-area .action-area .content-area div {
+    width: 60%;
+}
+.input-area .action-area .content-area div input {
+    width: 100%;
+}
+
+.button-area {
+    max-width: 800px;
+}
+.button-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
+.button-area .save-area .save-button {
+    background-color: #00b074;
+    border: 2px solid #00b074;
+}
+.button-area .save-area .copy-button,
+.button-area .save-area .save-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.button-area .save-area .copy-button:hover,
+.button-area .save-area .save-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.delete_area .delete-button {
+    width: 200px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 0.3rem;
+    border: none;
+    transition: all 0.4s;
+}
+.delete_area .delete-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.modal .modal-body .template-area {
+    width: 20%;
+}
+.modal .modal-body .template-area .title {
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.modal .modal-body .template-area img {
+    width: 100%;
+    cursor: pointer;
+}
+
+.modal .modal-body .card-type-area img {
+    width: 100%;
+    cursor: pointer;
+}
+.modal .modal-body .card-type-area .input-radio-mark:after {
+    background-color: #15B819;
+}
+
+.modal .modal-footer .action-button {
+    width: 7.5rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+.modal .modal-footer .cancel-button {
+    color: #4d4d4d;
+    background-color: #efefef;
+}
+
+.error-message-image p,
+.error-message-video p {
+    color: #FFF;
+    background-color: red;
+    border-radius: 5px;
+}

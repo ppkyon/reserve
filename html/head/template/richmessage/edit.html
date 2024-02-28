@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/template/richmessage.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -12,9 +13,36 @@
         </div>
     </div>
     <div class="head">
-
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_richmessage_form" action="{% url 'head:template:delete_richmessage' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="richmessage">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_richmessage_check_form" value="{% url 'head:template:save_richmessage_check' %}">
+        <form id="save_richmessage_form" action="{% url 'head:template:save_richmessage' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'head/template/richmessage/title.html' %}
+            {% include 'head/template/richmessage/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'head/template/richmessage/modal/image.html' %}
+        {% include 'head/template/video/modal/video.html' %}
+        {% include 'head/question/modal/question.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/question/modal.js' %}"></script>
+    <script src="{% static 'js/head/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/head/template/richmessage/append.js' %}"></script>
+    <script src="{% static 'js/head/template/richmessage/action.js' %}"></script>
+    <script src="{% static 'js/head/template/richmessage/data.js' %}"></script>
+    <script src="{% static 'js/head/template/richmessage/image.js' %}"></script>
 {% endblock %}

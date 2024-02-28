@@ -29,3 +29,42 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="get_head_question_list_url" value="{% url 'head:question:get_all' %}">
+<div id="head_question_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">回答フォームを選択する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-area mb-3">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 200px;">登録名</th>
+                                        <th>タイトル</th>
+                                        <th style="width: 120px;">項目</th>
+                                        <th style="width: 80px;">設問数</th>
+                                        <th style="width: 100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="notice-area text-center mt-3 mb-3 d-none">
+                            <p class="mb-0">回答フォームが登録されていません。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

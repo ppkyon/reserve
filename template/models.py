@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from question.models import HeadQuestion, CompanyQuestion, ShopQuestion
 from sign.models import AuthCompany, AuthShop
 
 import os
@@ -187,6 +188,146 @@ class ShopTemplateVideo(models.Model):
 
     class Meta:
         db_table = 'shop_template_video'
+
+
+
+class HeadTemplateRichMessage(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    type = models.IntegerField(default=0)
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    image = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image240 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image300 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image460 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image700 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image1040 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image_width = models.IntegerField(blank=True, null=True)
+    image_height = models.IntegerField(blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'head_template_rich_message'
+
+class CompanyTemplateRichMessage(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_template_rich_message")
+    type = models.IntegerField(default=0)
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    image = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image240 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image300 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image460 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image700 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image1040 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image_width = models.IntegerField(blank=True, null=True)
+    image_height = models.IntegerField(blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'company_template_rich_message'
+
+class ShopTemplateRichMessage(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_message")
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_message")
+    type = models.IntegerField(default=0)
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    image = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image240 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image300 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image460 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image700 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image1040 = models.ImageField(upload_to=template_image_path, blank=True, null=True)
+    image_width = models.IntegerField(blank=True, null=True)
+    image_height = models.IntegerField(blank=True, null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_template_rich_message'
+
+class HeadTemplateRichMessageItem(models.Model):
+    type_choice = (
+        (0, 'none'),
+        (1, 'link'),
+        (2, 'video'),
+        (3, 'questionform'),
+        (4, 'reserve'),
+        (5, 'company'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    template = models.ForeignKey(HeadTemplateRichMessage, on_delete=models.CASCADE, related_name="head_template_rich_message_item")
+    number = models.CharField(max_length=1,null=True)
+    type = models.IntegerField(choices=type_choice, default=0)
+    url = models.CharField(max_length=255,null=True)
+    video = models.ForeignKey(HeadTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="head_template_rich_message_item")
+    question = models.ForeignKey(HeadQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="head_template_rich_message_item")
+    label = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'head_template_rich_message_item'
+
+class CompanyTemplateRichMessageItem(models.Model):
+    type_choice = (
+        (0, 'none'),
+        (1, 'link'),
+        (2, 'video'),
+        (3, 'questionform'),
+        (4, 'reserve'),
+        (5, 'company'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    template = models.ForeignKey(CompanyTemplateRichMessage, on_delete=models.CASCADE, related_name="company_template_rich_message_item")
+    number = models.CharField(max_length=1,null=True)
+    type = models.IntegerField(choices=type_choice, default=0)
+    url = models.CharField(max_length=255,null=True)
+    video = models.ForeignKey(CompanyTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="company_template_rich_message_item")
+    question = models.ForeignKey(CompanyQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="company_template_rich_message_item")
+    label = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'company_template_rich_message_item'
+
+class ShopTemplateRichMessageItem(models.Model):
+    type_choice = (
+        (0, 'none'),
+        (1, 'link'),
+        (2, 'video'),
+        (3, 'questionform'),
+        (4, 'reserve'),
+        (5, 'company'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    template = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, related_name="shop_template_rich_message_item")
+    number = models.CharField(max_length=1,null=True)
+    type = models.IntegerField(choices=type_choice, default=0)
+    url = models.CharField(max_length=255,null=True)
+    video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_message_item")
+    question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_message_item")
+    label = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_template_rich_message_item'
 
 
 

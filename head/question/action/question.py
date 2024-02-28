@@ -92,3 +92,9 @@ def get(request):
     for question_index, question_item in enumerate(question['item']):
         question['item'][question_index]['choice'] = list(HeadQuestionItemChoice.objects.filter(question_item__id=question_item['id']).values(*get_model_field(HeadQuestionItemChoice)).all())
     return JsonResponse( question, safe=False )
+
+def get_all(request):
+    question_list = list(HeadQuestion.objects.values(*get_model_field(HeadQuestion)).all())
+    for question_index, question_item in enumerate(question_list):
+        question_list[question_index]['item'] = list(HeadQuestionItem.objects.filter(question__id=question_item['id']).values(*get_model_field(HeadQuestionItem)).all())
+    return JsonResponse( question_list, safe=False )

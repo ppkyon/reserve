@@ -1,7 +1,12 @@
 from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 
+from PIL import Image
+
+import cv2
 import datetime
+import io
 import itertools
 import string
 import random
@@ -56,6 +61,45 @@ def display_textarea_replace( text ):
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1">', '【オンラインURL】' )
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1" style="font-size: 12.8px;">', '【オンラインURL】' )
     return text
+
+
+
+def resize_image(image, width, height, type):
+
+    h, w = image.shape[:2]
+    aspect = w / h
+    if width / height >= aspect:
+        nh = height
+        nw = round(nh * aspect)
+    else:
+        nw = width
+        nh = round(nw / aspect)
+
+    image = cv2.resize(image, dsize=(nw, nh))
+    image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    if type == 'png':
+        trans = Image.new('RGBA', image.size, (0, 0, 0, 0))
+    elif type == 'jpg':
+        trans = Image.new('RGBA', image.size, (0, 0, 0, 0)).convert('RGB')
+    width = image.size[0]
+    height = image.size[1]
+    for x in range(width):
+        for y in range(height):
+            pixel = image.getpixel( (x, y) )
+            
+            if pixel[0] == 0 and pixel[1] == 0 and pixel[2] == 0:
+                continue
+            
+            trans.putpixel( (x, y), pixel )
+    image_io = io.BytesIO()
+    if type == 'png':
+        trans.save(image_io, format="PNG")
+        image_file = InMemoryUploadedFile(image_io, field_name=None, name=str(uuid.uuid4()).replace('-', '') + '.png', content_type="image/png", size=image_io.getbuffer().nbytes, charset=None)
+    elif type == 'jpg':
+        trans.save(image_io, format="JPEG")
+        image_file = InMemoryUploadedFile(image_io, field_name=None, name=str(uuid.uuid4()).replace('-', '') + '.jpg', content_type="image/jpeg", size=image_io.getbuffer().nbytes, charset=None)
+
+    return image_file
 
 
 
