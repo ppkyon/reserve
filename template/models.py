@@ -331,6 +331,140 @@ class ShopTemplateRichMessageItem(models.Model):
 
 
 
+class HeadTemplateRichVideo(models.Model):
+    text_choice = (
+        (0, 'detail'),
+        (1, 'install'),
+        (2, 'buy'),
+        (3, 'reserve'),
+        (4, 'app'),
+        (5, 'request'),
+        (6, 'join'),
+        (7, 'vote'),
+        (8, 'search'),
+        (9, 'contact'),
+        (10, 'claim'),
+        (11, 'video'),
+        (12, 'custom'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    video = models.ImageField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail240 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail300 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail460 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail700 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail1040 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    display_flg = models.BooleanField(default=False)
+    url = models.CharField(max_length=255,null=True)
+    text = models.IntegerField(choices=text_choice, default=0, blank=True, null=True)
+    custom = models.CharField(max_length=255,null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'head_template_rich_video'
+
+class CompanyTemplateRichVideo(models.Model):
+    text_choice = (
+        (0, 'detail'),
+        (1, 'install'),
+        (2, 'buy'),
+        (3, 'reserve'),
+        (4, 'app'),
+        (5, 'request'),
+        (6, 'join'),
+        (7, 'vote'),
+        (8, 'search'),
+        (9, 'contact'),
+        (10, 'claim'),
+        (11, 'video'),
+        (12, 'custom'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_template_rich_video")
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    video = models.ImageField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail240 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail300 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail460 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail700 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail1040 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    display_flg = models.BooleanField(default=False)
+    url = models.CharField(max_length=255,null=True)
+    text = models.IntegerField(choices=text_choice, default=0, blank=True, null=True)
+    custom = models.CharField(max_length=255,null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'company_template_rich_video'
+
+class ShopTemplateRichVideo(models.Model):
+    text_choice = (
+        (0, 'detail'),
+        (1, 'install'),
+        (2, 'buy'),
+        (3, 'reserve'),
+        (4, 'app'),
+        (5, 'request'),
+        (6, 'join'),
+        (7, 'vote'),
+        (8, 'search'),
+        (9, 'contact'),
+        (10, 'claim'),
+        (11, 'video'),
+        (12, 'custom'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_video")
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_template_rich_video")
+    name = models.CharField(max_length=255,null=True)
+    title = models.CharField(max_length=255,null=True)
+    video = models.ImageField(upload_to=template_video_path, blank=True, null=True)
+    video_width = models.IntegerField(blank=True, null=True)
+    video_height = models.IntegerField(blank=True, null=True)
+    video_time = models.IntegerField(blank=True, null=True)
+    video_size = models.IntegerField(blank=True, null=True)
+    video_thumbnail = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail240 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail300 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail460 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail700 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    video_thumbnail1040 = models.FileField(upload_to=template_video_thumbnail_path, blank=True, null=True)
+    display_flg = models.BooleanField(default=False)
+    url = models.CharField(max_length=255,null=True)
+    text = models.IntegerField(choices=text_choice, default=0, blank=True, null=True)
+    custom = models.CharField(max_length=255,null=True)
+    author = models.CharField(max_length=255,null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_template_rich_video'
+
+
+
 class HeadTemplateGreeting(models.Model):
     message_type_choice = (
         (1, 'text'),

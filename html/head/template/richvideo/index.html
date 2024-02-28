@@ -1,6 +1,7 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
 {% endblock %}
@@ -39,34 +40,52 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center">
+                                        <img class="content-image me-2" src="{{ object_item.video_thumbnail.url }}">
+                                    </td>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.video %}
+                                            <p class="content-title mb-0">{{ object_item.video_time|convert_time }}</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if object_item.video %}
+                                            {% if object_item.video_size >= 1000000 %}
+                                                <p class="content-title mb-0">{{ object_item.video_size|division:1000000 }}MB</p>
+                                            {% elif object_item.video_size >= 1000 %}
+                                                <p class="content-title mb-0">{{ object_item.video_size|division:1000 }}KB</p>
+                                            {% else %}
+                                                <p class="content-title mb-0">{{ object_item.video_size }}B</p>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        <a href="{% url 'head:template:edit_richvideo' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_richvideo' %}">
+        <input type="hidden" id="get_richvideo_url" value="{% url 'head:template:get_richvideo' %}">
+        {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/richvideo/preview.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/append.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/action.js' %}"></script>
 {% endblock %}

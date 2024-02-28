@@ -83,7 +83,7 @@ def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
 
 def delete(request):
-    template = HeadTemplateVideo.objects.filter(display_id=request.POST.get('id')).all().delete()
+    HeadTemplateVideo.objects.filter(display_id=request.POST.get('id')).all().delete()
     return JsonResponse( {}, safe=False )
 
 def copy(request):

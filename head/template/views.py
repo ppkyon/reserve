@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 
 from view import HeadView, HeadListView
 
-from template.models import HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateGreeting
+from template.models import HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichVideo, HeadTemplateGreeting
 
 class IndexView(HeadView):
     def get(self, request, **kwargs):
@@ -83,9 +83,12 @@ class RichMessageEditView(HeadView):
                 context['template'].name = context['template'].name + ' コピー'
         return context
 
-class RichVideoView(HeadView):
+class RichVideoView(HeadListView):
     template_name = 'head/template/richvideo/index.html'
     title = 'リッチビデオメッセージ管理'
+    model = HeadTemplateRichVideo
+    search_target = ['name']
+    default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -97,6 +100,12 @@ class RichVideoEditView(HeadView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['template'] = HeadTemplateRichVideo.objects.filter(display_id=self.request.GET.get("id")).first()
+        if not context['template']:
+            context['template'] = HeadTemplateRichVideo.objects.filter(display_id=self.request.GET.get("copy")).first()
+            if context['template']:
+                context['template'].display_id = ''
+                context['template'].name = context['template'].name + ' コピー'
         return context
 
 class CardTypeView(HeadView):

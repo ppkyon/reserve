@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/template/richvideo.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -12,9 +13,34 @@
         </div>
     </div>
     <div class="head">
-
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_richvideo_form" action="{% url 'head:template:delete_richvideo' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="richvideo">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_richvideo_check_form" value="{% url 'head:template:save_richvideo_check' %}">
+        <form id="save_richvideo_form" action="{% url 'head:template:save_richvideo' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'head/template/richvideo/title.html' %}
+            {% include 'head/template/richvideo/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'head/template/richvideo/modal/image.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/richvideo/preview.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/append.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/action.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/data.js' %}"></script>
+    <script src="{% static 'js/head/template/richvideo/image.js' %}"></script>
 {% endblock %}

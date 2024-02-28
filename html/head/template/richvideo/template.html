@@ -1,0 +1,41 @@
+{% load static %}
+{% load original %}
+
+<div class="template-area-wrap">
+    <p class="input-label fw-bold mb-2">動画設定</p>
+    {% if template.video %}
+        <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2">
+            <video src="{{ template.video.url }}" controls></video>
+        </div>
+    {% else %}
+        <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 100%;">
+            <p class="text-muted mb-0">ここをクリックして、動画をアップロードしてください。</p>
+        </div>
+    {% endif %}
+    <div class="template-button-area text-center">
+        <input type="text" name="upload_video" class="d-none" value="{{ template.video }}" data-parsley-errors-container="#error_video" data-parsley-error-message="動画をアップロードしてください" required>
+        <button type="button" id="upload_template_video" class="btn pt-1 pb-1 p-0 mb-2">動画をアップロード</button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#richvideo_upload_modal"></button>
+    </div>
+    {% if template.video %}
+        <div class="video-text-area ps-4">
+            <video src="{{ template.video.url }}" class="d-none"></video>
+            <p class="video-time mb-1">時間 : {{ template.video_time|convert_time }}</p>
+            {% if template.video_size >= 1000000 %}
+                <p class="video-size mb-1">容量 : {{ template.video_size|division:1000000 }}MB</p>
+            {% elif template.video_size >= 1000 %}
+                <p class="video-size mb-1">容量 : {{ template.video_size|division:1000 }}KB</p>
+            {% else %}
+                <p class="video-size mb-1">容量 : {{ template.video_size }}B</p>
+            {% endif %}
+            <input type="hidden" name="size" value="{{ template.video_size }}">
+        </div>
+    {% else %}
+        <div class="video-text-area ps-4 d-none">
+            <video class="d-none"></video>
+            <p class="video-time mb-1"></p>
+            <p class="video-size mb-1"></p>
+            <input type="hidden" name="size">
+        </div>
+    {% endif %}
+</div>

@@ -59,6 +59,7 @@
                                         {% endfor %}
                                     </td>
                                     <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
                                         <a href="{% url 'head:template:edit_richmessage' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
                                     </td>
                                 </tr>
@@ -70,10 +71,14 @@
             </div>
         </div>
         <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_richmessage' %}">
+        <input type="hidden" id="get_richmessage_url" value="{% url 'head:template:get_richmessage' %}">
         {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/richmessage/preview.js' %}"></script>
     <script src="{% static 'js/head/template/richmessage/append.js' %}"></script>
+    <script src="{% static 'js/head/template/richmessage/action.js' %}"></script>
 {% endblock %}

@@ -42,8 +42,15 @@ urlpatterns = [
     path('richmessage/copy/', richmessage.copy, name='copy_richmessage'),
     path('richmessage/search/', richmessage.search, name='search_richmessage'),
     path('richmessage/paging/', richmessage.paging, name='paging_richmessage'),
+    path('richmessage/get/', richmessage.get, name='get_richmessage'),
     
+    path('richvideo/save/', richvideo.save, name='save_richvideo'),
+    path('richvideo/save/check/', richvideo.save_check, name='save_richvideo_check'),
+    path('richvideo/delete/', richvideo.delete, name='delete_richvideo'),
+    path('richvideo/copy/', richvideo.copy, name='copy_richvideo'),
     path('richvideo/search/', richvideo.search, name='search_richvideo'),
+    path('richvideo/paging/', richvideo.paging, name='paging_richvideo'),
+    path('richvideo/get/', richvideo.get, name='get_richvideo'),
     
     path('cardtype/search/', cardtype.search, name='search_cardtype'),
     

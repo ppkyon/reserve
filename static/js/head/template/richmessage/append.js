@@ -8,6 +8,7 @@ function append_template_area( value ) {
             $( '.input-area .message-area .template-area' ).append( '<p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>' );
         }
 
+        create_preview();
         $( '#save_richmessage_form [name=upload_image]' ).val( '' );
     } else {
         $( '.input-area .message-area .template-area' ).css( 'height', 'auto' );
@@ -16,6 +17,7 @@ function append_template_area( value ) {
             if ( !$( '.input-area .message-area .template-area p' ).length ) {
                 $( '.input-area .message-area .template-area' ).append( '<p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>' );
             }
+            create_preview();
             $( '#save_richmessage_form [name=upload_image]' ).val( '' );
         }
         if ( !$( '.input-area .message-area .template-area img' ).length ) {
@@ -393,7 +395,7 @@ function append_table_area(data) {
     } else {
         image = '<img class="content-image me-2" src="' + $( '#env_static_url' ).val() + 'img/image-none.png">';
     }
-
+    
     var button = '<a href="/head/template/richmessage/edit/?id=' + data.display_id + '" class="btn detail-button p-1">詳細</a>';
 
     var created_date = new Date( data.created_at );
@@ -409,6 +411,7 @@ function append_table_area(data) {
     html += action;
     html += '</td>';
     html += '<td>';
+    html += '<input type="hidden" name="id" value="' + data.display_id + '">';
     html += button;
     html += '</td>';
     html += '</tr>';

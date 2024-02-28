@@ -7,7 +7,7 @@ from template.models import HeadTemplateVideo, HeadTemplateRichMessage, HeadTemp
 
 from head.template.action.list import get_richmessage_list
 
-from common import create_code, resize_image
+from common import create_code, resize_image, get_model_field
 from table.action import action_search
 
 import base64
@@ -108,3 +108,7 @@ def search(request):
 
 def paging(request):
     return JsonResponse( list(get_richmessage_list(request, int(request.POST.get('page')))), safe=False )
+
+def get(request):
+    template = HeadTemplateRichMessage.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateRichMessage)).first()
+    return JsonResponse( template, safe=False )

@@ -42,6 +42,8 @@ upload.image_normal = function( files ) {
             $( '#save_richmessage_form .template-area' ).prepend( '<img src="' + reader.result + '">' );
             $( '#save_richmessage_form .template-area p' ).remove();
 
+            create_preview();
+
             $( '#save_richmessage_form [name=upload_image]' ).val( reader.result );
             $( '#image_normal_drop_zone [name=image_file]' ).val( '' );
             $( '#image_normal_drop_zone' ).parents( '.modal-body' ).next().find( '.cancel-button' ).trigger( 'click' );
@@ -89,6 +91,8 @@ upload.image_custom = function( files ) {
             $( '#save_richmessage_form .template-area' ).css( 'height', '100%' );
             $( '#save_richmessage_form .template-area' ).append( '<img src="' + reader.result + '">' );
             $( '#save_richmessage_form .template-area p' ).remove();
+
+            create_preview();
 
             $( '#save_richmessage_form [name=upload_image]' ).val( reader.result );
             $( '#image_custom_drop_zone [name=image_file]' ).val( '' );

@@ -1,4 +1,10 @@
 $( function() {
+    create_preview();
+    
+    $( document ).on( 'click', '.table-area .table tbody tr', function () {
+        create_list_preview($( this ).find( '[name=id]' ).val());
+    });
+
     $( '#save_richmessage_form .template-button-area .select-template-button' ).on( 'click', function() {
         $( '.modal .modal-body .template-area figure input' ).each( function( index, value ) {
             if ( $( this ).val() == $( '#save_richmessage_form [name=template]' ).val() ) {
