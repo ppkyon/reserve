@@ -52,7 +52,12 @@ urlpatterns = [
     path('richvideo/paging/', richvideo.paging, name='paging_richvideo'),
     path('richvideo/get/', richvideo.get, name='get_richvideo'),
     
+    path('cardtype/save/', cardtype.save, name='save_cardtype'),
+    path('cardtype/save/check/', cardtype.save_check, name='save_cardtype_check'),
+    path('cardtype/delete/', cardtype.delete, name='delete_cardtype'),
+    path('cardtype/copy/', cardtype.copy, name='copy_cardtype'),
     path('cardtype/search/', cardtype.search, name='search_cardtype'),
+    path('cardtype/paging/', cardtype.paging, name='paging_cardtype'),
     
     path('greeting/save/', greeting.save, name='save_greeting'),
     path('greeting/save/check/', greeting.save_check, name='save_greeting_check'),

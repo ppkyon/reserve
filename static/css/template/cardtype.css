@@ -1,0 +1,386 @@
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.title-area .input-label {
+    width: 3.2rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text {
+    width: 40%;
+}
+.title-area img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.input-area {
+    max-width: 800px;
+}
+.input-area .type-area button {
+    width: 8rem;
+    color: #FFF;
+    font-size: 0.65rem;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 3px;
+    transition: all .4s ease-in-out;
+}
+.input-area .type-area button:hover {
+    opacity: 0.85;
+}
+.input-area .type-area .type-text {
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+
+.input-area .tab-area {
+    border-bottom: 0.05rem solid rgba(60,60,67,0.36);
+}
+.input-area .tab-area ul {
+    list-style: none;
+}
+.input-area .tab-area ul li a {
+    display: block;
+    height: 1.75rem;
+    color: #000;
+    font-size: 0.8rem;
+    text-align: center;
+    background-color: #fff;
+    border-bottom: none;
+    border-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    line-height: 0.8rem;
+    cursor: pointer;
+}
+.input-area .tab-area ul li a:active {
+    border: 0.05rem solid rgba(60,60,67,0.36);
+}
+.input-area .tab-area ul li a:focus {
+    border-bottom: none;
+}
+.input-area .tab-area .add-card-button,
+.input-area .tab-area .add-more-card-button {
+    height: 1.75rem;
+    color: #00b074;
+    font-size: 0.8rem;
+    background-color: #fff;
+    border: 2px solid #00b074;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+}
+.input-area .tab-area .add-card-button {
+    width: 8rem;
+}
+.input-area .tab-area .add-more-card-button {
+    width: 12rem;
+}
+
+.input-area .action-area .copy-card-button i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.75;
+}
+.input-area .action-area .delete-card-button img {
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.input-area .cardtype-area {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+.input-area .cardtype-area .cardtype-image-area .one {
+    flex: 1 0%;
+}
+.input-area .cardtype-area .cardtype-image-area .two {
+    flex: 1 1 0%;
+}
+.input-area .cardtype-area .cardtype-image-area .three {
+    flex: 1 1 0%;
+}
+.input-area .cardtype-area .cardtype-image-area .person {
+    flex: 1 0%;
+}
+.input-area .cardtype-area .cardtype-image-area span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow: hidden;
+}
+.input-area .cardtype-area .cardtype-image-area .person span {
+    border-radius: 50%;
+}
+.input-area .cardtype-area .cardtype-header-area .label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    background-color: rgb(102, 111, 134);
+    border-radius: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+.input-area .cardtype-area .cardtype-header-area .action-label {
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    bottom: 10px;
+    width: 130px;
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+    transform: translateX(-50%);
+}
+.input-area .cardtype-area .cardtype-body-area p {
+    text-overflow: clip;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+.input-area .cardtype-area .cardtype-body-area .title {
+    color: rgb(53, 58, 64);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+.input-area .cardtype-area .cardtype-body-area .name {
+    color: rgb(53, 58, 64);
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+}
+.input-area .cardtype-area .cardtype-body-area .description {
+    color: rgb(73, 80, 87);
+    font-size: 0.5rem;
+}
+.input-area .cardtype-area .cardtype-body-area .price {
+    color: rgb(53, 58, 64);
+    font-size: 0.8rem;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.input-area .cardtype-area .cardtype-body-area .place,
+.input-area .cardtype-area .cardtype-body-area .plus {
+    color: rgb(73, 80, 87);
+    font-size: 0.65rem;
+}
+.input-area .cardtype-area .cardtype-body-area .place img,
+.input-area .cardtype-area .cardtype-body-area .plus img {
+    width: 13px;
+    height: 13px;
+}
+.input-area .cardtype-area .cardtype-body-area .tag {
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    background-color: rgb(102, 111, 134);
+    border-radius: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+.input-area .cardtype-area .cardtype-body-area .more {
+    color: rgb(91, 130, 219);
+    font-size: 0.8rem;
+    text-align: center;
+}
+.input-area .cardtype-area .cardtype-footer-area button {
+    width: 100%;
+    color: rgb(91, 130, 219);
+    font-size: 0.7rem;
+    text-align: center;
+    background: transparent;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.input-area .cardtype-button-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0.5rem;
+    height: 100%;
+}
+.input-area .cardtype-button-area .arrow-button {
+    position: relative;
+    margin: 0;
+    width: 2rem;
+    height: 2rem;
+    color: #fff;
+    border-radius: 50%;
+    background-color: rgba(53,58,64,0.3);
+    overflow: hidden;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.input-area .display-area .content-area .sub {
+    font-size: 0.7rem;
+}
+.input-area .display-area .content-area .template-text  {
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.input-area .display-area .content-area .select-button {
+    width: 50%;
+    color: #FFF;
+    font-size: 0.65rem;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 3px;
+    transition: all .4s ease-in-out;
+}
+.input-area .display-area .content-area .select-button:hover {
+    opacity: 0.85;
+}
+.input-area .display-area .content-area .color-area button {
+    padding: 0.3em 0.4em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.input-area .display-area .content-area .upload-area {
+    flex-flow: row wrap;
+}
+.input-area .display-area .content-area .upload-area .upload-image-area {
+    display: inline-flex;
+    width: 5.5rem;
+    height: 5.5rem;
+    border: 1px solid #dee2e6;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.input-area .display-area .content-area .upload-area .upload-image-area a {
+    width: 100%;
+    height: 100%;
+    color: #3b86ff;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    background-color: transparent;
+}
+.input-area .display-area .content-area .upload-area .upload-image-area a span {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    text-align: center;
+    transform : translateY(-50%);
+}
+.input-area .display-area .content-area .upload-area .upload-image-area button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+}
+.input-area .display-area .content-area .upload-area .upload-image-area button img {
+    width: 15px;
+    height: 15px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+
+.button-area {
+    max-width: 800px;
+}
+.button-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
+.button-area .save-area .save-button {
+    background-color: #00b074;
+    border: 2px solid #00b074;
+}
+.button-area .save-area .copy-button,
+.button-area .save-area .save-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.button-area .save-area .copy-button:hover,
+.button-area .save-area .save-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.delete_area .delete-button {
+    width: 200px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 0.3rem;
+    border: none;
+    transition: all 0.4s;
+}
+.delete_area .delete-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.modal .modal-body .cardtype-area img {
+    width: 100%;
+    cursor: pointer;
+}
+.modal .modal-body .cardtype-area .input-radio-mark:after {
+    background-color: #15B819;
+}
+.modal .modal-footer .action-button {
+    width: 7.5rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+.modal .modal-footer .cancel-button {
+    color: #4d4d4d;
+    background-color: #efefef;
+}

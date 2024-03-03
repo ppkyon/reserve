@@ -97,14 +97,17 @@ $( function() {
 
     $( document ).on( 'click', '#save_richmessage_form .action-area .dropdown-menu button', function () {
         append_content_area( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
+        $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', false );
         if ( $( this ).val() == '2' ) {
             open_template_video_modal( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
         } else if ( $( this ).val() == '3' ) {
             open_question_modal( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
         } else if ( $( this ).val() == '4' ) {
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【予約フォームURL】' );
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         } else if ( $( this ).val() == '5' ) {
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【会社概要URL】' );
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         }
     });
 
@@ -114,6 +117,7 @@ $( function() {
             if ( $( target ).val() == $( this ).val() ) {
                 $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).val( '【' + $( target ).next().next().val() + '】' );
                 $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).next().val( $( target ).next().val() );
+                $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).prop( 'disabled', true );
             }
         });
         $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
@@ -124,6 +128,7 @@ $( function() {
             if ( $( target ).val() == $( this ).val() ) {
                 $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).val( '【' + $( target ).next().next().val() + '】' );
                 $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).next().val( $( target ).next().val() );
+                $( this ).parents( '.action-area' ).find( '[name=url_' + $( this ).val() + ']' ).prop( 'disabled', true );
             }
         });
         $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );

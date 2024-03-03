@@ -1,0 +1,169 @@
+{% load static %}
+
+{% if template %}
+    <div class="message-area">
+        <div class="tab-content">
+            {% for template_item in template.item %}
+                {% if template_item.number == '1' %}
+                    <div id="tab1" class="tab-pane active" role="tabpanel">
+                        <input type="hidden" value="1" class="display-number">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="action-area d-flex justify-content-end align-items-center mb-3" style="border: none;">
+                                    <button type="button" class="btn copy-card-button" value="1">
+                                        <i class="bx bx-copy-alt"></i>
+                                    </button>
+                                    <button type="button" class="btn delete-card-button" value="1">
+                                        <img src="{% static 'img/icon/cross.svg' %}">
+                                    </button>
+                                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_card_check_modal"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="cardtype-area" style="height: auto;">
+                                    {% if template.type == 1 %}
+                                        {% include 'head/template/cardtype/announce/card.html' with data=template_item %}
+                                    {% elif template.type == 2 %}
+                                        {% include 'head/template/cardtype/location/card.html' with data=template_item %}
+                                    {% elif template.type == 3 %}
+                                        {% include 'head/template/cardtype/person/card.html' with data=template_item %}
+                                    {% elif template.type == 4 %}
+                                        {% include 'head/template/cardtype/image/card.html' with data=template_item %}
+                                    {% endif %}
+                                </div>
+                                <div class="cardtype-button-area d-flex justify-content-between align-items-center" style="height: 14rem;">
+                                    <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="prev">
+                                        <i class="bx bx-chevron-left"></i>
+                                    </button>
+                                    <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="next">
+                                        <i class="bx bx-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="display-area p-1 mb-3">
+                                    {% if template.type == 1 %}
+                                        {% include 'head/template/cardtype/announce/input.html' with data=template_item %}
+                                    {% elif template.type == 2 %}
+                                        {% include 'head/template/cardtype/location/input.html' with data=template_item %}
+                                    {% elif template.type == 3 %}
+                                        {% include 'head/template/cardtype/person/input.html' with data=template_item %}
+                                    {% elif template.type == 4 %}
+                                        {% include 'head/template/cardtype/image/input.html' with data=template_item %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div id="tab{{ template_item.number }}" class="tab-pane" role="tabpanel">
+                        <input type="hidden" value="{{ template_item.number }}" class="display-number">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="action-area d-flex justify-content-end align-items-center mb-3" style="border: none;">
+                                    <button type="button" class="btn copy-card-button" value="{{ template_item.number }}">
+                                        <i class="bx bx-copy-alt"></i>
+                                    </button>
+                                    <button type="button" class="btn delete-card-button" value="{{ template_item.number }}">
+                                        <img src="{% static 'img/icon/cross.svg' %}">
+                                    </button>
+                                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_card_check_modal"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="cardtype-area" style="height: auto;">
+                                    {% if template.type == 1 %}
+                                        {% include 'head/template/cardtype/announce/card.html' with data=template_item %}
+                                    {% elif template.type == 2 %}
+                                        {% include 'head/template/cardtype/location/card.html' with data=template_item %}
+                                    {% elif template.type == 3 %}
+                                        {% include 'head/template/cardtype/person/card.html' with data=template_item %}
+                                    {% elif template.type == 4 %}
+                                        {% include 'head/template/cardtype/image/card.html' with data=template_item %}
+                                    {% endif %}
+                                </div>
+                                <div class="cardtype-button-area d-flex justify-content-between align-items-center" style="height: 14rem;">
+                                    <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="prev">
+                                        <i class="bx bx-chevron-left"></i>
+                                    </button>
+                                    <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="next">
+                                        <i class="bx bx-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="display-area p-1 mb-3">
+                                    {% if template.type == 1 %}
+                                        {% include 'head/template/cardtype/announce/input.html' with data=template_item %}
+                                    {% elif template.type == 2 %}
+                                        {% include 'head/template/cardtype/location/input.html' with data=template_item %}
+                                    {% elif template.type == 3 %}
+                                        {% include 'head/template/cardtype/person/input.html' with data=template_item %}
+                                    {% elif template.type == 4 %}
+                                        {% include 'head/template/cardtype/image/input.html' with data=template_item %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if template.more %}
+                <div id="tab10" class="tab-pane" role="tabpanel">
+                    <input type="hidden" value="10" class="display-number">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="action-area d-flex justify-content-end align-items-center mb-3" style="border: none;">
+                                <button type="button" class="btn delete-card-button" value="10">
+                                    <img src="{% static 'img/icon/cross.svg' %}">
+                                </button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_card_check_modal"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="cardtype-area" style="height: 14rem;">
+                                {% include 'head/template/cardtype/more/card.html' with data=template.more %}
+                            </div>
+                            <div class="cardtype-button-area d-flex justify-content-between align-items-center" style="height: 14rem;">
+                                <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="prev">
+                                    <i class="bx bx-chevron-left"></i>
+                                </button>
+                                <button type="button" class="btn arrow-button d-flex justify-content-center align-items-center" value="next">
+                                    <i class="bx bx-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="display-area p-1 mb-3">
+                                {% include 'head/template/cardtype/more/input.html' with data=template.more %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="button-area ps-5 ms-1">
+        <div class="row">
+            <div class="col-12">
+                <div class="save-area text-center">
+                    <input type="hidden" name="id" value="{{ template.display_id }}">
+                    {% if template.display_id %}
+                        <button type="button" class="btn copy-button mt-2 me-3" value="cardtype">複製する</button>
+                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#copy_check_modal"></button>
+                        <input type="hidden" id="copy_url" value="{% url 'head:template:copy_cardtype' %}">
+                    {% endif %}
+                    <button type="button" class="btn save-button mt-2" value="cardtype">保存する</button>
+                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                    <input type="hidden" id="reload_url" value="{% url 'head:template:cardtype' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

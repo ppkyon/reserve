@@ -39,34 +39,85 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if object_item.type == 1 %}
+                                            {% for template_item in object_item.head_template_card_type_announce.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image_1 %}
+                                                        <img class="content-image me-2" src="{{ template_item.image_1.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif object_item.type == 2 %}
+                                            {% for template_item in object_item.head_template_card_type_location.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image_1 %}
+                                                        <img class="content-image me-2" src="{{ template_item.image_1.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif object_item.type == 3 %}
+                                            {% for template_item in object_item.head_template_card_type_person.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image %}
+                                                        <img class="content-image me-2" src="{{ template_item.image.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif  object_item.type == 4 %}
+                                            {% for template_item in object_item.head_template_card_type_image.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image %}
+                                                        <img class="content-image me-2" src="{{ template_item.image.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.title }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.type == 1 %}
+                                            <p class="content-title mb-0">アナウンス</p>
+                                        {% elif object_item.type == 2 %}
+                                            <p class="content-title mb-0">ロケーション</p>
+                                        {% elif object_item.type == 3 %}
+                                            <p class="content-title mb-0">パーソン</p>
+                                        {% elif object_item.type == 4 %}
+                                            <p class="content-title mb-0">イメージ</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.count }}</p>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'head:template:edit_cardtype' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'head:template:paging_cardtype' %}">
+        {% include 'table/paging.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/template/cardtype/append.js' %}"></script>
 {% endblock %}

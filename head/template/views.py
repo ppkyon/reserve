@@ -2,7 +2,11 @@ from django.shortcuts import redirect
 
 from view import HeadView, HeadListView
 
-from template.models import HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichVideo, HeadTemplateGreeting
+from template.models import (
+    HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichVideo, HeadTemplateGreeting,
+    HeadTemplateCardType, HeadTemplateCardTypeAnnounce, HeadTemplateCardTypeLocation, HeadTemplateCardTypePerson, HeadTemplateCardTypeImage, HeadTemplateCardTypeMore,
+    HeadTemplateCardTypeAnnounceText, HeadTemplateCardTypeAnnounceAction
+)
 
 class IndexView(HeadView):
     def get(self, request, **kwargs):
@@ -108,9 +112,12 @@ class RichVideoEditView(HeadView):
                 context['template'].name = context['template'].name + ' コピー'
         return context
 
-class CardTypeView(HeadView):
+class CardTypeView(HeadListView):
     template_name = 'head/template/cardtype/index.html'
     title = 'カードタイプメッセージ管理'
+    model = HeadTemplateCardType
+    search_target = ['name']
+    default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -122,6 +129,42 @@ class CardTypeEditView(HeadView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['template'] = HeadTemplateCardType.objects.filter(display_id=self.request.GET.get("id")).first()
+        if context['template']:
+            if context['template'].type == 1:
+                context['template'].item = HeadTemplateCardTypeAnnounce.objects.filter(template=context['template']).all()
+                for template_index, template_item in enumerate(context['template'].item):
+                    context['template'].item[template_index].text = HeadTemplateCardTypeAnnounceText.objects.filter(card_type=template_item).all()
+                    context['template'].item[template_index].action = HeadTemplateCardTypeAnnounceAction.objects.filter(card_type=template_item).all()
+                    for action_index, action_item in enumerate(context['template'].item[template_index].action):
+                        context['template'].item[template_index].action[action_index].style = get_template_action_style(action_item)
+            elif context['template'].type == 2:
+                context['template'].item = HeadTemplateCardTypeLocation.objects.filter(template=context['template']).all()
+            elif context['template'].type == 3:
+                context['template'].item = HeadTemplateCardTypePerson.objects.filter(template=context['template']).all()
+            elif context['template'].type == 4:
+                context['template'].item = HeadTemplateCardTypeImage.objects.filter(template=context['template']).all()
+            context['template'].more = HeadTemplateCardTypeMore.objects.filter(template=context['template']).first()
+        else:
+            context['template'] = HeadTemplateCardType.objects.filter(display_id=self.request.GET.get("copy")).first()
+            if context['template']:
+                context['template'].display_id = ''
+                context['template'].name = context['template'].name + ' コピー'
+                if context['template'].type == 1:
+                    context['template'].item = HeadTemplateCardTypeAnnounce.objects.filter(template=context['template']).all()
+                    for template_index, template_item in enumerate(context['template'].item):
+                        context['template'].item[template_index].text = HeadTemplateCardTypeAnnounceText.objects.filter(card_type=template_item).all()
+                        context['template'].item[template_index].action = HeadTemplateCardTypeAnnounceAction.objects.filter(card_type=template_item).all()
+                        for action_index, action_item in enumerate(context['template'].item[template_index].action):
+                            context['template'].item[template_index].action[action_index].style = get_template_action_style(action_item)
+                elif context['template'].type == 2:
+                    context['template'].item = HeadTemplateCardTypeLocation.objects.filter(template=context['template']).all()
+                elif context['template'].type == 3:
+                    context['template'].item = HeadTemplateCardTypePerson.objects.filter(template=context['template']).all()
+                elif context['template'].type == 4:
+                    context['template'].item = HeadTemplateCardTypeImage.objects.filter(template=context['template']).all()
+                context['template'].more = HeadTemplateCardTypeMore.objects.filter(template=context['template']).first()
+
         return context
 
 class GreetingView(HeadView):
@@ -136,3 +179,41 @@ class GreetingView(HeadView):
                 context['template'][template_index].text = template_item.text.replace( '\r', '<br>' ).replace( '\n', '' ).replace( '<br><br>', '<br><div>&nbsp;</div>' )
             
         return context
+
+
+
+def get_template_action_style(action):
+    style = 'style=width:90%;'
+    if action.button_type == 0:
+        style += 'color:#fff;'
+        if action.button_color == 0:
+            style += 'background-color:#666f86;'
+        elif action.button_color == 1:
+            style += 'background-color:#fff;'
+        elif action.button_color == 2:
+            style += 'background-color:#eb4e3d;'
+        elif action.button_color == 3:
+            style += 'background-color:#ed8537;'
+        elif action.button_color == 4:
+            style += 'background-color:#00B900;'
+        elif action.button_color == 5:
+            style += 'background-color:#5b82db;'
+        else:
+            style += 'background-color:#fff;'
+    elif action.button_type == 1:
+        if action.button_color == 0:
+            style += 'color:#666f86;'
+        elif action.button_color == 1:
+            style += 'color:#fff;'
+        elif action.button_color == 2:
+            style += 'color:#eb4e3d;'
+        elif action.button_color == 3:
+            style += 'color:#ed8537;'
+        elif action.button_color == 4:
+            style += 'color:#00B900;'
+        elif action.button_color == 5:
+            style += 'color:#5b82db;'
+        else:
+            style += 'color:#5b82db;'
+        style += 'background-color:#fff;'
+    return style

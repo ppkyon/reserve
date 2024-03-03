@@ -1,7 +1,10 @@
 from django.db.models import Q
 
 from table.models import TableSearch, TableSort, TableNumber
-from template.models import HeadTemplateText, HeadTemplateTextItem, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichMessageItem, HeadTemplateRichVideo
+from template.models import (
+    HeadTemplateText, HeadTemplateTextItem, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichMessageItem, HeadTemplateRichVideo,
+    HeadTemplateCardType, HeadTemplateCardTypeAnnounce, HeadTemplateCardTypeLocation, HeadTemplateCardTypePerson, HeadTemplateCardTypeImage
+)
 
 from common import display_textarea_replace, get_model_field
 
@@ -9,7 +12,7 @@ import time
 import re
 
 def get_text_list(request, page):
-    url = request.path.replace('page/', '').replace('search/', '')
+    url = request.path.replace('paging/', '').replace('search/', '')
     page = int(page)
     number = get_table_number(request, url)
     start = number * ( page - 1 )
@@ -44,7 +47,7 @@ def get_text_list(request, page):
     return template
 
 def get_video_list(request, page):
-    url = request.path.replace('page/', '').replace('search/', '')
+    url = request.path.replace('paging/', '').replace('search/', '')
     page = int(page)
     number = get_table_number(request, url)
     start = number * ( page - 1 )
@@ -75,7 +78,7 @@ def get_video_list(request, page):
     return template
 
 def get_richmessage_list(request, page):
-    url = request.path.replace('page/', '').replace('search/', '')
+    url = request.path.replace('paging/', '').replace('search/', '')
     page = int(page)
     number = get_table_number(request, url)
     start = number * ( page - 1 )
@@ -106,7 +109,7 @@ def get_richmessage_list(request, page):
     return template
 
 def get_richvideo_list(request, page):
-    url = request.path.replace('page/', '').replace('search/', '')
+    url = request.path.replace('paging/', '').replace('search/', '')
     page = int(page)
     number = get_table_number(request, url)
     start = number * ( page - 1 )
@@ -132,6 +135,44 @@ def get_richvideo_list(request, page):
 
     for template_index, template_item in enumerate(template):
         template[template_index]['video_display_time'] = time.strftime('%M:%S', time.gmtime(template_item['video_time']))
+        template[template_index]['total'] = total
+
+    return template
+
+def get_cardtype_list(request, page):
+    url = request.path.replace('paging/', '').replace('search/', '')
+    page = int(page)
+    number = get_table_number(request, url)
+    start = number * ( page - 1 )
+    end = number * page
+
+    query = Q()
+    table_search = TableSearch.objects.filter(url=url, company=None, shop=None, manager=request.user).first()
+    if table_search:
+        query.add(Q(name__icontains=table_search.text), Q.AND)
+    
+    template = list()
+    sort = TableSort.objects.filter(url=url, company=None, shop=None, manager=request.user).first()
+    if sort:
+        if sort.sort == 1:
+            template = HeadTemplateCardType.objects.filter(query).order_by(sort.target, '-created_at').values(*get_model_field(HeadTemplateCardType)).all()[start:end]
+        elif sort.sort == 2:
+            template = HeadTemplateCardType.objects.filter(query).order_by('-'+sort.target, '-created_at').values(*get_model_field(HeadTemplateCardType)).all()[start:end]
+        else:
+            template = HeadTemplateCardType.objects.filter(query).order_by('-created_at').values(*get_model_field(HeadTemplateCardType)).all()[start:end]
+    else:
+        template = HeadTemplateCardType.objects.filter(query).order_by('-created_at').values(*get_model_field(HeadTemplateCardType)).all()[start:end]
+    total = HeadTemplateCardType.objects.filter(query).count()
+
+    for template_index, template_item in enumerate(template):
+        if template_item['type'] == 1:
+            template[template_index]['item'] = list(HeadTemplateCardTypeAnnounce.objects.filter(template__id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounce)).all())
+        elif template_item['type'] == 2:
+            template[template_index]['item'] = list(HeadTemplateCardTypeLocation.objects.filter(template__id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeLocation)).all())
+        elif template_item['type'] == 3:
+            template[template_index]['item'] = list(HeadTemplateCardTypePerson.objects.filter(template__id=template_item['id']).values(*get_model_field(HeadTemplateCardTypePerson)).all())
+        elif template_item['type'] == 4:
+            template[template_index]['item'] = list(HeadTemplateCardTypeImage.objects.filter(template__id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeImage)).all())
         template[template_index]['total'] = total
 
     return template

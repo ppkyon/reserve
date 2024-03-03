@@ -6,7 +6,7 @@ from table.models import TableSearch, TableSort, TableNumber
 from common import get_model_field
 
 def get_list(request, page):
-    url = request.path.replace('page/', '').replace('search/', '')
+    url = request.path.replace('paging/', '').replace('search/', '')
 
     page = int(page)
     number = 5

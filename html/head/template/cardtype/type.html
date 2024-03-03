@@ -1,0 +1,21 @@
+{% load static %}
+
+<div class="type-area">
+    <div class="d-flex justify-content-start align-items-center mb-1">
+        <p class="input-label fw-bold me-3 mb-0">カード設定</p>
+        {% if template.type == 1 %}
+        <p class="type-text me-3 mb-0">アナウンス</p>
+        {% elif template.type == 2 %}
+            <p class="type-text me-3 mb-0">ロケーション</p>
+        {% elif template.type == 3 %}
+            <p class="type-text me-3 mb-0">パーソン</p>
+        {% elif template.type == 4 %}
+            <p class="type-text me-3 mb-0">イメージ</p>
+        {% else %}
+            <p class="type-text me-3 mb-0"></p>
+        {% endif %}
+        <input type="hidden" name="type" value="{{ template.type }}">
+        <button type="button" class="btn template_select_button pt-1 pb-1 p-0 mb-0">カードタイプを選択</button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#select_cardtype_modal"></button>
+    </div>
+</div>
