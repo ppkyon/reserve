@@ -1,4 +1,8 @@
 $( function() {
+    $( document ).on( 'click', '.table-area .table tbody tr', function () {
+        create_list_preview($( this ).find( '[name=id]' ).val());
+    });
+
     $( document ).on( 'click', '#save_cardtype_form .cardtype-button-area .arrow-button', function () {
         var type = $( this ).val();
         $( '#save_cardtype_form .tab-area ul li' ).each( function( index, value ) {

@@ -9,3 +9,14 @@ $( function() {
         }
     });
 });
+
+function slide_preview() {
+    if ( $( '.preview-slide' ).length ) {
+        $( '.preview-slide' ).slick({
+            infinite: false,
+            arrows: false,
+            variableWidth: true,
+        });
+        $( '.line-preview .line-preview-content .line-preview-body .line-preview-chat' ).css( 'width', '100%' );
+    }
+}

@@ -10,7 +10,7 @@ from template.models import (
 
 from head.template.action.list import get_cardtype_list
 
-from common import create_code
+from common import create_code, get_model_field
 from table.action import action_search
 
 import base64
@@ -323,3 +323,19 @@ def search(request):
 
 def paging(request):
     return JsonResponse( list(get_cardtype_list(request, int(request.POST.get('page')))), safe=False )
+
+def get(request):
+    template = HeadTemplateCardType.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateCardType)).first()
+    if template['type'] == 1:
+        template['item'] = list(HeadTemplateCardTypeAnnounce.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeAnnounce)).all())
+        for template_index, template_item in enumerate(template['item']):
+            template['item'][template_index]['text'] = list(HeadTemplateCardTypeAnnounceText.objects.filter(card_type_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounceText)).all())
+            template['item'][template_index]['action'] = list(HeadTemplateCardTypeAnnounceAction.objects.filter(card_type_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounceAction)).all())
+    elif template['type'] == 2:
+        template['item'] = list(HeadTemplateCardTypeLocation.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeLocation)).all())
+    elif template['type'] == 3:
+        template['item'] = list(HeadTemplateCardTypePerson.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypePerson)).all())
+    elif template['type'] == 4:
+        template['item'] = list(HeadTemplateCardTypeImage.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeImage)).all())
+    template['more'] = HeadTemplateCardTypeMore.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeMore)).first()
+    return JsonResponse( template, safe=False )

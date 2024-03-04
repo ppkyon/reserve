@@ -58,6 +58,7 @@ urlpatterns = [
     path('cardtype/copy/', cardtype.copy, name='copy_cardtype'),
     path('cardtype/search/', cardtype.search, name='search_cardtype'),
     path('cardtype/paging/', cardtype.paging, name='paging_cardtype'),
+    path('cardtype/get/', cardtype.get, name='get_cardtype'),
     
     path('greeting/save/', greeting.save, name='save_greeting'),
     path('greeting/save/check/', greeting.save_check, name='save_greeting_check'),
