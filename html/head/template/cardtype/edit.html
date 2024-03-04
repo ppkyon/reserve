@@ -38,12 +38,14 @@
         {% include 'head/template/cardtype/modal/template.html' %}
         {% include 'head/template/video/modal/video.html' %}
         {% include 'head/question/modal/question.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
     <script src="{% static 'js/head/question/modal.js' %}"></script>
     <script src="{% static 'js/head/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/head/template/cardtype/preview.js' %}"></script>
     <script src="{% static 'js/head/template/cardtype/append.js' %}"></script>
     <script src="{% static 'js/head/template/cardtype/tab.js' %}"></script>
     <script src="{% static 'js/head/template/cardtype/action.js' %}"></script>

@@ -1,4 +1,5 @@
 $( function() {
+    action_preview();
     $( document ).on( 'click', '.table-area .table tbody tr', function () {
         create_list_preview($( this ).find( '[name=id]' ).val());
     });
