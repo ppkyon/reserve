@@ -145,3 +145,9 @@ def get(request):
     template = HeadTemplateText.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateText)).first()
     template['item'] = list(HeadTemplateTextItem.objects.filter(template__id=template['id']).values(*get_model_field(HeadTemplateTextItem)).all())
     return JsonResponse( template, safe=False )
+
+def get_all(request):
+    template_list = list(HeadTemplateText.objects.order_by('-created_at').values(*get_model_field(HeadTemplateText)).all())
+    for template_index, template_item in enumerate(template_list):
+        template_list[template_index]['item'] = HeadTemplateTextItem.objects.filter(template__id=template_item['id']).order_by('number').values(*get_model_field(HeadTemplateTextItem)).first()
+    return JsonResponse( template_list, safe=False )

@@ -26,6 +26,7 @@ urlpatterns = [
     path('text/search/', text.search, name='search_text'),
     path('text/paging/', text.paging, name='paging_text'),
     path('text/get/', text.get, name='get_text'),
+    path('text/all/get/', text.get_all, name='get_all_text'),
 
     path('video/save/', video.save, name='save_video'),
     path('video/save/check/', video.save_check, name='save_video_check'),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('richmessage/search/', richmessage.search, name='search_richmessage'),
     path('richmessage/paging/', richmessage.paging, name='paging_richmessage'),
     path('richmessage/get/', richmessage.get, name='get_richmessage'),
+    path('richmessage/all/get/', richmessage.get_all, name='get_all_richmessage'),
     
     path('richvideo/save/', richvideo.save, name='save_richvideo'),
     path('richvideo/save/check/', richvideo.save_check, name='save_richvideo_check'),
@@ -51,6 +53,7 @@ urlpatterns = [
     path('richvideo/search/', richvideo.search, name='search_richvideo'),
     path('richvideo/paging/', richvideo.paging, name='paging_richvideo'),
     path('richvideo/get/', richvideo.get, name='get_richvideo'),
+    path('richvideo/all/get/', richvideo.get_all, name='get_all_richvideo'),
     
     path('cardtype/save/', cardtype.save, name='save_cardtype'),
     path('cardtype/save/check/', cardtype.save_check, name='save_cardtype_check'),
@@ -59,6 +62,7 @@ urlpatterns = [
     path('cardtype/search/', cardtype.search, name='search_cardtype'),
     path('cardtype/paging/', cardtype.paging, name='paging_cardtype'),
     path('cardtype/get/', cardtype.get, name='get_cardtype'),
+    path('cardtype/all/get/', cardtype.get_all, name='get_all_cardtype'),
     
     path('greeting/save/', greeting.save, name='save_greeting'),
     path('greeting/save/check/', greeting.save_check, name='save_greeting_check'),

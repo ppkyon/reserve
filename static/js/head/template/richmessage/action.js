@@ -99,7 +99,7 @@ $( function() {
         append_content_area( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
         $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', false );
         if ( $( this ).val() == '2' ) {
-            open_template_video_modal( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
+            open_template_video_modal($( this ).parents( '.dropdown' ).next(), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
         } else if ( $( this ).val() == '3' ) {
             open_question_modal( $( this ), $( this ).parents( '.action-area' ).find( '[name=number]' ).val() );
         } else if ( $( this ).val() == '4' ) {

@@ -111,4 +111,11 @@ def paging(request):
 
 def get(request):
     template = HeadTemplateRichMessage.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateRichMessage)).first()
+    template['item'] = list(HeadTemplateRichMessageItem.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(HeadTemplateRichMessageItem)).all())
     return JsonResponse( template, safe=False )
+
+def get_all(request):
+    template_list = list(HeadTemplateRichMessage.objects.order_by('-created_at').values(*get_model_field(HeadTemplateRichMessage)).all())
+    for template_index, template_item in enumerate(template_list):
+        template_list[template_index]['item'] = list(HeadTemplateRichMessageItem.objects.filter(template__id=template_item['id']).order_by('number').values(*get_model_field(HeadTemplateRichMessageItem)).all())
+    return JsonResponse( template_list, safe=False )

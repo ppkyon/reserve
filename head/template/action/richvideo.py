@@ -17,6 +17,7 @@ import cv2
 import environ
 import io
 import os
+import time
 import urllib.request as urllib_request
 import uuid
 
@@ -113,4 +114,11 @@ def paging(request):
 
 def get(request):
     template = HeadTemplateRichVideo.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(HeadTemplateRichVideo)).first()
+    template['video_display_time'] = time.strftime('%M:%S', time.gmtime(template['video_time']))
     return JsonResponse( template, safe=False )
+
+def get_all(request):
+    template_list = list(HeadTemplateRichVideo.objects.order_by('-created_at').values(*get_model_field(HeadTemplateRichVideo)).all())
+    for template_index, template_item in enumerate(template_list):
+        template_list[template_index]['video_display_time'] = time.strftime('%M:%S', time.gmtime(template_item['video_time']))
+    return JsonResponse( template_list, safe=False )

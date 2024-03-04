@@ -394,7 +394,7 @@ $( function() {
             }
         }
         if ( $( this ).val() == '2' ) {
-            open_template_video_modal( $( this ), number );
+            open_template_video_modal( $( this ).parents( '.dropdown' ).next(), number );
         } else if ( $( this ).val() == '3' ) {
             open_question_modal( $( this ), number );
         }

@@ -1,26 +1,24 @@
-function open_template_video_modal(target, number){
+function open_template_richvideo_modal(target, number){
     var form_data = new FormData();
     $.ajax({
         'data': form_data,
-        'url': $( '#get_head_template_video_list_url' ).val(),
+        'url': $( '#get_head_template_richvideo_list_url' ).val(),
         'type': 'POST',
         'dataType': 'json',
         'processData': false,
         'contentType': false,
     }).done( function( response ){
-        $( '#head_template_video_modal .table-area tbody' ).empty();
+        $( '#head_template_richvideo_modal .table-area tbody' ).empty();
         if ( response.length > 0 ) {
             $.each( response, function( index, value ) {
-                if ( check_empty( value.video ) ) {
-                    $( '#head_template_video_modal .table-area tbody' ).append( append_template_video_modal(value) );
-                }
+                $( '#head_template_richvideo_modal .table-area tbody' ).append( append_template_richvideo_modal(value) );
             });
-            $( '#head_template_video_modal .table-area tbody button' ).val( number );
-            $( '#head_template_video_modal .table-area' ).removeClass( 'd-none' );
-            $( '#head_template_video_modal .notice-area' ).addClass( 'd-none' );
+            $( '#head_template_richvideo_modal .table-area tbody button' ).val( number );
+            $( '#head_template_richvideo_modal .table-area' ).removeClass( 'd-none' );
+            $( '#head_template_richvideo_modal .notice-area' ).addClass( 'd-none' );
         } else {
-            $( '#head_template_video_modal .table-area' ).addClass( 'd-none' );
-            $( '#head_template_video_modal .notice-area' ).removeClass( 'd-none' );
+            $( '#head_template_richvideo_modal .table-area' ).addClass( 'd-none' );
+            $( '#head_template_richvideo_modal .notice-area' ).removeClass( 'd-none' );
         }
         $( target ).trigger( 'click' );
     }).fail( function(){
@@ -28,7 +26,7 @@ function open_template_video_modal(target, number){
     });
 }
 
-function append_template_video_modal(data) {
+function append_template_richvideo_modal(data) {
     var size = '';
     if ( data.video_size >= 1000000 ) {
         size = Math.ceil( data.video_size / 1000000 ) + 'MB';

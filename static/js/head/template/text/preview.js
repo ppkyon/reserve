@@ -78,6 +78,8 @@ function create_list_preview(id) {
 }
 
 function display_textarea_replace(text) {
+    text = text.replaceAll( 'font-size: 12px;', '' )
+    text = text.replaceAll( 'font-size: 12.8px;', '' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/display-name.png" class="ms-1 me-1">', '【応募者の登録名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/line-name.png" class="ms-1 me-1">', '【公式LINE名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/company-name.png" class="ms-1 me-1">', '【企業名】' );
@@ -86,7 +88,5 @@ function display_textarea_replace(text) {
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/interview-date.png" class="ms-1 me-1">', '【面接日時】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/offline-address.png" class="ms-1 me-1">', '【会場住所】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/online-url.png" class="ms-1 me-1">', '【オンラインURL】' );
-    text = text.replaceAll( 'font-size: 12px;', '' )
-    text = text.replaceAll( 'font-size: 12.8px;', '' );
     return text;
 }

@@ -339,3 +339,20 @@ def get(request):
         template['item'] = list(HeadTemplateCardTypeImage.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeImage)).all())
     template['more'] = HeadTemplateCardTypeMore.objects.filter(template_id=template['id']).values(*get_model_field(HeadTemplateCardTypeMore)).first()
     return JsonResponse( template, safe=False )
+
+def get_all(request):
+    template_list = list(HeadTemplateCardType.objects.order_by('-created_at').values(*get_model_field(HeadTemplateCardType)).all())
+    for template_index, template_item in enumerate(template_list):
+        if template_item['type'] == 1:
+            template_list[template_index]['item'] = list(HeadTemplateCardTypeAnnounce.objects.filter(template_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounce)).all())
+            for card_type_index, card_type_item in enumerate(template_list[template_index]['item']):
+                template_list[template_index]['item'][card_type_index]['text'] = list(HeadTemplateCardTypeAnnounceText.objects.filter(card_type_id=card_type_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounceText)).all())
+                template_list[template_index]['item'][card_type_index]['action'] = list(HeadTemplateCardTypeAnnounceAction.objects.filter(card_type_id=card_type_item['id']).values(*get_model_field(HeadTemplateCardTypeAnnounceAction)).all())
+        elif template_item['type'] == 2:
+            template_list[template_index]['item'] = list(HeadTemplateCardTypeLocation.objects.filter(template_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeLocation)).all())
+        elif template_item['type'] == 3:
+            template_list[template_index]['item'] = list(HeadTemplateCardTypePerson.objects.filter(template_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypePerson)).all())
+        elif template_item['type'] == 4:
+            template_list[template_index]['item'] = list(HeadTemplateCardTypeImage.objects.filter(template_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeImage)).all())
+        template_list[template_index]['more'] = HeadTemplateCardTypeMore.objects.filter(template_id=template_item['id']).values(*get_model_field(HeadTemplateCardTypeMore)).first()
+    return JsonResponse( template_list, safe=False )
