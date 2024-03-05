@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from PIL import Image
 
-from template.models import HeadTemplateGreeting
+from template.models import HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichVideo, HeadTemplateCardType, HeadTemplateGreeting
 
 from common import create_code
 
@@ -105,6 +105,53 @@ def save(request):
             if env('AWS_FLG') == 'True':
                 os.remove(video_name)
 
+            number += 1
+        elif request.POST.get('message_type_' + str( i + 1 )) == '4':
+            if request.POST.get('template_type_' + str( i + 1 )) == '0':
+                HeadTemplateGreeting.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, HeadTemplateGreeting),
+                    number = number,
+                    message_type = request.POST.get('message_type_' + str( i + 1 )),
+                    template_text = HeadTemplateText.objects.filter(display_id=request.POST.get('template_' + str( i + 1 ))).first(),
+                    author = request.user.id,
+                )
+            elif request.POST.get('template_type_' + str( i + 1 )) == '1':
+                HeadTemplateGreeting.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, HeadTemplateGreeting),
+                    number = number,
+                    message_type = request.POST.get('message_type_' + str( i + 1 )),
+                    template_video = HeadTemplateVideo.objects.filter(display_id=request.POST.get('template_' + str( i + 1 ))).first(),
+                    author = request.user.id,
+                )
+            elif request.POST.get('template_type_' + str( i + 1 )) == '2':
+                HeadTemplateGreeting.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, HeadTemplateGreeting),
+                    number = number,
+                    message_type = request.POST.get('message_type_' + str( i + 1 )),
+                    template_richmessage = HeadTemplateRichMessage.objects.filter(display_id=request.POST.get('template_' + str( i + 1 ))).first(),
+                    author = request.user.id,
+                )
+            elif request.POST.get('template_type_' + str( i + 1 )) == '3':
+                HeadTemplateGreeting.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, HeadTemplateGreeting),
+                    number = number,
+                    message_type = request.POST.get('message_type_' + str( i + 1 )),
+                    template_richvideo = HeadTemplateRichVideo.objects.filter(display_id=request.POST.get('template_' + str( i + 1 ))).first(),
+                    author = request.user.id,
+                )
+            elif request.POST.get('template_type_' + str( i + 1 )) == '4':
+                HeadTemplateGreeting.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, HeadTemplateGreeting),
+                    number = number,
+                    message_type = request.POST.get('message_type_' + str( i + 1 )),
+                    template_cardtype = HeadTemplateCardType.objects.filter(display_id=request.POST.get('template_' + str( i + 1 ))).first(),
+                    author = request.user.id,
+                )
             number += 1
 
     return JsonResponse( {}, safe=False )

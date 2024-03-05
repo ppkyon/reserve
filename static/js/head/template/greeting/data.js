@@ -16,6 +16,7 @@ $( function() {
                 form_data.append( 'video_' + ( index + 1 ), $( '#save_greeting_form [name=upload_video_' + ( index + 1 ) + ']' ).val() );
             } else if ( $( '#save_greeting_form [name=message_type_' + ( index + 1 ) + ']' ).val() == '4' ) {
                 form_data.append( 'template_' + ( index + 1 ), $( '#save_greeting_form [name=template_' + ( index + 1 ) + ']' ).val() );
+                form_data.append( 'template_type_' + ( index + 1 ), $( '#save_greeting_form [name=template_type_' + ( index + 1 ) + ']' ).val() );
             }
         });
         return form_data;

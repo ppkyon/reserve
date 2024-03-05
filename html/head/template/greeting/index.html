@@ -1,6 +1,7 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
     <link href="{% static 'css/template/greeting.css' %}" rel="stylesheet" type="text/css" />
@@ -177,6 +178,144 @@
                                                             </div>
                                                         </div>
                                                         <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                    {% elif template_item.message_type == 4 %}
+                                                        <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                                        <div class="text-area d-none">
+                                                            <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                            <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                        </div>
+                                                        <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="chart-area pt-2 pb-2 ps-3 pe-3">
+                                                            <div class="chart-content-area mt-2 ms-2">
+                                                                <div class="chart-title-area d-flex justify-content-start align-items-center">
+                                                                    {% if template_item.template_text %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #EF0000;">メッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_text.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="0">
+                                                                    {% elif template_item.template_video %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #FCA000;">動画</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_video.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="1">
+                                                                    {% elif template_item.template_richmessage %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #009E9F;">リッチメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_richmessage.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="2">
+                                                                    {% elif template_item.template_richvideo %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #009825;">リッチビデオメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_richvideo.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="3">
+                                                                    {% elif template_item.template_cardtype %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #A1007E;">カードタイプメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_cardtype.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="4">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% if template_item.template_text %}
+                                                                    <a href="/head/template/text/edit/?id={{ template_item.template_text.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FF0202;">{{ template_item.template_text.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                {% for template_text_item in template_item.template_text.head_template_text_item.all %}
+                                                                                    {% if forloop.first %}
+                                                                                        {% if template_text_item.message_type == 1 %}
+                                                                                            <img src="{% static 'img/image-none.png' %}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">{{ template_text_item.text|default:''|textarea_action_replace|striptags }}</p>
+                                                                                        {% elif template_text_item.message_type == 2 %}
+                                                                                            <img src="{{ template_text_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">画像メッセージ</p>
+                                                                                        {% elif template_text_item.message_type == 3 %}
+                                                                                            <img src="{{ template_text_item.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">動画メッセージ</p>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_video %}
+                                                                    <a href="/head/template/video/edit/?id={{ template_item.template_video.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FCA000;">{{ template_item.template_video.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_video.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <p class="chart-content-img-text p-2 mb-0">{{ template_item.template_video.video_time|convert_time }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_richmessage %}
+                                                                    <a href="/head/template/rich_message/edit/?id={{ template_item.template_richmessage.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009E9F;">{{ template_item.template_richmessage.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_richmessage.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <div>
+                                                                                    {% for template_richmessage_item in template_item.template_richmessage.head_template_rich_message_item.all %}
+                                                                                        {% if forloop.counter <= 3 %}
+                                                                                            <p class="chart-content-text mb-0" style="height: auto;">{{ template_richmessage_item.url|default:'' }}</p>
+                                                                                        {% endif %}
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_richvideo %}
+                                                                    <a href="/head/template/rich_video/edit/?id={{ template_item.template_richvideo.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009825;">{{ template_item.template_richvideo.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_richvideo.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <p class="chart-content-img-text p-2 mb-0">{{ template_item.template_richvideo.video_time|convert_time }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_cardtype %}
+                                                                    <a href="/head/template/card_type/edit/?id={{ template_item.template_cardtype.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #A1007E;">{{ template_item.template_cardtype.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                {% if template_item.template_cardtype.type == 1 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.head_template_card_type_announce.all %}
+                                                                                        <img src="{{ template_cardtype_item.image_1.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">アナウンス</p>
+                                                                                {% elif template_item.template_cardtype.type == 2 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.head_template_card_type_location.all %}
+                                                                                        <img src="{{ template_cardtype_item.image_1.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">ロケーション</p>
+                                                                                {% elif template_item.template_cardtype.type == 3 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.head_template_card_type_person.all %}
+                                                                                        <img src="{{ template_cardtype_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">パーソン</p>
+                                                                                {% elif template_item.template_cardtype.type == 4 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.head_template_card_type_image.all %}
+                                                                                        <img src="{{ template_cardtype_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">イメージ</p>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
                                                     {% else %}
                                                         <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
                                                         <div class="text-area">

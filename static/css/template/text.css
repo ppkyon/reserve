@@ -95,6 +95,53 @@
     cursor: pointer;
 }
 
+.input-area .chart-area .chart-content-area {
+    width: 20rem;
+}
+.input-area .chart-area .chart-content-area .chart-content-title {
+    width: 15rem;
+    color: #FFF;
+    font-size: 0.7rem;
+}
+.input-area .chart-area .chart-content-area .delete-button img {
+    width: 20px;
+    height: 20px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+.input-area .chart-area .chart-content-area .chart-content {
+    width: 20rem;
+    height: 100px;
+    background-color: #F9F9F9;
+    border: 1px solid #707070;
+    border-radius: 0 5px 5px 5px;
+}
+.input-area .chart-area .chart-content-area .chart-content .chart-sub-title {
+    width: 17rem;
+    color: #FFF;
+    border-radius: 0 0 30px 0;
+}
+.input-area .chart-area .chart-content-area .chart-content .chart-content-text {
+    width: 100%;
+    height: 3.8rem;
+    color: #000;
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.input-area .chart-area .chart-content-area .chart-content .chart-content-img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+}
+.input-area .chart-area .chart-content-area .chart-content .chart-content-img-text {
+    color: #000;
+    font-size: 0.75rem;
+}
+
 .input-area .text-area .false-textarea {
     height: 100%;
     color: #707070;

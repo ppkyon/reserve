@@ -44,15 +44,30 @@
                                         <div class="d-flex align-items-center">
                                             {% for text_item in object_item.head_template_text_item.all %}
                                                 {% if forloop.first %}
-                                                    {% if text_item.image %}
+                                                    {% if text_item.text %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">{{ text_item.text|textarea_action_replace|default:'-'|striptags }}</p>
+                                                    {% elif text_item.image %}
                                                         <img class="content-image me-2" src="{{ text_item.image.url }}">
                                                         <p class="content-text text-start">画像メッセージ</p>
                                                     {% elif text_item.video %}
                                                         <img class="content-image me-2" src="{{ text_item.video_thumbnail.url }}">
                                                         <p class="content-text text-start">動画メッセージ</p>
-                                                    {% else %}
+                                                    {% elif text_item.template_text %}
                                                         <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
-                                                        <p class="content-text text-start">{{ text_item.text|textarea_action_replace|default:'-'|striptags }}</p>
+                                                        <p class="content-text text-start">テキストメッセージ</p>
+                                                    {% elif text_item.template_video %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">動画メッセージ</p>
+                                                    {% elif text_item.template_richmessage %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">リッチメッセージ</p>
+                                                    {% elif text_item.template_richvideo %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">リッチビデオメッセージ</p>
+                                                    {% elif text_item.template_cardtype %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                        <p class="content-text text-start">カードタイプメッセージ</p>
                                                     {% endif %}
                                                 {% endif %}
                                             {% endfor %}

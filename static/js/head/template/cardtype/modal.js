@@ -8,7 +8,6 @@ function open_template_cardtype_modal(target, number){
         'processData': false,
         'contentType': false,
     }).done( function( response ){
-        console.log(response);
         $( '#head_template_cardtype_modal .table-area tbody' ).empty();
         if ( response.length > 0 ) {
             $.each( response, function( index, value ) {

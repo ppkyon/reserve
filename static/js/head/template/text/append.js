@@ -27,10 +27,15 @@ function append_input_area() {
     html += '</button>';
     html += '<div class="dropdown-menu">';
     html += '<button type="button" value="0" class="btn dropdown-item fw-bold text-center p-1">テキスト</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_text_modal"></button>';
     html += '<button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">動画</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_video_modal"></button>';
     html += '<button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_richmessage_modal"></button>';
     html += '<button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオ</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_richvideo_modal"></button>';
     html += '<button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプ</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_cardtype_modal"></button>';
     html += '</div>';
     html += '</div>';
     html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>';

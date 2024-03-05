@@ -33,7 +33,7 @@ $( function() {
                 $( message_area ).find( '.chart-area' ).removeClass( 'd-none' );
                 $( message_area ).find( '.chart-area' ).empty();
 
-                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '5' );
+                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '4' );
                 $( this ).parents( '.input-area' ).find( '.action-area .menu-area button' ).each( function( index, value ) {
                     if ( !$( this ).hasClass( 'd-none' ) ) {
                         $( this ).prop( 'disabled', true );
@@ -58,6 +58,7 @@ $( function() {
                     html += '</button>';
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
+                    html += '<input type="hidden" name="template_type_' + number + '" value="0">';
                     html += '<a href="/head/template/text/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FF0202;">' + response.name + '</p>';
@@ -81,6 +82,7 @@ $( function() {
                     html += '</a>';
                     html += '</div>';
                     $( message_area ).find( '.chart-area' ).append( html );
+                    create_preview();
                 }).fail( function(){
                     
                 });
@@ -101,7 +103,7 @@ $( function() {
                 $( message_area ).find( '.chart-area' ).removeClass( 'd-none' );
                 $( message_area ).find( '.chart-area' ).empty();
 
-                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '5' );
+                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '4' );
                 $( this ).parents( '.input-area' ).find( '.action-area .menu-area button' ).each( function( index, value ) {
                     if ( !$( this ).hasClass( 'd-none' ) ) {
                         $( this ).prop( 'disabled', true );
@@ -126,6 +128,7 @@ $( function() {
                     html += '</button>';
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
+                    html += '<input type="hidden" name="template_type_' + number + '" value="1">';
                     html += '<a href="/head/template/video/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FCA000;">' + response.name + '</p>';
@@ -137,6 +140,7 @@ $( function() {
                     html += '</a>';
                     html += '</div>';
                     $( message_area ).find( '.chart-area' ).append( html );
+                    create_preview();
                 }).fail( function(){
                     
                 });
@@ -157,7 +161,7 @@ $( function() {
                 $( message_area ).find( '.chart-area' ).removeClass( 'd-none' );
                 $( message_area ).find( '.chart-area' ).empty();
 
-                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '5' );
+                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '4' );
                 $( this ).parents( '.input-area' ).find( '.action-area .menu-area button' ).each( function( index, value ) {
                     if ( !$( this ).hasClass( 'd-none' ) ) {
                         $( this ).prop( 'disabled', true );
@@ -182,6 +186,7 @@ $( function() {
                     html += '</button>';
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
+                    html += '<input type="hidden" name="template_type_' + number + '" value="2">';
                     html += '<a href="/head/template/richmessage/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009E9F;">' + response.name + '</p>';
@@ -201,6 +206,7 @@ $( function() {
                     html += '</a>';
                     html += '</div>';
                     $( message_area ).find( '.chart-area' ).append( html );
+                    create_preview();
                 }).fail( function(){
                     
                 });
@@ -221,7 +227,7 @@ $( function() {
                 $( message_area ).find( '.chart-area' ).removeClass( 'd-none' );
                 $( message_area ).find( '.chart-area' ).empty();
 
-                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '5' );
+                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '4' );
                 $( this ).parents( '.input-area' ).find( '.action-area .menu-area button' ).each( function( index, value ) {
                     if ( !$( this ).hasClass( 'd-none' ) ) {
                         $( this ).prop( 'disabled', true );
@@ -246,6 +252,7 @@ $( function() {
                     html += '</button>';
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
+                    html += '<input type="hidden" name="template_type_' + number + '" value="3">';
                     html += '<a href="/head/template/rich_video/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009825;">' + response.name + '</p>';
@@ -257,6 +264,7 @@ $( function() {
                     html += '</a>';
                     html += '</div>';
                     $( message_area ).find( '.chart-area' ).append( html );
+                    create_preview();
                 }).fail( function(){
                     
                 });
@@ -277,7 +285,7 @@ $( function() {
                 $( message_area ).find( '.chart-area' ).removeClass( 'd-none' );
                 $( message_area ).find( '.chart-area' ).empty();
 
-                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '5' );
+                $( message_area ).find( '[name=message_type_' + $( this ).val() + ']' ).val( '4' );
                 $( this ).parents( '.input-area' ).find( '.action-area .menu-area button' ).each( function( index, value ) {
                     if ( !$( this ).hasClass( 'd-none' ) ) {
                         $( this ).prop( 'disabled', true );
@@ -302,6 +310,7 @@ $( function() {
                     html += '</button>';
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
+                    html += '<input type="hidden" name="template_type_' + number + '" value="4">';
                     html += '<a href="/head/template/card_type/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #A1007E;">' + response.name + '</p>';
@@ -340,6 +349,7 @@ $( function() {
                     html += '</a>';
                     html += '</div>';
                     $( message_area ).find( '.chart-area' ).append( html );
+                    create_preview();
                 }).fail( function(){
                     
                 });
