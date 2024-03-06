@@ -1,0 +1,86 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/richmenu.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'head:richmenu:edit' %}" class="btn edit-button me-2" style="width: 10rem;">新規リッチメニュー登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名・アクション">
+                        <input type="hidden" id="table_search_url" value="{% url 'head:richmenu:search' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4" style="width: 150px;">画像</th>
+                                {% include 'table/sort.html' with text='登録名' target='name' width='250' %}
+                                <th>アクション</th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if object_item.image %}
+                                            <img class="content-image me-2" src="{{ object_item.image.url }}">
+                                        {% else %}
+                                            <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                        {% endif %}
+                                    </td>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% for richmenu_item in object_item.head_rich_menu_item.all %}
+                                            {% if richmenu_item.type == 1 or richmenu_item.type == 2 or richmenu_item.type == 3 or richmenu_item.type == 4 or richmenu_item.type == 5 or richmenu_item.type == 6 %}
+                                                <p class="content-title mb-0">{{ richmenu_item.url }}</p>
+                                            {% elif richmenu_item.type == 7 %}
+                                                <p class="content-title mb-0">{{ richmenu_item.text }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        <a href="{% url 'head:richmenu:edit' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'head:richmenu:paging' %}">
+        <input type="hidden" id="get_richmenu_url" value="{% url 'head:richmenu:get' %}">
+        {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/head/richmenu/preview.js' %}"></script>
+    <script src="{% static 'js/head/richmenu/append.js' %}"></script>
+    <script src="{% static 'js/head/richmenu/action.js' %}"></script>
+{% endblock %}

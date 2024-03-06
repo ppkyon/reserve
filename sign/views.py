@@ -39,7 +39,7 @@ class ManagerLoginView(LoginView):
             else:
                 return redirect('/dashboard/')
         else:
-            return render(self.request, self.template_name, {'title': self.title})
+            return render(self.request, self.template_name, {'title': self.title, 'site_name': env('SITE_NAME')})
     
     def get_success_url(self):
         if self.request.user.head_flg:
@@ -80,7 +80,7 @@ class ManagerLoginView(LoginView):
     def form_invalid(self, form):
         for error_message in form.errors.as_data():
             messages.add_message( self.request, messages.ERROR, form.errors.as_data()[error_message][0].message )
-        return render(self.request, self.template_name, {'title': self.title, 'form': form})
+        return render(self.request, self.template_name, {'title': self.title, 'form': form, 'site_name': env('SITE_NAME')})
 
 class ManagerLogoutView(LogoutView):
     next_page = '/login'
@@ -103,7 +103,7 @@ class SimpleLoginView(LoginView):
             else:
                 return redirect('/dashboard/')
         else:
-            return render(self.request, self.template_name, {'title': self.title})
+            return render(self.request, self.template_name, {'title': self.title, 'site_name': env('SITE_NAME')})
     
     def get_success_url(self):
         if self.request.user.head_flg:
@@ -144,7 +144,7 @@ class SimpleLoginView(LoginView):
     def form_invalid(self, form):
         for error_message in form.errors.as_data():
             messages.add_message( self.request, messages.ERROR, form.errors.as_data()[error_message][0].message )
-        return render(self.request, self.template_name, {'title': self.title, 'form': form})
+        return render(self.request, self.template_name, {'title': self.title, 'form': form, 'site_name': env('SITE_NAME')})
 
 
 
@@ -163,9 +163,9 @@ class HeadEmailChangeView(HeadLoginMixin, View):
         
         EmailChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             user.email = temp_user.email
             user.save()
@@ -185,7 +185,7 @@ class HeadEmailChangeView(HeadLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
             
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0, 'site_name': env('SITE_NAME')})
 
 class CompanyEmailChangeView(CompanyLoginMixin, View):
     template_name = 'sign/company/change_email.html'
@@ -202,9 +202,9 @@ class CompanyEmailChangeView(CompanyLoginMixin, View):
         
         EmailChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             user.email = temp_user.email
             user.save()
@@ -224,7 +224,7 @@ class CompanyEmailChangeView(CompanyLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
             
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0, 'site_name': env('SITE_NAME')})
 
 class ShopEmailChangeView(ShopLoginMixin, View):
     template_name = 'sign/shop/change_email.html'
@@ -241,9 +241,9 @@ class ShopEmailChangeView(ShopLoginMixin, View):
         
         EmailChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             user.email = temp_user.email
             user.save()
@@ -263,7 +263,7 @@ class ShopEmailChangeView(ShopLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
             
-            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0})
+            return render(self.request, self.template_name, {'title': self.title, 'user': user, 'status': 0, 'site_name': env('SITE_NAME')})
 
 
 
@@ -282,9 +282,9 @@ class HeadPasswordChangeView(HeadLoginMixin, View):
 
         PasswordChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             if ManagerProfile.objects.filter(manager=user).exists():
                 profile = ManagerProfile.objects.filter(manager=user).first()
@@ -312,7 +312,7 @@ class HeadPasswordChangeView(HeadLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
 
-        return render(self.request, self.template_name, {'title': self.title, 'status': 0})
+        return render(self.request, self.template_name, {'title': self.title, 'status': 0, 'site_name': env('SITE_NAME')})
 
 class CompanyPasswordChangeView(CompanyLoginMixin, View):
     template_name = 'sign/company/change_password.html'
@@ -329,9 +329,9 @@ class CompanyPasswordChangeView(CompanyLoginMixin, View):
 
         PasswordChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             if ManagerProfile.objects.filter(manager=user).exists():
                 profile = ManagerProfile.objects.filter(manager=user).first()
@@ -359,7 +359,7 @@ class CompanyPasswordChangeView(CompanyLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
 
-        return render(self.request, self.template_name, {'title': self.title, 'status': 0})
+        return render(self.request, self.template_name, {'title': self.title, 'status': 0, 'site_name': env('SITE_NAME')})
 
 class ShopPasswordChangeView(ShopLoginMixin, View):
     template_name = 'sign/shop/change_password.html'
@@ -376,9 +376,9 @@ class ShopPasswordChangeView(ShopLoginMixin, View):
 
         PasswordChangeToken.objects.filter(token=token).delete()
         if user == None:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 1})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 1, 'site_name': env('SITE_NAME')})
         elif datetime.datetime.now() > temp_user.expiration_date:
-            return render(self.request, self.template_name, {'title': self.title, 'status': 2})
+            return render(self.request, self.template_name, {'title': self.title, 'status': 2, 'site_name': env('SITE_NAME')})
         else:
             if ManagerProfile.objects.filter(manager=user).exists():
                 profile = ManagerProfile.objects.filter(manager=user).first()
@@ -406,4 +406,4 @@ class ShopPasswordChangeView(ShopLoginMixin, View):
             }
             send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
 
-        return render(self.request, self.template_name, {'title': self.title, 'status': 0})
+        return render(self.request, self.template_name, {'title': self.title, 'status': 0, 'site_name': env('SITE_NAME')})

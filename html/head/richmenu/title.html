@@ -1,0 +1,69 @@
+{% load static %}
+
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="title-area">
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0">登録名</label>
+                    <input type="text" name="name" class="input-text ps-2 pe-2 me-2" value="{{ rich_menu.name|default:''}}" placeholder="登録名を入力" data-parsley-errors-container="#error_name" required>
+                    <input type="text" class="d-none">
+                </div>
+                <div id="error_name" class="ps-5 ms-2 mb-1"></div>
+                <p class="description ps-5 ms-3 mb-4">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                <div class="d-flex justify-content-start align-items-start">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 12rem;">メニューバーのテキスト</label>
+                    <div>
+                        <div class="input-radio-wrap position-relative mb-1">
+                            <label for="menu_type" class="ps-4 mb-0">メニュー</label>
+                            {% if not rich_menu.menu_type or rich_menu.menu_type == 0 %}
+                                <input type="radio" id="menu_type" name="menu_type" value="0" class="input-radio" checked>
+                            {% else %}
+                                <input type="radio" id="menu_type" name="menu_type" value="0" class="input-radio">
+                            {% endif %}
+                            <label for="menu_type" class="input-radio-mark"></label>
+                        </div>
+                        <div class="input-radio-wrap d-flex justify-content-start align-items-center position-relative mb-1">
+                            <label for="menu_type_another" class="ps-4 me-2 mb-0">その他のテキスト</label>
+                            {% if rich_menu.menu_type == 1 %}
+                                <input type="radio" id="menu_type_another" name="menu_type" value="1" class="input-radio" checked>
+                            {% else %}
+                                <input type="radio" id="menu_type_another" name="menu_type" value="1" class="input-radio">
+                            {% endif %}
+                            <label for="menu_type_another" class="input-radio-mark mb-0" style="top: 20%;"></label>
+                            {% if rich_menu.menu_type == 1 %}
+                                <input type="text" name="menu_text" value="{{ rich_menu.menu_text|default:'' }}" class="input-text" style="width: 12rem;" data-parsley-errors-container="#error_menu_text" required>
+                            {% else %}
+                                <input type="text" name="menu_text" value="{{ rich_menu.menu_text|default:'' }}" class="input-text" style="width: 12rem;" data-parsley-errors-container="#error_menu_text" disabled>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div id="error_menu_text" class="ps-5 mb-2" style="margin-left: 17.5rem;"></div>
+                <div class="d-flex justify-content-start align-items-start mb-1">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 12rem;">メニューバーのデフォルト表示</label>
+                    <div>
+                        <div class="input-radio-wrap position-relative mb-2">
+                            <label for="menu_flg_on" class="ps-4 mb-0">表示する</label>
+                            {% if not rich_menu.menu_flg or rich_menu.menu_flg == True %}
+                                <input type="radio" id="menu_flg_on" name="menu_flg" value="1" class="input-radio" checked>
+                            {% else %}
+                                <input type="radio" id="menu_flg_on" name="menu_flg" value="1" class="input-radio">
+                            {% endif %}
+                            <label for="menu_flg_on" class="input-radio-mark"></label>
+                        </div>
+                        <div class="input-radio-wrap position-relative mb-1">
+                            <label for="menu_flg_off" class="ps-4 mb-0">表示しない</label>
+                            {% if rich_menu.menu_flg == False %}
+                                <input type="radio" id="menu_flg_off" name="menu_flg" value="0" class="input-radio" checked>
+                            {% else %}
+                                <input type="radio" id="menu_flg_off" name="menu_flg" value="0" class="input-radio">
+                            {% endif %}
+                            <label for="menu_flg_off" class="input-radio-mark"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

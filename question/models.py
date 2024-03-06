@@ -78,7 +78,7 @@ class HeadQuestionItemChoice(models.Model):
 class CompanyQuestion(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
-    head = models.ForeignKey(HeadQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="company_question")
+    parent = models.ForeignKey(HeadQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="company_question")
     company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_question")
     title = models.CharField(max_length=255,null=True)
     name = models.CharField(max_length=255,null=True)
@@ -152,7 +152,7 @@ class CompanyQuestionItemChoice(models.Model):
 class ShopQuestion(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
-    company = models.ForeignKey(CompanyQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_question")
+    parent = models.ForeignKey(CompanyQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_question")
     shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_question")
     title = models.CharField(max_length=255,null=True)
     name = models.CharField(max_length=255,null=True)

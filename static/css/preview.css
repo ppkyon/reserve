@@ -62,6 +62,18 @@
     border-radius: 10px;
 }
 
+.line-preview .line-preview-content .line-preview-body .line-preview-richmenu {
+    position: absolute;
+    bottom: 0;
+}
+.line-preview .line-preview-content .line-preview-body .line-preview-richmenu .line-preview-menu {
+    color: #FFF;
+    background-color: #000;
+}
+.line-preview .line-preview-content .line-preview-body .line-preview-richmenu .line-preview-menu i {
+    font-size: 0.3rem;
+}
+
 
 
 .line-question-preview {

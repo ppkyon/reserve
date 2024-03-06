@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'fixture',
     'question',
+    'richmenu',
     'sign',
     'table',
     'tag',

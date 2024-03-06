@@ -98,13 +98,13 @@ class HeadBaseLisView(MultipleObjectMixin, HeadBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=None, shop=None, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
             else:
-                return self.model.objects.filter(query).order_by(self.default_sort).all()
+                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
         else:
-            return self.model.objects.filter(query).order_by(self.default_sort).all()
+            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -162,13 +162,13 @@ class CompanyBaseLisView(MultipleObjectMixin, CompanyBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.order_by(sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                return self.model.objects.order_by('-'+sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
             else:
-                return self.model.objects.order_by(self.default_sort).all()
+                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
         else:
-            return self.model.objects.order_by(self.default_sort).all()
+            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
@@ -227,13 +227,13 @@ class ShopBaseLisView(MultipleObjectMixin, ShopBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.order_by(sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                return self.model.objects.order_by('-'+sort.target, self.default_sort).all()
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
             else:
-                return self.model.objects.order_by(self.default_sort).all()
+                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
         else:
-            return self.model.objects.order_by(self.default_sort).all()
+            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
