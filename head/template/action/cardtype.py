@@ -116,7 +116,7 @@ def save(request):
                     elif request.POST.get('text_value_'+str(j+1)+'_'+str(i+1)) == 'phone':
                         text = '【担当者電話番号】'
                     elif request.POST.get('text_value_'+str(j+1)+'_'+str(i+1)) == 'date':
-                        text = '【面接日時】'
+                        text = '【予約日時】'
                     elif request.POST.get('text_value_'+str(j+1)+'_'+str(i+1)) == 'address':
                         text = '【会場住所】'
                     elif request.POST.get('text_value_'+str(j+1)+'_'+str(i+1)) == 'url':

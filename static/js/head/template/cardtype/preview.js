@@ -245,9 +245,9 @@ function append_announce_preview(number) {
     $( '#save_cardtype_form .message-area .tab-pane' ).eq(Number(number)-1).find( '.content-text-area' ).each( function( index, value ) {
         if ( $( '#save_cardtype_form [name=text_check_' + ( index + 1 ) + '_' + number + ']' ).prop( 'checked' ) ) {
             if ( index == 0 ) {
-                text += '<div class="d-flex align-items-center mt-2 mb-2">';
+                text += '<div class="mt-2 mb-2">';
             } else {
-                text += '<div class="d-flex align-items-center mt-1 mb-2">';
+                text += '<div class="mt-1 mb-2">';
             }
             if ( $( '#save_cardtype_form [name=text_title_' + ( index + 1 ) + '_' + number + ']' ).val() == '' ) {
                 text += '<p id="display_text_title_' + ( index + 1 ) + '_' + number + '" class="mb-0" style="font-size: 0.7rem; font-weight: bold;">タイトル</p>';
@@ -255,12 +255,12 @@ function append_announce_preview(number) {
                 text += '<p id="display_text_title_' + ( index + 1 ) + '_' + number + '" class="mb-0" style="font-size: 0.7rem; font-weight: bold;">' + $( '#save_cardtype_form [name=text_title_' + ( index + 1 ) + '_' + number + ']' ).val().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') + '</p>';
             }
             if ( $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val() == '' ) {
-                text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="ms-auto mb-0" style="font-size: 0.5rem;">テキスト</p>';
+                text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="mb-0" style="font-size: 0.5rem;">テキスト</p>';
             } else {
                 if ( $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).prop( 'readonly' ) ) {
-                    text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="ms-auto mb-0" style="font-size: 0.5rem;">【' + $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().substring( 1, $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().indexOf( 'が' ) ) + '】</p>';
+                    text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="mb-0" style="font-size: 0.5rem;">【' + $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().substring( 1, $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().indexOf( 'が' ) ) + '】</p>';
                 } else {
-                    text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="ms-auto mb-0" style="font-size: 0.5rem;">' + $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') + '</p>';
+                    text += '<p id="display_text_text_' + ( index + 1 ) + '_' + number + '" class="mb-0" style="font-size: 0.5rem;">' + $( '#save_cardtype_form [name=text_text_' + ( index + 1 ) + '_' + number + ']' ).val().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') + '</p>';
                 }
             }
             text += '</div>';
@@ -872,9 +872,9 @@ function append_list_announce_preview(data) {
     var text = '';
     $.each( data.text, function( index, value ) {
         if ( value.flg ) {
-            text += '<div class="d-flex align-items-center mt-2 mb-2">';
+            text += '<div class="mt-2 mb-2">';
             text += '<p id="display_text_title_' + ( index + 1 ) + '_' + data.number + '" class="mb-0" style="font-size: 0.7rem; font-weight: bold;">' + value.title + '</p>';
-            text += '<p id="display_text_text_' + ( index + 1 ) + '_' + data.number + '" class="ms-auto mb-0" style="font-size: 0.5rem;">' + value.text + '</p>';
+            text += '<p id="display_text_text_' + ( index + 1 ) + '_' + data.number + '" class="mb-0" style="font-size: 0.5rem;">' + value.text + '</p>';
             text += '</div>';
         }
     });

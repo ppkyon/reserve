@@ -116,6 +116,30 @@ $( function() {
         }
     });
 
+    $( document ).on( 'change', '.table-area .table tbody input[name=valid_flg]', function () {
+        if ( $( 'form.valid-form' ).length ) {
+            var target = $( this );
+            var form_data = new FormData();
+            form_data.append( 'id', $( 'form.valid-form' ).find( '[name=id]' ).val() );
+            $.ajax({
+                'data': form_data,
+                'url': $( 'form.valid-form' ).attr( 'action' ),
+                'type': 'POST',
+                'dataType': 'json',
+                'processData': false,
+                'contentType': false,
+            }).done( function( response ){
+                if ( response.check ) {
+                    $( target ).parents( '.flg-area' ).next().trigger( 'click' );
+                } else {
+                    $( target ).parents( '.flg-area' ).next().next().trigger( 'click' );
+                }
+            }).fail( function(){
+
+            });
+        }
+    });
+
     $( document ).on( 'click', '.table-paging-area ul li button', function () {
         $( '.table-area .table tbody' ).css( 'opacity', '0' );
         $( '.table-loader-area' ).css( 'opacity', '1' );

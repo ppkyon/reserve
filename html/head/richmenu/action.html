@@ -23,10 +23,12 @@
                             {% elif rich_menu_item.type == 4 %}
                                 <input type="text" name="type_{{ rich_menu_item.number }}" value="予約フォーム" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% elif rich_menu_item.type == 5 %}
-                                <input type="text" name="type_{{ rich_menu_item.number }}" value="オンラインURL" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                                <input type="text" name="type_{{ rich_menu_item.number }}" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% elif rich_menu_item.type == 6 %}
-                                <input type="text" name="type_{{ rich_menu_item.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                                <input type="text" name="type_{{ rich_menu_item.number }}" value="オンラインURL" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% elif rich_menu_item.type == 7 %}
+                                <input type="text" name="type_{{ rich_menu_item.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif rich_menu_item.type == 8 %}
                                 <input type="text" name="type_{{ rich_menu_item.number }}" value="テキスト" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% else %}
                                 <input type="text" name="type_{{ rich_menu_item.number }}" value="設定なし" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
@@ -37,9 +39,10 @@
                                 <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
                                 <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>
                                 <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>
-                                <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>
-                                <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
-                                <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>
+                                <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>
+                                <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>
+                                <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
+                                <button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>
                                 <button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>
                             </div>
                         </div>
@@ -50,7 +53,7 @@
                         <label class="mb-0" style="margin-left: 9.5rem; font-size: 0.1rem;">&nbsp;</label>
                         <div id="error_type_{{ rich_menu_item.number }}" class="ms-3 mb-3"></div>
                     </div>
-                    {% if rich_menu_item.type == 1 or rich_menu_item.type == 2 or rich_menu_item.type == 3 or rich_menu_item.type == 4 or rich_menu_item.type == 5 or rich_menu_item.type == 6 %}
+                    {% if rich_menu_item.type == 1 or rich_menu_item.type == 2 or rich_menu_item.type == 3 or rich_menu_item.type == 4 or rich_menu_item.type == 5 or rich_menu_item.type == 6 or rich_menu_item.type == 7 %}
                         <div class="content-area d-flex justify-content-start align-items-center pb-0">
                             <label class="ms-5 mb-3"></label>
                             <div class="p-0 mb-3 ms-3">
@@ -70,7 +73,7 @@
                                 <textarea name="label_{{ rich_menu_item.number }}" class="d-block input-textarea" placeholder="アクションラベルを入力" maxlength="20" data-parsley-maxlength="20"required>{{ rich_menu_item.label }}</textarea>
                             </div>
                         </div>
-                    {% elif rich_menu_item.type == 7 %}
+                    {% elif rich_menu_item.type == 8 %}
                         <div class="content-area d-flex justify-content-start align-items-center pb-0">
                             <label class="ms-5 mb-3"></label>
                             <div class="p-0 mb-3 ms-3">
@@ -105,9 +108,10 @@
                             <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
                             <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>
                             <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>
-                            <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>
-                            <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
-                            <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>
+                            <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>
+                            <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>
+                            <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
+                            <button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>
                             <button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>
                         </div>
                     </div>

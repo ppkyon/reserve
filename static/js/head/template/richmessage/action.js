@@ -106,6 +106,9 @@ $( function() {
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【予約フォームURL】' );
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         } else if ( $( this ).val() == '5' ) {
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【予約履歴ページ】' );
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
+        } else if ( $( this ).val() == '6' ) {
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【会社概要URL】' );
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         }

@@ -23,6 +23,8 @@
                             {% elif template_item.type == 4 %}
                                 <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="予約フォーム" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% elif template_item.type == 5 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 6 %}
                                 <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                             {% else %}
                                 <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="設定なし" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
@@ -35,7 +37,7 @@
                         <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_video_modal"></button>
                         <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_question_modal"></button>
                     </div>
-                    {% if template_item.type == 1 or template_item.type == 2 or template_item.type == 3 or template_item.type == 4 or template_item.type == 5 %}
+                    {% if template_item.type == 1 or template_item.type == 2 or template_item.type == 3 or template_item.type == 4 or template_item.type == 5 or template_item.type == 6 %}
                         <div class="content-area d-flex justify-content-start align-items-center pb-0">
                             <label class="ms-5 mb-3"></label>
                             <div class="p-0 mb-3 ms-3">

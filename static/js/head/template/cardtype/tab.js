@@ -56,6 +56,8 @@ $( function() {
             $( this ).next().trigger( 'click' );
             up_modal();
         }
+        create_preview();
+        slide_preview();
     });
     $( '#select_cardtype_modal .cancel-button' ).on( 'click', function() {
         $( '#select_cardtype_modal [name=cardtype]' ).each( function( index, value ) {
@@ -77,6 +79,8 @@ $( function() {
                 $( this ).removeClass( 'd-none' );
             }
         });
+        create_preview();
+        slide_preview();
     });
 
     $( document ).on( 'click', '#save_cardtype_form .tab-area .add-card-button', function () {
@@ -127,6 +131,8 @@ $( function() {
                 $( '#save_cardtype_form .tab-content' ).append( append_image_card( tab_count ) );
             }
             $( '#save_cardtype_form .tab-content' ).append( clone );
+            create_preview();
+            slide_preview();
         }
     });
     $( document ).on( 'click', '#save_cardtype_form .tab-area .add-more-card-button', function () {
@@ -146,6 +152,8 @@ $( function() {
         });
         $( '#save_cardtype_form .tab-content' ).append( append_more() );
         $( '#save_cardtype_form .tab-content .tab-pane' ).eq( $( '#save_cardtype_form .tab-content .tab-pane' ).length - 1 ).addClass( 'active' );
+        create_preview();
+        slide_preview();
     });
     $( document ).on( 'click', '#save_cardtype_form .action-area .copy-card-button', function () {
         if ( $( '#save_cardtype_form .tab-area ul li' ).length < 10 ) {
@@ -194,6 +202,8 @@ $( function() {
 
             change_tab_number( target, tab_count );
             $( '#save_cardtype_form .tab-content' ).append( more_clone );
+            create_preview();
+            slide_preview();
         }
     });
     $( document ).on( 'click', '#save_cardtype_form .action-area .delete-card-button', function () {
@@ -285,6 +295,8 @@ $( function() {
         }
         $( '#delete_card_check_modal .no-button' ).trigger( 'click' );
     });
+    create_preview();
+    slide_preview();
 });
 
 function select_cardtype() {

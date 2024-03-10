@@ -22,6 +22,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('company/', include('company.urls')),
     path('fixture/', include('fixture.urls')),
+    path('flow/', include('flow.urls')),
     path('head/', include('head.urls')),
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),

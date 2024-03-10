@@ -246,9 +246,10 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+                html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -280,9 +281,10 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+                html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -314,9 +316,10 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+                html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -348,9 +351,10 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+                html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -382,9 +386,10 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+                html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+                html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -414,7 +419,7 @@ function append_content_area( target, value ) {
 
     if ( $( target ).val() != '0' ) {
         var html = '';
-        if ( $( target ).val() == '7' ) {
+        if ( $( target ).val() == '8' ) {
             html += '<div class="content-area d-flex justify-content-start align-items-center pb-0">';
             html += '<label class="ms-5 mb-3"></label>';
             html += '<div class="p-0 mb-3 ms-3">';
@@ -451,9 +456,9 @@ function append_content_area( target, value ) {
 function append_table_area(data) {
     var action = '';
     $.each( data.item, function( index, value ) {
-        if ( value.type == 1 || value.type == 2 || value.type == 3 || value.type == 4 || value.type == 5 || value.type == 6 ) {
+        if ( value.type == 1 || value.type == 2 || value.type == 3 || value.type == 4 || value.type == 5 || value.type == 6 || value.type == 7 ) {
             action += '<p class="content-title mb-0">' + value.url + '</p>';
-        } else if ( value.type == 7 ) {
+        } else if ( value.type == 8 ) {
             action += '<p class="content-title mb-0">' + value.text + '</p>';
         }
     });

@@ -69,13 +69,13 @@ $( function() {
                     html += '<div class="d-flex justify-content-start align-items-center">';
                     $.each( response.item, function( index, value ) {
                         if ( index == 0 ) {
-                            if ( value.message_type == 1 ) {
+                            if ( value.message_type == 0 ) {
                                 html += '<img src="' + $( '#env_static_url' ).val() + 'img/image-none.png" class="chart-content-img p-2 ms-2">';
                                 html += '<div class="chart-content-text p-1 mb-0">' + display_textarea_replace(value.text) + '</div>';
-                            } else if ( value.message_type == 2 ) {
+                            } else if ( value.message_type == 1 ) {
                                 html += '<img src="' + $( '#env_media_url' ).val() + value.image + '" class="chart-content-img p-2 ms-2">';
                                 html += '<p class="chart-content-text p-1 mb-0">画像メッセージ</p>';
-                            } else if ( value.message_type == 3 ) {
+                            } else if ( value.message_type == 2 ) {
                                 html += '<img src="' + $( '#env_media_url' ).val() + value.video_thumbnail + '" class="chart-content-img p-2 ms-2">';
                                 html += '<p class="chart-content-text p-1 mb-0">動画メッセージ</p>';
                             }
@@ -393,7 +393,7 @@ $( function() {
         } else if ( $( this ).val() == 'phone' ) {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/manager-phone.png" class="ms-1 me-1">';
         } else if ( $( this ).val() == 'date' ) {
-            image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/interview-date.png" class="ms-1 me-1">';
+            image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/reserve-date.png" class="ms-1 me-1">';
         } else if ( $( this ).val() == 'address' ) {
             image = '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/offline-address.png" class="ms-1 me-1">';
         } else if ( $( this ).val() == 'url' ) {

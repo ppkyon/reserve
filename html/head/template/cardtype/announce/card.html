@@ -200,14 +200,14 @@
     {% endif %}
     {% for text_item in data.text %}
         {% if text_item.flg %}
-            <div class="d-flex align-items-center mt-2">
-                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="price mb-0" style="font-size: 0.5rem;">{{ text_item.title }}</p>
-                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="price ms-auto mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
+            <div class="mt-2">
+                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="fw-bold mb-0" style="font-size: 0.7rem;">{{ text_item.title }}</p>
+                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
             </div>
         {% else %}
-            <div class="d-flex align-items-center mt-2 d-none">
-                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="price mb-0" style="font-size: 0.5rem;">{{ text_item.title }}</p>
-                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="price ms-auto mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
+            <div class="mt-2 d-none">
+                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="fw-bold mb-0" style="font-size: 0.7rem;">{{ text_item.title }}</p>
+                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
             </div>
         {% endif %}
     {% endfor %}

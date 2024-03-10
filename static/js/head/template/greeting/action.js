@@ -527,7 +527,7 @@ function display_textarea_replace(text) {
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/company-name.png" class="ms-1 me-1">', '【企業名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/manager-name.png" class="ms-1 me-1">', '【担当者名】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/manager-phone.png" class="ms-1 me-1">', '【担当者電話番号】' );
-    text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/interview-date.png" class="ms-1 me-1">', '【面接日時】' );
+    text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/reserve-date.png" class="ms-1 me-1">', '【予約日時】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/offline-address.png" class="ms-1 me-1">', '【会場住所】' );
     text = text.replaceAll( '<img src="' + $( '#env_static_url' ).val() + 'img/textarea/online-url.png" class="ms-1 me-1">', '【オンラインURL】' );
     return text;

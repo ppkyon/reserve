@@ -145,9 +145,9 @@ function append_announce_card(count) {
     html += '<div class="cardtype-body-area p-2">';
     html += '<p id="display_title_' + count + '" class="title mb-1">タイトルを入力</p>';
     html += '<p id="display_description_' + count + '" class="description mb-1">説明文を入力</p>';
-    html += '<div class="d-flex align-items-center mt-2">';
-    html += '<p id="display_text_title_' + count + '_1" class="price mb-0" style="font-size: 0.5rem;">タイトル</p>';
-    html += '<p id="display_text_text_' + count + '_1" class="price ms-auto mb-0" style="font-size: 0.5rem;">テキスト</p>';
+    html += '<div class="mt-2">';
+    html += '<p id="display_text_title_' + count + '_1" class="fw-bold mb-0" style="font-size: 0.7rem;">タイトル</p>';
+    html += '<p id="display_text_text_' + count + '_1" class="mb-0" style="font-size: 0.5rem;">テキスト</p>';
     html += '</div>';
     html += '</div>';
     html += '<div class="cardtype-footer-area">';
@@ -1117,7 +1117,7 @@ function append_text_item() {
     html += '<button type="button" value="company" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">企業名</button>';
     html += '<button type="button" value="manager_name" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">担当者名</button>';
     html += '<button type="button" value="phone" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">担当者電話番号</button>';
-    html += '<button type="button" value="date" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">面接日時</button>';
+    html += '<button type="button" value="date" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">予約日時</button>';
     html += '<button type="button" value="address" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">会場住所</button>';
     html += '<button type="button" value="url" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">オンラインURL</button>';
     html += '<button type="button" value="free" class="btn select_display_name_button dropdown-item fw-bold text-center border-top p-1 pt-2">フリーテキスト</button>';
@@ -1157,9 +1157,10 @@ function append_action_item() {
     html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
     html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
     html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-    html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
-    html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
-    html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
+    html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+    html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>';
+    html += '<button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>';
+    html += '<button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>';
     return html;
 }
 

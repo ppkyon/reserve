@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/flow.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -36,24 +37,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.description }}</p>
+                                    </td>
+                                    <td class="position-relative">
+                                        <form class="valid-form" action="{% url 'head:flow:valid' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                            <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        </form>
+                                        <div class="flg-area">
+                                            {% if object_item.valid %}
+                                                <input id="valid_{{ object_item.display_id }}" type="checkbox" name="valid_flg" value="1" class="d-none" checked>
+                                            {% else %}
+                                                <input id="valid_{{ object_item.display_id }}" type="checkbox" name="valid_flg" value="1" class="d-none">
+                                            {% endif %}
+                                            <label for="valid_{{ object_item.display_id }}" class="d-block position-relative mb-0" style="width: 35px;"></label>
+                                        </div>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#valid_on_modal"></button>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#valid_off_modal"></button>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'head:flow:edit' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -61,6 +73,7 @@
             </div>
         </div>
         <input type="hidden" id="table_paging_url" value="{% url 'head:flow:paging' %}">
+        {% include 'modal.html' %}
         {% include 'table/paging.html' %}
     </div>
 {% endblock %}

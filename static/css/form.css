@@ -42,6 +42,7 @@
 }
 
 .input-select-dropdown .input-select,
+.input-not-select-dropdown .input-select,
 .input-color-select-dropdown .input-select {
     background: url(../img/icon/select-arrow.svg) no-repeat,#fff;
     background-position: 95%;
@@ -49,6 +50,7 @@
     cursor: pointer;
 }
 .input-select-dropdown .dropdown-menu,
+.input-not-select-dropdown .dropdown-menu,
 .input-template-dropdown .dropdown-menu,
 .input-action-dropdown .dropdown-menu,
 .input-color-select-dropdown .dropdown-menu {
@@ -59,6 +61,7 @@
     animation-duration: 0s;
 }
 .input-select-dropdown .dropdown-menu button,
+.input-not-select-dropdown .dropdown-menu button,
 .input-template-dropdown .dropdown-menu button,
 .input-action-dropdown .dropdown-menu button,
 .input-color-select-dropdown .dropdown-menu button {
@@ -142,6 +145,41 @@
 }
 .input-check-wrap .input-check:checked ~ .input-check-mark:after {
     display: block;
+}
+
+.flg-area span {
+    color: #707070;
+    font-size: 0.8rem;
+}
+.flg-area input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+ .flg-area label {
+    width: 35px;
+    height: 18px;
+    background: grey;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.flg-area label:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 0.9rem;
+    height: 0.9rem;
+    background: #fff;
+    border-radius: 90px;
+    transition: .3s;
+}
+.flg-area input:checked + label {
+    background: #00a389;
+}
+.flg-area input:checked + label:after {
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
 }
 
 .copy-icon {

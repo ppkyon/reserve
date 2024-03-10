@@ -149,7 +149,8 @@ class HeadTemplateRichMessageItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'company'),
+        (5, 'history'),
+        (6, 'company'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -173,7 +174,8 @@ class CompanyTemplateRichMessageItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'company'),
+        (5, 'history'),
+        (6, 'company'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -197,7 +199,8 @@ class ShopTemplateRichMessageItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'company'),
+        (5, 'history'),
+        (6, 'company'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -528,9 +531,10 @@ class HeadTemplateCardTypeAnnounceAction(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     button_type_choice = (
         (1, 'action'),
@@ -562,9 +566,10 @@ class CompanyTemplateCardTypeAnnounceAction(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     button_type_choice = (
         (1, 'action'),
@@ -596,9 +601,10 @@ class ShopTemplateCardTypeAnnounceAction(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     button_type_choice = (
         (1, 'action'),
@@ -630,9 +636,10 @@ class HeadTemplateCardTypeLocation(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     plus_type_choice = (
         (1, 'time'),
@@ -681,9 +688,10 @@ class CompanyTemplateCardTypeLocation(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     plus_type_choice = (
         (1, 'time'),
@@ -732,9 +740,10 @@ class ShopTemplateCardTypeLocation(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
     plus_type_choice = (
         (1, 'time'),
@@ -783,9 +792,10 @@ class HeadTemplateCardTypePerson(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -830,9 +840,10 @@ class CompanyTemplateCardTypePerson(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -877,9 +888,10 @@ class ShopTemplateCardTypePerson(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -924,9 +936,10 @@ class HeadTemplateCardTypeImage(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -955,9 +968,10 @@ class CompanyTemplateCardTypeImage(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -986,9 +1000,10 @@ class ShopTemplateCardTypeImage(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -1021,9 +1036,10 @@ class HeadTemplateCardTypeMore(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -1052,9 +1068,10 @@ class CompanyTemplateCardTypeMore(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -1083,9 +1100,10 @@ class ShopTemplateCardTypeMore(models.Model):
         (2, 'video'),
         (3, 'question'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (7, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)

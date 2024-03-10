@@ -31,7 +31,7 @@ $( function() {
                 form_data.append( 'action_type_10', 0 );
                 if ( check_empty( $( '#save_cardtype_form [name=action_type_10]' ).next().val() ) ) {
                     form_data.append( 'action_type_10', $( '#save_cardtype_form [name=action_type_10]' ).next().val() );
-                    if ( $( '#save_cardtype_form [name=action_type_10]' ).next().val() == '7' ) {
+                    if ( $( '#save_cardtype_form [name=action_type_10]' ).next().val() == '8' ) {
                         form_data.append( 'action_text_10', $( '#save_cardtype_form [name=action_text_10]' ).val() );
                     } else {
                         if ( check_empty( $( '#save_cardtype_form [name=action_url_10]' ).val() ) ) {
@@ -50,7 +50,7 @@ $( function() {
                     form_data.append( 'action_type_1_' + number, 0 );
                     if ( check_empty( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() ) ) {
                         form_data.append( 'action_type_1_' + number, $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() );
-                        if ( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() == '7' ) {
+                        if ( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() == '8' ) {
                             form_data.append( 'action_text_1_' + number, $( '#save_cardtype_form [name=action_text_1_' + number + ']' ).val() );
                         } else {
                             if ( check_empty( $( '#save_cardtype_form [name=action_url_1_' + number + ']' ).val() ) ) {
@@ -64,7 +64,7 @@ $( function() {
                     form_data.append( 'action_type_2_' + number, 0 );
                     if ( check_empty( $( '#save_cardtype_form [name=action_type_2_' + number + ']' ).next().val() ) ) {
                         form_data.append( 'action_type_2_' + number, $( '#save_cardtype_form [name=action_type_2_' + number + ']' ).next().val() );
-                        if ( $( '#save_cardtype_form [name=action_type_2_' + number + ']' ).next().val() == '7' ) {
+                        if ( $( '#save_cardtype_form [name=action_type_2_' + number + ']' ).next().val() == '8' ) {
                             form_data.append( 'action_text_2_' + number, $( '#save_cardtype_form [name=action_text_2_' + number + ']' ).val() );
                         } else {
                             if ( check_empty( $( '#save_cardtype_form [name=action_url_2_' + number + ']' ).val() ) ) {
@@ -145,7 +145,7 @@ $( function() {
                         form_data.append( 'action_type_' + ( index + 1 ) + '_' + number, 0 );
                         if ( check_empty( $( '#save_cardtype_form [name=action_type_' + ( index + 1 ) + '_' + number + ']' ).next().val() ) ) {
                             form_data.append( 'action_type_' + ( index + 1 ) + '_' + number, $( '#save_cardtype_form [name=action_type_' + ( index + 1 ) + '_' + number + ']' ).next().val() );
-                            if ( $( '#save_cardtype_form [name=action_type_' + ( index + 1 ) + '_' + number + ']' ).next().val() == '7' ) {
+                            if ( $( '#save_cardtype_form [name=action_type_' + ( index + 1 ) + '_' + number + ']' ).next().val() == '8' ) {
                                 form_data.append( 'action_text_' + ( index + 1 ) + '_' + number, $( '#save_cardtype_form [name=action_text_' + ( index + 1 ) + '_' + number + ']' ).val() );
                             } else {
                                 if ( check_empty( $( '#save_cardtype_form [name=action_url_' + ( index + 1 ) + '_' + number + ']' ).val() ) ) {
@@ -220,7 +220,7 @@ $( function() {
                     form_data.append( 'action_type_' + number, 0 );
                     if ( check_empty( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() ) ) {
                         form_data.append( 'action_type_' + number, $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() );
-                        if ( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() == '7' ) {
+                        if ( $( '#save_cardtype_form [name=action_type_1_' + number + ']' ).next().val() == '8' ) {
                             form_data.append( 'action_text_' + number, $( '#save_cardtype_form [name=action_text_1_' + number + ']' ).val() );
                         } else {
                             if ( check_empty( $( '#save_cardtype_form [name=action_url_1_' + number + ']' ).val() ) ) {

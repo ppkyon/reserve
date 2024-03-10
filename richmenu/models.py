@@ -92,9 +92,10 @@ class HeadRichMenuItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (6, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -119,9 +120,10 @@ class CompanyRichMenuItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (6, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -146,9 +148,10 @@ class ShopRichMenuItem(models.Model):
         (2, 'video'),
         (3, 'questionform'),
         (4, 'reserve'),
-        (5, 'online'),
-        (6, 'company'),
-        (6, 'text'),
+        (5, 'history'),
+        (6, 'online'),
+        (7, 'company'),
+        (8, 'text'),
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)

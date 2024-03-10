@@ -50,6 +50,13 @@
     background-color: #efefef;
 }
 
+.modal .modal-header .cancel-button {
+    padding: 5px;
+    width: 100px;
+    font-size: 12px;
+    background-color: #efefef;
+}
+
 .up-modal {
     z-index: 1065;
 }

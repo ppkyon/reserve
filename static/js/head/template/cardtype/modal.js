@@ -21,6 +21,7 @@ function open_template_cardtype_modal(target, number){
             $( '#head_template_cardtype_modal .notice-area' ).removeClass( 'd-none' );
         }
         $( target ).trigger( 'click' );
+        up_modal();
     }).fail( function(){
         
     });

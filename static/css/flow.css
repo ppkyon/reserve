@@ -1,0 +1,281 @@
+.table-area tbody tr {
+    height: 6rem;
+}
+
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.title-area .input-label {
+    width: 3.2rem;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title-area .input-text {
+    width: 40%;
+}
+.title-area .input-date {
+    width: 20%;
+    text-align: left;
+    background: url(../img/icon/calendar.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+.title-area img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.title-area .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+.title-area .select-button {
+    width: 9rem;
+    color: #FFF;
+    font-size: 0.65rem;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 3px;
+    transition: all .4s ease-in-out;
+}
+.title-area .select-button:hover {
+    opacity: 0.85;
+}
+.title-area .select-text {
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.title-area .save-area .copy-button {
+    background-color: #007aff;
+    border: 2px solid #007aff;
+}
+.title-area .save-area .save-button {
+    background-color: #00b074;
+    border: 2px solid #00b074;
+}
+.title-area .save-area .copy-button,
+.title-area .save-area .save-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.title-area .save-area .copy-button:hover,
+.title-area .save-area .save-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.flow-area {
+    height: calc(100vh - 21rem);
+    min-width: calc(100vw - 265px);
+    overflow-y: auto;
+}
+.flow-area .tab-area ul {
+    width: fit-content;
+    border-bottom: 0.05rem solid rgba(60,60,67,.36);
+    list-style: none;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+.flow-area .tab-area ul li {
+    width: 10rem;
+    height: 1.8rem;
+    color: #43425d;
+    font-weight: bold;
+    text-align: center;
+    background: #FFF;
+    border: 0.05rem solid rgba(60,60,67,0.36);
+    border-bottom: none;
+    border-radius: 0.4rem 0.4rem 0 0;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.flow-area .tab-area ul li a.active {
+    width: 10rem;
+    height: 1.8rem;
+    color: #fff;
+    background-color: #007aff;
+    border-radius: 0.4rem 0.4rem 0 0;
+    cursor: default;
+}
+.flow-area .tab-area ul li a {
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 300;
+    transition: unset;
+}
+
+.chart-area {
+    width: max-content;
+}
+.chart-area table .chart-title {
+    width: 10rem;
+    color: #FFF;
+    font-size: 0.65rem;
+}
+.chart-area table .chart-content {
+    width: 15rem;
+    height: 100px;
+    background-color: #F9F9F9;
+    border: 1px solid #707070;
+    border-radius: 0 5px 5px 5px;
+    box-shadow: 0.2rem 0.4rem 0.4rem rgb(0 0 0 / 0.16);
+}
+.chart-area table .chart-content .search-icon {
+    position: absolute;
+    top: 15%;
+    right: 15%;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.chart-area table .chart-content .chart-sub-title {
+    width: 12rem;
+    color: #FFF;
+    background-image: url(../img/icon/search-white-bold.svg);
+    background-repeat: no-repeat;
+    background-position: 85%;
+    background-size: 0.8rem;
+    border-radius: 0 0 30px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.chart-area table .chart-content .chart-content-text {
+    width: 14rem;
+    height: 3.8rem;
+    font-size: 0.75rem;
+    color: #000;
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.chart-area table .chart-content .chart-content-title {
+    width: 14rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    color: #000;
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.chart-area table .chart-content .link-button {
+    color: #007AFF;
+    font-size: 0.7rem;
+}
+.chart-area table .chart-content .next-icon {
+    position: absolute;
+    top: 42.5%;
+    right: -8px;
+    color: #FFF;
+    font-size: 18px;
+    background-color: #007AFF;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.chart-area table .chart-bar.first {
+    margin-top: 1.75rem;
+    width: 120%;
+}
+.chart-area table .chart-bar.second {
+    margin-top: -70px;
+    margin-left: -27.5px;
+    width: 150%;
+    transform: rotate(40deg)
+}
+.chart-area table .chart-bar.third {
+    margin-top: -150px;
+    margin-left: -70px;
+    width: 200%;
+    transform: rotate(60deg)
+}
+.chart-area table .chart-bar.first-break {
+    margin-top: 1.75rem;
+    width: 120%;
+}
+.chart-area table .chart-bar.second-break {
+    margin-top: -115px;
+    width: 120%;
+    height: 150px;
+    border-top: none !important;
+    border-right: none !important;
+}
+.chart-area table .chart-bar .chart-bar-icon {
+    position: absolute;
+    top: -17.5px;
+    right: 47.5%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+.chart-area table .chart-bar.second .chart-bar-icon {
+    transform: rotate(-40deg)
+}
+.chart-area table .chart-bar.third .chart-bar-icon {
+    transform: rotate(-60deg)
+}
+.chart-area table .chart-bar .chart-bar-text {
+    position: absolute;
+    top: -17.5px;
+    right: 37.5%;
+    width: 75px;
+    color: #000;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: #FFF;
+}
+.chart-area table .chart-bar.second-break .chart-bar-text {
+    top: auto;
+    bottom: -17.5px;
+}
+
+.chart-area table .reminder-icon {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+
+.modal .modal-footer .action-button {
+    width: 7.5rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+.modal .modal-footer .cancel-button {
+    color: #4d4d4d;
+    background-color: #efefef;
+    overflow-y: auto;
+}
+
+#action_message_modal .modal-body .input-radio-wrap,
+#timer_modal .modal-body .input-radio-wrap {
+    width: 10rem;
+}
+#action_message_modal .modal-body .input-text,
+#timer_modal .modal-body .input-text {
+    width: 6rem;
+}

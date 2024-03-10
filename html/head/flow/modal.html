@@ -1,0 +1,192 @@
+<div id="timer_modal" class="modal timer-modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">タイマーを設定する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-3 pb-3 ps-4 pe-4">
+                <form id="timer_modal_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center mb-3">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="timer_now" class="ps-4 mb-0">即時</label>
+                                    <input type="radio" id="timer_now" name="timer" value="0" class="input-radio">
+                                    <label for="timer_now" class="input-radio-mark mb-0"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center mb-3">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="timer_date" class="ps-4 mb-0">日時を指定する</label>
+                                    <input type="radio" id="timer_date" name="timer" value="1" class="input-radio">
+                                    <label for="timer_date" class="input-radio-mark mb-0"></label>
+                                </div>
+                                <input type="text" name="timer_date" class="input-text ps-2 pe-2" pattern="^[0-9]+$" placeholder="0" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 me-3 mt-auto">日後</p>
+                                <input type="text" name="timer_date_time" class="input-text input-time ps-2 pe-2" placeholder="00:00" data-parsley-errors-messages-disabled disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="timer_progress" class="ps-4 mb-0">経過時間で指定する</label>
+                                    <input type="radio" id="timer_progress" name="timer" value="2" class="input-radio">
+                                    <label for="timer_progress" class="input-radio-mark mb-0"></label>
+                                </div>
+                                <input type="text" name="timer_progress" class="input-text ps-2 pe-2" pattern="^[0-9]+$" placeholder="0" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 me-3 mt-auto">日後</p>
+                                <input type="text" name="timer_progress_time" class="input-text input-time ps-2 pe-2" placeholder="00:00" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 mt-auto">後</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button cancel-button d-block">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="action_reminder_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">リマインダーを設定する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-3 pb-3 ps-4 pe-4">
+                <form id="action_reminder_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="d-flex justify-content-start align-items-start mb-3">
+                        <div class="ps-5">
+                            <div class="d-flex justify-content-start align-items-center mb-2">
+                                <input type="text" name="action_reminder_date" class="input-text ps-2 pe-2 me-1" pattern="^[0-9]+$" placeholder="0" style="width: 25%;" data-parsley-errors-messages-disabled disabled>
+                                <p class="me-2 mb-0">日前</p>
+                                <input type="text" name="action_reminder_time" class="input-text ps-2 pe-2 me-1" pattern="^[0-9]+$" placeholder="0" style="width: 25%;" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0">時</p>
+                            </div>
+                            <div class="dropdown input-not-select-dropdown template-dropdown d-inline-block p-0 mb-2">
+                                <input type="text" name="action_reminder_template" class="input-text input-select ps-2 pe-2" placeholder="テンプレート" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled disabled>
+                                <input type="hidden">
+                                <div class="dropdown-menu" style="height: 70px;">
+                                    <button type="button" value="0" class="btn select_template_button dropdown-item fw-bold text-center p-1">テキストメッセージ</button>
+                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_text_modal"></button>
+                                    <button type="button" value="1" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">動画メッセージ</button>
+                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_video_modal"></button>
+                                    <button type="button" value="2" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>
+                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_richmessage_modal"></button>
+                                    <button type="button" value="3" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオメッセージ</button>
+                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_richvideo_modal"></button>
+                                    <button type="button" value="4" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプメッセージ</button>
+                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#head_template_cardtype_modal"></button>
+                                </div>
+                            </div>
+                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                            <div class="d-flex justify-content-start align-items-center mb-0">
+                                <input type="text" name="action_reminder_template_item_name" class="input-text input-select ps-2 pe-2" placeholder="テンプレート" data-parsley-errors-messages-disabled disabled>
+                                <input type="hidden" name="action_reminder_template_item">
+                                <p class="mb-0">を送信</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button cancel-button d-block">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="action_message_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">終了後メッセージを設定する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-3 pb-3 ps-4 pe-4">
+                <form id="action_message_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="dropdown input-not-select-dropdown template-dropdown d-inline-block p-0 mb-2">
+                        <input type="text" name="action_message_template" class="input-text input-select ps-2 pe-2" placeholder="テンプレート" style="width: 200px;" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                        <div class="dropdown-menu">
+                            <button type="button" value="0" class="btn select_template_button dropdown-item fw-bold text-center p-1">メッセージテンプレート</button>
+                            <button type="button" value="1" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">動画テンプレート</button>
+                            <button type="button" value="2" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージテンプレート</button>
+                            <button type="button" value="3" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオテンプレート</button>
+                            <button type="button" value="4" class="btn select_template_button dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプテンプレート</button>
+                        </div>
+                    </div>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                    <div class="d-flex justify-content-start align-items-center mb-3">
+                        <input type="text" name="action_message_template_item_name" class="input-text input-select ps-2 pe-2 me-1" placeholder="テンプレート" style="width: 400px;" data-parsley-errors-messages-disabled disabled required>
+                        <input type="hidden" name="action_message_template_item">
+                        <p class="mb-0">を送信</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center mb-3">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="action_message_now" class="ps-4 mb-0">即時</label>
+                                    <input type="radio" id="action_message_now" name="action_message_timer" value="0" class="input-radio">
+                                    <label for="action_message_now" class="input-radio-mark mb-0"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center mb-3">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="action_message_date" class="ps-4 mb-0">日時を指定する</label>
+                                    <input type="radio" id="action_message_date" name="action_message_timer" value="1" class="input-radio">
+                                    <label for="action_message_date" class="input-radio-mark mb-0"></label>
+                                </div>
+                                <input type="text" name="action_message_timer_date" class="input-text ps-2 pe-2" pattern="^[0-9]+$" placeholder="0" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 me-3 mt-auto">日後</p>
+                                <input type="text" name="action_message_timer_date_time" class="input-text input-time ps-2 pe-2" placeholder="00:00" data-parsley-errors-messages-disabled disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <div class="input-radio-wrap position-relative">
+                                    <label for="action_message_progress" class="ps-4 mb-0">経過時間で指定する</label>
+                                    <input type="radio" id="action_message_progress" name="action_message_timer" value="2" class="input-radio">
+                                    <label for="action_message_progress" class="input-radio-mark mb-0"></label>
+                                </div>
+                                <input type="text" name="action_message_timer_progress" class="input-text ps-2 pe-2" pattern="^[0-9]+$" placeholder="0" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 me-3 mt-auto">日後</p>
+                                <input type="text" name="action_message_timer_progress_time" class="input-text input-time ps-2 pe-2" placeholder="00:00" data-parsley-errors-messages-disabled disabled>
+                                <p class="mb-0 ms-1 mt-auto">後</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button cancel-button d-block">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>

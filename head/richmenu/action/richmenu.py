@@ -116,8 +116,11 @@ def paging(request):
     return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
 
 def get(request):
-    richmenu = HeadRichMenu.objects.filter(display_id=request.POST.get("id")).values(*get_model_field(HeadRichMenu)).first()
-    return JsonResponse( richmenu, safe=False )
+    rich_menu = HeadRichMenu.objects.filter(display_id=request.POST.get("id")).values(*get_model_field(HeadRichMenu)).first()
+    return JsonResponse( rich_menu, safe=False )
 
 def get_all(request):
-    return JsonResponse( {}, safe=False )
+    rich_menu_list = list(HeadRichMenu.objects.order_by('-created_at').values(*get_model_field(HeadRichMenu)).all())
+    for rich_menu_index, rich_menu_item in enumerate(rich_menu_list):
+        rich_menu_list[rich_menu_index]['item'] = list(HeadRichMenuItem.objects.filter(rich_menu__id=rich_menu_item['id']).order_by('number').values(*get_model_field(HeadRichMenuItem)).all())
+    return JsonResponse( rich_menu_list, safe=False )

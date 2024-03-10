@@ -208,7 +208,8 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>'
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>'
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>'
                 html += '</div>'
                 html += '</div>'
@@ -240,7 +241,8 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -272,7 +274,8 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -304,7 +307,8 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';
@@ -336,7 +340,8 @@ function append_action_area( value ) {
                 html += '<button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>';
                 html += '<button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>';
                 html += '<button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>';
-                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
+                html += '<button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>';
+                html += '<button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>'
                 html += '<button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>';
                 html += '</div>';
                 html += '</div>';

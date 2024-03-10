@@ -1,0 +1,544 @@
+{% load static %}
+{% load original %}
+
+<div class="chart-area mt-3">
+    <div class="tab-content">
+        {% if flow %}
+            {% for flow_tab in flow.head_flow_tab.all %}
+                {% if forloop.first %}
+                    <div id="{{ flow_tab.value }}" class="tab-pane active">
+                        <table>
+                            <tbody>
+                                {% variable '' as line %}
+                                {% variable '' as type %}
+                                {% for flow_item in flow_tab.head_flow_item.all %}
+                                    {% if line != flow_item.y %}
+                                        <tr>
+                                    {% endif %}
+                                    {% if flow_item.type == 1 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #FF0202;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <a href="{% url 'head:template:greeting' %}" target=_blank>
+                                                    <p class="chart-sub-title p-1 ps-2 pe-5 mb-0" style="background-color: #FF0202;">{{ flow_item.name }}</p>
+                                                </a>
+                                                {% if template_greeting.message_type == 1 %}
+                                                    <p class="chart-content-text p-2 mb-0">{{ template_greeting.text|textarea_action_replace|striptags }}</p>
+                                                {% elif template_greeting.message_type == 2 %}
+                                                    <p class="chart-content-text p-2 mb-0">画像メッセージ</p>
+                                                {% elif template_greeting.message_type == 3 %}
+                                                    <p class="chart-content-text p-2 mb-0">動画メッセージ</p>
+                                                {% elif template_greeting.message_type == 4 %}
+                                                    <p class="chart-content-text p-2 mb-0">テンプレートメッセージ</p>
+                                                {% endif %}
+                                                <i class='bx bx-chevron-right next-icon'></i>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 2 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 3 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 4 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 5 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 6 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #A1007E;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                {% for flow_template_item in flow_item.head_flow_template.all %}
+                                                    {% if forloop.first %}
+                                                        <a href="{% url 'head:template:edit_cardtype' %}?id={{ flow_template_item.template_cardtype.display_id }}" target=_blank>
+                                                            <p class="chart-sub-title p-1 ps-2 pe-5 mb-0" style="background-color: #A1007E;">{{ flow_template_item.template_cardtype.name|default:'' }}</p>
+                                                        </a>
+                                                        <input type="hidden" name="template" value="{{ flow_template_item.template_cardtype.display_id }}">
+                                                        {% if flow_template_item.template_cardtype.type == 1 %}
+                                                            <p class="chart-content-title p-2 mb-0">アナウンステンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 2 %}
+                                                            <p class="chart-content-title p-2 mb-0">ロケーションテンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 3 %}
+                                                            <p class="chart-content-title p-2 mb-0">パーソンテンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 4 %}
+                                                            <p class="chart-content-title p-2 mb-0">イメージテンプレートメッセージ</p>
+                                                        {% endif %}
+                                                        <i class='bx bx-chevron-right next-icon'></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 7 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #0900FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content mb-4">
+                                                <div class="dropdown input-select-dropdown d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    {% for flow_richmenu_item in flow_item.head_flow_rich_menu.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="hidden" name="rich_menu" value="{{ flow_richmenu_item.rich_menu.display_id }}">
+                                                            <input type="text" class="input-text input-select input-richmenu ps-2 pe-2" value="{{ flow_richmenu_item.rich_menu.name|default:'' }}" placeholder="なし" readonly>
+                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#head_rich_menu_modal"></button>
+                                                            <div class="input-check-wrap ps-4 ms-2 mt-2 mb-0">
+                                                                <label for="analytics_{{ flow_item.x }}_{{ flow_item.y }}" class="mb-0">アナリティクス</label>
+                                                                {% if flow_item.analytics %}
+                                                                    <input id="analytics_{{ flow_item.x }}_{{ flow_item.y }}" type="checkbox" name="analytics" class="form-check-input input-check" checked>
+                                                                {% else %}
+                                                                    <input id="analytics_{{ flow_item.x }}_{{ flow_item.y }}" type="checkbox" name="analytics" class="form-check-input input-check">
+                                                                {% endif %}
+                                                                <label for="analytics_{{ flow_item.x }}_{{ flow_item.y }}" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            {% if flow_richmenu_item.rich_menu %}
+                                                                <a href="{% url 'head:richmenu:edit' %}?id={{ flow_richmenu_item.rich_menu.display_id }}">
+                                                                    <img src="{% static 'img/icon/search.svg' %}" class="search-icon">
+                                                                </a>
+                                                            {% else %}
+                                                                <img src="{% static 'img/icon/search.svg' %}" class="search-icon">
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 8 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="color: #000; background-color: #FFFF2D;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-3 mb-1">
+                                                    {% for flow_action_item in flow_item.head_flow_action.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_action_item.action.name }}" readonly>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                                <div>
+                                                    {% for flow_action_item in flow_item.head_flow_action_reminder.all %}
+                                                        {% if forloop.first %}
+                                                            {% if flow_action_item.template_text %}
+                                                                <input type="hidden" name="reminder_action_template" value="テキストメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_text.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_text.name|default:'' }}">
+                                                            {% elif flow_action_item.template_video %}
+                                                                <input type="hidden" name="reminder_action_template" value="動画メッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_video.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_video.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richmessage %}
+                                                                <input type="hidden" name="reminder_action_template" value="リッチメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_richmessage.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_richmessage.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richvideo %}
+                                                                <input type="hidden" name="reminder_action_template" value="リッチビデオメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_richvideo.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_richvideo.name|default:'' }}">
+                                                            {% elif flow_action_item.template_cardtype %}
+                                                                <input type="hidden" name="reminder_action_template" value="カードタイプメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_cardtype.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_cardtype.name|default:'' }}">
+                                                            {% else %}
+                                                                <input type="hidden" name="reminder_action_template" value="">
+                                                                <input type="hidden" name="reminder_action_template_item" value="">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="">
+                                                            {% endif %}
+                                                            <input type="hidden" name="reminder_action_date" value="{{ flow_action_item.date }}">
+                                                            <input type="hidden" name="reminder_action_time" value="{{ flow_action_item.time }}">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <button type="button" class="btn action-reminder-button link-button p-0 ms-3">{{ flow_item.name }}リマインダー設定</button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#action_reminder_modal"></button>
+                                                    {% for flow_action_item in flow_item.head_flow_action_message.all %}
+                                                        {% if forloop.first %}
+                                                            {% if flow_action_item.template_text %}
+                                                                <input type="hidden" name="message_action_template" value="テキストメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_text.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_text.name|default:'' }}">
+                                                            {% elif flow_action_item.template_video %}
+                                                                <input type="hidden" name="message_action_template" value="動画メッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_video.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_video.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richmessage %}
+                                                                <input type="hidden" name="message_action_template" value="リッチメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_richmessage.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_richmessage.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richvideo %}
+                                                                <input type="hidden" name="message_action_template" value="リッチビデオメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_richvideo.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_richvideo.name|default:'' }}">
+                                                            {% elif flow_action_item.template_cardtype %}
+                                                                <input type="hidden" name="message_action_template" value="カードタイプメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_cardtype.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_cardtype.name|default:'' }}">
+                                                            {% else %}
+                                                                <input type="hidden" name="message_action_template" value="">
+                                                                <input type="hidden" name="message_action_template_item" value="">
+                                                                <input type="hidden" name="message_action_template_item_name" value="">
+                                                            {% endif %}
+                                                            <input type="hidden" name="message_action_template_timer" value="{{ flow_action_item.type }}">
+                                                            <input type="hidden" name="message_action_template_timer_date" value="{{ flow_action_item.date }}">
+                                                            <input type="hidden" name="message_action_template_timer_time" value="{{ flow_action_item.time }}">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <button type="button" class="btn action-message-button link-button p-0 ms-3">{{ flow_item.name }}終了後メッセージ設定</button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#action_message_modal"></button>
+                                                </div>
+                                                <i class='bx bx-chevron-right next-icon'></i>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 9 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    {% for flow_step_item in flow_item.head_flow_step.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="hidden" name="{{ flow_item.get_type_display }}" value="{{ flow_step_item.tab.display_id }}">
+                                                            <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_step_item.tab.name }}" readonly>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 10 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4"></div>
+                                        </td>
+                                    {% elif flow_item.type == 11 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4"></div>
+                                        </td>
+                                    {% elif flow_item.type == 51 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first position-relative mb-4" style="background-color: #D06D8C; border: 2.5px solid #D06D8C;"></div>
+                                        </td>
+                                    {% elif flow_item.type == 52 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first position-relative mb-4" style="background-color: #C93A40; border: 2.5px solid #C93A40;">
+                                                {% for flow_timer_item in flow_item.head_flow_timer.all %}
+                                                    {% if forloop.first %}
+                                                        <input type="hidden" name="timer" value="{{ flow_timer_item.type|default:'0' }}">
+                                                        {% if flow_timer_item.date and flow_timer_item.date != 0 %}
+                                                            <input type="hidden" name="timer_date" value="{{ flow_timer_item.date }}">
+                                                        {% else %}
+                                                            <input type="hidden" name="timer_date">
+                                                        {% endif %}
+                                                        {% if flow_timer_item.time and flow_timer_item.time != 0 %}
+                                                            <input type="hidden" name="timer_time" value="{{ flow_timer_item.time }}">
+                                                        {% else %}
+                                                            <input type="hidden" name="timer_time">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <img src="{% static 'img/icon/timer.svg' %}" class="timer-icon chart-bar-icon">
+                                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#timer_modal"></button>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 53 %}
+                                        <td style="width: 10rem;"></td>
+                                    {% elif flow_item.type == 54 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first-break position-relative mb-4" style="background-color: #000000; border: 2.5px solid #000000;">
+                                                <p class="chart-bar-text text-center p-1 ps-2 pe-2 mb-0" style="border: 3px solid #000000;">{{ flow_item.name }}</p>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 55 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first-break position-relative mb-4" style="background-color: #007AFF; border: 2.5px solid #007AFF;">
+                                                <p class="chart-bar-text text-center p-1 ps-2 pe-2 mb-0" style="border: 3px solid #007AFF;">{{ flow_item.name }}</p>
+                                            </div>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                    {% variable flow_item.y as line %}
+                                    {% variable flow_item.type as type %}
+                                    {% if line != flow_item.y or forloop.last %}
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div id="{{ flow_tab.value }}" class="tab-pane">
+                        <table>
+                            <tbody>
+                                {% variable '' as line %}
+                                {% variable '' as type %}
+                                {% for flow_item in flow_tab.head_flow_item.all %}
+                                    {% if line != flow_item.y %}
+                                        <tr>
+                                    {% endif %}
+                                    {% if flow_item.type == 1 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #FF0202;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <a href="{% url 'head:template:greeting' %}" target=_blank>
+                                                    <p class="chart-sub-title p-1 ps-2 pe-5 mb-0" style="background-color: #FF0202;">{{ flow_item.name }}</p>
+                                                </a>
+                                                {% if template_greeting.message_type == 1 %}
+                                                    <p class="chart-content-text p-2 mb-0">{{ template_greeting.text|textarea_action_replace|striptags }}</p>
+                                                {% elif template_greeting.message_type == 2 %}
+                                                    <p class="chart-content-text p-2 mb-0">画像メッセージ</p>
+                                                {% elif template_greeting.message_type == 3 %}
+                                                    <p class="chart-content-text p-2 mb-0">動画メッセージ</p>
+                                                {% elif template_greeting.message_type == 4 %}
+                                                    <p class="chart-content-text p-2 mb-0">テンプレートメッセージ</p>
+                                                {% endif %}
+                                                <i class='bx bx-chevron-right next-icon'></i>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 2 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 3 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 4 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 5 %}
+                                        <td></td>
+                                    {% elif flow_item.type == 6 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #A1007E;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                {% for flow_template_item in flow_item.head_flow_template.all %}
+                                                    {% if forloop.first %}
+                                                        <a href="{% url 'head:template:edit_cardtype' %}?id={{ flow_template_item.template_cardtype.display_id }}" target=_blank>
+                                                            <p class="chart-sub-title p-1 ps-2 pe-5 mb-0" style="background-color: #A1007E;">{{ flow_template_item.template_cardtype.name|default:'' }}</p>
+                                                        </a>
+                                                        <input type="hidden" name="template" value="{{ flow_template_item.template_cardtype.display_id }}">
+                                                        {% if flow_template_item.template_cardtype.type == 1 %}
+                                                            <p class="chart-content-title p-2 mb-0">アナウンステンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 2 %}
+                                                            <p class="chart-content-title p-2 mb-0">ロケーションテンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 3 %}
+                                                            <p class="chart-content-title p-2 mb-0">パーソンテンプレートメッセージ</p>
+                                                        {% elif flow_template_item.template_cardtype.type == 4 %}
+                                                            <p class="chart-content-title p-2 mb-0">イメージテンプレートメッセージ</p>
+                                                        {% endif %}
+                                                        <i class='bx bx-chevron-right next-icon'></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 7 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #0900FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content mb-4">
+                                                <div class="dropdown input-select-dropdown d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    {% for flow_richmenu_item in flow_item.head_flow_rich_menu.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="hidden" name="rich_menu" value="{{ flow_richmenu_item.rich_menu.display_id }}">
+                                                            <input type="text" class="input-text input-select input-richmenu ps-2 pe-2" value="{{ flow_richmenu_item.rich_menu.name|default:'' }}" placeholder="なし" readonly>
+                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#head_rich_menu_modal"></button>
+                                                            <div class="input-check-wrap ps-4 ms-2 mt-2 mb-0">
+                                                                <label for="analytics_{{ flow_item.x }}_{{ flow_item.y }}" class="mb-0">アナリティクス</label>
+                                                                {% if flow_item.analytics %}
+                                                                    <input id="analytics_{{ flow_item.x }}_{{ flow_item.y }}" type="checkbox" name="analytics" class="form-check-input input-check" checked>
+                                                                {% else %}
+                                                                    <input id="analytics_{{ flow_item.x }}_{{ flow_item.y }}" type="checkbox" name="analytics" class="form-check-input input-check">
+                                                                {% endif %}
+                                                                <label for="analytics_{{ flow_item.x }}_{{ flow_item.y }}" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            {% if flow_richmenu_item.rich_menu %}
+                                                                <a href="{% url 'head:richmenu:edit' %}?id={{ flow_richmenu_item.rich_menu.display_id }}">
+                                                                    <img src="{% static 'img/icon/search.svg' %}" class="search-icon">
+                                                                </a>
+                                                            {% else %}
+                                                                <img src="{% static 'img/icon/search.svg' %}" class="search-icon">
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 8 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="color: #000; background-color: #FFFF2D;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-3 mb-1">
+                                                    {% for flow_action_item in flow_item.head_flow_action.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_action_item.action.name }}" readonly>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                                <div>
+                                                    {% for flow_action_item in flow_item.head_flow_action_reminder.all %}
+                                                        {% if forloop.first %}
+                                                            {% if flow_action_item.template_text %}
+                                                                <input type="hidden" name="reminder_action_template" value="テキストメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_text.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_text.name|default:'' }}">
+                                                            {% elif flow_action_item.template_video %}
+                                                                <input type="hidden" name="reminder_action_template" value="動画メッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_video.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_video.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richmessage %}
+                                                                <input type="hidden" name="reminder_action_template" value="リッチメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_richmessage.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_richmessage.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richvideo %}
+                                                                <input type="hidden" name="reminder_action_template" value="リッチビデオメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_richvideo.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_richvideo.name|default:'' }}">
+                                                            {% elif flow_action_item.template_cardtype %}
+                                                                <input type="hidden" name="reminder_action_template" value="カードタイプメッセージ">
+                                                                <input type="hidden" name="reminder_action_template_item" value="{{ flow_action_item.template_cardtype.display_id|default:'' }}">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="{{ flow_action_item.template_cardtype.name|default:'' }}">
+                                                            {% else %}
+                                                                <input type="hidden" name="reminder_action_template" value="">
+                                                                <input type="hidden" name="reminder_action_template_item" value="">
+                                                                <input type="hidden" name="reminder_action_template_item_name" value="">
+                                                            {% endif %}
+                                                            <input type="hidden" name="reminder_action_date" value="{{ flow_action_item.date }}">
+                                                            <input type="hidden" name="reminder_action_time" value="{{ flow_action_item.time }}">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <button type="button" class="btn action-reminder-button link-button p-0 ms-3">{{ flow_item.name }}リマインダー設定</button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#action_reminder_modal"></button>
+                                                    {% for flow_action_item in flow_item.head_flow_action_message.all %}
+                                                        {% if forloop.first %}
+                                                            {% if flow_action_item.template_text %}
+                                                                <input type="hidden" name="message_action_template" value="テキストメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_text.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_text.name|default:'' }}">
+                                                            {% elif flow_action_item.template_video %}
+                                                                <input type="hidden" name="message_action_template" value="動画メッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_video.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_video.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richmessage %}
+                                                                <input type="hidden" name="message_action_template" value="リッチメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_richmessage.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_richmessage.name|default:'' }}">
+                                                            {% elif flow_action_item.template_richvideo %}
+                                                                <input type="hidden" name="message_action_template" value="リッチビデオメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_richvideo.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_richvideo.name|default:'' }}">
+                                                            {% elif flow_action_item.template_cardtype %}
+                                                                <input type="hidden" name="message_action_template" value="カードタイプメッセージ">
+                                                                <input type="hidden" name="message_action_template_item" value="{{ flow_action_item.template_cardtype.display_id|default:'' }}">
+                                                                <input type="hidden" name="message_action_template_item_name" value="{{ flow_action_item.template_cardtype.name|default:'' }}">
+                                                            {% else %}
+                                                                <input type="hidden" name="message_action_template" value="">
+                                                                <input type="hidden" name="message_action_template_item" value="">
+                                                                <input type="hidden" name="message_action_template_item_name" value="">
+                                                            {% endif %}
+                                                            <input type="hidden" name="message_action_template_timer" value="{{ flow_action_item.type }}">
+                                                            <input type="hidden" name="message_action_template_timer_date" value="{{ flow_action_item.date }}">
+                                                            <input type="hidden" name="message_action_template_timer_time" value="{{ flow_action_item.time }}">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <button type="button" class="btn action-message-button link-button p-0 ms-3">{{ flow_item.name }}終了後メッセージ設定</button>
+                                                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#action_message_modal"></button>
+                                                </div>
+                                                <i class='bx bx-chevron-right next-icon'></i>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 9 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    {% for flow_step_item in flow_item.head_flow_step.all %}
+                                                        {% if forloop.first %}
+                                                            <input type="hidden" name="{{ flow_item.get_type_display }}" value="{{ flow_step_item.tab.display_id }}">
+                                                            <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_step_item.tab.name }}" readonly>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 10 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #707070;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_item.name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 11 %}
+                                        <td>
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_item.name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 51 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first position-relative mb-4" style="background-color: #D06D8C; border: 2.5px solid #D06D8C;"></div>
+                                        </td>
+                                    {% elif flow_item.type == 52 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first position-relative mb-4" style="background-color: #C93A40; border: 2.5px solid #C93A40;">
+                                                {% for flow_timer_item in flow_item.head_flow_timer.all %}
+                                                    {% if forloop.first %}
+                                                        <input type="hidden" name="timer" value="{{ flow_timer_item.type|default:'0' }}">
+                                                        {% if flow_timer_item.date and flow_timer_item.date != 0 %}
+                                                            <input type="hidden" name="timer_date" value="{{ flow_timer_item.date }}">
+                                                        {% else %}
+                                                            <input type="hidden" name="timer_date">
+                                                        {% endif %}
+                                                        {% if flow_timer_item.time and flow_timer_item.time != 0 %}
+                                                            <input type="hidden" name="timer_time" value="{{ flow_timer_item.time }}">
+                                                        {% else %}
+                                                            <input type="hidden" name="timer_time">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <img src="{% static 'img/icon/timer.svg' %}" class="timer-icon chart-bar-icon">
+                                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#timer_modal"></button>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 53 %}
+                                        <td style="width: 10rem;"></td>
+                                    {% elif flow_item.type == 54 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first-break position-relative mb-4" style="background-color: #000000; border: 2.5px solid #000000;">
+                                                <p class="chart-bar-text text-center p-1 ps-2 pe-2 mb-0" style="border: 3px solid #000000;">{{ flow_item.name }}</p>
+                                            </div>
+                                        </td>
+                                    {% elif flow_item.type == 55 %}
+                                        <td style="width: 10rem;">
+                                            <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
+                                            <div class="chart-bar first-break position-relative mb-4" style="background-color: #007AFF; border: 2.5px solid #007AFF;">
+                                                <p class="chart-bar-text text-center p-1 ps-2 pe-2 mb-0" style="border: 3px solid #007AFF;">{{ flow_item.name }}</p>
+                                            </div>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                    {% variable flow_item.y as line %}
+                                    {% variable flow_item.type as type %}
+                                    {% if line != flow_item.y or forloop.last %}
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
