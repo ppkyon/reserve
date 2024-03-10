@@ -17,7 +17,7 @@
             <div class="col-12">
                 <div class="table-control-area mb-2">
                     <div class="d-flex align-items-center">
-                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table_search }}" placeholder="登録名">
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名">
                         <input type="hidden" id="table_search_url" value="{% url 'head:flow:search' %}">
                         {% include 'table/number.html' %}
                     </div>
@@ -79,4 +79,5 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/head/flow/append.js' %}"></script>
 {% endblock %}

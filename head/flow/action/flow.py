@@ -2,7 +2,10 @@ from django.http import JsonResponse
 
 from flow.models import HeadFlow
 
+from head.flow.action.list import get_list
+
 from common import create_code
+from table.action import action_search
 
 import uuid
 
@@ -31,10 +34,11 @@ def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
 
 def search(request):
-    return JsonResponse( {}, safe=False )
+    action_search(request, None, None)
+    return JsonResponse( list(get_list(request, 1)), safe=False )
 
 def paging(request):
-    return JsonResponse( {}, safe=False )
+    return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
 
 def valid(request):
     flow = HeadFlow.objects.filter(display_id=request.POST.get('id')).first()

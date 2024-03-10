@@ -9,7 +9,10 @@ from fixture.models import Prefecture
 from sign.models import AuthCompany, AuthUser, CompanyProfile, ManagerProfile
 from tag.models import HeadTag, CompanyHashTag
 
+from head.company.action.list import get_list
+
 from common import create_code, create_password, get_model_field
+from table.action import action_search
 
 import environ
 import phonenumbers
@@ -71,6 +74,13 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def search(request):
+    action_search(request, None, None)
+    return JsonResponse( list(get_list(request, 1)), safe=False )
+
+def paging(request):
+    return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
 
 def start(request):
     company = AuthCompany.objects.filter(display_id=request.POST.get('id')).first()

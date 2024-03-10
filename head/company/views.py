@@ -1,21 +1,16 @@
-from view import HeadView
+from view import HeadListView
 
 from fixture.models import Prefecture
-from sign.models import AuthCompany, CompanyProfile
-from tag.models import CompanyHashTag
+from sign.models import AuthCompany
 
-class IndexView(HeadView):
+class IndexView(HeadListView):
     template_name = 'head/company/index.html'
     title = '企業管理'
+    model = AuthCompany
+    search_target = ['company_profile__company_name']
+    default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-
-        company_list = AuthCompany.objects.filter(status__gte=2, delete_flg=False).order_by('-created_at').all()
-        for company_index, company_item in enumerate(company_list):
-            company_list[company_index].profile = CompanyProfile.objects.filter(company=company_item).first()
-            company_list[company_index].tag = CompanyHashTag.objects.filter(company=company_item).all()[0:6]
-        context['company_list'] = company_list
-        
         context['prefecture_list'] = Prefecture.objects.order_by('number').all()
         return context

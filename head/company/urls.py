@@ -11,6 +11,7 @@ urlpatterns = [
     path('add/', company.add, name='add'),
     path('save/', company.save, name='save'),
     path('save/check', company.save_check, name='save_check'),
+    path('search/', company.search, name='search'),
     path('start/', company.start, name='start'),
     path('profile/get', company.get_profile, name='get_profile'),
 ]
