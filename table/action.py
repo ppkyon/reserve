@@ -9,7 +9,7 @@ def number(request):
     if '/head/' in request.POST.get('url'):
         company = None
         shop = None
-    elif '/company/' in request.POST.get('url') and not '/shop/' in request.POST.get('url'):
+    elif '/company/' in request.POST.get('url'):
         company = AuthLogin.objects.filter(user=request.user).first().company
         shop = None
     else:
@@ -36,7 +36,7 @@ def sort(request):
     if '/head/' in request.POST.get('url'):
         company = None
         shop = None
-    elif '/company/' in request.POST.get('url') and not '/shop/' in request.POST.get('url'):
+    elif '/company/' in request.POST.get('url'):
         company = AuthLogin.objects.filter(user=request.user).first().company
         shop = None
     else:

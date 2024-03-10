@@ -9,7 +9,10 @@ from fixture.models import Prefecture
 from sign.models import AuthShop, AuthUser, ShopProfile, ShopLine, ManagerProfile, AuthLogin
 from tag.models import CompanyTag, ShopHashTag
 
+from company.shop.action.list import get_list
+
 from common import create_code, create_password, get_model_field
+from table.action import action_search
 
 import environ
 import phonenumbers
@@ -79,6 +82,14 @@ def delete(request):
     shop.delete_flg = True
     shop.save()
     return JsonResponse( {}, safe=False )
+
+def search(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    action_search(request, None, auth_login.company)
+    return JsonResponse( list(get_list(request, 1)), safe=False )
+
+def paging(request):
+    return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
 
 def start(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('id')).first()

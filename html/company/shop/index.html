@@ -21,61 +21,70 @@
     <div class="company">
         <div class="row">
             <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="店舗名">
+                        <input type="hidden" id="table_search_url" value="{% url 'company:shop:search' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="table-area mb-3">
                     <table class="table mb-0">
                         <thead>
                             <tr>
                                 <th style="width: 30px;"></th>
-                                <th class="sort-area">
-                                    {% include 'sort.html' with text='店舗名' target='shop_name' %}
-                                </th>
-                                <th class="sort-area" style="width: 120px;">
-                                    {% include 'sort.html' with text='代表氏名' target='name' %}
-                                </th>
-                                <th class="sort-area" style="width: 120px;">
-                                    {% include 'sort.html' with text='都道府県' target='prefecture' %}
-                                </th>
+                                {% include 'table/sort.html' with text='店舗名' target='shop_name' %}
+                                {% include 'table/sort.html' with text='代表氏名' target='name' width='120' %}
+                                {% include 'table/sort.html' with text='都道府県' target='prefecture' width='120' %}
                                 <th style="width: 230px;"># タグ</th>
                                 <th style="width: 210px;"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for shop in shop_list %}
+                            {% for object_item in object_list %}
                                 <tr>
                                     <td class="p-1"></td>
-                                    <td class="position-relative p-1">
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            {% if shop.profile.shop_logo_image %}
-                                                <img src="{{ shop.profile.shop_logo_image.url }}" class="shop-image me-2">
-                                            {% else %}
-                                                <img src="{% static 'img/user-none.png' %}" class="shop-image me-2">
-                                            {% endif %}
-                                            <p class="content-title mb-0">{{ shop.profile.shop_name }}</p>
-                                        </div>
-                                        <p class="content-date mb-0">#{{ shop.display_id }}</p>
-                                    </td>
+                                    {% for shop_profile_item in object_item.shop_profile.all %}
+                                        {% if forloop.first %}
+                                            <td class="position-relative p-1">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    {% if shop_profile_item.shop_logo_image %}
+                                                        <img src="{{ shop_profile_item.shop_logo_image.url }}" class="shop-image me-2">
+                                                    {% else %}
+                                                        <img src="{% static 'img/user-none.png' %}" class="shop-image me-2">
+                                                    {% endif %}
+                                                    <p class="content-title mb-0">{{ shop_profile_item.shop_name }}</p>
+                                                </div>
+                                                <p class="content-date mb-0">#{{ object_item.display_id }}</p>
+                                            </td>
+                                            <td class="p-1">
+                                                <p class="content-title mb-0">{{ shop_profile_item.head_family_name }}{{ shop_profile_item.head_first_name }}</p>
+                                            </td>
+                                            <td class="p-1">
+                                                <p class="content-title mb-0">{{ shop_profile_item.shop_prefecture.name }}</p>
+                                            </td>
+                                        {% endif %}
+                                    {% endfor %}
                                     <td class="p-1">
-                                        <p class="content-title mb-0">{{ shop.profile.head_family_name }}{{ shop.profile.head_first_name }}</p>
-                                    </td>
-                                    <td class="p-1">
-                                        <p class="content-title mb-0">{{ shop.profile.shop_prefecture.name }}</p>
-                                    </td>
-                                    <td class="p-1">
-                                        {% for shop_tag in shop.tag %}
-                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ shop_tag.tag.name }}</label>
+                                        {% for shop_tag_item in object_item.shop_hash_tag.all %}
+                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ shop_tag_item.tag.name }}</label>
                                         {% endfor %}
                                     </td>
                                     <td class="text-center p-1">
                                         <div class="d-flex justify-content-start align-items-center">
-                                            <button type="button" value="{{ shop.display_id }}" class="btn preview-button p-1 me-1">プレビュー</button>
+                                            <button type="button" value="{{ object_item.display_id }}" class="btn preview-button p-1 me-1">プレビュー</button>
                                             <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_shop_profile"></button>
-                                            <a href="{% url 'company:shop:detail' %}?id={{ shop.display_id }}" class="btn detail-button p-1 me-2">詳細</a>
+                                            <a href="{% url 'company:shop:detail' %}?id={{ object_item.display_id }}" class="btn detail-button p-1 me-2">詳細</a>
                                             <div class="dropdown button-area text-center d-inline-block p-0 me-3">
                                                 <button type="button" class="btn p-0" data-bs-toggle="dropdown">
                                                     <i class='bx bx-dots-vertical-rounded menu-icon'></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a href="{{ env.domain_url }}{% url 'dashboard:index' %}?login_id={{ shop.display_id }}" class="btn dropdown-item fw-bold text-center">店舗ログイン</a>
+                                                    <a href="{{ env.domain_url }}{% url 'dashboard:index' %}?login_id={{ object_item.display_id }}" class="btn dropdown-item fw-bold text-center">店舗ログイン</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,17 +94,20 @@
                         </tbody>
                     </table>
                 </div>
+                {% include 'loader.html' %}
             </div>
         </div>
         {% include 'modal.html' %}
         {% include 'company/shop/modal/shop.html' %}
         {% include 'company/shop/offcanvas.html' %}
         {% include 'company/tag/modal/tag.html' %}
+        {% include 'table/paging.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
     <script src="{% static 'js/company/tag/modal.js' %}"></script>
-    <script src="{% static 'js/company/shop/data.js' %}"></script>
+    <script src="{% static 'js/company/shop/append.js' %}"></script>
     <script src="{% static 'js/company/shop/action.js' %}"></script>
+    <script src="{% static 'js/company/shop/data.js' %}"></script>
 {% endblock %}

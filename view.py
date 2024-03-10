@@ -151,7 +151,7 @@ class CompanyBaseLisView(MultipleObjectMixin, CompanyBaseView):
 
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-        query = Q()
+        query = Q(company=auth_login.company)
         search = TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first()
         if search:
             search_query = Q()

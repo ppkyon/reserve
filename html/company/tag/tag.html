@@ -4,12 +4,8 @@
     <table class="table children-table tag-table mb-0">
         <thead>
             <tr>
-                <th class="sort-area">
-                    {% include 'sort.html' with text='タグ名' target='name' %}
-                </th>
-                <th class="sort-area" style="width: 150px;">
-                    {% include 'sort.html' with text='作成日時' target='created_at' %}
-                </th>
+                {% include 'table/sort.html' with text='タグ名' target='name' %}
+                {% include 'table/sort.html' with text='作成日時' target='created_at' width='150' %}
                 <th style="width: 150px;">ジャンル</th>
                 <th style="width: 50px;"></th>
                 <th style="width: 50px;"></th>
