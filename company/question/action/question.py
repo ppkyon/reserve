@@ -83,7 +83,8 @@ def delete(request):
     return JsonResponse( {}, safe=False )
 
 def search(request):
-    action_search(request, None, None)
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    action_search(request, None, auth_login.company)
     return JsonResponse( list(get_list(request, 1)), safe=False )
 
 def paging(request):

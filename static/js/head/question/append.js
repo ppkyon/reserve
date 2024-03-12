@@ -375,7 +375,10 @@ function append_table_area(data) {
     html += '<td>';
     html += '<p class="content-title mb-0">' + data.count + '</p>';
     html += '</td>';
-    html += '<td>' + button + '</td>';
+    html += '<td>';
+    html += '<input type="hidden" name="id" value="' + data.display_id + '">';
+    html += button;
+    html += '</td>';
     html += '</tr>';
     return html;
 }
