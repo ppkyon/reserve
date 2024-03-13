@@ -54,6 +54,21 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if '/company/template/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'company:template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                    <span>テンプレート管理</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'company:template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                    <span>テンプレート管理</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if '/company/richmenu/' in request.path %}
                             <li class="active position-relative">
                                 <a href="{% url 'company:richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">

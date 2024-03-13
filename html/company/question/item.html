@@ -18,7 +18,22 @@
                                                     <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ question_item.get_type_display }}" style="width: 10rem;" placeholder="設問項目" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" data-parsley-errors-container="#error_select_item_{{ question_item.random }}" readonly required>
                                                     <input type="hidden" value="{{ question_item.type }}">
                                                     <div class="dropdown-menu">
-                                                        {% include 'item/question_item.html' %}
+                                                        <button type="button" value="1" class="btn dropdown-item fw-bold">氏名</button>
+                                                        <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">フリガナ</button>
+                                                        <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">年齢</button>
+                                                        <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">性別</button>
+                                                        <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">電話番号</button>
+                                                        <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">メールアドレス</button>
+                                                        <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">生年月日</button>
+                                                        <button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">住所</button>
+                                                        <button type="button" value="9" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">プロフィール写真</button>
+                                                        <button type="button" value="10" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">画像</button>
+                                                        <button type="button" value="11" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
+                                                        <button type="button" value="51" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約形式</button>
+                                                        <button type="button" value="52" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約日程</button>
+                                                        <button type="button" value="53" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約可能日</button>
+                                                        <button type="button" value="54" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約日程再調整</button>
+                                                        <button type="button" value="99" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設問</button>
                                                     </div>
                                                 </div>
                                                 <p class="input-label ms-3 mb-0">タイトル</p>
@@ -106,7 +121,13 @@
                                                         <input type="text" id="type" class="input-text input-select input-question ps-2 pe-2" value="{{ question_item.get_choice_type_display }}" style="width: 10rem;" placeholder="種類を選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
                                                         <input type="hidden" value="{{ question_item.choice_type }}">
                                                         <div class="dropdown-menu" aria-labelledby="type">
-                                                            {% include 'item/question_choice_item.html' %}
+                                                            <button type="button" value="1" class="btn dropdown-item fw-bold">フリーテキスト</button>
+                                                            <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">ラジオボタン</button>
+                                                            <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">チェックボックス</button>
+                                                            <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">プルダウン</button>
+                                                            <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">日付</button>
+                                                            <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">時間</button>
+                                                            <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">日時</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -190,7 +211,22 @@
                                                 <input type="text" class="input-text input-select input-type ps-2 pe-2" style="width: 10rem;" placeholder="設問項目" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" data-parsley-errors-container="#error_select_item_{{ random }}" readonly required>
                                                 <input type="hidden">
                                                 <div class="dropdown-menu">
-                                                    {% include 'item/question_item.html' %}
+                                                    <button type="button" value="1" class="btn dropdown-item fw-bold">氏名</button>
+                                                    <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">フリガナ</button>
+                                                    <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">年齢</button>
+                                                    <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">性別</button>
+                                                    <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">電話番号</button>
+                                                    <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">メールアドレス</button>
+                                                    <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">生年月日</button>
+                                                    <button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">住所</button>
+                                                    <button type="button" value="9" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">プロフィール写真</button>
+                                                    <button type="button" value="10" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">画像</button>
+                                                    <button type="button" value="11" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
+                                                    <button type="button" value="51" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約形式</button>
+                                                    <button type="button" value="52" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約日程</button>
+                                                    <button type="button" value="53" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約可能日</button>
+                                                    <button type="button" value="54" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約日程再調整</button>
+                                                    <button type="button" value="99" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設問</button>
                                                 </div>
                                             </div>
                                             <p class="input-label ms-3 mb-0">タイトル</p>

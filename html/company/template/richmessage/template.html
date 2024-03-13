@@ -1,0 +1,317 @@
+{% load static %}
+
+<div class="template-area-wrap">
+    <p class="input-label fw-bold mb-2">メッセージ設定</p>
+    {% if template %}
+        {% if template.type == 0 %}
+            {% if template.image %}
+                <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="height: 100%;">
+                    <img src="{{ template.image.url }}">
+                    <table class="text-center text-white h-100">
+                        <tr>
+                            <td>
+                                <input type="hidden" value="a">A
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            {% else %}
+                <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 100%;">
+                    <p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>
+                    <table class="text-center text-white h-100">
+                        <tr>
+                            <td>
+                                <input type="hidden" value="a">A
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            {% endif %}
+        {% else %}
+            {% if template.image %}
+                <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="height: auto;">
+                    <img src="{{ template.image.url }}">
+                    {% if template.type == 1 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 2 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 3 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 4 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 5 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 6 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td colspan="2">
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 7 %}
+                        <table class="text-center text-white h-100">
+                            <tr style="height: 50%;">
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.type == 8 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                                <td>
+                                    <input type="hidden" value="e">E
+                                </td>
+                                <td>
+                                    <input type="hidden" value="f">F
+                                </td>
+                            </tr>
+                        </table>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 100%;">
+                    <p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>
+                    {% if template.content.type == 1 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 2 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 3 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 4 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 5 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 6 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td colspan="2">
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 7 %}
+                        <table class="text-center text-white h-100">
+                            <tr style="height: 50%;">
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </table>
+                    {% elif template.content.type == 8 %}
+                        <table class="text-center text-white h-100">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                                <td>
+                                    <input type="hidden" value="e">E
+                                </td>
+                                <td>
+                                    <input type="hidden" value="f">F
+                                </td>
+                            </tr>
+                        </table>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 100%;">
+            <p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>
+        </div>
+    {% endif %}
+    <div class="template-button-area text-center">
+        <input type="text" name="template" class="d-none" value="{{ template.type }}" data-parsley-errors-container="#error_template" data-parsley-error-message="テンプレートを選択してください" required>
+        <input type="text" name="upload_image" class="d-none" value="{{ template.image }}" data-parsley-errors-container="#error_image" data-parsley-error-message="画像をアップロードしてください" required>
+        <button type="button" class="btn select-template-button pt-1 pb-1 p-0 mb-2">テンプレートを選択</button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#select_template_modal"></button>
+        {% if template %}
+            <button type="button" id="upload_template_image" class="btn pt-1 pb-1 p-0 mb-2">画像をアップロード</button>
+        {% else %}
+            <button type="button" id="upload_template_image" class="btn pt-1 pb-1 p-0 mb-2" disabled>画像をアップロード</button>
+        {% endif %}
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_normal_upload_modal"></button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_custom_upload_modal"></button>
+    </div>
+</div>

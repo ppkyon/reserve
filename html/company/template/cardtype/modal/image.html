@@ -1,0 +1,219 @@
+{% load static %}
+
+<div id="trimming_image_modal" class="trimming-image-modal modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">画像をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="error-message-trimming-image error-message-image d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">画像のファイル形式は JPG、JPEG、PNGのみです</p>
+                            <p class="mb-0 d-none">画像のファイルサイズは 10MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="image_trimming_zone" class="image_trimming_zone position-relative text-end w-100 d-none">
+                            <button type="button" class="btn drop-delete-button p-0 mb-1">
+                                <img src="{% static 'img/icon/cross-white.svg' %}">
+                            </button>
+                            <div class="image-trimming-area"></div>
+                        </div>
+                        <div id="image_trimming_drop_zone" class="drop-zone image-drop-zone image_trimming-drop-zone position-relative">
+                            <input type="file" name="image_file" accept=".jpg,.jpeg,.png" style="display: none;">
+                            <input type="hidden" name="upload_image">
+                            <div id="image_trimming_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 JPG、JPEG、PNG</p>
+                                <p class="drop-description mb-0">ファイルサイズ 10MBまで</p>
+                                <p class="drop-description mb-4">推奨比率 1.54:1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button upload-button d-none" style="width: 8rem;">アップロードする</button>
+                <button type="button" class="btn cancel-button d-block">キャンセル</button>
+                <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="trimming_half_image_modal" class="trimming-image-modal modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">画像をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="error-message-trimming-image-half error-message-image d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">画像のファイル形式は JPG、JPEG、PNGのみです</p>
+                            <p class="mb-0 d-none">画像のファイルサイズは 10MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="image_trimming_half_zone" class="image_trimming_zone position-relative text-end w-100 d-none">
+                            <button type="button" class="btn drop-delete-button p-0 mb-1">
+                                <img src="{% static 'img/icon/cross-white.svg' %}">
+                            </button>
+                            <div class="image-trimming-area"></div>
+                        </div>
+                        <div id="image_trimming_half_drop_zone" class="drop-zone image-drop-zone image_trimming_half-drop-zone position-relative">
+                            <input type="file" name="image_file" accept=".jpg,.jpeg,.png" style="display: none;">
+                            <input type="hidden" name="upload_image">
+                            <div id="image_trimming_half_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 JPG、JPEG、PNG</p>
+                                <p class="drop-description mb-0">ファイルサイズ 10MBまで</p>
+                                <p class="drop-description mb-4">推奨比率 1.54:2</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button upload-button d-none" style="width: 8rem;">アップロードする</button>
+                <button type="button" class="btn cancel-button d-block">キャンセル</button>
+                <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="trimming_person_image_modal" class="trimming-image-modal modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">画像をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="error-message-image-person error-message-image d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">画像のファイル形式は JPG、JPEG、PNGのみです</p>
+                            <p class="mb-0 d-none">画像のファイルサイズは 10MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="image_trimming_person_zone" class="image_trimming_zone position-relative text-end w-100 d-none">
+                            <button type="button" class="btn drop-delete-button p-0 mb-1">
+                                <img src="{% static 'img/icon/cross-white.svg' %}">
+                            </button>
+                            <div class="image-trimming-area"></div>
+                        </div>
+                        <div id="image_trimming_person_drop_zone" class="drop-zone image-drop-zone image_trimming_person-drop-zone position-relative">
+                            <input type="file" name="image_file" accept=".jpg,.jpeg,.png" style="display: none;">
+                            <input type="hidden" name="upload_image">
+                            <div id="image_trimming_person_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 JPG、JPEG、PNG</p>
+                                <p class="drop-description mb-0">ファイルサイズ 10MBまで</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button upload-button d-none" style="width: 8rem;">アップロードする</button>
+                <button type="button" class="btn cancel-button d-block">キャンセル</button>
+                <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="trimming_one_image_modal" class="trimming-image-modal modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">画像をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4 pb-0">
+                <div class="error-message-trimming-image-one error-message-image d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">画像のファイル形式は JPG、JPEG、PNGのみです</p>
+                            <p class="mb-0 d-none">画像のファイルサイズは 10MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="image_trimming_one_zone" class="image_trimming_zone position-relative text-end w-100 d-none">
+                            <button type="button" class="btn drop-delete-button p-0 mb-1">
+                                <img src="{% static 'img/icon/cross-white.svg' %}">
+                            </button>
+                            <div class="image-trimming-area"></div>
+                        </div>
+                        <div id="image_trimming_one_drop_zone" class="drop-zone image-drop-zone image_trimming_one-drop-zone position-relative">
+                            <input type="file" name="image_file" accept=".jpg,.jpeg,.png" style="display: none;">
+                            <input type="hidden" name="upload_image">
+                            <div id="image_trimming_one_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 JPG、JPEG、PNG</p>
+                                <p class="drop-description mb-0">ファイルサイズ 10MBまで</p>
+                                <p class="drop-description mb-0">推奨比率 1.11:1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button upload-button d-none" style="width: 8rem;">アップロードする</button>
+                <button type="button" class="btn cancel-button d-block">キャンセル</button>
+                <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>

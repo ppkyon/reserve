@@ -1,0 +1,95 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+{% load original %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        {% include 'company/template/tab.html' with target='video' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'company:template:edit_video' %}" class="btn edit-button me-2" style="width: 9.5rem;">新規テンプレート登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名">
+                        <input type="hidden" id="table_search_url" value="{% url 'company:template:search_video' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4" style="width: 150px;">動画</th>
+                                {% include 'table/sort.html' with text='登録名' target='name' %}
+                                {% include 'table/sort.html' with text='動画時間' target='video_time' width='150' %}
+                                {% include 'table/sort.html' with text='動画容量' target='video_size' width='150' %}
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if object_item.video_thumbnail %}
+                                            <img class="content-image me-2" src="{{ object_item.video_thumbnail.url }}">
+                                        {% else %}
+                                            <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                        {% endif %}
+                                    </td>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.video %}
+                                            <p class="content-title mb-0">{{ object_item.video_time|convert_time }}</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if object_item.video %}
+                                            {% if object_item.video_size >= 1000000 %}
+                                                <p class="content-title mb-0">{{ object_item.video_size|division:1000000 }}MB</p>
+                                            {% elif object_item.video_size >= 1000 %}
+                                                <p class="content-title mb-0">{{ object_item.video_size|division:1000 }}KB</p>
+                                            {% else %}
+                                                <p class="content-title mb-0">{{ object_item.video_size }}B</p>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        <a href="{% url 'company:template:edit_video' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'company:template:paging_video' %}">
+        <input type="hidden" id="get_video_url" value="{% url 'company:template:get_video' %}">
+        {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/template/video/preview.js' %}"></script>
+    <script src="{% static 'js/company/template/video/append.js' %}"></script>
+    <script src="{% static 'js/company/template/video/action.js' %}"></script>
+{% endblock %}

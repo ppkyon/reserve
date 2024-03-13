@@ -1,0 +1,97 @@
+{% load static %}
+
+<div class="action-area-wrap">
+    <p class="input-label fw-bold mb-2">アクション</p>
+    {% if template.company_template_rich_message_item.all|length > 0 %}
+        {% for template_item in template.company_template_rich_message_item.all %}
+            <div class="action-area d-flex flex-column position-relative p-1 mb-2">
+                <div class="number-area d-flex justify-content-start align-items-center pb-3">
+                    <img src="{% static 'img/icon/than-green.svg' %}" class="mt-1 ms-2">
+                    <p class="ms-2 mb-0">{{ template_item.number|title }}</p>
+                    <input type="hidden" name="number" value="{{ template_item.number }}">
+                </div>
+                <div class="content-area-wrap">
+                    <div class="content-area d-flex justify-content-start align-items-center pb-0">
+                        <label class="ms-5 mb-3">タイプ</label>
+                        <div class="dropdown input-select-dropdown d-inline-block p-0 mb-3 ms-3">
+                            {% if template_item.type == 1 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="リンク" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 2 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="動画" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 3 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="回答フォーム" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 4 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="予約フォーム" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 5 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% elif template_item.type == 6 %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% else %}
+                                <input type="text" id="select_type_{{ template_item.number }}" name="type_{{ template_item.number }}" value="設定なし" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-error-message="選択してください" readonly required>
+                            {% endif %}
+                            <input type="hidden" value="{{ template_item.type }}">
+                            <div class="dropdown-menu">
+                                <button type="button" value="1" class="btn dropdown-item fw-bold">リンク</button>
+                                <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
+                                <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>
+                                <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>
+                                <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>
+                                <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
+                                <button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>
+                            </div>
+                        </div>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_template_video_modal"></button>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_question_modal"></button>
+                    </div>
+                    {% if template_item.type == 1 or template_item.type == 2 or template_item.type == 3 or template_item.type == 4 or template_item.type == 5 or template_item.type == 6 %}
+                        <div class="content-area d-flex justify-content-start align-items-center pb-0">
+                            <label class="ms-5 mb-3"></label>
+                            <div class="p-0 mb-3 ms-3">
+                                <input type="text" name="url_{{ template_item.number }}" value="{{ template_item.url }}" class="input-text input-select ps-2 pe-2" placeholder="URLを入力" required>
+                                <input type="hidden" value="{{ template_item.question_form.display_id }}">
+                            </div>
+                        </div>
+                        <div class="content-area d-flex justify-content-start pb-0">
+                            <label class="ms-5 mt-1 mb-3">アクションラベル</label>
+                            <div class="p-0 mb-3 ms-3">
+                                <textarea name="label_{{ template_item.number }}" class="d-block input-textarea" placeholder="アクションラベルを入力" maxlength="100" data-parsley-maxlength="100" required>{{ template_item.label }}</textarea>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="action-area d-flex flex-column position-relative p-1 mb-2">
+            <div class="number-area d-flex justify-content-start align-items-center pb-3">
+                <img src="{% static 'img/icon/than-green.svg' %}" class="mt-1 ms-2">
+                <p class="ms-2 mb-0">A</p>
+                <input type="hidden" name="number" value="a">
+            </div>
+            <div class="content-area-wrap mb-3">
+                <div class="content-area d-flex justify-content-start align-items-center pb-0">
+                    <label class="ms-5 mb-3">タイプ</label>
+                    <div class="dropdown input-select-dropdown d-inline-block p-0 ms-3">
+                        <input type="text" name="type_a" class="input-text input-select ps-2 pe-2" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_type_a" data-parsley-error-message="選択してください" readonly required>
+                        <input type="hidden">
+                        <div class="dropdown-menu">
+                            <button type="button" value="1" class="btn dropdown-item fw-bold">リンク</button>
+                            <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
+                            <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>
+                            <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>
+                            <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>
+                            <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
+                            <button type="button" value="0" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">設定なし</button>
+                        </div>
+                    </div>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_template_video_modal"></button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_question_modal"></button>
+                </div>
+                <div class="content-error-area d-flex justify-content-start align-items-start pb-0">
+                    <label class="mb-0" style="margin-left: 9.5rem; font-size: 0.1rem;">&nbsp;</label>
+                    <div id="error_type_a" class="ms-3 mb-3"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

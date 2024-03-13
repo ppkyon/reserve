@@ -1,0 +1,93 @@
+<div id="image_upload_modal" class="modal file-modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">画像をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="error-message-image d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">画像のファイル形式は JPG,JPEG,PNGのみです</p>
+                            <p class="mb-0 d-none">画像のファイルサイズは 10MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="image_drop_zone" class="drop-zone image-drop-zone position-relative">
+                            <input type="file" name="image_file" accept=".jpg,.jpeg,.png" style="display: none;">
+                            <input type="hidden" name="upload_image">
+                            <input type="hidden" name="number">
+                            <div id="image_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 JPG,JPEG,PNG</p>
+                                <p class="drop-description mb-4">ファイルサイズ 10MBまで</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn cancel-button d-block" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="video_upload_modal" class="modal file-modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">動画をアップロードする</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <div class="error-message-video d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">動画のファイル形式は MP4のみです</p>
+                            <p class="mb-0 d-none">動画のファイルサイズは 200MBまでです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div id="video_drop_zone" class="drop-zone video-drop-zone position-relative">
+                            <input type="file" name="video_file" accept=".mp4" style="display: none;">
+                            <input type="hidden" name="upload_video">
+                            <input type="hidden" name="number">
+                            <div id="video_drop_area" class="dz-message me-4">
+                                <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                <p class="drop-text mb-0">または</p>
+                                <p class="drop-button">選択</p>
+                                <p class="drop-description mb-0">ファイル形式 MP4</p>
+                                <p class="drop-description mb-4">ファイルサイズ 200MBまで</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn cancel-button d-block" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>

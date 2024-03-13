@@ -1,0 +1,163 @@
+{% load static %}
+
+<div class="display-area-wrap">
+    <p class="input-label fw-bold mb-2">&nbsp;</p>
+    <div class="display-area d-flex flex-column position-relative p-1 mb-3">
+        <p class="input-label fw-bold mb-2">アクションボタン</p>
+        {% if template.display_flg %}
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="action_no_display" class="ps-4 mb-0">表示しない</label>
+                <input type="radio" id="action_no_display" name="action" value="0" class="input-radio">
+                <label for="action_no_display" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-0">
+                <label for="action_display" class="ps-4 mb-0">表示する</label>
+                <input type="radio" id="action_display" name="action" value="1" class="input-radio" checked>
+                <label for="action_display" class="input-radio-mark"></label>
+            </div>
+        {% else %}
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="action_no_display" class="ps-4 mb-0">表示しない</label>
+                <input type="radio" id="action_no_display" name="action" value="0" class="input-radio" checked>
+                <label for="action_no_display" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-0">
+                <label for="action_display" class="ps-4 mb-0">表示する</label>
+                <input type="radio" id="action_display" name="action" value="1" class="input-radio">
+                <label for="action_display" class="input-radio-mark"></label>
+            </div>
+        {% endif %}
+    </div>
+    {% if template.display_flg %}
+        <div class="display-area d-flex flex-column position-relative p-1 mb-3">
+            <p class="input-label fw-bold mb-2">リンクURL</p>
+            <input type="url" name="url" value="{{ template.url }}" class="input-text input-select ps-2 pe-2" placeholder="URLを入力" required>
+        </div>
+        <div class="display-area d-flex flex-column position-relative p-1 mb-3">
+            <p class="input-label fw-bold mb-2">アクションボタンテキスト</p>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="detail_text" class="ps-4 mb-0">詳細はこちら</label>
+                {% if template.text == 0 %}
+                    <input type="radio" id="detail_text" name="text" value="0" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="detail_text" name="text" value="0" class="input-radio">
+                {% endif %}
+                <label for="detail_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="install_text" class="ps-4 mb-0">インストールする</label>
+                {% if template.text == 1 %}
+                    <input type="radio" id="install_text" name="text" value="1" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="install_text" name="text" value="1" class="input-radio">
+                {% endif %}
+                <label for="install_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="buy_text" class="ps-4 mb-0">購入する</label>
+                {% if template.text == 2 %}
+                    <input type="radio" id="buy_text" name="text" value="2" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="buy_text" name="text" value="2" class="input-radio">
+                {% endif %}
+                <label for="buy_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="reserve_text" class="ps-4 mb-0">予約する</label>
+                {% if template.text == 3 %}
+                    <input type="radio" id="reserve_text" name="text" value="3" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="reserve_text" name="text" value="3" class="input-radio">
+                {% endif %}
+                <label for="reserve_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="app_text" class="ps-4 mb-0">応募する</label>
+                {% if template.text == 4 %}
+                    <input type="radio" id="app_text" name="text" value="4" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="app_text" name="text" value="4" class="input-radio">
+                {% endif %}
+                <label for="app_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="request_text" class="ps-4 mb-0">申し込む</label>
+                {% if template.text == 5 %}
+                    <input type="radio" id="request_text" name="text" value="5" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="request_text" name="text" value="5" class="input-radio">
+                {% endif %}
+                <label for="request_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="join_text" class="ps-4 mb-0">参加する</label>
+                {% if template.text == 6 %}
+                    <input type="radio" id="join_text" name="text" value="6" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="join_text" name="text" value="6" class="input-radio">
+                {% endif %}
+                <label for="join_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="vote_text" class="ps-4 mb-0">投票する</label>
+                {% if template.text == 7 %}
+                    <input type="radio" id="vote_text" name="text" value="7" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="vote_text" name="text" value="7" class="input-radio">
+                {% endif %}
+                <label for="vote_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="search_text" class="ps-4 mb-0">お店を探す</label>
+                {% if template.text == 8 %}
+                    <input type="radio" id="search_text" name="text" value="8" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="search_text" name="text" value="8" class="input-radio">
+                {% endif %}
+                <label for="search_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="contact_text" class="ps-4 mb-0">お問い合わせはこちら</label>
+                {% if template.text == 9 %}
+                    <input type="radio" id="contact_text" name="text" value="9" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="contact_text" name="text" value="9" class="input-radio">
+                {% endif %}
+                <label for="contact_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="claim_text" class="ps-4 mb-0">資料を請求する</label>
+                {% if template.text == 10 %}
+                    <input type="radio" id="claim_text" name="text" value="10" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="claim_text" name="text" value="10" class="input-radio">
+                {% endif %}
+                <label for="claim_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="video_text" class="ps-4 mb-0">ほかの動画をみる</label>
+                {% if template.text == 11 %}
+                    <input type="radio" id="video_text" name="text" value="11" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="video_text" name="text" value="11" class="input-radio">
+                {% endif %}
+                <label for="video_text" class="input-radio-mark"></label>
+            </div>
+            <div class="input-radio-wrap position-relative mb-1">
+                <label for="custom_text" class="ps-4 mb-0">
+                    {% if template.text == 12 %}
+                        <input type="text" name="custom" value="{{ template.custom }}" class="input-text input-select ps-2 pe-2" placeholder="テキストを入力" maxlength="20" required>
+                    {% else %}
+                        <input type="text" name="custom" class="input-text input-select ps-2 pe-2" maxlength="20" placeholder="テキストを入力">
+                    {% endif %}
+                </label>
+                {% if template.text == 12 %}
+                    <input type="radio" id="custom_text" name="text" value="12" class="input-radio" checked>
+                {% else %}
+                    <input type="radio" id="custom_text" name="text" value="12" class="input-radio">
+                {% endif %}
+                <label for="custom_text" class="input-radio-mark"></label>
+            </div>
+        </div>
+    {% endif %}
+</div>

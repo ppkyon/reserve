@@ -1,0 +1,100 @@
+{% load static %}
+
+<div class="cardtype-header-area">
+    <div class="d-flex position-relative w-100">
+        <div id="display_image_area_{{ data.number }}" class="cardtype-image-area d-flex flex-row position-relative w-100">
+            {% if data.image_count == '1' %}
+                <div class="one cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                    <input type="hidden" value="a">
+                    <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                </div>
+            {% elif data.image_count == '2' %}
+                <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                    <input type="hidden" value="a">
+                    <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                </div>
+                <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                    <input type="hidden" value="b">
+                    <span style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                </div>
+            {% elif data.image_count == '3' %}
+                <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                    <input type="hidden" value="a">
+                    <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                </div>
+                <div class="two flex-column position-relative">
+                    <div class="three cardtype-image-item position-relative" style="padding-bottom: 3.75rem;">
+                        <input type="hidden" value="b">
+                        <span style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                    </div>
+                    <div class="three cardtype-image-item position-relative" style="padding-bottom: 3.75rem;">
+                        <input type="hidden" value="c">
+                        <span style="background-image: url( '{{ data.image_3.url }}' );"></span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {% if data.label_flg %}
+            {% if data.label_color == '0' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '1' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '2' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #eb4e3d;">{{ data.label }}</label>
+            {% elif data.label_color == '3' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #ed8537;">{{ data.label }}</label>
+            {% elif data.label_color == '4' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #00B900;">{{ data.label }}</label>
+            {% elif data.label_color == '5' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #5b82db;">{{ data.label }}</label>
+            {% endif %}
+        {% else %}
+            <label id="display_label_{{ data.number }}" class="label ps-1 pe-1 d-none">{{ data.label|default:'ラベルを入力' }}</label>
+        {% endif %}
+    </div>
+</div>
+<div class="cardtype-body-area p-2">
+    <p id="display_title_{{ data.number }}" class="title mb-1">{{ data.title }}</p>
+    {% if data.place_flg %}
+        <p id="display_place_{{ data.number }}" class="place d-flex align-items-center mb-1">
+            <img src="{% static 'img/icon/map.png' %}" class="me-1">
+            <span>{{ data.place }}</span>
+        </p>
+    {% else %}
+        <p id="display_place_{{ data.number }}" class="place d-flex align-items-center mb-1 d-none">
+            <img src="{% static 'img/icon/map.png' %}" class="me-1">
+            <span>{{ data.place|default:'住所を入力' }}</span>
+        </p>
+    {% endif %}
+    {% if data.plus_flg %}
+        <p id="display_plus_{{ data.number }}" class="plus d-flex align-items-center mb-0">
+            {% if data.plus_type == 2 %}
+                <img src="{% static 'img/icon/coin.png' %}" class="me-1">
+            {% else %}
+                <img src="{% static 'img/icon/time.png' %}" class="me-1">
+            {% endif %}
+            <span>{{ data.plus }}</span>
+        </p>
+    {% else %}
+        <p id="display_plus_{{ data.number }}" class="plus d-flex align-items-center mb-0 d-none">
+            {% if data.plus_type == 2 %}
+                <img src="{% static 'img/icon/coin.png' %}" class="me-1">
+            {% else %}
+                <img src="{% static 'img/icon/time.png' %}" class="me-1">
+            {% endif %}
+            <span>{{ data.plus|default:'追加情報を入力' }}</span>
+        </p>
+    {% endif %}
+</div>
+<div class="cardtype-footer-area">
+    {% if data.action_flg_1 %}
+        <button type="button" id="display_action_1_{{ data.number }}" class="btn p-0 mb-2">{{ data.action_label_1 }}</button>
+    {% else %}
+        <button type="button" id="display_action_1_{{ data.number }}" class="btn p-0 mb-2 d-none">{{ data.action_label_1|default:'アクションラベルを入力' }}</button>
+    {% endif %}
+    {% if data.action_flg_2 %}
+        <button type="button" id="display_action_2_{{ data.number }}" class="btn p-0 mb-2">{{ data.action_label_2 }}</button>
+    {% else %}
+        <button type="button" id="display_action_2_{{ data.number }}" class="btn p-0 mb-2 d-none">{{ data.action_label_2|default:'アクションラベルを入力' }}</button>
+    {% endif %}
+</div>

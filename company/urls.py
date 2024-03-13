@@ -8,4 +8,5 @@ urlpatterns = [
     path('setting/', include('company.setting.urls')),
     path('shop/', include('company.shop.urls')),
     path('tag/', include('company.tag.urls')),
+    path('template/', include('company.template.urls')),
 ]

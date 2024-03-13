@@ -1,0 +1,51 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/template/richmessage.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_richmessage_form" action="{% url 'company:template:delete_richmessage' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="richmessage">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_richmessage_check_form" value="{% url 'company:template:save_richmessage_check' %}">
+        <form id="save_richmessage_form" action="{% url 'company:template:save_richmessage' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'company/template/richmessage/title.html' %}
+            {% include 'company/template/richmessage/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'company/template/richmessage/modal/template.html' %}
+        {% include 'company/template/richmessage/modal/image.html' %}
+        {% include 'company/template/video/modal/video.html' %}
+        {% include 'company/question/modal/question.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/question/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/preview.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/append.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/action.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/data.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/image.js' %}"></script>
+{% endblock %}

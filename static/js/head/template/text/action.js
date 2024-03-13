@@ -257,7 +257,7 @@ $( function() {
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
                     html += '<input type="hidden" name="template_type_' + number + '" value="3">';
-                    html += '<a href="/head/template/rich_video/edit/?id=' + response.display_id + '" target="_blank">';
+                    html += '<a href="/head/template/richvideo/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009825;">' + response.name + '</p>';
                     html += '<div class="d-flex justify-content-start align-items-center">';
@@ -315,7 +315,7 @@ $( function() {
                     html += '</div>';
                     html += '<input type="hidden" name="template_' + number + '" value="' + response.display_id + '">';
                     html += '<input type="hidden" name="template_type_' + number + '" value="4">';
-                    html += '<a href="/head/template/card_type/edit/?id=' + response.display_id + '" target="_blank">';
+                    html += '<a href="/head/template/cardtype/edit/?id=' + response.display_id + '" target="_blank">';
                     html += '<div class="chart-content position-relative mb-0">';
                     html += '<p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #A1007E;">' + response.name + '</p>';
                     html += '<div class="d-flex justify-content-start align-items-center">';

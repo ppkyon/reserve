@@ -1,0 +1,44 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/template/video.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_video_form" action="{% url 'company:template:delete_video' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="video">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_video_check_form" value="{% url 'company:template:save_video_check' %}">
+        <form id="save_video_form" action="{% url 'company:template:save_video' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'company/template/video/title.html' %}
+            {% include 'company/template/video/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/template/video/preview.js' %}"></script>
+    <script src="{% static 'js/company/template/video/data.js' %}"></script>
+    <script src="{% static 'js/company/template/video/action.js' %}"></script>
+    <script src="{% static 'js/company/template/video/image.js' %}"></script>
+{% endblock %}

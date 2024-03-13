@@ -1,0 +1,60 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/template/text.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_text_form" action="{% url 'company:template:delete_text' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="text">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_text_check_form" value="{% url 'company:template:save_text_check' %}">
+        <form id="save_text_form" action="{% url 'company:template:save_text' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'company/template/text/title.html' %}
+            {% include 'company/template/text/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'company/template/text/modal/image.html' %}
+        {% include 'company/template/text/modal/text.html' %}
+        {% include 'company/template/video/modal/video.html' %}
+        {% include 'company/template/richmessage/modal/richmessage.html' %}
+        {% include 'company/template/richvideo/modal/richvideo.html' %}
+
+        {% comment %}
+            {% include 'company/template/cardtype/modal/cardtype.html' %}
+        {% endcomment %}
+
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/cardtype/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/text/preview.js' %}"></script>
+    <script src="{% static 'js/company/template/text/append.js' %}"></script>
+    <script src="{% static 'js/company/template/text/data.js' %}"></script>
+    <script src="{% static 'js/company/template/text/action.js' %}"></script>
+    <script src="{% static 'js/company/template/text/image.js' %}"></script>
+{% endblock %}

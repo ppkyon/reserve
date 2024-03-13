@@ -1,0 +1,39 @@
+<input type="hidden" id="get_company_template_video_url" value="{% url 'company:template:get_video' %}">
+<input type="hidden" id="get_company_template_video_list_url" value="{% url 'company:template:get_all_video' %}">
+<div id="company_template_video_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-11">
+                    <p class="modal-title">動画を選択する</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-area mb-3">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-4" style="width: 120px;">動画</th>
+                                        <th>登録名</th>
+                                        <th style="width: 120px;">動画時間</th>
+                                        <th style="width: 120px;">動画容量</th>
+                                        <th style="width: 100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="notice-area text-center mt-3 mb-3 d-none">
+                            <p class="mb-0">動画が登録されていません。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
