@@ -88,6 +88,9 @@ class HeadBaseLisView(MultipleObjectMixin, HeadBaseView):
 
     def get_queryset(self):
         query = Q()
+        if 'company' in self.request.path:
+            query.add(Q(status__gte=2), Q.AND)
+
         search = TableSearch.objects.filter(url=self.request.path, company=None, shop=None, manager=self.request.user).first()
         if search:
             search_query = Q()
@@ -152,6 +155,9 @@ class CompanyBaseLisView(MultipleObjectMixin, CompanyBaseView):
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         query = Q(company=auth_login.company)
+        if 'shop' in self.request.path:
+            query.add(Q(status__gte=2), Q.AND)
+
         search = TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first()
         if search:
             search_query = Q()

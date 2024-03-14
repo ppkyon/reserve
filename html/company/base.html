@@ -22,6 +22,7 @@
             <input type="hidden" id="env_domain_url" value="{{ env.domain_url }}">
             <input type="hidden" id="table_number_url" value="{% url 'table:number' %}">
             <input type="hidden" id="table_sort_url" value="{% url 'table:sort' %}">
+            <input type="hidden" id="get_company_profile_url" value="{% url 'company:setting:get_company_profile' %}">
             {% block content %}
             {% endblock %}
         </div>

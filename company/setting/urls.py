@@ -1,7 +1,7 @@
 from django.urls import path
 
 from company.setting import views
-from company.setting.action import manager, email, password
+from company.setting.action import company, manager, email, password
 
 app_name = 'setting'
 
@@ -21,4 +21,6 @@ urlpatterns = [
     path('password/change/', password.change, name='change_password'),
     path('password/change/check/', password.change_check, name='change_password_check'),
     path('password/reset/', password.reset, name='reset_password'),
+    
+    path('company/profile/get/', company.get_profile, name='get_company_profile'),
 ]
