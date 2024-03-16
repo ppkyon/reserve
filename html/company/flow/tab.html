@@ -1,0 +1,19 @@
+{% load static %}
+
+<div class="tab-area">
+    <ul class="nav d-flex align-items-start m-0 p-0">
+        {% if flow %}
+            {% for flow_tab in flow.company_flow_tab.all %}
+                {% if forloop.first %}
+                    <li class="nav-item me-1">
+                        <a class="nav-link active" href="#{{ flow_tab.value }}" data-bs-toggle="tab">{{ flow_tab.name }}</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="nav-link" href="#{{ flow_tab.value }}" data-bs-toggle="tab">{{ flow_tab.name }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>

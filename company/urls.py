@@ -3,6 +3,7 @@ from django.urls import path, include
 app_name = 'company'
 
 urlpatterns = [
+    path('flow/', include('company.flow.urls')),
     path('question/', include('company.question.urls')),
     path('richmenu/', include('company.richmenu.urls')),
     path('setting/', include('company.setting.urls')),

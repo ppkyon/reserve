@@ -1,0 +1,45 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/flow.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 統括 - </p>
+        </div>
+    </div>
+    <div class="company">
+        <input type="hidden" id="save_flow_check_form" value="{% url 'company:flow:save_check' %}">
+        <form id="save_flow_form" action="{% url 'company:flow:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            <input type="hidden" name="id" value="{{ flow.display_id }}">
+            {% include 'company/flow/title.html' %}
+            {% include 'company/flow/flow.html' %}
+        </form>
+        <input type="hidden" id="get_head_flow_url" value="{% url 'head:flow:get' %}">
+        {% include 'modal.html' %}
+        {% include 'company/template/text/modal/text.html' %}
+        {% include 'company/template/video/modal/video.html' %}
+        {% include 'company/template/richmessage/modal/richmessage.html' %}
+        {% include 'company/template/richvideo/modal/richvideo.html' %}
+        {% include 'company/template/cardtype/modal/cardtype.html' %}
+        {% include 'company/richmenu/modal/richmenu.html' %}
+        {% include 'company/flow/modal/action.html' %}
+        {% include 'company/flow/modal/flow.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/company/template/cardtype/modal.js' %}"></script>
+    <script src="{% static 'js/company/richmenu/modal.js' %}"></script>
+    <script src="{% static 'js/company/flow/append.js' %}"></script>
+    <script src="{% static 'js/company/flow/action.js' %}"></script>
+    <script src="{% static 'js/company/flow/data.js' %}"></script>
+{% endblock %}

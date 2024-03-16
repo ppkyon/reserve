@@ -1,4 +1,38 @@
 $( function() {
+    $( '#save_flow_form .title-area .select-button' ).on( 'click', function() {
+        var target = $( this );
+        if ( check_empty($( target ).prev().val()) ) {
+            $( '#select_flow_modal .flow-area input' ).each( function( index, value ) {
+                if ( $( this ).val() == Number( $( target ).prev().val() ) ) {
+                    $( this ).prop( 'checked', true );
+                } else {
+                    $( this ).prop( 'checked', false );
+                }
+            });
+        }
+        $( this ).next().trigger( 'click' );
+    });
+    $( '#select_flow_modal .select-button' ).on( 'click', function() {
+        if ( check_empty($( '#save_flow_form [name=flow]' ).val()) ) {
+            $( this ).next().trigger( 'click' );
+            up_modal();
+        } else {
+            select_flow();
+            $( this ).next().next().next().trigger( 'click' );
+        }
+    });
+    $( '#select_flow_modal .cancel-button' ).on( 'click', function() {
+        $( '#select_flow_modal [name=flow]' ).each( function( index, value ) {
+            $( this ).prop( 'checked', false );
+        });
+        $( this ).next().trigger( 'click' );
+    });
+    $( '#select_flow_check_modal .yes-button' ).on( 'click', function() {
+        select_flow();
+        $( '#select_flow_check_modal .no-button' ).trigger( 'click' );
+        $( '#select_flow_modal .cancel-button' ).next().trigger( 'click' );
+    });
+
     $( document ).on( 'click', '#save_flow_form .chart-area .action-reminder-button', function () {
         $( this ).parent().addClass( 'target' );
         $( '#action_reminder_modal .modal-body [name=action_reminder_date]' ).val( $( '#save_flow_form .target [name=reminder_action_date]' ).val() );
@@ -68,7 +102,7 @@ $( function() {
         }
 
         $( '#action_message_modal .modal-body [name=action_message_template]' ).val( $( '#save_flow_form .target [name=message_action_template]' ).val() );
-        $( '#action_message_modal .modal-body [name=action_message_template_item]' ).val( $( '#save_flow_form .target [name=message_action_template_item]' ).val() );
+        $( '#action_message_modal .modal-body [name=action_message_template_item]' ).val( $( '#save_flow_form .target [name=message_taction_emplate_item]' ).val() );
         $( '#action_message_modal .modal-body [name=action_message_template_item_name]' ).val( $( '#save_flow_form .target [name=message_action_template_item_name]' ).val() );
 
         if ( $( '#save_flow_form .target [name=message_action_template_timer]' ).val() == '1' ) {
@@ -231,3 +265,73 @@ $( function() {
         $( '#save_flow_form .target' ).removeClass( 'target' );
     });
 });
+
+function select_flow(){
+    $( '#save_flow_form [name=flow]' ).val( $( '#select_flow_modal [name=flow]:checked' ).val() );
+    $( '#save_flow_form [name=flow]' ).next().text( 'フローを変更' );
+    $( '#save_flow_form [name=flow]' ).prev().text( $( '#select_flow_modal [name=flow]:checked' ).prev().text() );
+    $( '#save_flow_form [name=flow]' ).prev().removeClass( 'd-none' );
+
+    $( '#save_flow_form .card-area .tab-area .nav' ).empty();
+    $( '#save_flow_form .card-area .chart-area .tab-content' ).empty();
+    $( '#save_flow_form .card-area .tab-area' ).css( 'opacity', '0' );
+    $( '#save_flow_form .card-area .chart-area' ).css( 'opacity', '0' );
+    $( '.table-loader-area' ).css( 'opacity', '1' );
+
+    var form_data = new FormData();
+    form_data.append( 'id', $( '#select_flow_modal [name=flow]:checked' ).val() );
+    $.ajax({
+        'data': form_data,
+        'url': $( '#get_head_flow_url' ).val(),
+        'type': 'POST',
+        'dataType': 'json',
+        'processData': false,
+        'contentType': false,
+    }).done( function( response ){
+        var last_tab = null;
+        $.each( response.tab, function( index, value ) {
+            var last_line = null;
+            if ( index == 0 ) {
+                var html = '<li class="nav-item me-1">';
+                html += '<a class="nav-link active" href="#' + value.value + '" data-bs-toggle="tab">' + value.name + '</a>';
+                html += '</li>';
+                $( '#save_flow_form .card-area .tab-area .nav' ).append( html );
+
+                html = '<div id="' + value.value + '" class="tab-pane active">';
+                html += '<table>';
+                html += '<tbody>';
+                html += '</tbody>';
+                html += '</table>';
+                html += '</div>';
+                $( '#save_flow_form .card-area .chart-area .tab-content' ).append( html );
+            } else {
+                var html = '<li class="nav-item me-1">';
+                html += '<a class="nav-link" href="#' + value.value + '" data-bs-toggle="tab">' + value.name + '</a>';
+                html += '</li>';
+                $( '#save_flow_form .card-area .tab-area .nav' ).append( html );
+
+                html = '<div id="' + value.value + '" class="tab-pane">';
+                html += '<table>';
+                html += '<tbody>';
+                html += '</tbody>';
+                html += '</table>';
+                html += '</div>';
+                $( '#save_flow_form .card-area .chart-area .tab-content' ).append( html );
+            }
+            $.each( value.item, function( item_index, item_value ) {
+                if ( last_line != item_value.y ) {
+                    $( '#save_flow_form .card-area .chart-area .tab-content #' + value.value + ' tbody' ).append( '<tr></tr>' );
+                    last_line = item_value.y;
+                }
+                $( '#save_flow_form .card-area .chart-area .tab-content #' + value.value + ' tbody tr' ).eq(item_value.y-1).append( append_flow( item_value ) );
+            });
+        });
+        setTimeout( function() {
+            $( '.table-loader-area' ).css( 'opacity', '0' );
+            $( '#save_flow_form .card-area .tab-area' ).css( 'opacity', '1' );
+            $( '#save_flow_form .card-area .chart-area' ).css( 'opacity', '1' );
+        }, 750 );
+    }).fail( function(){
+        
+    });
+}

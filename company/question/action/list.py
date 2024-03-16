@@ -24,7 +24,6 @@ def get_list(request, page):
     if table_search:
         query.add(Q(title__icontains=table_search.text)|Q(name__icontains=table_search.text)|Q(description__icontains=table_search.text), Q.AND)
     
-    print(query)
     question = list()
     sort = TableSort.objects.filter(url=url, company=auth_login.company, shop=None, manager=request.user).first()
     if sort:

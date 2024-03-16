@@ -1,0 +1,84 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/flow.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 企業 - </p>
+        </div>
+    </div>
+    <div class="company">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'company:flow:edit' %}" class="btn edit-button me-2">新規フロー登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名">
+                        <input type="hidden" id="table_search_url" value="{% url 'company:flow:search' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                {% include 'table/sort.html' with text='登録名' target='name' %}
+                                <th style="width: 500px;">フロー</th>
+                                <th style="width: 100px;">有効</th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.description }}</p>
+                                    </td>
+                                    <td class="position-relative">
+                                        <form class="valid-form" action="{% url 'company:flow:valid' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                            <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        </form>
+                                        <div class="flg-area">
+                                            {% if object_item.valid %}
+                                                <input id="valid_{{ object_item.display_id }}" type="checkbox" name="valid_flg" value="1" class="d-none" checked>
+                                            {% else %}
+                                                <input id="valid_{{ object_item.display_id }}" type="checkbox" name="valid_flg" value="1" class="d-none">
+                                            {% endif %}
+                                            <label for="valid_{{ object_item.display_id }}" class="d-block position-relative mb-0" style="width: 35px;"></label>
+                                        </div>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#valid_on_modal"></button>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#valid_off_modal"></button>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'company:flow:edit' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'company:flow:paging' %}">
+        {% include 'modal.html' %}
+        {% include 'table/paging.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/company/flow/append.js' %}"></script>
+{% endblock %}

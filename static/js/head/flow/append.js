@@ -16,7 +16,7 @@ function append_table_area(data) {
     valid_icon += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#valid_off_modal"></button>';
     valid_icon += '</td>';
 
-    var button = '<a href="/head/flowchart/edit/?id=' + data.display_id + '" class="btn detail-button p-1">詳細</a>';
+    var button = '<a href="/head/flow/edit/?id=' + data.display_id + '" class="btn detail-button p-1">詳細</a>';
     var created_date = new Date( data.created_at );
     created_date = created_date.getFullYear() + '年' + ( created_date.getMonth() + 1 ) + '月' + created_date.getDate() + '日 ' + created_date.getHours() + ':' + created_date.getMinutes();
 

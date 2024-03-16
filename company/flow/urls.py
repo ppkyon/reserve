@@ -1,7 +1,7 @@
 from django.urls import path
 
-from head.flow import views
-from head.flow.action import flow
+from company.flow import views
+from company.flow.action import flow
 
 app_name = 'flow'
 
@@ -14,5 +14,4 @@ urlpatterns = [
     path('search/', flow.search, name='search'),
     path('paging/', flow.paging, name='paging'),
     path('valid/', flow.valid, name='valid'),
-    path('get/', flow.get, name='get'),
 ]

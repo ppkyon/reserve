@@ -28,6 +28,8 @@ class CompanyFlow(models.Model):
     company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="company_flow")
     name = models.CharField(max_length=255,null=True)
     description = models.CharField(max_length=255,null=True)
+    valid = models.BooleanField(default=False)
+    author = models.CharField(max_length=255,null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -42,6 +44,8 @@ class ShopFlow(models.Model):
     shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_flow")
     name = models.CharField(max_length=255,null=True)
     description = models.CharField(max_length=255,null=True)
+    favorite = models.BooleanField(default=False)
+    author = models.CharField(max_length=255,null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
