@@ -5,7 +5,7 @@ from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplat
 
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
-from sign.models import AuthUser, ManagerProfile, AuthLogin
+from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
 
 import environ
@@ -54,11 +54,43 @@ class HeadBaseView(HeadLoginMixin, TopBaseView):
 class CompanyBaseView(CompanyLoginMixin, TopBaseView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+
+        image = None
+        name = None
+        if not self.request.user.is_anonymous:
+            auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+            if auth_login:
+                company = auth_login.company
+                company_profile = CompanyProfile.objects.filter(company=company).first()
+                if company_profile:
+                    image = company_profile.company_logo_image.url
+                    name = company_profile.company_name
+        
+        context['side'] = {
+            'logo_image': image,
+            'logo_name': name,
+        }
         return context
     
 class ShopBaseView(ShopLoginMixin, TopBaseView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+
+        image = None
+        name = None
+        if not self.request.user.is_anonymous:
+            auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+            if auth_login:
+                shop = auth_login.shop
+                shop_profile = ShopProfile.objects.filter(shop=shop).first()
+                if shop_profile:
+                    image = shop_profile.shop_logo_image.url
+                    name = shop_profile.shop_name
+        
+        context['side'] = {
+            'logo_image': image,
+            'logo_name': name,
+        }
         return context
 
 class HeadView(HeadBaseView):

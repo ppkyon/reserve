@@ -3,6 +3,48 @@ $( function() {
         AjaxZip3.zip2addr( 'shop_postcode', '', 'shop_prefecture', 'shop_address' );
     });
 
+    $( document ).on( 'click', '#notice_line_setting_modal .action-button', function () {
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#notice_line_setting_check_modal .yes-button', function () {
+        var target =  $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( '#delete_shop_form [name=id]' ).val() );
+        form_data.append( 'channel_id', $( '#notice_line_setting_form [name=notice_channel_id]' ).val() );
+        form_data.append( 'channel_secret', $( '#notice_line_setting_form [name=notice_channel_secret]' ).val() );
+        form_data.append( 'channel_access_token', $( '#notice_line_setting_form [name=notice_channel_access_token]' ).val() );
+        form_data.append( 'bot_id', $( '#notice_line_setting_form [name=notice_bot_id]' ).val() );
+        form_data.append( 'follow_url', $( '#notice_line_setting_form [name=notice_follow_url]' ).val() );
+        if ( $( '#notice_line_setting_form #line_flg' ).prop( 'checked' ) ) {
+            form_data.append( 'line_flg', 1 );
+        } else {
+            form_data.append( 'line_flg', 0 );
+        }
+        if ( $( '#notice_line_setting_form #mail_flg' ).prop( 'checked' ) ) {
+            form_data.append( 'mail_flg', 1 );
+        } else {
+            form_data.append( 'mail_flg', 0 );
+        }
+        $.ajax({
+            'data': form_data,
+            'url': $( '#notice_line_setting_form' ).attr( 'action' ),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#notice_line_setting_check_modal .no-button' ).trigger( 'click' );
+            $( target ).next().trigger( 'click' );
+            up_modal();
+        }).fail( function(){
+            $( '#notice_line_setting_check_modal .no-button' ).trigger( 'click' );
+            $( target ).next().next().trigger( 'click' );
+            up_modal();
+        });
+    });
+    action_reload( 'notice_line_setting' );
+
     $( '#edit_shop_modal .modal-body .add-tag-button-area .add-tag-button' ).on( 'click', function() {
         var target = $( this );
         var form_data = new FormData();
@@ -122,6 +164,7 @@ $( function() {
         form_data.append( 'analytics_id', $( '.setting-area .content .input-area #analytics_id' ).val() );
         form_data.append( 'qrcode_id', $( '.setting-area .content .input-area #qrcode_id' ).val() );
         form_data.append( 'reserve_id', $( '.setting-area .content .input-area #reserve_id' ).val() );
+        form_data.append( 'history_id', $( '.setting-area .content .input-area #history_id' ).val() );
         form_data.append( 'bot_id', $( '.setting-area .content .input-area #bot_id' ).val() );
         form_data.append( 'follow_url', $( '.setting-area .content .input-area #follow_url' ).val() );
         $.ajax({

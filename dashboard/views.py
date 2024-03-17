@@ -1,18 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
-from django.views.generic import View
-from sign.mixins import ShopLoginMixin
+from view import ShopView
 
-class IndexView(ShopLoginMixin, View):
+class IndexView(ShopView):
     def get(self, request, **kwargs):
         return redirect('/dashboard/')
 
-class DashboardView(ShopLoginMixin, View):
+class DashboardView(ShopView):
     template_name = 'dashboard/index.html'
     title = 'ダッシュボード'
 
-    def get(self, request, **kwargs):
-        data = {
-            'title': self.title,
-        }
-        return render(self.request, self.template_name, data)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context

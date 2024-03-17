@@ -187,12 +187,29 @@ class ShopLine(models.Model):
     analytics_id = models.CharField(max_length=255,null=True)
     qrcode_id = models.CharField(max_length=255,null=True)
     reserve_id = models.CharField(max_length=255,null=True)
+    history_id = models.CharField(max_length=255,null=True)
     follow_url = models.CharField(max_length=255, null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'shop_line'
+        
+class ShopNotice(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_notice")
+    channel_id = models.CharField(max_length=255,null=True)
+    channel_secret = models.CharField(max_length=255,null=True)
+    channel_access_token = models.CharField(max_length=255,null=True)
+    bot_id = models.CharField(max_length=255,null=True)
+    follow_url = models.CharField(max_length=255, null=True)
+    line_flg = models.BooleanField(default=False)
+    mail_flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'shop_notice'
 
 class ManagerProfile(models.Model):
     sex_choice = (

@@ -8,7 +8,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('fixture', '0002_initial'),
-        ('sign', '0001_initial'),
     ]
 
     operations = [

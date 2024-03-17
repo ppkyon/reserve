@@ -155,6 +155,7 @@ def save_line(request):
         shop_line.analytics_id = request.POST.get('analytics_id')
         shop_line.qrcode_id = request.POST.get('qrcode_id')
         shop_line.reserve_id = request.POST.get('reserve_id')
+        shop_line.history_id = request.POST.get('history_id')
         shop_line.follow_url = request.POST.get('follow_url')
         shop_line.save()
     else:
@@ -169,6 +170,7 @@ def save_line(request):
             analytics_id = request.POST.get('analytics_id'),
             qrcode_id = request.POST.get('qrcode_id'),
             reserve_id = request.POST.get('reserve_id'),
+            history_id = request.POST.get('history_id'),
             follow_url = request.POST.get('follow_url'),
         )
     return JsonResponse( {}, safe=False )

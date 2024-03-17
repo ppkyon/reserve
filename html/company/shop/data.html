@@ -146,6 +146,27 @@
             </div>
         </div>
         <div class="content d-flex justify-content-start align-items-center">
+            <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(予約履歴フォーム)</p>
+            <div class="input-area position-relative">
+                <input type="text" id="history_id" value="{{ shop.line.history_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>
+                <div class="copy-toast-area">
+                    <div class="toast align-items-center copy-toast">
+                        <div class="toast-body text-center">コピーしました</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown button-area text-center d-inline-block p-0">
+                <button type="button" id="dropdown_history_id" class="btn" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown_history_id">
+                    <button type="button" value="history_id" class="btn edit-button dropdown-item fw-bold text-center">編集</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#line_edit_check_modal"></button>
+                    <button type="button" class="btn copy-button dropdown-item fw-bold text-center border-top p-1 pt-2">コピー</button>
+                </div>
+            </div>
+        </div>
+        <div class="content d-flex justify-content-start align-items-center">
             <p class="title p-2 pt-3 pb-3 mb-0">LIFF ID(アナリティクス)</p>
             <div class="input-area position-relative">
                 <input type="text" id="analytics_id" value="{{ shop.line.analytics_id|default:'' }}" class="input-text readonly ps-2 ms-2" readonly>

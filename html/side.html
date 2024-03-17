@@ -7,10 +7,10 @@
                 <div class="logo-area text-center pt-2">
                     <img src="{% static 'img/logo.svg' %}" class="logo-img mb-1">
                     <p class="mb-1">管理画面ダッシュボード</p>
-                    {% if side_logo_image %}
+                    {% if side.logo_image %}
                         <div class="d-flex align-items-center text-start ps-2 mt-2 mb-2">
-                            <img src="{{ side_logo_image }}" class="account-img me-1">
-                            <span>{{ side_logo_name }}</span>
+                            <img src="{{ side.logo_image }}" class="account-img me-1">
+                            <span>{{ side.logo_name }}</span>
                         </div>
                     {% else %}
                         <div class="d-flex align-items-center text-start ps-2 mt-2 mb-2">

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from company.shop import views
-from company.shop.action import shop
+from company.shop.action import shop, setting
 
 app_name = 'shop'
 
@@ -19,4 +19,6 @@ urlpatterns = [
     path('profile/get', shop.get_profile, name='get_profile'),
     
     path('line/save/', shop.save_line, name='save_line'),
+
+    path('notice/setting/save/', setting.save_notice, name='save_notice'),
 ]

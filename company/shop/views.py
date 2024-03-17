@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from view import CompanyView, CompanyListView
 
 from fixture.models import Prefecture
-from sign.models import AuthShop, ShopProfile, ShopLine
+from sign.models import AuthShop, ShopProfile, ShopLine, ShopNotice
 from tag.models import CompanyTag, ShopHashTag
 
 import phonenumbers
@@ -34,6 +34,7 @@ class DetailView(CompanyView):
         context = super().get_context_data(*args, **kwargs)
         context['shop'] = AuthShop.objects.filter(display_id=self.request.GET.get("id")).first()
         context['shop'].line = ShopLine.objects.filter(shop=context['shop']).first()
+        context['shop'].notice = ShopNotice.objects.filter(shop=context['shop']).first()
         context['shop'].profile = ShopProfile.objects.filter(shop=context['shop']).first()
         context['shop'].profile.shop_postcode = str(context['shop'].profile.shop_postcode)[0:3] + '-' + str(context['shop'].profile.shop_postcode)[3:7]
         context['shop'].profile.shop_phone_number = phonenumbers.format_number(phonenumbers.parse(context['shop'].profile.shop_phone_number, 'JP'), phonenumbers.PhoneNumberFormat.NATIONAL)

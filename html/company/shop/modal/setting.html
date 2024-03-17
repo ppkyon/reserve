@@ -1,0 +1,190 @@
+<div id="notice_line_setting_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <span class="modal-title fw-bold">通知設定</span>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block ps-4 pe-4">
+                <form id="notice_line_setting_form" action="{% url 'company:shop:save_notice' %}" method="POST" enctype="multipart/form-data">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">Channel ID</label>
+                                    <input type="text" name="notice_channel_id" value="{{ shop.notice.channel_id|default:'' }}" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">Channel Secret</label>
+                                    <input type="text" name="notice_channel_secret" value="{{ shop.notice.channel_secret|default:'' }}" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">Channel Access Token</label>
+                                    <input type="text" name="notice_channel_access_token" value="{{ shop.notice.channel_access_token|default:'' }}" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">Bot basic ID</label>
+                                    <input type="text" name="notice_bot_id" value="{{ shop.notice.bot_id|default:'' }}" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">友だち追加URL</label>
+                                    <input type="text" name="notice_follow_url" value="{{ shop.notice.follow_url|default:'' }}" class="input-text ps-2 pe-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">LINEで通知</label>
+                                    <div class="input-area position-relative" style="width: 65%;">
+                                        <div class="flg-area d-flex justify-content-start mt-1">
+                                            <span class="me-2">OFF</span>
+                                            {% if shop.notice.line_flg %}
+                                                <input id="line_flg" type="checkbox" value="1" checked>
+                                            {% else %}
+                                                <input id="line_flg" type="checkbox" value="1">
+                                            {% endif %}
+                                            <label for="line_flg" class="d-block position-relative mb-0"></label>
+                                            <span class="ms-2">ON</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">メールで通知</label>
+                                    <div class="input-area position-relative" style="width: 65%;">
+                                        <div class="flg-area d-flex justify-content-start mt-1">
+                                            <span class="me-2">OFF</span>
+                                            {% if shop.notice.mail_flg %}
+                                                <input id="mail_flg" type="checkbox" value="1" checked>
+                                            {% else %}
+                                                <input id="mail_flg" type="checkbox" value="1">
+                                            {% endif %}
+                                            <label for="mail_flg" class="d-block position-relative mb-0"></label>
+                                            <span class="ms-2">ON</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button edit-hub-button d-block">設定する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#notice_line_setting_check_modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notice_line_setting_check_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-1">設定してもよろしいですか？</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-5 offset-1">
+                        <button type="button" class="btn yes-button" value="manager">設定</button>
+                        <button type="button" id="edit_hub_success_button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#notice_line_setting_success_modal"></button>
+                        <button type="button" id="edit_hub_error_button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#notice_line_setting_error_modal"></button>
+                    </div>
+                    <div class="col-5">
+                        <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notice_line_setting_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">設定しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notice_line_setting_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">設定に失敗しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

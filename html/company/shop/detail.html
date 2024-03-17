@@ -12,7 +12,7 @@
             <p class="main-title mb-3">{{ title }} - 企業 - </p>
         </div>
         <div class="col-8 d-flex justify-content-start align-items-center text-end">
-            <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#edit_notice_modal">
+            <button class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#notice_line_setting_modal">
                 <i class='bx bxs-edit me-1'></i>
                 <span>通知設定</span>
             </button>
@@ -29,6 +29,7 @@
         </div>
         {% include 'modal.html' %}
         {% include 'company/shop/modal/detail.html' %}
+        {% include 'company/shop/modal/setting.html' %}
         {% include 'company/tag/modal/tag.html' %}
     </div>
 {% endblock %}
