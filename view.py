@@ -265,13 +265,13 @@ class ShopBaseLisView(MultipleObjectMixin, ShopBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by('-favorite_flg', sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by('-favorite_flg', '-'+sort.target, self.default_sort).distinct().all()
             else:
-                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).distinct().all()
         else:
-            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+            return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).distinct().all()
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()

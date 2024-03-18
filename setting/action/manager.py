@@ -20,7 +20,7 @@ def add(request):
     user = AuthUser.objects.create(
         id = str(uuid.uuid4()),
         display_id = code,
-        company = None,
+        company = auth_login.company,
         shop = auth_login.shop,
         email = 'atelle' + str(code) + '@atelle' + str(code) + '.jp',
         password = make_password(password),

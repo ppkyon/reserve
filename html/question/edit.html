@@ -1,0 +1,45 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/question.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% if question.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete-area d-flex justify-content-end align-items-center">
+                        <button type="button" class="btn delete-button p-1" value="question">この回答フォームを削除する</button>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                        <form id="delete_question_form" action="{% url 'question:delete' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ question.display_id }}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_check_form" value="{% url 'question:save_check' %}">
+        <form id="save_question_form" action="{% url 'question:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'question/title.html' %}
+            {% include 'question/item.html' %}
+        </form>
+        {% include 'preview.html' %}
+        {% include 'modal.html' %}
+        {% include 'question/modal/question.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/question/preview.js' %}"></script>
+    <script src="{% static 'js/question/append.js' %}"></script>
+    <script src="{% static 'js/question/data.js' %}"></script>
+    <script src="{% static 'js/question/action.js' %}"></script>
+{% endblock %}

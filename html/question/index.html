@@ -1,0 +1,143 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/question.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'question:edit' %}" class="btn edit-button me-2" style="width: 9.5rem;">新規回答フォーム登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名・タイトル・概要">
+                        <input type="hidden" id="table_search_url" value="{% url 'question:search' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                {% include 'table/sort.html' with text='登録名' target='name' width='250' %}
+                                {% include 'table/sort.html' with text='タイトル' target='title' %}
+                                <th style="width: 150px;">項目</th>
+                                {% include 'table/sort.html' with text='設問数' target='count' width='100' %}
+                                {% include 'table/sort.html' with text='使用中' target='use_flg' width='100' %}
+                                <th style="width: 50px;"></th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.title }}</p>
+                                    </td>
+                                    <td>
+                                        {% for object_question_item in object_item.shop_question_item.all %}
+                                            {% if forloop.counter <= 3 %}
+                                                {% if object_question_item.type == 1 %}
+                                                    <p class="content-title mb-0">氏名</p>
+                                                {% elif object_question_item.type == 2 %}
+                                                    <p class="content-title mb-0">フリガナ</p>
+                                                {% elif object_question_item.type == 3 %}
+                                                    <p class="content-title mb-0">年齢</p>
+                                                {% elif object_question_item.type == 4 %}
+                                                    <p class="content-title mb-0">性別</p>
+                                                {% elif object_question_item.type == 5 %}
+                                                    <p class="content-title mb-0">電話番号</p>
+                                                {% elif object_question_item.type == 6 %}
+                                                    <p class="content-title mb-0">メールアドレス</p>
+                                                {% elif object_question_item.type == 7 %}
+                                                    <p class="content-title mb-0">生年月日</p>
+                                                {% elif object_question_item.type == 8 %}
+                                                    <p class="content-title mb-0">住所</p>
+                                                {% elif object_question_item.type == 9 %}
+                                                    <p class="content-title mb-0">プロフィール写真</p>
+                                                {% elif object_question_item.type == 10 %}
+                                                    <p class="content-title mb-0">画像</p>
+                                                {% elif object_question_item.type == 11 %}
+                                                    <p class="content-title mb-0">動画</p>
+                                                {% elif object_question_item.type == 51 %}
+                                                    <p class="content-title mb-0">予約形式</p>
+                                                {% elif object_question_item.type == 52 %}
+                                                    <p class="content-title mb-0">予約日程</p>
+                                                {% elif object_question_item.type == 53 %}
+                                                    <p class="content-title mb-0">予約可能日</p>
+                                                {% elif object_question_item.type == 54 %}
+                                                    <p class="content-title mb-0">予約日程再調整</p>
+                                                {% elif object_question_item.type == 99 %}
+                                                    <p class="content-title mb-0">設問</p>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if object_item.count > 3 %}
+                                            <p class="content-title mb-0">...</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.count }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.use_flg %}
+                                            <p class="content-title mb-0">使用中</p>
+                                        {% else %}
+                                            <p class="content-title mb-0">-</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form id="favorite_form" action="{% url 'question:favorite' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                            <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        </form>
+                                        {% if object_item.favorite_flg %}
+                                            <img class="favorite-icon d-none" src="{% static 'img/icon/star.svg' %}">
+                                            <img class="favorite-icon" src="{% static 'img/icon/star-color.svg' %}">
+                                        {% else %}
+                                            <img class="favorite-icon" src="{% static 'img/icon/star.svg' %}">
+                                            <img class="favorite-icon d-none" src="{% static 'img/icon/star-color.svg' %}">
+                                        {% endif %}
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_on_modal"></button>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_off_modal"></button>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" value="{{ object_item.display_id }}">
+                                        <a href="{% url 'question:edit' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'question:paging' %}">
+        <input type="hidden" id="get_question_url" value="{% url 'question:get' %}">
+        {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/question/preview.js' %}"></script>
+    <script src="{% static 'js/question/append.js' %}"></script>
+    <script src="{% static 'js/question/action.js' %}"></script>
+{% endblock %}
