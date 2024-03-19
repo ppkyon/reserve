@@ -25,6 +25,7 @@ urlpatterns = [
     path('flow/', include('flow.urls')),
     path('head/', include('head.urls')),
     path('question/', include('question.urls')),
+    path('richmenu/', include('richmenu.urls')),
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
 ]

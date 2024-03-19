@@ -17,11 +17,15 @@
             <div class="row mb-2">
                 <div class="col-12">
                     <div class="delete-area d-flex justify-content-end align-items-center">
-                        <button type="button" class="btn delete-button p-1" value="question">この回答フォームを削除する</button>
-                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
                         <form id="delete_question_form" action="{% url 'question:delete' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                             <input type="hidden" name="id" value="{{ question.display_id }}">
                         </form>
+                        <button type="button" class="btn delete-button p-1" value="question">この回答フォームを削除する</button>
+                        {% if question.use_flg %}
+                            <button type="button" class="question-form d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                        {% else %}
+                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                        {% endif %}
                     </div>
                 </div>
             </div>

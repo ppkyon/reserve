@@ -78,6 +78,8 @@ class ShopRichMenu(models.Model):
     image = models.ImageField(upload_to=richmenu_image_path, blank=True, null=True)
     image_width = models.IntegerField(blank=True, null=True)
     image_height = models.IntegerField(blank=True, null=True)
+    favorite_flg = models.BooleanField(default=False)
+    use_flg = models.BooleanField(default=False)
     author = models.CharField(max_length=255,null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)

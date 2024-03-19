@@ -391,10 +391,6 @@ function append_table_area(data) {
         html += '<img class="favorite-icon" src="' + $( '#env_static_url' ).val() + 'img/icon/star.svg">';
         html += '<img class="favorite-icon d-none" src="' + $( '#env_static_url' ).val() + 'img/icon/star-color.svg">';
     }
-    html += '';
-    html += '';
-    html += '';
-    html += '';
     html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_on_modal"></button>';
     html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_off_modal"></button>';
     html += '</td>';

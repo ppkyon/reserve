@@ -31,6 +31,7 @@ class CompanyView(View):
 
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'company': company,
             'prefecture_list': Prefecture.objects.order_by('number').all(),
             'work_parent_list': WorkParent.objects.order_by('number').all(),
@@ -43,6 +44,7 @@ class CompanyView(View):
             company = AuthCompany.objects.filter(display_id=request.POST.get("id"), status=1).first()
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'company': company,
             'input': get_company_data(request),
             'prefecture_list': Prefecture.objects.order_by('number').all(),
@@ -57,6 +59,7 @@ class CompanyCheckView(View):
     def post(self, request, **kwargs):
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'input': get_company_data(request),
         }
         return render(self.request, self.template_name, data)
@@ -187,12 +190,14 @@ class CompanyEndView(View):
 
             data = {
                 'title': self.title,
+                'site_name': env('SITE_NAME'),
                 'status': 0,
             }
             return render(self.request, self.template_name, data)
 
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'status': 1,
         }
         return render(self.request, self.template_name, data)
@@ -210,6 +215,7 @@ class ShopView(View):
 
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'shop': shop,
             'country_list': Country.objects.order_by('number').all(),
             'prefecture_list': Prefecture.objects.order_by('number').all(),
@@ -223,6 +229,7 @@ class ShopView(View):
 
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'shop': shop,
             'input': get_shop_data(request),
             'country_list': Country.objects.order_by('number').all(),
@@ -237,6 +244,7 @@ class ShopCheckView(View):
     def post(self, request, **kwargs):
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'input': get_shop_data(request),
         }
         return render(self.request, self.template_name, data)
@@ -376,12 +384,14 @@ class ShopEndView(View):
 
             data = {
                 'title': self.title,
+                'site_name': env('SITE_NAME'),
                 'status': 0,
             }
             return render(self.request, self.template_name, data)
 
         data = {
             'title': self.title,
+            'site_name': env('SITE_NAME'),
             'status': 1,
         }
         return render(self.request, self.template_name, data)

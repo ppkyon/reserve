@@ -28,13 +28,13 @@ def get_list(request, page):
     sort = TableSort.objects.filter(url=url, company=auth_login.company, shop=auth_login.shop, manager=request.user).first()
     if sort:
         if sort.sort == 1:
-            question = ShopQuestion.objects.filter(query).order_by(sort.target, '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
+            question = ShopQuestion.objects.filter(query).order_by('-favorite_flg', sort.target, '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
         elif sort.sort == 2:
-            question = ShopQuestion.objects.filter(query).order_by('-'+sort.target, '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
+            question = ShopQuestion.objects.filter(query).order_by('-favorite_flg', '-'+sort.target, '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
         else:
-            question = ShopQuestion.objects.filter(query).order_by('-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
+            question = ShopQuestion.objects.filter(query).order_by('-favorite_flg', '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
     else:
-        question = ShopQuestion.objects.filter(query).order_by('-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
+        question = ShopQuestion.objects.filter(query).order_by('-favorite_flg', '-created_at').values(*get_model_field(ShopQuestion)).all()[start:end]
     total = ShopQuestion.objects.filter(query).count()
     
     for question_index, question_item in enumerate(question):

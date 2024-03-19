@@ -1,0 +1,415 @@
+{% load static %}
+
+<div class="template-area-wrap">
+    <p class="input-label fw-bold mb-2">コンテンツ設定</p>
+    {% if rich_menu.name %}
+        {% if rich_menu.image %}
+            <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 0px; height: 100%;">
+                {% if rich_menu.type == 0 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                                <td>
+                                    <input type="hidden" value="e">E
+                                </td>
+                                <td>
+                                    <input type="hidden" value="f">F
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 1 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 2 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 3 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" style="width: 66.7%">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 33.3%">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr class="border-top border-primary">
+                                <td style="width: 33.3%">
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 4 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 5 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 6 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 7 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 8 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td style="width: 33.3%;">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 66.7%;">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 9 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td style="width: 66.7%;">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 33.3%;">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 10 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 11 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+                <img src="{{ rich_menu.image.url }}">
+            </div>
+        {% else %}
+            <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 65%;">
+                {% if rich_menu.type == 0 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                                <td>
+                                    <input type="hidden" value="e">E
+                                </td>
+                                <td>
+                                    <input type="hidden" value="f">F
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 1 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 2 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                                <td>
+                                    <input type="hidden" value="d">D
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 3 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" style="width: 66.7%">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 33.3%">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                            <tr class="border-top border-primary">
+                                <td style="width: 33.3%">
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 4 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 5 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 6 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 7 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                                <td>
+                                    <input type="hidden" value="c">C
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 8 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td style="width: 33.3%;">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 66.7%;">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 9 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td style="width: 66.7%;">
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td style="width: 33.3%;">
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 10 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                                <td>
+                                    <input type="hidden" value="b">B
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% elif rich_menu.type == 11 %}
+                    <table class="text-center text-white h-100">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="a">A
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+                <p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="template-area d-flex justify-content-start align-items-center position-relative text-center mb-2" style="padding-top: 65%;">
+            <p class="text-muted mb-0">テンプレートを選択して、背景画像をアップロードしてください。</p>
+        </div>
+    {% endif %}
+    <div class="template-button-area text-center">
+        <input type="text" name="template" class="d-none" value="{{ rich_menu.type }}" data-parsley-errors-container="#error_template" data-parsley-error-message="テンプレートを選択してください" required>
+        <input type="text" name="upload_image" class="d-none" value="{{ rich_menu.image }}" data-parsley-errors-container="#error_image" data-parsley-error-message="画像をアップロードしてください" required>
+        <button type="button" class="btn select-template-button pt-1 pb-1 p-0 mb-2">テンプレートを選択</button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#select_template_modal"></button>
+        {% if rich_menu.type or rich_menu.type == 0 %}
+            <button type="button" id="upload_template_image" class="btn pt-1 pb-1 p-0 mb-2">画像をアップロード</button>
+        {% else %}
+            <button type="button" id="upload_template_image" class="btn pt-1 pb-1 p-0 mb-2" disabled>画像をアップロード</button>
+        {% endif %}
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_big_upload_modal"></button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_small_upload_modal"></button>
+    </div>
+</div>
