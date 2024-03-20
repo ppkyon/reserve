@@ -1,0 +1,152 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 企業 - </p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'template/tab.html' with target='cardtype' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'template:edit_cardtype' %}" class="btn edit-button me-2" style="width: 9.5rem;">新規テンプレート登録</a>
+                        <input type="text" class="input-text search-input ps-2 pe-2" value="{{ table.search.text }}" placeholder="登録名">
+                        <input type="hidden" id="table_search_url" value="{% url 'template:search_cardtype' %}">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4" style="width: 150px;">画像</th>
+                                {% include 'table/sort.html' with text='登録名' target='name' %}
+                                {% include 'table/sort.html' with text='カードタイプ' target='type' width='150' %}
+                                {% include 'table/sort.html' with text='カード数' target='count' width='150' %}
+                                {% include 'table/sort.html' with text='使用中' target='use_flg' width='100' %}
+                                <th style="width: 50px;"></th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if object_item.type == 1 %}
+                                            {% for template_item in object_item.shop_template_card_type_announce.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image_1 %}
+                                                        <img class="content-image me-2" src="{{ template_item.image_1.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif object_item.type == 2 %}
+                                            {% for template_item in object_item.shop_template_card_type_location.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image_1 %}
+                                                        <img class="content-image me-2" src="{{ template_item.image_1.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif object_item.type == 3 %}
+                                            {% for template_item in object_item.shop_template_card_type_person.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image %}
+                                                        <img class="content-image me-2" src="{{ template_item.image.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif  object_item.type == 4 %}
+                                            {% for template_item in object_item.shop_template_card_type_image.all %}
+                                                {% if forloop.first %}
+                                                    {% if template_item.image %}
+                                                        <img class="content-image me-2" src="{{ template_item.image.url }}">
+                                                    {% else %}
+                                                        <img class="content-image me-2" src="{% static 'img/image-none.png' %}">
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="position-relative">
+                                        <p class="content-title mb-0">{{ object_item.name }}</p>
+                                        <p class="content-date mb-0">{{ object_item.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.type == 1 %}
+                                            <p class="content-title mb-0">アナウンス</p>
+                                        {% elif object_item.type == 2 %}
+                                            <p class="content-title mb-0">ロケーション</p>
+                                        {% elif object_item.type == 3 %}
+                                            <p class="content-title mb-0">パーソン</p>
+                                        {% elif object_item.type == 4 %}
+                                            <p class="content-title mb-0">イメージ</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ object_item.count }}</p>
+                                    </td>
+                                    <td>
+                                        {% if object_item.use_flg %}
+                                            <p class="content-title mb-0">使用中</p>
+                                        {% else %}
+                                            <p class="content-title mb-0">-</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form id="favorite_form" action="{% url 'template:favorite_cardtype' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                            <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        </form>
+                                        {% if object_item.favorite_flg %}
+                                            <img class="favorite-icon d-none" src="{% static 'img/icon/star.svg' %}">
+                                            <img class="favorite-icon" src="{% static 'img/icon/star-color.svg' %}">
+                                        {% else %}
+                                            <img class="favorite-icon" src="{% static 'img/icon/star.svg' %}">
+                                            <img class="favorite-icon d-none" src="{% static 'img/icon/star-color.svg' %}">
+                                        {% endif %}
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_on_modal"></button>
+                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#favorite_off_modal"></button>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{{ object_item.display_id }}">
+                                        <a href="{% url 'template:edit_cardtype' %}?id={{ object_item.display_id }}" class="btn detail-button p-1">詳細</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include 'loader.html' %}
+            </div>
+        </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'template:paging_cardtype' %}">
+        <input type="hidden" id="get_cardtype_url" value="{% url 'template:get_cardtype' %}">
+        {% include 'table/paging.html' %}
+        {% include 'preview.html' %}
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/template/cardtype/preview.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/append.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/action.js' %}"></script>
+{% endblock %}

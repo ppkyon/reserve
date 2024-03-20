@@ -1,0 +1,92 @@
+{% load static %}
+
+<div id="select_template_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">テンプレートを選択</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block pb-1">
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div class="template-area">
+                                <p class="title mb-0">カスタム</p>
+                            </div>
+                            <div class="template-area">
+                                <p class="title mb-0">正方形</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div class="template-area pe-2">
+                                <figure class="d-flex flex-column" style="height: 92%;">
+                                    <input type="hidden" value="0">
+                                    <img src="{% static 'img/richmessage/template-custom-1.png' %}">
+                                    <img src="{% static 'img/richmessage/template-custom-2.png' %}" class="flex-grow-1">
+                                    <img src="{% static 'img/richmessage/template-custom-3.png' %}">
+                                </figure>
+                            </div>
+                            <div class="template-area pe-2">
+                                <figure class="d-flex flex-column mb-2">
+                                    <input type="hidden" value="1">
+                                    <img src="{% static 'img/richmessage/template-square-1.png' %}">
+                                </figure>
+                                <figure class="d-flex flex-column">
+                                    <input type="hidden" value="5">
+                                    <img src="{% static 'img/richmessage/template-square-5.png' %}">
+                                </figure>
+                            </div>
+                            <div class="template-area pe-2">
+                                <figure class="d-flex flex-column mb-2">
+                                    <input type="hidden" value="2">
+                                    <img src="{% static 'img/richmessage/template-square-2.png' %}">
+                                </figure>
+                                <figure class="d-flex flex-column">
+                                    <input type="hidden" value="6">
+                                    <img src="{% static 'img/richmessage/template-square-6.png' %}">
+                                </figure>
+                            </div>
+                            <div class="template-area pe-2">
+                                <figure class="d-flex flex-column mb-2">
+                                    <input type="hidden" value="3">
+                                    <img src="{% static 'img/richmessage/template-square-3.png' %}">
+                                </figure>
+                                <figure class="d-flex flex-column">
+                                    <input type="hidden" value="7">
+                                    <img src="{% static 'img/richmessage/template-square-7.png' %}">
+                                </figure>
+                            </div>
+                            <div class="template-area pe-2">
+                                <figure class="d-flex flex-column mb-2">
+                                    <input type="hidden" value="4">
+                                    <img src="{% static 'img/richmessage/template-square-4.png' %}">
+                                </figure>
+                                <figure class="d-flex flex-column">
+                                    <input type="hidden" value="8">
+                                    <img src="{% static 'img/richmessage/template-square-8.png' %}">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <input type="hidden" id="modal_select_template">
+                <button type="button" class="btn action-button select-button d-block">選択</button>
+                <button type="button" class="btn action-button cancel-button d-block">キャンセル</button>
+                <button type="button" class="up-modal-button d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>

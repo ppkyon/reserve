@@ -382,23 +382,10 @@ $( function() {
                 html += '<div id="error_action_url_' + number + '" class="error-message"></div>';
                 $( this ).parents( '.content-input-area' ).append( html );
             } else if ( $( this ).val() == '7' ) {
-                var target = $( this );
-                var form_data = new FormData();
-                $.ajax({
-                    'data': form_data,
-                    'url': $( '#get_company_profile_url' ).val(),
-                    'type': 'POST',
-                    'dataType': 'json',
-                    'processData': false,
-                    'contentType': false,
-                }).done( function( response ){
-                    var html = '<input type="text" name="action_url_' + number + '" value="' + response.company.profile.company_url + '" class="input-text input-select ps-2 pe-2 mb-1" style="width: ' + width + ';" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_' + number + '" readonly disabled>';
-                    html += '<input type="hidden">';
-                    html += '<div id="error_action_url_' + number + '" class="error-message"></div>';
-                    $( target ).parents( '.content-input-area' ).append( html );
-                }).fail( function(){
-
-                });
+                var html = '<input type="text" name="action_url_' + number + '" value="【会社概要URL】" class="input-text input-select ps-2 pe-2 mb-1" style="width: ' + width + ';" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_' + number + '" readonly disabled>';
+                html += '<input type="hidden">';
+                html += '<div id="error_action_url_' + number + '" class="error-message"></div>';
+                $( this ).parents( '.content-input-area' ).append( html );
             } else if ( $( this ).val() == '8' ) {
                 var html = '<textarea name="action_text_' + number + '" class="display-text-input d-block input-textarea ms-0" style="width: ' + width + ';" placeholder="入力されたテキストが送信されます。" maxlength="30" data-parsley-errors-container="#error_action_text_' + number + '" required></textarea>';
                 html += '<div id="error_action_text_' + number + '" class="error-message"></div>';

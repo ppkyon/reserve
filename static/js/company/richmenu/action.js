@@ -121,21 +121,8 @@ $( function() {
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【オンラインURL】' );
             $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         } else if ( $( this ).val() == '7' ) {
-            var target = $( this );
-            var form_data = new FormData();
-            $.ajax({
-                'data': form_data,
-                'url': $( '#get_company_profile_url' ).val(),
-                'type': 'POST',
-                'dataType': 'json',
-                'processData': false,
-                'contentType': false,
-            }).done( function( response ){
-                $( target ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( response.company.profile.company_url );
-                $( target ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
-            }).fail( function(){
-
-            });
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).val( '【会社概要URL】' );
+            $( this ).parents( '.content-area' ).next().next().find( 'input[type=text]' ).prop( 'disabled', true );
         }
     });
 

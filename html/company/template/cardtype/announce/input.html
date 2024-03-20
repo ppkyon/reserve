@@ -412,7 +412,7 @@
         {% endif %}
     </div>
 </div>
-{% for text_item in data.text %}
+{% for text_item in data.company_template_card_type_announce_text.all %}
     <div class="content-area content-text-area d-flex justify-content-start align-items-start mb-1">
         <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
             <label for="display_text_check_{{ forloop.counter }}_{{ data.number }}" class="mb-0">テキスト{{ forloop.counter }}</label>
@@ -500,7 +500,7 @@
         <p class="mb-0">新しくテキストを追加する</p>
     </button>
 </div>
-{% for action_item in data.action %}
+{% for action_item in data.company_template_card_type_announce_action.all %}
     <div class="content-area content-action-area d-flex justify-content-start align-items-start mb-3">
         <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
             <label for="display_action_check_{{ forloop.counter }}_{{ data.number }}" class="mb-0">アクション{{ forloop.counter }}</label>

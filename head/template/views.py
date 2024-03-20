@@ -130,41 +130,11 @@ class CardTypeEditView(HeadView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['template'] = HeadTemplateCardType.objects.filter(display_id=self.request.GET.get("id")).first()
-        if context['template']:
-            if context['template'].type == 1:
-                context['template'].item = HeadTemplateCardTypeAnnounce.objects.filter(template=context['template']).all()
-                for template_index, template_item in enumerate(context['template'].item):
-                    context['template'].item[template_index].text = HeadTemplateCardTypeAnnounceText.objects.filter(card_type=template_item).all()
-                    context['template'].item[template_index].action = HeadTemplateCardTypeAnnounceAction.objects.filter(card_type=template_item).all()
-                    for action_index, action_item in enumerate(context['template'].item[template_index].action):
-                        context['template'].item[template_index].action[action_index].style = get_template_action_style(action_item)
-            elif context['template'].type == 2:
-                context['template'].item = HeadTemplateCardTypeLocation.objects.filter(template=context['template']).all()
-            elif context['template'].type == 3:
-                context['template'].item = HeadTemplateCardTypePerson.objects.filter(template=context['template']).all()
-            elif context['template'].type == 4:
-                context['template'].item = HeadTemplateCardTypeImage.objects.filter(template=context['template']).all()
-            context['template'].more = HeadTemplateCardTypeMore.objects.filter(template=context['template']).first()
-        else:
+        if not context['template']:
             context['template'] = HeadTemplateCardType.objects.filter(display_id=self.request.GET.get("copy")).first()
             if context['template']:
                 context['template'].display_id = ''
                 context['template'].name = context['template'].name + ' コピー'
-                if context['template'].type == 1:
-                    context['template'].item = HeadTemplateCardTypeAnnounce.objects.filter(template=context['template']).all()
-                    for template_index, template_item in enumerate(context['template'].item):
-                        context['template'].item[template_index].text = HeadTemplateCardTypeAnnounceText.objects.filter(card_type=template_item).all()
-                        context['template'].item[template_index].action = HeadTemplateCardTypeAnnounceAction.objects.filter(card_type=template_item).all()
-                        for action_index, action_item in enumerate(context['template'].item[template_index].action):
-                            context['template'].item[template_index].action[action_index].style = get_template_action_style(action_item)
-                elif context['template'].type == 2:
-                    context['template'].item = HeadTemplateCardTypeLocation.objects.filter(template=context['template']).all()
-                elif context['template'].type == 3:
-                    context['template'].item = HeadTemplateCardTypePerson.objects.filter(template=context['template']).all()
-                elif context['template'].type == 4:
-                    context['template'].item = HeadTemplateCardTypeImage.objects.filter(template=context['template']).all()
-                context['template'].more = HeadTemplateCardTypeMore.objects.filter(template=context['template']).first()
-
         return context
 
 class GreetingView(HeadView):

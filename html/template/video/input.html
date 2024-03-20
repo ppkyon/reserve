@@ -1,0 +1,92 @@
+{% load static %}
+{% load original %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="input-area ps-5 ms-1 mb-4">
+                <div class="error-message-video d-none mb-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0 d-none">動画のファイル形式は MP4のみです</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-12">
+                        {% if template.video %}
+                            <div id="video_drop_zone" class="drop-zone video-drop-zone text-center position-relative d-none">
+                                <input type="file" name="video_file" accept=".mp4" style="display: none;">
+                                <div id="video_drop_area" class="video-drop-area dz-message me-4">
+                                    <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                    <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                    <p class="drop-text mb-0">または</p>
+                                    <p class="drop-button">選択</p>
+                                    <p class="drop-description mb-0">ファイル形式 MP4</p>
+                                </div>
+                            </div>
+                            <div id="video_display_area" class="d-flex video-display-area position-relative">
+                                <button type="button" class="btn delete-button">
+                                    <img src="{% static 'img/icon/cross-white.svg' %}">
+                                </button>
+                                <video src="{{ template.video.url }}" controls></video>
+                                <input type="hidden" name="upload_video" value="{{ template.video }}">
+                                <div class="video-text-area p-4">
+                                    <p class="video-time mb-1">時間 : {{ template.video_time|convert_time }}</p>
+                                    {% if template.video_size >= 1000000 %}
+                                        <p class="video-size mb-1">容量 : {{ template.video_size|division:1000000 }}MB</p>
+                                    {% elif template.video_size >= 1000 %}
+                                        <p class="video-size mb-1">容量 : {{ template.video_size|division:1000 }}KB</p>
+                                    {% else %}
+                                        <p class="video-size mb-1">容量 : {{ template.video_size }}B</p>
+                                    {% endif %}
+                                    <input type="hidden" name="size" value="{{ template.video_size }}">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div id="video_drop_zone" class="drop-zone video-drop-zone text-center position-relative">
+                                <input type="file" name="video_file" accept=".mp4" style="display: none;">
+                                <div id="video_drop_area" class="video-drop-area dz-message me-4">
+                                    <i class="drop-icon text-muted bx bxs-cloud-upload mb-0"></i>
+                                    <p class="drop-text mb-0">ファイルをドラッグ&ドロップでアップロード</p>
+                                    <p class="drop-text mb-0">または</p>
+                                    <p class="drop-button">選択</p>
+                                    <p class="drop-description mb-0">ファイル形式 MP4</p>
+                                </div>
+                            </div>
+                            <div id="video_display_area" class="d-flex video-display-area position-relative d-none">
+                                <button type="button" class="btn delete-button">
+                                    <img src="{% static 'img/icon/cross-white.svg' %}">
+                                </button>
+                                <video controls></video>
+                                <input type="hidden" name="upload_video">
+                                <div class="video-text-area p-4">
+                                    <p class="video-time mb-1"></p>
+                                    <p class="video-size mb-1"></p>
+                                    <input type="hidden" name="size">
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="button-area ps-5 ms-1">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="save-area text-center">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                            {% if template.display_id %}
+                                <button type="button" class="btn copy-button me-3" value="video">複製する</button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#copy_check_modal"></button>
+                                <input type="hidden" id="copy_url" value="{% url 'template:copy_video' %}">
+                            {% endif %}
+                            <button type="button" class="btn save-button" value="video">保存する</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                            <input type="hidden" id="reload_url" value="{% url 'template:video' %}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

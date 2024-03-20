@@ -1,0 +1,228 @@
+{% load static %}
+
+<div class="cardtype-header-area">
+    <div class="d-flex position-relative w-100">
+        <div id="display_image_area_{{ data.number }}" class="cardtype-image-area d-flex flex-row position-relative w-100">
+            {% if data.image_flg %}
+                {% if data.image_count == '1' %}
+                    <div class="one cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                        <input type="hidden" value="a">
+                        {% if data.image_1 %}
+                            <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                        {% else %}
+                            <span style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                        {% endif %}
+                    </div>
+                {% elif data.image_count == '2' %}
+                    <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                        <input type="hidden" value="a">
+                        {% if data.image_1 %}
+                            <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                        {% else %}
+                            <span style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                        {% endif %}
+                    </div>
+                    <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                        <input type="hidden" value="b">
+                        {% if data.image_2 %}
+                            <span style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                        {% else %}
+                            <span style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                        {% endif %}
+                    </div>
+                {% elif data.image_count == '3' %}
+                    <div class="two cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
+                        <input type="hidden" value="a">
+                        {% if data.image_1 %}
+                            <span style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                        {% else %}
+                            <span style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                        {% endif %}
+                    </div>
+                    <div class="two flex-column position-relative">
+                        <div class="three cardtype-image-item position-relative" style="padding-bottom: 3.75rem;">
+                            <input type="hidden" value="b">
+                            {% if data.image_2 %}
+                                <span style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                            {% else %}
+                                <span style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                            {% endif %}
+                        </div>
+                        <div class="three cardtype-image-item position-relative" style="padding-bottom: 3.75rem;">
+                            <input type="hidden" value="c">
+                            {% if data.image_3 %}
+                                <span style="background-image: url( '{{ data.image_3.url }}' );"></span>
+                            {% else %}
+                                <span style="background-image: url( '/static/img/cardtype/cardtype-c.png' );"></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if data.label_flg %}
+                    {% if data.image_count == '0' %}
+                        <div class="one cardtype-image-item position-relative" style="padding-bottom: 2.5rem;">
+                            <input type="hidden" value="a">
+                            <span></span>
+                        </div>
+                    {% elif data.image_count == '1' %}
+                        <div class="one cardtype-image-item position-relative" style="padding-bottom: 2.5rem;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                    {% elif data.image_count == '2' %}
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 2.5rem;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 0;">
+                            <input type="hidden" value="b">
+                            {% if data.image_2 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                            {% endif %}
+                        </div>
+                    {% elif data.image_count == '3' %}
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 2.5rem;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                        <div class="two flex-column position-relative">
+                            <div class="three cardtype-image-item position-relative" style="padding-bottom: 0;">
+                                <input type="hidden" value="b">
+                                {% if data.image_2 %}
+                                    <span class="d-none" style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                                {% else %}
+                                    <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                                {% endif %}
+                            </div>
+                            <div class="three cardtype-image-item position-relative" style="padding-bottom: 0;">
+                                <input type="hidden" value="c">
+                                {% if data.image_3 %}
+                                    <span class="d-none" style="background-image: url( '{{ data.image_3.url }}' );"></span>
+                                {% else %}
+                                    <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-c.png' );"></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if data.image_count == '1' %}
+                        <div class="one cardtype-image-item position-relative" style="padding-bottom: 0;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                    {% elif data.image_count == '2' %}
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 0;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 0;">
+                            <input type="hidden" value="b">
+                            {% if data.image_2 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                            {% endif %}
+                        </div>
+                    {% elif data.image_count == '3' %}
+                        <div class="two cardtype-image-item position-relative" style="padding-bottom: 0;">
+                            <input type="hidden" value="a">
+                            {% if data.image_1 %}
+                                <span class="d-none" style="background-image: url( '{{ data.image_1.url }}' );"></span>
+                            {% else %}
+                                <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-a.png' );"></span>
+                            {% endif %}
+                        </div>
+                        <div class="two flex-column position-relative">
+                            <div class="three cardtype-image-item position-relative" style="padding-bottom: 0;">
+                                <input type="hidden" value="b">
+                                {% if data.image_2 %}
+                                    <span class="d-none" style="background-image: url( '{{ data.image_2.url }}' );"></span>
+                                {% else %}
+                                    <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-half-b.png' );"></span>
+                                {% endif %}
+                            </div>
+                            <div class="three cardtype-image-item position-relative" style="padding-bottom: 0;">
+                                <input type="hidden" value="c">
+                                {% if data.image_3 %}
+                                    <span class="d-none" style="background-image: url( '{{ data.image_3.url }}' );"></span>
+                                {% else %}
+                                    <span class="d-none" style="background-image: url( '/static/img/cardtype/cardtype-c.png' );"></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+        {% if data.label_flg %}
+            {% if data.label_color == '0' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '1' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '2' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #eb4e3d;">{{ data.label }}</label>
+            {% elif data.label_color == '3' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #ed8537;">{{ data.label }}</label>
+            {% elif data.label_color == '4' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #00B900;">{{ data.label }}</label>
+            {% elif data.label_color == '5' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #5b82db;">{{ data.label }}</label>
+            {% endif %}
+        {% else %}
+            <label id="display_label_{{ data.number }}" class="label ps-1 pe-1 d-none">{{ data.label|default:'ラベルを入力' }}</label>
+        {% endif %}
+    </div>
+</div>
+<div class="cardtype-body-area p-2 mb-2">
+    <p id="display_title_{{ data.number }}" class="title mb-1">{{ data.title }}</p>
+    {% if data.description_flg %}
+        <p id="display_description_{{ data.number }}" class="description mb-1">{{ data.description|linebreaksbr }}</p>
+    {% else %}
+        <p id="display_description_{{ data.number }}" class="description mb-1 d-none">{{ data.description|default:'説明文を入力'|linebreaksbr }}</p>
+    {% endif %}
+    {% for text_item in data.shop_template_card_type_announce_text.all %}
+        {% if text_item.flg %}
+            <div class="mt-2">
+                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="fw-bold mb-0" style="font-size: 0.7rem;">{{ text_item.title }}</p>
+                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
+            </div>
+        {% else %}
+            <div class="mt-2 d-none">
+                <p id="display_text_title_{{ forloop.counter }}_{{ data.number }}" class="fw-bold mb-0" style="font-size: 0.7rem;">{{ text_item.title }}</p>
+                <p id="display_text_text_{{ forloop.counter }}_{{ data.number }}" class="mb-0" style="font-size: 0.5rem;">{{ text_item.text }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="cardtype-footer-area text-center">
+    {% for action_item in data.shop_template_card_type_announce_action.all %}
+        {% if action_item.flg %}
+            <button type="button" id="display_action_label_{{ forloop.counter }}_{{ data.number }}" class="btn p-0 mb-2" {{ action_item.style }}>{{ action_item.label }}</button>
+        {% else %}
+            <button type="button" id="display_action_label_{{ forloop.counter }}_{{ data.number }}" class="btn p-0 mb-2 d-none" {{ action_item.style }}>{{ action_item.label }}</button>
+        {% endif %}
+    {% endfor %}
+</div>

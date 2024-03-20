@@ -10,6 +10,11 @@
     font-size: 0.8rem;
     font-weight: bold;
 }
+.title-area img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
 .title-area .input-text {
     width: 40%;
 }

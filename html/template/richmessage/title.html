@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="title-area">
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0">登録名</label>
+                    <input type="text" name="name" class="input-text ps-2 pe-2 me-2" value="{{ template.name|default:'' }}" placeholder="登録名を入力" data-parsley-errors-container="#error_name" required>
+                    <input type="text" class="d-none">
+                    {% if template.favorite_flg %}
+                        <input type="checkbox" name="favorite" value="1" class="d-none" checked>
+                        <img src="{% static 'img/icon/star.svg' %}" class="d-none">
+                        <img src="{% static 'img/icon/star-color.svg' %}">
+                    {% else %}
+                        <input type="checkbox" name="favorite" value="1" class="d-none">
+                        <img src="{% static 'img/icon/star.svg' %}">
+                        <img src="{% static 'img/icon/star-color.svg' %}" class="d-none">
+                    {% endif %}
+                </div>
+                <div id="error_name" class="ps-5 ms-2 mb-1"></div>
+                <p class="description ps-5 ms-4 mb-3">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0">タイトル</label>
+                    <input type="text" name="title" class="input-text ps-2 pe-2 me-2" value="{{ template.title|default:'' }}" placeholder="タイトルを入力" data-parsley-errors-container="#error_title" required>
+                </div>
+                <div id="error_title" class="ps-3 mb-2" style="margin-left: 2.5rem;"></div>
+            </div>
+        </div>
+    </div>
+</div>

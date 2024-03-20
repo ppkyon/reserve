@@ -1,0 +1,489 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+{% load original %}
+
+{% block css %}
+    <link href="{% static 'css/template/greeting.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 企業 - </p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'template/tab.html' with target='greeting' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card-area pt-3 pb-3 ps-5 pe-5">
+                    <input type="hidden" id="save_greeting_check_form" value="{% url 'template:save_greeting_check' %}">
+                    <form id="save_greeting_form" action="{% url 'template:save_greeting' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <div class="input-area-wrap">
+                            {% if template|length > 0 %}
+                                {% for template_item in template %}
+                                    <div class="input-area">
+                                        <input type="hidden" name="number" value="{{ template_item.number }}">
+                                        <div class="action-button-area">
+                                            <div class="row mb-1">
+                                                <div class="col-12">
+                                                    <div class="action-area d-flex justify-content-between align-items-center">
+                                                        <div class="menu-area d-flex justify-content-between align-items-center">
+                                                            {% if template_item.message_type == 2 or template_item.message_type == 3 or template_item.message_type == 4 %}
+                                                                <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                                    <button class="btn position-relative" data-bs-toggle="dropdown" disabled>
+                                                                        <span>テンプレートを使用する</span>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="0" class="btn dropdown-item fw-bold text-center p-1">テキスト</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_text_modal"></button>
+                                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">動画</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_video_modal"></button>
+                                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richmessage_modal"></button>
+                                                                        <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richvideo_modal"></button>
+                                                                        <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_cardtype_modal"></button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                                <button type="button" class="btn name-button position-relative" disabled>
+                                                                    <span>応募者の登録名</span>
+                                                                </button>
+                                                                <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                                    <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown" disabled>
+                                                                        <p class="mb-0">アクション</p>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="line" class="btn  dropdown-item fw-bold text-center p-1">公式LINE名</button>
+                                                                        <button type="button" value="company" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">企業名</button>
+                                                                        <button type="button" value="name" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者名</button>
+                                                                        <button type="button" value="phone" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者電話番号</button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="btn video-button" disabled>
+                                                                    <i class='bx bx-play-circle mt-1'></i>
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                                <button type="button" class="btn image-button" disabled>
+                                                                    <img src="{% static 'img/icon/image.svg' %}">
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                            {% elif template_item.text %}
+                                                                <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                                    <button class="btn position-relative" data-bs-toggle="dropdown" disabled>
+                                                                        <span>テンプレートを使用する</span>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="0" class="btn dropdown-item fw-bold text-center p-1">テキスト</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_text_modal"></button>
+                                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">動画</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_video_modal"></button>
+                                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richmessage_modal"></button>
+                                                                        <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richvideo_modal"></button>
+                                                                        <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_cardtype_modal"></button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                                <button type="button" class="btn name-button position-relative">
+                                                                    <span>応募者の登録名</span>
+                                                                </button>
+                                                                <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                                    <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                                        <p class="mb-0">アクション</p>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="line" class="btn  dropdown-item fw-bold text-center p-1">公式LINE名</button>
+                                                                        <button type="button" value="company" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">企業名</button>
+                                                                        <button type="button" value="name" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者名</button>
+                                                                        <button type="button" value="phone" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者電話番号</button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="btn video-button" disabled>
+                                                                    <i class='bx bx-play-circle mt-1'></i>
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                                <button type="button" class="btn image-button" disabled>
+                                                                    <img src="{% static 'img/icon/image.svg' %}">
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                            {% else %}
+                                                                <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                                    <button class="btn position-relative" data-bs-toggle="dropdown">
+                                                                        <span>テンプレートを使用する</span>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="0" class="btn dropdown-item fw-bold text-center p-1">テキスト</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_text_modal"></button>
+                                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">動画</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_video_modal"></button>
+                                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richmessage_modal"></button>
+                                                                        <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richvideo_modal"></button>
+                                                                        <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプ</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_cardtype_modal"></button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                                <button type="button" class="btn name-button position-relative">
+                                                                    <span>応募者の登録名</span>
+                                                                </button>
+                                                                <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                                    <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                                        <p class="mb-0">アクション</p>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="line" class="btn  dropdown-item fw-bold text-center p-1">公式LINE名</button>
+                                                                        <button type="button" value="company" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">企業名</button>
+                                                                        <button type="button" value="name" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者名</button>
+                                                                        <button type="button" value="phone" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者電話番号</button>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="btn video-button">
+                                                                    <i class='bx bx-play-circle mt-1'></i>
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                                <button type="button" class="btn image-button">
+                                                                    <img src="{% static 'img/icon/image.svg' %}">
+                                                                </button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="delete-area ms-auto">
+                                                            <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                                            </button>
+                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="message-area">
+                                            <div class="row mb-4">
+                                                <div class="col-12">
+                                                    {% if template_item.message_type == 2 %}
+                                                        <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                                        <div class="text-area d-none">
+                                                            <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                            <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                        </div>
+                                                        {% if template_item.image_width < template_item.image_height %}
+                                                            <div class="image-area half pt-2 pb-2 ps-3 pe-3">
+                                                                <div class="image position-relative">
+                                                                    <img src="{{ template_item.image.url }}">
+                                                                    <input type="hidden" name="upload_image_{{ template_item.number }}" value="{{ template_item.image }}">
+                                                                    <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="image-area pt-2 pb-2 ps-3 pe-3">
+                                                                <div class="image position-relative">
+                                                                    <img src="{{ template_item.image.url }}">
+                                                                    <input type="hidden" name="upload_image_{{ template_item.number }}" value="{{ template_item.image }}">
+                                                                    <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                                        <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                    {% elif template_item.message_type == 3 %}
+                                                        <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                                        <div class="text-area d-none">
+                                                            <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                            <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                        </div>
+                                                        <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="video-area pt-2 pb-2 ps-3 pe-3">
+                                                            <div class="video position-relative">
+                                                                <button type="button" class="btn delete-button" value="{{ template_item.number }}">
+                                                                    <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                </button>
+                                                                <video src="{{ template_item.video.url }}" controls>
+                                                                <input type="hidden" name="upload_video_{{ template_item.number }}" value="{{ template_item.video }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                    {% elif template_item.message_type == 4 %}
+                                                        <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                                        <div class="text-area d-none">
+                                                            <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                            <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                        </div>
+                                                        <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="chart-area pt-2 pb-2 ps-3 pe-3">
+                                                            <div class="chart-content-area mt-2 ms-2">
+                                                                <div class="chart-title-area d-flex justify-content-start align-items-center">
+                                                                    {% if template_item.template_text %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #EF0000;">メッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_text.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="0">
+                                                                    {% elif template_item.template_video %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #FCA000;">動画</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_video.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="1">
+                                                                    {% elif template_item.template_richmessage %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #009E9F;">リッチメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_richmessage.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="2">
+                                                                    {% elif template_item.template_richvideo %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #009825;">リッチビデオメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_richvideo.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="3">
+                                                                    {% elif template_item.template_cardtype %}
+                                                                        <p class="chart-content-title p-1 ps-2 mb-0" style="background-color: #A1007E;">カードタイプメッセージ</p>
+                                                                        <button type="button" class="btn delete-button ms-auto p-0" value="{{ template_item.number }}">
+                                                                            <img src="{% static 'img/icon/cross-white.svg' %}">
+                                                                        </button>
+                                                                        <input type="hidden" name="template_{{ template_item.number }}" value="{{ template_item.template_cardtype.display_id }}">
+                                                                        <input type="hidden" name="template_type_{{ template_item.number }}" value="4">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% if template_item.template_text %}
+                                                                    <a href="{% url 'template:edit_text' %}?id={{ template_item.template_text.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FF0202;">{{ template_item.template_text.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                {% for template_text_item in template_item.template_text.shop_template_text_item.all %}
+                                                                                    {% if forloop.first %}
+                                                                                        {% if template_text_item.message_type == 1 %}
+                                                                                            <img src="{% static 'img/image-none.png' %}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">{{ template_text_item.text|default:''|textarea_action_replace|striptags }}</p>
+                                                                                        {% elif template_text_item.message_type == 2 %}
+                                                                                            <img src="{{ template_text_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">画像メッセージ</p>
+                                                                                        {% elif template_text_item.message_type == 3 %}
+                                                                                            <img src="{{ template_text_item.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                            <p class="chart-content-text p-1 mb-0">動画メッセージ</p>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_video %}
+                                                                    <a href="{% url 'template:edit_video' %}?id={{ template_item.template_video.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FCA000;">{{ template_item.template_video.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_video.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <p class="chart-content-img-text p-2 mb-0">{{ template_item.template_video.video_time|convert_time }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_richmessage %}
+                                                                    <a href="{% url 'template:edit_richmessage' %}?id={{ template_item.template_richmessage.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009E9F;">{{ template_item.template_richmessage.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_richmessage.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <div>
+                                                                                    {% for template_richmessage_item in template_item.template_richmessage.shop_template_rich_message_item.all %}
+                                                                                        {% if forloop.counter <= 3 %}
+                                                                                            <p class="chart-content-text mb-0" style="height: auto;">{{ template_richmessage_item.url|default:'' }}</p>
+                                                                                        {% endif %}
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_richvideo %}
+                                                                    <a href="{% url 'template:edit_richvideo' %}?id={{ template_item.template_richvideo.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009825;">{{ template_item.template_richvideo.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                <img src="{{ template_item.template_richvideo.video_thumbnail.url }}" class="chart-content-img p-2 ms-2">
+                                                                                <p class="chart-content-img-text p-2 mb-0">{{ template_item.template_richvideo.video_time|convert_time }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% elif template_item.template_cardtype %}
+                                                                    <a href="{% url 'template:edit_cardtype' %}?id={{ template_item.template_cardtype.display_id }}" target="_blank">
+                                                                        <div class="chart-content position-relative mb-0">
+                                                                            <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #A1007E;">{{ template_item.template_cardtype.name }}</p>
+                                                                            <div class="d-flex justify-content-start align-items-center">
+                                                                                {% if template_item.template_cardtype.type == 1 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.shop_template_card_type_announce.all %}
+                                                                                        <img src="{{ template_cardtype_item.image_1.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">アナウンス</p>
+                                                                                {% elif template_item.template_cardtype.type == 2 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.shop_template_card_type_location.all %}
+                                                                                        <img src="{{ template_cardtype_item.image_1.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">ロケーション</p>
+                                                                                {% elif template_item.template_cardtype.type == 3 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.shop_template_card_type_person.all %}
+                                                                                        <img src="{{ template_cardtype_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">パーソン</p>
+                                                                                {% elif template_item.template_cardtype.type == 4 %}
+                                                                                    {% for template_cardtype_item in template_item.template_cardtype.shop_template_card_type_image.all %}
+                                                                                        <img src="{{ template_cardtype_item.image.url }}" class="chart-content-img p-2 ms-2">
+                                                                                    {% endfor %}
+                                                                                    <p class="chart-content-img-text p-2 mb-0">イメージ</p>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    {% else %}
+                                                        <input type="hidden" name="message_type_{{ template_item.number }}" value="{{ template_item.message_type }}">
+                                                        <div class="text-area">
+                                                            <div name="text_{{ template_item.number }}" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true">{{ template_item.text|safe|linebreaksbr }}</div>
+                                                            <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                        </div>
+                                                        <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                        <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="input-area">
+                                    <input type="hidden" name="number" value="1">
+                                    <div class="action-button-area">
+                                        <div class="row mb-1">
+                                            <div class="col-12">
+                                                <div class="action-area d-flex justify-content-between align-items-center">
+                                                    <div class="menu-area d-flex justify-content-between align-items-center">
+                                                        <div class="dropdown input-template-dropdown d-inline-block p-0">
+                                                            <button class="btn position-relative" data-bs-toggle="dropdown">
+                                                                <span>テンプレートを使用する</span>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <button type="button" value="0" class="btn dropdown-item fw-bold text-center p-1">テキスト</button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_text_modal"></button>
+                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">動画</button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_video_modal"></button>
+                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチメッセージ</button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richmessage_modal"></button>
+                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">リッチビデオ</button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_richvideo_modal"></button>
+                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">カードタイプ</button>
+                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_cardtype_modal"></button>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_modal"></button>
+                                                        <button type="button" class="btn name-button position-relative">
+                                                            <span>応募者の登録名</span>
+                                                        </button>
+                                                        <div class="dropdown input-action-dropdown inline-block p-0" style="width: 120px;">
+                                                            <button class="btn text-center position-relative w-100" data-bs-toggle="dropdown">
+                                                                <p class="mb-0">アクション</p>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <button type="button" value="line" class="btn  dropdown-item fw-bold text-center p-1">公式LINE名</button>
+                                                                <button type="button" value="company" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">企業名</button>
+                                                                <button type="button" value="name" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者名</button>
+                                                                <button type="button" value="phone" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">担当者電話番号</button>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn video-button">
+                                                            <i class='bx bx-play-circle mt-1'></i>
+                                                        </button>
+                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#video_upload_modal"></button>
+                                                        <button type="button" class="btn image-button">
+                                                            <img src="{% static 'img/icon/image.svg' %}">
+                                                        </button>
+                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#image_upload_modal"></button>
+                                                    </div>
+                                                    <div class="delete-area ms-auto">
+                                                        <button type="button" class="btn delete-button" value="1">
+                                                            <img src="{% static 'img/icon/cross.svg' %}">
+                                                        </button>
+                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="message-area">
+                                        <div class="row mb-4">
+                                            <div class="col-12">
+                                                <input type="hidden" name="message_type_1" value="1">
+                                                <div class="text-area">
+                                                    <div name="text_1" class="false-textarea pt-2 pb-2 ps-5 pe-3" contenteditable="true"></div>
+                                                    <img class="emoji-mark" src="{% static 'img/icon/emoji.png' %}">
+                                                </div>
+                                                <div class="image-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                <div class="video-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                                <div class="chart-area d-none pt-2 pb-2 ps-3 pe-3"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                    <div class="button-area">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="add-area">
+                                    <button type="button" class="btn">+ 追加</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="save-area text-center">
+                                    <button type="button" class="btn save-button" value="greeting">保存する</button>
+                                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'template/greeting/modal/image.html' %}
+        {% include 'template/text/modal/text.html' %}
+        {% include 'template/video/modal/video.html' %}
+        {% include 'template/richmessage/modal/richmessage.html' %}
+        {% include 'template/richvideo/modal/richvideo.html' %}
+        {% include 'template/cardtype/modal/cardtype.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
+    <script src="{% static 'js/template/greeting/preview.js' %}"></script>
+    <script src="{% static 'js/template/greeting/append.js' %}"></script>
+    <script src="{% static 'js/template/greeting/data.js' %}"></script>
+    <script src="{% static 'js/template/greeting/action.js' %}"></script>
+    <script src="{% static 'js/template/greeting/image.js' %}"></script>
+{% endblock %}

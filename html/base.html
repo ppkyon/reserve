@@ -26,12 +26,6 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div class="all-loader-area position-absolute d-none">
-            <div class="all-loader">
-                <img src="{% static 'img/loading.gif' %}">
-                <span>読み込み中...</span>
-            </div>
-        </div>
 
         {% include './js.html' %}
         {% block js %}

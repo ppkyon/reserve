@@ -1,0 +1,54 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/template/cardtype.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }} - 企業 - </p>
+        </div>
+    </div>
+    <div class="shop">
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_cardtype_form" action="{% url 'template:delete_cardtype' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="cardtype">このテンプレートを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_cardtype_check_form" value="{% url 'template:save_cardtype_check' %}">
+        <form id="save_cardtype_form" action="{% url 'template:save_cardtype' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'template/cardtype/title.html' %}
+            {% include 'template/cardtype/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'template/cardtype/modal/card.html' %}
+        {% include 'template/cardtype/modal/image.html' %}
+        {% include 'template/cardtype/modal/item.html' %}
+        {% include 'template/cardtype/modal/template.html' %}
+        {% include 'template/video/modal/video.html' %}
+        {% include 'question/modal/question.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/question/modal.js' %}"></script>
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/preview.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/append.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/tab.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/action.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/data.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/image.js' %}"></script>
+{% endblock %}

@@ -47,7 +47,11 @@
                         <div class="content-area d-flex justify-content-start align-items-center pb-0">
                             <label class="ms-5 mb-3"></label>
                             <div class="p-0 mb-3 ms-3">
-                                <input type="text" name="url_{{ template_item.number }}" value="{{ template_item.url }}" class="input-text input-select ps-2 pe-2" placeholder="URLを入力" required>
+                                {% if template_item.type == 1 %}
+                                    <input type="text" name="url_{{ template_item.number }}" value="{{ template_item.url }}" class="input-text input-select ps-2 pe-2" placeholder="URLを入力" required>
+                                {% else %}
+                                    <input type="text" name="url_{{ template_item.number }}" value="{{ template_item.url }}" class="input-text input-select ps-2 pe-2" placeholder="URLを入力" required disabled>
+                                {% endif %}
                                 <input type="hidden" value="{{ template_item.question_form.display_id }}">
                             </div>
                         </div>

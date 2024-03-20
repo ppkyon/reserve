@@ -4,26 +4,64 @@
     <div class="tab-area mt-3 mb-3">
         <div class="d-flex align-items-center">
             <ul class="nav nav-tabs mt-auto">
-                {% for template_item in template.item %}
-                    {% if template_item.number == '1' %}
-                        <li class="nav-item">
-                            <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">1</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a href="#tab{{ template_item.number }}" class="nav-link" data-bs-toggle="tab" role="tab">{{ template_item.number }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                {% if template.more %}
+                {% if template.type == 1 %}
+                    {% for template_item in template.head_template_card_type_announce.all %}
+                        {% if template_item.number == '1' %}
+                            <li class="nav-item">
+                                <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">1</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="#tab{{ template_item.number }}" class="nav-link" data-bs-toggle="tab" role="tab">{{ template_item.number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% elif template.type == 2 %}
+                    {% for template_item in template.head_template_card_type_location.all %}
+                        {% if template_item.number == '1' %}
+                            <li class="nav-item">
+                                <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">1</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="#tab{{ template_item.number }}" class="nav-link" data-bs-toggle="tab" role="tab">{{ template_item.number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% elif template.type == 3 %}
+                    {% for template_item in template.head_template_card_type_person.all %}
+                        {% if template_item.number == '1' %}
+                            <li class="nav-item">
+                                <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">1</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="#tab{{ template_item.number }}" class="nav-link" data-bs-toggle="tab" role="tab">{{ template_item.number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% elif template.type == 4 %}
+                    {% for template_item in template.head_template_card_type_image.all %}
+                        {% if template_item.number == '1' %}
+                            <li class="nav-item">
+                                <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">1</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="#tab{{ template_item.number }}" class="nav-link" data-bs-toggle="tab" role="tab">{{ template_item.number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% for head_template_card_type_more in template.head_template_card_type_more.all %}
                     <li class="nav-item">
                         <a href="#tab10" class="nav-link" data-bs-toggle="tab" role="tab">もっと見る</a>
                     </li>
-                {% endif %}
+                {% endfor %}
             </ul>
             <div class="ms-auto">
                 <button type="button" class="btn add-card-button mb-1">＋カードを追加</button>
-                {% if template.more %}
+                {% if template.head_template_card_type_more.all %}
                     <button type="button" class="btn add-more-card-button ms-1 mb-1 d-none">＋もっと見るカードを追加</button>
                 {% else %}
                     <button type="button" class="btn add-more-card-button ms-1 mb-1">＋もっと見るカードを追加</button>

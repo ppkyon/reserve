@@ -1,21 +1,21 @@
 {% load static %}
 
-{% if template.more.type == 1 %}
+{% if data.type == 1 %}
     <div class="cardtype-body-area ps-2 pe-2" style="padding-top: 60%; padding-bottom: 60%;">
-        <p id="display_action_label_10" class="more mb-1">{{ template.more.action_label }}</p>
+        <p id="display_action_label_10" class="more mb-1">{{ data.action_label }}</p>
     </div>
-{% elif template.more.type == 2 %}
+{% elif data.type == 2 %}
     <div class="cardtype-header-area">
         <div class="d-flex position-relative w-100">
             <div id="display_image_area_10" class="cardtype-image-area d-flex flex-row position-relative w-100">
                 <div class="one cardtype-image-item position-relative" style="padding-bottom: 7.5rem;">
                     <input type="hidden" value="more">
-                    <span style="background-image: url( '{{ template.more.image.url }}' );"></span>
+                    <span style="background-image: url( '{{ data.image.url }}' );"></span>
                 </div>
             </div>
         </div>
     </div>
     <div class="cardtype-body-area ps-2 pe-2">
-        <p id="display_action_label_10" class="more mb-1" style="padding-top: 22%; padding-bottom: 22%;">{{ template.more.action_label }}</p>
+        <p id="display_action_label_10" class="more mb-1" style="padding-top: 22%; padding-bottom: 22%;">{{ data.action_label }}</p>
     </div>
 {% endif %}

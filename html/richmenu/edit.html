@@ -38,11 +38,7 @@
         {% include 'modal.html' %}
         {% include 'richmenu/modal/template.html' %}
         {% include 'richmenu/modal/image.html' %}
-
-        {% comment %}
-            {% include 'template/video/modal/video.html' %}
-        {% endcomment %}
-
+        {% include 'template/video/modal/video.html' %}
         {% include 'question/modal/question.html' %}
         {% include 'preview.html' %}
     </div>
@@ -50,7 +46,7 @@
 
 {% block js %}
     <script src="{% static 'js/question/modal.js' %}"></script>
-    <!-- <script src="{% static 'js/template/video/modal.js' %}"></script> -->
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
     <script src="{% static 'js/richmenu/preview.js' %}"></script>
     <script src="{% static 'js/richmenu/append.js' %}"></script>
     <script src="{% static 'js/richmenu/action.js' %}"></script>

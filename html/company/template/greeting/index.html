@@ -263,7 +263,7 @@
                                                                     {% endif %}
                                                                 </div>
                                                                 {% if template_item.template_text %}
-                                                                    <a href="/company/template/text/edit/?id={{ template_item.template_text.display_id }}" target="_blank">
+                                                                    <a href="{% url 'company:template:edit_text' %}?id={{ template_item.template_text.display_id }}" target="_blank">
                                                                         <div class="chart-content position-relative mb-0">
                                                                             <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FF0202;">{{ template_item.template_text.name }}</p>
                                                                             <div class="d-flex justify-content-start align-items-center">
@@ -285,7 +285,7 @@
                                                                         </div>
                                                                     </a>
                                                                 {% elif template_item.template_video %}
-                                                                    <a href="/company/template/video/edit/?id={{ template_item.template_video.display_id }}" target="_blank">
+                                                                    <a href="{% url 'company:template:edit_video' %}?id={{ template_item.template_video.display_id }}" target="_blank">
                                                                         <div class="chart-content position-relative mb-0">
                                                                             <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #FCA000;">{{ template_item.template_video.name }}</p>
                                                                             <div class="d-flex justify-content-start align-items-center">
@@ -295,7 +295,7 @@
                                                                         </div>
                                                                     </a>
                                                                 {% elif template_item.template_richmessage %}
-                                                                    <a href="/company/template/rich_message/edit/?id={{ template_item.template_richmessage.display_id }}" target="_blank">
+                                                                    <a href="{% url 'company:template:edit_richmessage' %}?id={{ template_item.template_richmessage.display_id }}" target="_blank">
                                                                         <div class="chart-content position-relative mb-0">
                                                                             <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009E9F;">{{ template_item.template_richmessage.name }}</p>
                                                                             <div class="d-flex justify-content-start align-items-center">
@@ -311,7 +311,7 @@
                                                                         </div>
                                                                     </a>
                                                                 {% elif template_item.template_richvideo %}
-                                                                    <a href="/company/template/rich_video/edit/?id={{ template_item.template_richvideo.display_id }}" target="_blank">
+                                                                    <a href="{% url 'company:template:edit_richvideo' %}?id={{ template_item.template_richvideo.display_id }}" target="_blank">
                                                                         <div class="chart-content position-relative mb-0">
                                                                             <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #009825;">{{ template_item.template_richvideo.name }}</p>
                                                                             <div class="d-flex justify-content-start align-items-center">
@@ -321,7 +321,7 @@
                                                                         </div>
                                                                     </a>
                                                                 {% elif template_item.template_cardtype %}
-                                                                    <a href="/company/template/card_type/edit/?id={{ template_item.template_cardtype.display_id }}" target="_blank">
+                                                                    <a href="{% url 'company:template:edit_cardtype' %}?id={{ template_item.template_cardtype.display_id }}" target="_blank">
                                                                         <div class="chart-content position-relative mb-0">
                                                                             <p class="chart-sub-title p-1 ps-2 mb-0" style="background-color: #A1007E;">{{ template_item.template_cardtype.name }}</p>
                                                                             <div class="d-flex justify-content-start align-items-center">

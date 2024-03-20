@@ -15,54 +15,54 @@
     <p class="text-center mb-0">
         {% if data.tag_flg_1 %}
             {% if data.tag_color_1 == '0' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_1 }}</label>
             {% elif data.tag_color_1 == '1' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_1 }}</label>
             {% elif data.tag_color_1 == '2' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_1 }}</label>
             {% elif data.tag_color_1 == '3' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_1 }}</label>
             {% elif data.tag_color_1 == '4' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_1 }}</label>
             {% elif data.tag_color_1 == '5' %}
-                <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_1 }}</label>
+                <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_1 }}</label>
             {% endif %}
         {% else %}
-            <label id="display_tag_1_{{ data.name }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_1|default:'ラベルを入力' }}</label>
+            <label id="display_tag_1_{{ data.number }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_1|default:'ラベルを入力' }}</label>
         {% endif %}
         {% if data.tag_flg_2 %}
             {% if data.tag_color_2 == '0' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_2 }}</label>
             {% elif data.tag_color_2 == '1' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_2 }}</label>
             {% elif data.tag_color_2 == '2' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_2 }}</label>
             {% elif data.tag_color_2 == '3' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_2 }}</label>
             {% elif data.tag_color_2 == '4' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_2 }}</label>
             {% elif data.tag_color_2 == '5' %}
-                <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_2 }}</label>
+                <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_2 }}</label>
             {% endif %}
         {% else %}
-            <label id="display_tag_2_{{ data.name }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_2|default:'ラベルを入力' }}</label>
+            <label id="display_tag_2_{{ data.number }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_2|default:'ラベルを入力' }}</label>
         {% endif %}
         {% if data.tag_flg_3 %}
             {% if data.tag_color_3 == '0' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #666f86;">{{ data.tag_3 }}</label>
             {% elif data.tag_color_3 == '1' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.tag_3 }}</label>
             {% elif data.tag_color_3 == '2' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #eb4e3d;">{{ data.tag_3 }}</label>
             {% elif data.tag_color_3 == '3' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #ed8537;">{{ data.tag_3 }}</label>
             {% elif data.tag_color_3 == '4' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #00B900;">{{ data.tag_3 }}</label>
             {% elif data.tag_color_3 == '5' %}
-                <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_3 }}</label>
+                <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0" style="color: #fff; background-color: #5b82db;">{{ data.tag_3 }}</label>
             {% endif %}
         {% else %}
-            <label id="display_tag_3_{{ data.name }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_3|default:'ラベルを入力' }}</label>
+            <label id="display_tag_3_{{ data.number }}" class="tag ps-1 pe-1 mb-0 d-none">{{ data.tag_3|default:'ラベルを入力' }}</label>
         {% endif %}
     </p>
     {% if data.description_flg %}

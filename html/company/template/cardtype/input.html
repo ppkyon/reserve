@@ -6,7 +6,37 @@
             <div class="input-area">
                 {% include 'company/template/cardtype/type.html' %}
                 {% include 'company/template/cardtype/card.html' %}
-                {% include 'company/template/cardtype/action.html' %}
+                <div class="message-area">
+                    <div class="tab-content">
+                        {% if template.type == 1 %}
+                            {% include 'company/template/cardtype/announce/action.html' %}
+                        {% elif template.type == 2 %}
+                            {% include 'company/template/cardtype/location/action.html' %}
+                        {% elif template.type == 3 %}
+                            {% include 'company/template/cardtype/person/action.html' %}
+                        {% elif template.type == 4 %}
+                            {% include 'company/template/cardtype/image/action.html' %}
+                        {% endif %}
+                        {% include 'company/template/cardtype/more/action.html' %}
+                    </div>
+                </div>
+                <div class="button-area ps-5 ms-1">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="save-area text-center">
+                                <input type="hidden" name="id" value="{{ template.display_id }}">
+                                {% if template.display_id %}
+                                    <button type="button" class="btn copy-button mt-2 me-3" value="cardtype">複製する</button>
+                                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#copy_check_modal"></button>
+                                    <input type="hidden" id="copy_url" value="{% url 'company:template:copy_cardtype' %}">
+                                {% endif %}
+                                <button type="button" class="btn save-button mt-2" value="cardtype">保存する</button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                                <input type="hidden" id="reload_url" value="{% url 'company:template:cardtype' %}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

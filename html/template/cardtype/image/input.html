@@ -1,0 +1,266 @@
+{% load static %}
+
+<div class="content-area d-flex justify-content-start align-items-start mb-3">
+    <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
+        <label for="display_label_check_{{ data.number }}" class="mb-0">ラベル</label>
+        {% if data.label_flg %}
+            <input id="display_label_check_{{ data.number }}" name="label_check_{{ data.number }}" type="checkbox" class="display-label-check display-check input-check" checked>
+        {% else %}
+            <input id="display_label_check_{{ data.number }}" name="label_check_{{ data.number }}" type="checkbox" class="display-label-check display-check input-check">
+        {% endif %}
+        <label for="display_label_check_{{ data.number }}" class="input-check-mark mb-0"></label>
+    </div>
+    <div class="content-input-area" style="width: 50%;">
+        {% if data.label_flg %}
+            <input type="text" name="label_input_{{ data.number }}" value="{{ data.label }}" class="display-label-input display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="ラベルを入力" maxlength="12" required>
+            <input type="hidden" name="label_color_{{ data.number }}" value="{{ data.label_color }}" required>
+        {% else %}
+            <input type="text" name="label_input_{{ data.number }}" value="{{ data.label|default:'' }}" class="display-label-input display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="ラベルを入力" maxlength="12" disabled>
+            <input type="hidden" name="label_color_{{ data.number }}" value="{{ data.label_color|default:'0' }}" disabled>
+        {% endif %}
+        <div id="color_label_area_{{ data.number }}" class="color-label-area color-area">
+            {% if data.label_flg %}
+                {% if data.label_color == '0' %}
+                    <button type="button" value="0" class="btn me-1" style="color: #fff; background-color: #666f86;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="0" class="btn me-1" style="color: #fff; background-color: #666f86;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '1' %}
+                    <button type="button" value="1" class="btn me-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="1" class="btn me-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '2' %}
+                    <button type="button" value="2" class="btn me-1" style="color: #fff; background-color: #eb4e3d;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="2" class="btn me-1" style="color: #fff; background-color: #eb4e3d;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '3' %}
+                    <button type="button" value="3" class="btn me-1" style="color: #fff; background-color: #ed8537;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="3" class="btn me-1" style="color: #fff; background-color: #ed8537;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '4' %}
+                    <button type="button" value="4" class="btn me-1" style="color: #fff; background-color: #00B900;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="4" class="btn me-1" style="color: #fff; background-color: #00B900;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '5' %}
+                    <button type="button" value="5" class="btn me-1" style="color: #fff; background-color: #5b82db;">
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="5" class="btn me-1" style="color: #fff; background-color: #5b82db;">
+                        <span>A</span>
+                    </button>
+                {% endif %}
+            {% else %}
+                {% if data.label_color == '0' %}
+                    <button type="button" value="0" class="btn me-1" style="color: #fff; background-color: #666f86;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="0" class="btn me-1" style="color: #fff; background-color: #666f86;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '1' %}
+                    <button type="button" value="1" class="btn me-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="1" class="btn me-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '2' %}
+                    <button type="button" value="2" class="btn me-1" style="color: #fff; background-color: #eb4e3d;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="2" class="btn me-1" style="color: #fff; background-color: #eb4e3d;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '3' %}
+                    <button type="button" value="3" class="btn me-1" style="color: #fff; background-color: #ed8537;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="3" class="btn me-1" style="color: #fff; background-color: #ed8537;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '4' %}
+                    <button type="button" value="4" class="btn me-1" style="color: #fff; background-color: #00B900;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="4" class="btn me-1" style="color: #fff; background-color: #00B900;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+                {% if data.label_color == '5' %}
+                    <button type="button" value="5" class="btn me-1" style="color: #fff; background-color: #5b82db;" disabled>
+                        <i class="bx bx-check"></i>
+                    </button>
+                {% else %}
+                    <button type="button" value="5" class="btn me-1" style="color: #fff; background-color: #5b82db;" disabled>
+                        <span>A</span>
+                    </button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="content-area d-flex justify-content-start align-items-start mb-3">
+    <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
+        <label class="mb-0">写真</label>
+    </div>
+    <div class="content-input-area" style="width: 50%;">
+        <div class="upload-area d-flex align-items-center">
+            <input type="text" name="image_{{ data.number }}" value="{{ data.image }}" class="d-none" data-parsley-errors-container="#error_image_{{ data.number }}" data-parsley-error-message="画像を選択してください" required>
+            <div class="upload-image-area position-relative me-1">
+                {% if data.image %}
+                    <button type="button" class="btn upload-delete-button p-0"><img src="{% static 'img/icon/cross-white.svg' %}"></button>
+                    <img src="{{ data.image.url }}" style="width: 100%;">
+                {% else %}
+                    <a>
+                        <span>写真をアップロード</span>
+                    </a>
+                {% endif %}
+                <input type="hidden" value="image">
+            </div>
+            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#upload_trimming_image_modal"></button>
+        </div>
+        <div id="error_image_{{ data.number }}"></div>
+    </div>
+</div>
+<div class="content-area d-flex justify-content-start align-items-start mb-3">
+    <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
+        <label for="display_action_check_1_{{ data.number }}" class="mb-0">アクション</label>
+        {% if data.action_flg %}
+            <input id="display_action_check_1_{{ data.number }}" name="action_check_1_{{ data.number }}" type="checkbox" class="display-action-check-1 display-check input-check" checked>
+        {% else %}
+            <input id="display_action_check_1_{{ data.number }}" name="action_check_1_{{ data.number }}" type="checkbox" class="display-action-check-1 display-check input-check">
+        {% endif %}
+        <label for="display_action_check_1_{{ data.number }}" class="input-check-mark mb-0"></label>
+    </div>
+    <div class="content-input-area" style="width: 50%;">
+        {% if data.action_flg %}
+            <input type="text" name="action_1_{{ data.number }}" value="{{ data.action_label }}" class="display-action-input-1 display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="アクションラベルを入力" maxlength="15" required>
+        {% else %}
+            <input type="text" name="action_1_{{ data.number }}" value="{{ data.action_label|default:'' }}" class="display-action-input-1 display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="アクションラベルを入力" maxlength="15" disabled>
+        {% endif %}
+    </div>
+</div>
+<div class="content-area d-flex justify-content-start align-items-start mb-3">
+    <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
+        <label class="mb-0">タイプ</label>
+    </div>
+    <div class="content-input-area" style="width: 60%;">
+        <div class="dropdown display-action-type input-select-dropdown d-inline-block p-0" style="width: 83.4%;">
+            {% if data.action_flg %}
+                {% if data.action_type == 1 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="リンク" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 2 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="動画" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 3 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="回答フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 4 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="予約フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 5 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 6 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="オンラインURL" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 7 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% elif data.action_type == 8 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="テキスト" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% else %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly required>
+                {% endif %}
+            {% else %}
+                {% if data.action_type == 1 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="リンク" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 2 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="動画" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 3 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="回答フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 4 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="予約フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 5 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 6 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="オンラインURL" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 7 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="会社概要" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% elif data.action_type == 8 %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" value="テキスト" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% else %}
+                    <input type="text" id="display_action_type_1_{{ data.number }}" name="action_type_1_{{ data.number }}" class="input-text input-select ps-2 pe-2" style="width: 100%; background-color: rgba(239, 239, 239, 0.3);" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_1_{{ data.number }}" data-parsley-error-message="選択してください" readonly disabled>
+                {% endif %}
+            {% endif %}
+            <input type="hidden" value="{{ data.action_type }}">
+            <div class="dropdown-menu" aria-labelledby="display_action_type_1_{{ data.number }}">
+                <button type="button" value="1" class="btn dropdown-item fw-bold">リンク</button>
+                <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
+                <button type="button" value="3" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">回答フォーム</button>
+                <button type="button" value="4" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約フォーム</button>
+                <button type="button" value="5" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">予約履歴ページ</button>
+                <button type="button" value="6" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">オンラインURL</button>
+                <button type="button" value="7" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">会社概要</button>
+                <button type="button" value="8" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">テキスト</button>
+            </div>
+        </div>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_video_modal"></button>
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>
+        <div id="error_action_type_1_{{ data.number }}" class="mt-1 mb-3"></div>
+        {% if data.action_type == 1 %}
+            {% if data.action_flg %}
+                <input type="text" name="action_url_1_{{ data.number }}" value="{{ data.action_url }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_1_{{ data.number }}" required>
+            {% else %}
+                <input type="text" name="action_url_1_{{ data.number }}" value="{{ data.action_url|default:'' }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_1_{{ data.number }}" disabled>
+            {% endif %}
+            <input type="hidden" value="">
+            <div id="error_action_url_1_{{ data.number }}" class="error-message"></div>
+        {% elif data.action_type == 2 or data.action_type == 3 or data.action_type == 4 or data.action_type == 5 or data.action_type == 6 or data.action_type == 7 %}
+            <input type="text" name="action_url_1_{{ data.number }}" value="{{ data.action_url|default:'' }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_1_{{ data.number }}" disabled>
+            {% if data.action_type == 2 %}
+                <input type="hidden" value="{{ data.action_video.display_id }}">
+            {% elif data.action_type == 3 %}
+                <input type="hidden" value="{{ data.action_question.display_id }}">
+            {% else %}
+                <input type="hidden" value="">
+            {% endif %}
+            <div id="error_action_url_1_{{ data.number }}" class="error-message"></div>
+        {% elif data.action_type == 8 %}
+            {% if data.action_flg %}
+                <textarea name="action_text_1_{{ data.number }}" class="display-text-input d-block input-textarea ms-0" style="width: 83.4%;" placeholder="入力されたテキストが送信されます。" maxlength="30" data-parsley-errors-container="#error_action_text_1_{{ data.number }}" required>{{ data.action_text }}</textarea>
+            {% else %}
+                <textarea name="action_text_1_{{ data.number }}" class="display-text-input d-block input-textarea ms-0" style="width: 83.4%;" placeholder="入力されたテキストが送信されます。" maxlength="30" data-parsley-errors-container="#error_action_text_1_{{ data.number }}" disabled>{{ data.action_text|default:'' }}</textarea>
+            {% endif %}
+            <div id="error_action_text_1_{{ data.number }}" class="error-message"></div>
+        {% endif %}
+    </div>
+</div>

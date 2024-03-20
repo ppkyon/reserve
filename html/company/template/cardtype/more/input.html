@@ -11,17 +11,17 @@
         <label class="mb-0">テンプレート</label>
     </div>
     <div class="content-input-area d-flex justify-content-start align-items-center" style="width: 50%;">
-        {% if template.more.type == 1 %}
+        {% if data.type == 1 %}
             <p class="template-text me-3 mb-0">シンプル</p>
-        {% elif template.more.type == 2 %}
+        {% elif data.type == 2 %}
             <p class="template-text me-3 mb-0">写真</p>
         {% endif %}
-        <input type="hidden" name="template_10" value="{{ template.more.type }}">
+        <input type="hidden" name="template_10" value="{{ data.type }}">
         <button type="button" class="btn select-template-button select-button pt-1 pb-1 p-0 mb-0">テンプレートを変更</button>
         <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#more_template_modal"></button>
     </div>
 </div>
-{% if template.more.type == 1 %}
+{% if data.type == 1 %}
     <div class="content-area d-flex justify-content-start align-items-start mb-3 d-none">
         <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
             <label class="mb-0">写真</label>
@@ -40,19 +40,19 @@
             <div id="error_image_10"></div>
         </div>
     </div>
-{% elif template.more.type == 2 %}
+{% elif data.type == 2 %}
     <div class="content-area d-flex justify-content-start align-items-start mb-3">
         <div class="input-check-wrap ps-4 mt-1 mb-0" style="width: 25%;">
             <label class="mb-0">写真</label>
         </div>
         <div class="content-input-area" style="width: 50%;">
             <div class="upload-area d-flex align-items-center">
-                <input type="text" name="image_10" value="{{ template.more.image }}" class="d-none" data-parsley-errors-container="#error_image_10" data-parsley-error-message="画像を選択してください" required>
+                <input type="text" name="image_10" value="{{ data.image }}" class="d-none" data-parsley-errors-container="#error_image_10" data-parsley-error-message="画像を選択してください" required>
                 <div class="upload-image-area position-relative me-1">
                     <button type="button" class="btn upload-delete-button p-0">
                         <img src="{% static 'img/icon/cross.svg' %}">
                     </button>
-                    <img src="{{ template.more.image.url }}" style="width: 100%;">
+                    <img src="{{ data.image.url }}" style="width: 100%;">
                     <input type="hidden" value="more" required="">
                 </div>
                 <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#trimming_image_modal"></button>
@@ -66,7 +66,7 @@
         <label class="mb-0">アクション</label>
     </div>
     <div class="content-input-area" style="width: 50%;">
-        <input type="text" name="action_label_10" value="{{ template.more.action_label }}" class="display-action-label-input display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="もっと見る" maxlength="30" required>
+        <input type="text" name="action_label_10" value="{{ data.action_label }}" class="display-action-label-input display-input input-text input-select w-100 ps-2 pe-2 mb-1" placeholder="もっと見る" maxlength="30" required>
     </div>
 </div>
 <div class="content-area d-flex justify-content-start align-items-start mb-3">
@@ -75,26 +75,26 @@
     </div>
     <div class="content-input-area" style="width: 60%;">
         <div class="dropdown display-action-type input-select-dropdown d-inline-block p-0" style="width: 83.4%;">
-            {% if template.more.action_type == 1 %}
+            {% if data.action_type == 1 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="リンク" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 2 %}
+            {% elif data.action_type == 2 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="動画" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 3 %}
+            {% elif data.action_type == 3 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="回答フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 4 %}
+            {% elif data.action_type == 4 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="予約フォーム" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 5 %}
+            {% elif data.action_type == 5 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="予約履歴ページ" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 6 %}
+            {% elif data.action_type == 6 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="オンラインURL" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 7 %}
+            {% elif data.action_type == 7 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="会社概要" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
-            {% elif template.more.action_type == 8 %}
+            {% elif data.action_type == 8 %}
                 <input type="text" id="display_action_type_10" name="action_type_10" value="テキスト" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
             {% else %}
                 <input type="text" id="display_action_type_10" name="action_type_10" class="input-text input-select ps-2 pe-2" style="width: 100%;" placeholder="選択" data-bs-toggle="dropdown" data-parsley-errors-container="#error_action_type_10" data-parsley-error-message="選択してください" readonly required>
             {% endif %}
-            <input type="hidden" value="{{ template.more.action_type }}">
+            <input type="hidden" value="{{ data.action_type }}">
             <div class="dropdown-menu" aria-labelledby="display_action_type_10">
                 <button type="button" value="1" class="btn dropdown-item fw-bold">リンク</button>
                 <button type="button" value="2" class="btn dropdown-item fw-bold border-top p-1 ps-4 pt-2">動画</button>
@@ -109,22 +109,22 @@
         <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_template_video_modal"></button>
         <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#company_question_modal"></button>
         <div id="error_action_type_10" class="mt-1 mb-3"></div>
-        {% if template.more.action_type == 1 %}
-            <input type="text" name="action_url_10" value="{{ template.more.action_url }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_10" required>
+        {% if data.action_type == 1 %}
+            <input type="text" name="action_url_10" value="{{ data.action_url }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_10" required>
             <input type="hidden" value="">
             <div id="error_action_url_10" class="error-message"></div>
-        {% elif template.more.action_type == 2 or template.more.action_type == 3 or template.more.action_type == 4 or template.more.action_type == 5 or template.more.action_type == 6 or template.more.action_type == 7 %}
-            <input type="text" name="action_url_10" value="{{ template.more.action_url }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_10" disabled>
-            {% if template.more.action_type == 2 %}
+        {% elif data.action_type == 2 or data.action_type == 3 or data.action_type == 4 or data.action_type == 5 or data.action_type == 6 or data.action_type == 7 %}
+            <input type="text" name="action_url_10" value="{{ data.action_url }}" class="input-text input-select ps-2 pe-2 mb-1" style="width: 83.4%;" placeholder="URLを入力" data-parsley-errors-container="#error_action_url_10" disabled>
+            {% if data.action_type == 2 %}
                 <input type="hidden" value="{{ template.video.display_id }}">
-            {% elif template.more.action_type == 3 %}
+            {% elif data.action_type == 3 %}
                 <input type="hidden" value="{{ template.question.display_id }}">
             {% else %}
                 <input type="hidden" value="">
             {% endif %}
             <div id="error_action_url_10" class="error-message"></div>
-        {% elif template.more.action_type == 8 %}
-            <textarea name="action_text_10" class="display-text-input d-block input-textarea ms-0" style="width: 83.4%;" placeholder="入力されたテキストが送信されます。" maxlength="30" data-parsley-errors-container="#error_action_text_10" required>{{ template.more.action_text }}</textarea>
+        {% elif data.action_type == 8 %}
+            <textarea name="action_text_10" class="display-text-input d-block input-textarea ms-0" style="width: 83.4%;" placeholder="入力されたテキストが送信されます。" maxlength="30" data-parsley-errors-container="#error_action_text_10" required>{{ data.action_text }}</textarea>
             <div id="error_action_text_10" class="error-message"></div>
         {% endif %}
     </div>

@@ -1,0 +1,38 @@
+{% load static %}
+
+<div class="cardtype-header-area">
+    <div class="d-flex position-relative w-100">
+        <div id="display_image_area_{{ data.number }}" class="cardtype-image-area d-flex flex-row position-relative w-100">
+            <div class="one cardtype-image-item position-relative" style="padding-bottom: 10rem;">
+                <input type="hidden" value="image">
+                {% if data.image %}
+                    <span style="background-image: url( '{{ data.image.url }}' );"></span>
+                {% else %}
+                    <span style="background-image: url( '/static/img/cardtype/image-default.png' );"></span>
+                {% endif %}
+            </div>
+        </div>
+        {% if data.label_flg %}
+            {% if data.label_color == '0' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '1' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #666f86; background-color: #fff; border: 1px solid #666f86;">{{ data.label }}</label>
+            {% elif data.label_color == '2' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #eb4e3d;">{{ data.label }}</label>
+            {% elif data.label_color == '3' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #ed8537;">{{ data.label }}</label>
+            {% elif data.label_color == '4' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #00B900;">{{ data.label }}</label>
+            {% elif data.label_color == '5' %}
+                <label id="display_label_{{ data.number }}" class="label ps-1 pe-1" style="color: #fff; background-color: #5b82db;">{{ data.label }}</label>
+            {% endif %}
+        {% else %}
+            <label id="display_label_{{ data.number }}" class="label ps-1 pe-1 d-none">{{ data.label|default:'ラベルを入力' }}</label>
+        {% endif %}
+        {% if data.action_flg %}
+            <label id="display_action_1_{{ data.number }}" class="action-label ps-1 pe-1">{{ data.action_label }}</label>
+        {% else %}
+            <label id="display_action_1_{{ data.number }}" class="action-label ps-1 pe-1 d-none">{{ data.action_label|default:'アクションラベルを入力' }}</label>
+        {% endif %}
+    </div>
+</div>
