@@ -14,4 +14,5 @@ urlpatterns = [
     path('search/', flow.search, name='search'),
     path('paging/', flow.paging, name='paging'),
     path('valid/', flow.valid, name='valid'),
+    path('get/', flow.get, name='get'),
 ]

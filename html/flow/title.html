@@ -8,21 +8,27 @@
                     <label class="input-label fw-bold me-3 mb-0">登録名</label>
                     <input type="text" name="name" value="{{ flow.name|default:'' }}" class="input-text ps-2 pe-2 me-2" placeholder="登録名を入力" data-parsley-errors-container="#error_name" required>
                     <input type="text" class="d-none">
-                    <div class="position-relative">
-                        <div class="flg-area d-flex ms-2 me-1">
-                            <span class="me-2">無効</span>
-                            {% if flow.valid %}
-                                <input id="valid" type="checkbox" name="valid" value="1" class="d-none" checked>
-                            {% else %}
-                                <input id="valid" type="checkbox" name="valid" value="1" class="d-none">
-                            {% endif %}
-                            <label for="valid" class="d-block position-relative mb-0" style="width: 35px;"></label>
-                            <span class="ms-2">有効</span>
-                        </div>
-                    </div>
+                    {% if flow.favorite_flg %}
+                        <input type="checkbox" name="favorite" value="1" class="d-none" checked>
+                        <img src="{% static 'img/icon/star.svg' %}" class="d-none">
+                        <img src="{% static 'img/icon/star-color.svg' %}">
+                    {% else %}
+                        <input type="checkbox" name="favorite" value="1" class="d-none">
+                        <img src="{% static 'img/icon/star.svg' %}">
+                        <img src="{% static 'img/icon/star-color.svg' %}" class="d-none">
+                    {% endif %}
                 </div>
                 <div id="error_name" class="ps-4 mb-1" style="margin-left: 2.5rem;"></div>
                 <p class="description ps-5 ms-4 mb-3">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                <div class="d-flex justify-content-start align-items-center">
+                    <label class="input-label fw-bold me-3 mb-0">表示期間</label>
+                    <input type="text" id="period_from" name="period_from" value="{{ flow.period_from|default:'' }}" class="input-text input-date flatpickr-input active ps-2 pe-2 me-2" placeholder="予定日" data-mindate="today" data-parsley-errors-container="#error_date_from">
+                    <span class="me-2">～</span>
+                    <input type="text" id="period_to" name="period_to" value="{{ flow.period_to|default:'' }}" class="input-text input-date ps-2 pe-2 me-2" placeholder="予定日" data-parsley-errors-container="#error_date_to">
+                </div>
+                <div id="error_period" class="ps-4 mb-1 d-none" style="margin-left: 3.3rem;">
+                    <p class="error-message mb-0">期間が重複しています。</p>
+                </div>
                 <div class="d-flex justify-content-start align-items-center mt-3 mb-1">
                     <label class="input-label fw-bold me-3 mb-0">フロー</label>
                     <p class="select-text me-3 mb-0">{{ flow.description|default:'' }}</p>
@@ -35,7 +41,7 @@
                         <input type="hidden" name="id" value="{{ flow.display_id }}">
                         <button type="button" class="btn save-button" value="flow">保存する</button>
                         <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
-                        <input type="hidden" id="reload_url" value="{% url 'company:flow:index' %}">
+                        <input type="hidden" id="reload_url" value="{% url 'flow:index' %}">
                     </div>
                 </div>
                 <div id="error_flow" class="ps-4 mb-1" style="margin-left: 4rem;"></div>

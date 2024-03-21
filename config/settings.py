@@ -149,6 +149,7 @@ NUMBER_GROUPING = 3
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    ('node_modules', os.path.join(BASE_DIR, 'node_modules/')),
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -12,21 +12,22 @@ from question.models import CompanyQuestion, CompanyQuestionItem, CompanyQuestio
 from richmenu.models import CompanyRichMenu, CompanyRichMenuItem
 from sign.models import AuthLogin
 from template.models import (
-    CompanyTemplateText, CompanyTemplateTextItem, CompanyTemplateVideo, HeadTemplateGreeting, CompanyTemplateGreeting,
+    CompanyTemplateText, CompanyTemplateTextItem, CompanyTemplateVideo, CompanyTemplateRichMessage, CompanyTemplateRichVideo,
+    HeadTemplateGreeting, CompanyTemplateGreeting,
     CompanyTemplateCardType, CompanyTemplateCardTypeAnnounce, CompanyTemplateCardTypeAnnounceAction, CompanyTemplateCardTypeAnnounceText,
     CompanyTemplateCardTypeLocation, CompanyTemplateCardTypePerson, CompanyTemplateCardTypeImage, CompanyTemplateCardTypeMore,
 )
 
 from company.flow.action.list import get_list
 
-from common import create_code
+from common import create_code, get_model_field, display_textarea_replace
 from table.action import action_search
 
+import re
 import uuid
 
 def save(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
-    head_flow = HeadFlow.objects.filter(display_id=request.POST.get('flow')).first()
 
     valid = False
     if request.POST.get('valid') == '1':
@@ -39,6 +40,7 @@ def save(request):
         flow.author = request.user.id
         flow.save()
     else:
+        head_flow = HeadFlow.objects.filter(display_id=request.POST.get('flow')).first()
         flow = CompanyFlow.objects.create(
             id = str(uuid.uuid4()),
             display_id = create_code(12, CompanyFlow),
@@ -243,8 +245,8 @@ def save(request):
                                 )
                         elif head_flow_template.template_cardtype.type == 4:
                             for head_template_card_type_image in head_flow_template.template_cardtype.head_template_card_type_image.all():
-                                action_video = create_video(head_template_card_type_person.action_video, auth_login)
-                                action_question = create_question(head_template_card_type_person.action_question, auth_login)
+                                action_video = create_video(head_template_card_type_image.action_video, auth_login)
+                                action_question = create_question(head_template_card_type_image.action_question, auth_login)
                                 CompanyTemplateCardTypeImage.objects.create(
                                     id = str(uuid.uuid4()),
                                     template = template,
@@ -485,6 +487,65 @@ def valid(request):
     flow.save()
     return JsonResponse( {'check': flow.valid}, safe=False )
 
+def get(request):
+    remove = re.compile(r"<[^>]*?>")
+    flow = CompanyFlow.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(CompanyFlow)).first()
+    flow['tab'] = list(CompanyFlowTab.objects.filter(flow__id=flow['id']).values(*get_model_field(CompanyFlowTab)).order_by('number').all())
+    for tab_index, tab_item in enumerate(flow['tab']):
+        flow['tab'][tab_index]['item'] = list(CompanyFlowItem.objects.filter(flow_tab__id=tab_item['id']).values(*get_model_field(CompanyFlowItem)).order_by('x','y').all())
+        for flow_index, flow_item in enumerate(flow['tab'][tab_index]['item']):
+            if flow_item['type'] == 1:
+                flow['tab'][tab_index]['item'][flow_index]['template'] = CompanyTemplateGreeting.objects.filter(number=1).values(*get_model_field(CompanyTemplateGreeting)).first()
+                if flow['tab'][tab_index]['item'][flow_index]['template']['text']:
+                    flow['tab'][tab_index]['item'][flow_index]['template']['text'] = remove.sub('', display_textarea_replace(flow['tab'][tab_index]['item'][flow_index]['template']['text']))
+            elif flow_item['type'] == 2:
+                print(flow_item)
+            elif flow_item['type'] == 3:
+                print(flow_item)
+            elif flow_item['type'] == 4:
+                print(flow_item)
+            elif flow_item['type'] == 5:
+                print(flow_item)
+            elif flow_item['type'] == 6:
+                template = CompanyFlowTemplate.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowTemplate)).first()
+                if template['template_cardtype']:
+                    flow['tab'][tab_index]['item'][flow_index]['template'] = CompanyTemplateCardType.objects.filter(id=template['template_cardtype']).values(*get_model_field(CompanyTemplateCardType)).first()
+            elif flow_item['type'] == 7:
+                rich_menu = CompanyFlowRichMenu.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowRichMenu)).first()
+                if rich_menu['rich_menu']:
+                    flow['tab'][tab_index]['item'][flow_index]['rich_menu'] = CompanyRichMenu.objects.filter(id=rich_menu['rich_menu']).values(*get_model_field(CompanyRichMenu)).first()
+            elif flow_item['type'] == 8:
+                flow['tab'][tab_index]['item'][flow_index]['action'] = CompanyFlowAction.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowAction)).first()
+                flow['tab'][tab_index]['item'][flow_index]['action']['action'] = CompanyFlowTab.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['action']['action']).values(*get_model_field(CompanyFlowTab)).first()
+                flow['tab'][tab_index]['item'][flow_index]['reminder'] = CompanyFlowActionReminder.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowActionReminder)).first()
+                if flow['tab'][tab_index]['item'][flow_index]['reminder']['template_text']:
+                    flow['tab'][tab_index]['item'][flow_index]['reminder']['template_text'] = CompanyTemplateText.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['reminder']['template_text']).values(*get_model_field(CompanyTemplateText)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['reminder']['template_video']:
+                    flow['tab'][tab_index]['item'][flow_index]['reminder']['template_video'] = CompanyTemplateVideo.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['reminder']['template_video']).values(*get_model_field(CompanyTemplateVideo)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richmessage']:
+                    flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richmessage'] = CompanyTemplateRichMessage.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richmessage']).values(*get_model_field(CompanyTemplateRichMessage)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richvideo']:
+                    flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richvideo'] = CompanyTemplateRichVideo.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['reminder']['template_richvideo']).values(*get_model_field(CompanyTemplateRichVideo)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['reminder']['template_cardtype']:
+                    flow['tab'][tab_index]['item'][flow_index]['reminder']['template_cardtype'] = CompanyTemplateCardType.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['reminder']['template_cardtype']).values(*get_model_field(CompanyTemplateCardType)).first()
+                flow['tab'][tab_index]['item'][flow_index]['message'] = CompanyFlowActionMessage.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowActionMessage)).first()
+                if flow['tab'][tab_index]['item'][flow_index]['message']['template_text']:
+                    flow['tab'][tab_index]['item'][flow_index]['message']['template_text'] = CompanyTemplateText.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['message']['template_text']).values(*get_model_field(CompanyTemplateText)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['message']['template_video']:
+                    flow['tab'][tab_index]['item'][flow_index]['message']['template_video'] = CompanyTemplateVideo.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['message']['template_video']).values(*get_model_field(CompanyTemplateVideo)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['message']['template_richmessage']:
+                    flow['tab'][tab_index]['item'][flow_index]['message']['template_richmessage'] = CompanyTemplateRichMessage.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['message']['template_richmessage']).values(*get_model_field(CompanyTemplateRichMessage)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['message']['template_richvideo']:
+                    flow['tab'][tab_index]['item'][flow_index]['message']['template_richvideo'] = CompanyTemplateRichVideo.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['message']['template_richvideo']).values(*get_model_field(CompanyTemplateRichVideo)).first()
+                elif flow['tab'][tab_index]['item'][flow_index]['message']['template_cardtype']:
+                    flow['tab'][tab_index]['item'][flow_index]['message']['template_cardtype'] = CompanyTemplateCardType.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['message']['template_cardtype']).values(*get_model_field(CompanyTemplateCardType)).first()
+            elif flow_item['type'] == 9:
+                flow['tab'][tab_index]['item'][flow_index]['step'] = CompanyFlowStep.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowStep)).first()
+                flow['tab'][tab_index]['item'][flow_index]['step']['tab'] = CompanyFlowTab.objects.filter(id=flow['tab'][tab_index]['item'][flow_index]['step']['tab']).values(*get_model_field(CompanyFlowTab)).first()
+            elif flow_item['type'] == 52:
+                flow['tab'][tab_index]['item'][flow_index]['timer'] = CompanyFlowTimer.objects.filter(flow__id=flow_item['id']).values(*get_model_field(CompanyFlowTimer)).first()
+    return JsonResponse( flow, safe=False )
+
 
 
 def create_video(data, auth):
@@ -525,23 +586,23 @@ def create_question(data, auth):
                 color = data.color,
                 count = data.count,
             )
-            for company_question_item in data.company_question_item.all():
+            for head_question_item in data.head_question_item.all():
                 question_item = CompanyQuestionItem.objects.create(
                     id = str(uuid.uuid4()),
                     question = question,
-                    number = company_question_item.number,
-                    type = company_question_item.type,
-                    title = company_question_item.title,
-                    description = company_question_item.description,
-                    choice_type = company_question_item.choice_type,
-                    choice_count = company_question_item.choice_count,
-                    required_flg = company_question_item.required_flg,
+                    number = head_question_item.number,
+                    type = head_question_item.type,
+                    title = head_question_item.title,
+                    description = head_question_item.description,
+                    choice_type = head_question_item.choice_type,
+                    choice_count = head_question_item.choice_count,
+                    required_flg = head_question_item.required_flg,
                 )
-                for company_question_item_choice in company_question_item.company_question_item_choice.all():
+                for head_question_item_choice in head_question_item.head_question_item_choice.all():
                     CompanyQuestionItemChoice.objects.create(
                         id = str(uuid.uuid4()),
                         question_item = question_item,
-                        number = company_question_item_choice.number,
-                        text = company_question_item_choice.text,
+                        number = head_question_item_choice.number,
+                        text = head_question_item_choice.text,
                     )
     return question

@@ -84,6 +84,21 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if '/flow/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-flow.svg' %}" class="me-2">
+                                    <span>フロー設計</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-flow.svg' %}" class="me-2">
+                                    <span>フロー設計</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if '/setting/' in request.path %}
                             <li class="active position-relative">
                                 <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
