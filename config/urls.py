@@ -28,6 +28,7 @@ urlpatterns = [
     path('richmenu/', include('richmenu.urls')),
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
+    path('tag/', include('tag.urls')),
     path('template/', include('template.urls')),
 ]
 
