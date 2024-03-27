@@ -24,12 +24,14 @@ urlpatterns = [
     path('fixture/', include('fixture.urls')),
     path('flow/', include('flow.urls')),
     path('head/', include('head.urls')),
+    path('line/', include('line.urls')),
     path('question/', include('question.urls')),
     path('richmenu/', include('richmenu.urls')),
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
     path('tag/', include('tag.urls')),
     path('template/', include('template.urls')),
+    path('user/', include('user.urls')),
 ]
 
 if settings.DEBUG:

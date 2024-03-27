@@ -19,7 +19,7 @@ def get_list(request, page):
     start = number * ( page - 1 )
     end = number * page
 
-    query = Q(company=auth_login.company)
+    query = Q(company=auth_login.shop.company)
     query.add(Q(shop=auth_login.shop), Q.AND)
     table_search = TableSearch.objects.filter(url=url, company=auth_login.company, shop=auth_login.shop, manager=request.user).first()
     if table_search:

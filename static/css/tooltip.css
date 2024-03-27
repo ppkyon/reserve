@@ -1,0 +1,17 @@
+.tooltip.show {
+    opacity: 1;
+}
+.tooltip-inner {
+    width: 100px;
+    color: #151932;
+    font-size: 12.5px;
+    font-weight: bold;
+    background-color: #F4F4F4;
+    border: 0 solid rgba(0,0,0,.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    line-height: 1;
+}
+.tooltip-arrow::before {
+    border-bottom-color: #F4F4F4 !important;
+}

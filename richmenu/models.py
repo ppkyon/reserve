@@ -4,6 +4,7 @@ from django.utils import timezone
 from question.models import HeadQuestion, CompanyQuestion, ShopQuestion
 from sign.models import AuthCompany, AuthShop
 from template.models import HeadTemplateVideo, CompanyTemplateVideo, ShopTemplateVideo
+from user.models import LineUser
 
 import os
 import uuid
@@ -70,6 +71,7 @@ class ShopRichMenu(models.Model):
     parent = models.ForeignKey(CompanyRichMenu, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_rich_menu")
     company = models.ForeignKey(AuthCompany, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_rich_menu")
     shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="shop_rich_menu")
+    rich_menu_id = models.CharField(max_length=255,null=True)
     name = models.CharField(max_length=255,null=True)
     menu_type = models.IntegerField(choices=type_choice, default=0)
     menu_flg = models.BooleanField(default=False)
@@ -170,3 +172,26 @@ class ShopRichMenuItem(models.Model):
 
     class Meta:
         db_table = 'shop_rich_menu_item'
+
+
+
+class UserRichMenu(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, blank=True, null=True, related_name="user_rich_menu")
+    rich_menu = models.ForeignKey(ShopRichMenu, on_delete=models.CASCADE, blank=True, null=True, related_name="user_rich_menu")
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_rich_menu'
+
+class UserRichMenuClick(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, blank=True, null=True, related_name="user_rich_menu_click")
+    rich_menu_item = models.ForeignKey(ShopRichMenuItem, on_delete=models.CASCADE, blank=True, null=True, related_name="user_rich_menu_click")
+    count = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_rich_menu_click'

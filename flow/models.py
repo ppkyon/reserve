@@ -8,6 +8,7 @@ from template.models import (
     CompanyTemplateText, CompanyTemplateVideo, CompanyTemplateRichMessage, CompanyTemplateRichVideo, CompanyTemplateCardType,
     ShopTemplateText, ShopTemplateVideo, ShopTemplateRichMessage, ShopTemplateRichVideo, ShopTemplateCardType
 )
+from user.models import LineUser
 
 class HeadFlow(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -733,3 +734,62 @@ class ShopFlowResult(models.Model):
 
     class Meta:
         db_table = 'shop_flow_result'
+
+
+
+class UserFlow(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow")
+    flow = models.ForeignKey(ShopFlow, on_delete=models.CASCADE, related_name="user_flow")
+    flow_tab = models.ForeignKey(ShopFlowTab, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow")
+    flow_item = models.ForeignKey(ShopFlowItem, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow")
+    end_flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow'
+
+class UserFlowHistory(models.Model):
+    type_choice = (
+        (1, 'date'),
+        (2, 'pass'),
+        (3, 'offser'),
+        (4, 'manual'),
+    )
+    interview_choice = (
+        (1, '対面'),
+        (2, 'オンライン'),
+    )
+    
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_history")
+    number = models.IntegerField(default=0)
+    type = models.IntegerField(choices=type_choice, default=0)
+    interview = models.IntegerField(choices=interview_choice, default=0)
+    name = models.CharField(max_length=255,null=True)
+    template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    template_richvideo = models.ForeignKey(ShopTemplateRichVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    template_cardtype = models.ForeignKey(ShopTemplateCardType, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    richmenu = models.ForeignKey(ShopRichMenu, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    pass_flg = models.BooleanField(default=False)
+    end_flg = models.BooleanField(default=False)
+    checked_at = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow_history'
+
+class UserFlowTimer(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_timer")
+    action_date = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow_timer'

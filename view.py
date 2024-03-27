@@ -108,6 +108,11 @@ class ShopView(ShopBaseView):
         context = super().get_context_data(*args, **kwargs)
         return context
 
+class UserView(ShopBaseView):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
 
 
 class HeadBaseLisView(MultipleObjectMixin, HeadBaseView):
@@ -311,6 +316,64 @@ class ShopBaseLisView(MultipleObjectMixin, ShopBaseView):
         }
         return context
 
+class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
+    def get_paginate_by(self, queryset):
+        number = 5
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        table_number = TableNumber.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if table_number:
+            number = table_number.number
+        return number
+
+    def get_queryset(self):
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        query = Q()
+            
+        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if sort:
+            if sort.sort == 1:
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
+            if sort.sort == 2:
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+            else:
+                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+        else:
+            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+    
+    def get_context_data(self, *args, **kwargs):
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        context = super().get_context_data(*args, **kwargs)
+        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if not sort:
+            if '-' in self.default_sort:
+                sort = {
+                    'target': self.default_sort.replace('-', ''),
+                    'sort': 2,
+                }
+            else:
+                sort = {
+                    'target': self.default_sort,
+                    'sort': 1,
+                }
+        
+        number = self.get_paginate_by(None)
+        count = self.get_queryset().count()
+        count_start = 1
+        if number > count:
+            count_end = count
+        else:
+            count_end = number
+        if count_end == 0:
+            count_start = 0
+        context['table'] = {
+            'number': self.get_paginate_by(None),
+            'sort': sort,
+            'count': count,
+            'count_start': count_start,
+            'count_end': count_end,
+        }
+        return context
+
 class HeadListView(MultipleObjectTemplateResponseMixin, BaseListView, HeadBaseLisView):
     pass
 
@@ -318,4 +381,7 @@ class CompanyListView(MultipleObjectTemplateResponseMixin, BaseListView, Company
     pass
 
 class ShopListView(MultipleObjectTemplateResponseMixin, BaseListView, ShopBaseLisView):
+    pass
+
+class UserListView(MultipleObjectTemplateResponseMixin, BaseListView, UserBaseLisView):
     pass

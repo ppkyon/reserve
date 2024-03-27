@@ -1,0 +1,7 @@
+.table-area tbody tr {
+    height: 79px;
+}
+.table-area tbody tr .content-date {
+    left: 3rem;
+    bottom: 0.5rem;
+}

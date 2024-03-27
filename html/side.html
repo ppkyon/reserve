@@ -39,6 +39,21 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if '/user/' in request.path %}
+                            <li class="active position-relative">
+                               <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>お客様管理</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                    <span>お客様管理</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if '/tag/' in request.path %}
                             <li class="active position-relative">
                                <a href="{% url 'tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">

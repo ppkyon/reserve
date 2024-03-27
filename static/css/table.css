@@ -88,7 +88,8 @@
 }
 
 .table-area .table tbody .company-image,
-.table-area .table tbody .shop-image {
+.table-area .table tbody .shop-image,
+.table-area .table tbody .user-image {
     width: 2.2rem;
     height: 2.2rem;
     border: 1px solid #a5c9ff;
@@ -184,6 +185,31 @@
     border-radius: 0.2rem;
     line-height: 1rem;
     box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 0.2);
+}
+.table-area .table tbody .preview-icon-button {
+    width: 45px;
+    color: #FFF;
+    background-color: #6B6B6B;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 0.2);
+}
+.table-area .table tbody .preview-icon-button img {
+    width: 44px;
+    height: 1.75rem;
+    border-radius: 0.2rem;
+}
+.table-area .table tbody .detail-icon-button {
+    width: 45px;
+    color: #FFF;
+    font-size: 0.7rem;
+    background-color: #0b2b50;
+    border-radius: 0.2rem;
+    line-height: 1rem;
+    box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 0.2);
+}
+.table-area .table tbody .detail-icon-button img {
+    width: 25px;
+    border-radius: 0.2rem;
 }
 
 .table-tab-area ul {

@@ -1,0 +1,114 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/user/index.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"></th>
+                                {% include 'table/sort.html' with text='お客様氏名' target='name' %}
+                                {% include 'table/sort.html' with text='お客様ID' target='display_id' width='120' %}
+                                {% include 'table/sort.html' with text='ステータス' target='status' width='140' %}
+                                <th style="width: 230px;">#タグ</th>
+                                <th style="width: 155px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object_item in object_list %}
+                                <tr>
+                                    <td></td>
+                                    <td class="position-relative p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            {% for user_profile in object_item.user_profile.all %}
+                                                {% if forloop.first %}
+                                                    {% if user_profile.image %}
+                                                        <img src="{{ user_profile.image.url }}" class="user-image me-2">
+                                                    {% elif object_item.display_image %}
+                                                        <img src="{{ object_item.display_image }}" class="user-image me-2">
+                                                    {% else %}
+                                                        <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                                                    {% endif %}
+                                                    {% if user_profile.name %}
+                                                        {% if user_profile.age %}
+                                                            <p class="content-title mb-0">{{ user_profile.name }} ({{ user_profile.age }})</p>
+                                                        {% else %}
+                                                            <p class="content-title mb-0">{{ user_profile.name }}</p>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% if user_profile.age %}
+                                                            <p class="content-title mb-0">{{ object_item.display_name }} ({{ user_profile.age }})</p>
+                                                        {% else %}
+                                                            <p class="content-title mb-0">{{ object_item.display_name }}</p>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <p class="content-date mb-0">{{ object_item.created_at|date:'Y年m月d日 H:i' }}</p>
+                                    </td>
+                                    <td class="p-1">
+                                        {% for user_profile in object_item.user_profile.all %}
+                                            {% if forloop.first %}
+                                                {% if user_profile.atelle_id %}
+                                                    <p class="content-title mb-0">#{{ user_profile.atelle_id }}</p>
+                                                {% else %}
+                                                    <p class="content-title mb-0">-</p>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td class="p-1">
+                                        {% if object_item.status == 2 %}
+                                            <p class="content-title mb-0">ブロック</p>
+                                        {% else %}
+
+                                        {% endif %}
+                                    </td>
+                                    <td class="p-1">
+
+                                    </td>
+                                    <td class="text-center p-1">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <button type="button" value="{{ object_item.display_id }}" class="btn preview-icon-button p-0 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="プレビュー">
+                                                <img src="{% static 'img/icon/preview.png' %}" class="pt-1 pb-1">
+                                            </button>
+                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_user_profile"></button>
+                                            <a href="{% url 'user:detail' %}?id={{ object_item.display_id }}" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">
+                                                <img src="{% static 'img/icon/detail.png' %}">
+                                            </a>
+                                            <div class="dropdown button-area text-center d-inline-block p-0 me-3">
+                                                <button type="button" id="dropdown_menu" class="btn p-0" data-bs-toggle="dropdown">
+                                                    <i class='bx bx-dots-vertical-rounded menu-icon'></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_menu">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

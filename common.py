@@ -4,6 +4,9 @@ from django.db import models
 
 from PIL import Image
 
+from sign.models import CompanyProfile
+from user.models import UserProfile
+
 import cv2
 import datetime
 import io
@@ -60,6 +63,43 @@ def display_textarea_replace( text ):
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/offline-address.png" class="ms-1 me-1" style="font-size: 12.8px;">', '【会場住所】' )
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1">', '【オンラインURL】' )
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/online-url.png" class="ms-1 me-1" style="font-size: 12.8px;">', '【オンラインURL】' )
+    return text
+
+def send_textarea_replace( text, line_data, user ):
+    text = text.replace( '<br>', '\n' )
+    text = text.replace( '</div>', '\n' )
+    if user.user_profile.name:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user.user_profile.name )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user.user_profile.name )
+    else:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user.display_name )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user.display_name )
+    
+    if line_data and line_data.display_name:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/line-name.png" class="ms-1 me-1">', line_data.display_name )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/line-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', line_data.display_name )
+    
+    company_profile = CompanyProfile.objects.filter(company=user.shop.company).first()
+    if company_profile and company_profile.company_name:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/company-name.png" class="ms-1 me-1">', company_profile.company_name )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/company-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', company_profile.company_name )
+
+    return text
+
+def send_action_replace( text, line_data, user ):
+    display_name = user.display_name
+    if UserProfile.objects.filter(user=user).exists():
+        profile = UserProfile.objects.filter(user=user).first()
+        if profile.name:
+            display_name = profile.name
+    if display_name:
+        text = text.replace( '【応募者名】', display_name )
+    if line_data and line_data.display_name:
+        text = text.replace( '【公式LINE名】', line_data.display_name )
+
+    company_profile = CompanyProfile.objects.filter(company=user.shop.company).first()
+    if company_profile and company_profile.company_name:
+        text = text.replace( '【企業名】', company_profile.company_name )
     return text
 
 
