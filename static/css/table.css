@@ -68,6 +68,17 @@
     background-color: #ebebeb;
 }
 
+.table-area .table tbody input,
+.mini-table-area .table tbody input {
+    width: 90%;
+}
+.table-area table tbody tr td .description,
+.mini-table-area table tbody tr td .description {
+    color: #3b4043;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
 .table-area table tbody tr td .dropdown > button,
 .mini-table-area table tbody tr td .dropdown > button {
     padding-top: 0;

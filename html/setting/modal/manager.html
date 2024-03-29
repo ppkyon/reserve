@@ -1,4 +1,5 @@
 {% load static %}
+{% load original %}
 
 <div id="add_manager_modal" class="modal fade">
     <div class="modal-dialog modal-dialog-centered">
@@ -85,7 +86,7 @@
 </div>
 
 <div id="save_manager_modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 760px;">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
@@ -104,7 +105,8 @@
             <div class="modal-body d-block ps-4 pe-4">
                 <input type="hidden" id="save_check_form" value="{% url 'setting:save_manager_check' %}">
                 <form id="save_manager_form" action="{% url 'setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
-                    <div class="content">
+                    <input type="hidden" name="id" value="{{ manager.display_id }}">
+                    <div class="content" style="width: 70%;">
                         <div class="row">
                             <div class="col-12 d-inline-flex align-items-center mb-4">
                                 {% if manager.profile.image %}
@@ -131,9 +133,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">登録日</label>
-                                    <input type="text" value="{{ manager.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">登録日</label>
+                                    <input type="text" value="{{ manager.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
                                 </div>
                             </div>
                         </div>
@@ -141,9 +143,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">ID</label>
-                                    <input type="text" value="#{{ manager.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">ID</label>
+                                    <input type="text" value="#{{ manager.display_id }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
                                 </div>
                             </div>
                         </div>
@@ -151,9 +153,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">氏名</label>
-                                    <div class="input-content d-flex">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">氏名</label>
+                                    <div class="input-content d-flex" style="width: 55%;">
                                         <input type="text" name="family_name" class="input-text ps-2 pe-2" value="{{ manager.profile.family_name|default:'' }}" data-parsley-errors-messages-disabled required>
                                         <input type="text" name="first_name" class="input-text ps-2 pe-2 ms-auto" value="{{ manager.profile.first_name|default:'' }}" data-parsley-errors-messages-disabled required>
                                     </div>
@@ -164,9 +166,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">フリガナ</label>
-                                    <div class="input-content d-flex">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">フリガナ</label>
+                                    <div class="input-content d-flex" style="width: 55%;">
                                         <input type="text" name="family_name_kana" class="input-text ps-2 pe-2" value="{{ manager.profile.family_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
                                         <input type="text" name="first_name_kana" class="input-text ps-2 pe-2 ms-auto" value="{{ manager.profile.first_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
                                     </div>
@@ -177,9 +179,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">年齢</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">年齢</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 55%;">
                                         {% if manager.profile.age %}
                                             <input type="text" id="select_age" name="age" value="{{ manager.profile.age }}歳" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                             <input type="hidden" value="{{ manager.profile.age }}">
@@ -206,9 +208,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">性別</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 55%;">
                                         {% if manager.profile.sex == 1 %}
                                             <input type="text" id="select_sex" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                             <input type="hidden" value="{{ manager.profile.sex }}">
@@ -231,9 +233,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">電話番号</label>
-                                    <input type="text" name="phone_number" class="input-text ps-2 pe-2" value="{{ manager.profile.phone_number|default:'' }}" data-parsley-errors-messages-disabled required>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">電話番号</label>
+                                    <input type="text" name="phone_number" value="{{ manager.profile.phone_number|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
                                 </div>
                             </div>
                         </div>
@@ -241,9 +243,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">メールアドレス</label>
-                                    <input type="text" value="{{ manager.email|default:'' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">メールアドレス</label>
+                                    <input type="text" value="{{ manager.email|default:'' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
                                 </div>
                             </div>
                         </div>
@@ -251,9 +253,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">所属部署</label>
-                                    <input type="text" name="department" class="input-text ps-2 pe-2" value="{{ manager.profile.department|default:'' }}">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">所属部署</label>
+                                    <input type="text" name="department" value="{{ manager.profile.department|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                 </div>
                             </div>
                         </div>
@@ -261,9 +263,9 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">役職名</label>
-                                    <input type="text" name="job" class="input-text ps-2 pe-2" value="{{ manager.profile.job|default:'' }}">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">役職名</label>
+                                    <input type="text" name="job" value="{{ manager.profile.job|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                 </div>
                             </div>
                         </div>
@@ -272,9 +274,9 @@
                         <div class="content pb-2">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">職務</label>
-                                        <input type="text" name="work" class="input-text ps-2 pe-2" value="{{ manager.profile.work|default:'' }}">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
+                                        <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                     </div>
                                 </div>
                             </div>
@@ -283,9 +285,9 @@
                         <div class="content">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">職務</label>
-                                        <input type="text" name="work" class="input-text ps-2 pe-2" value="{{ manager.profile.work|default:'' }}">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
+                                        <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                     </div>
                                 </div>
                             </div>
@@ -293,252 +295,884 @@
                         <div class="content pb-2">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">パスワード</label>
-                                        <input type="text" class="input-text readonly ps-2 pe-2" value="{{ manager.profile.password|default:'' }}" readonly>
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">パスワード</label>
+                                        <input type="text" value="{{ manager.profile.password|default:'' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endif %}
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">基本時間</label>
+                                    <div class="dropdown input-select-dropdown manager-setting-dropdown d-inline-block p-0" style="width: 55%;">
+                                        <input type="text" name="setting" value="{{ search_setting.name|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="{{ search_setting.display_id|default:'' }}">
+                                        <div class="dropdown-menu">
+                                            {% for online_offline_item in online_offline_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center">{{ online_offline_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ online_offline_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="time-area-wrap">
+                        {% if manager.setting|length > 0 %}
+                            {% variable '' as last_week %}
+                            {% for manager_setting_item in manager.setting %}
+                                {% if last_week == manager_setting_item.week %}
+                                    <div class="content mb-2">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-flex align-items-center justify-content-start">
+                                                    <div style="width: 20%;"></div>
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;"></label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="content mb-2">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-flex align-items-center justify-content-start">
+                                                    <div style="width: 20%;"></div>
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">{{ manager_setting_item.get_week_display }}</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                            {% else %}
+                                                                <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% endif %}
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                            {% else %}
+                                                                <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% endif %}
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="manager_holiday_check_{{ manager_setting_item.week }}" class="mb-0">休日</label>
+                                                                {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                    <input type="checkbox" id="manager_holiday_check_{{ manager_setting_item.week }}" name="time_check_{{ manager_setting_item.week }}" value="{{ manager_setting_item.week }}" class="time-check input-check" checked>
+                                                                {% else %}
+                                                                    <input type="checkbox" id="manager_holiday_check_{{ manager_setting_item.week }}" name="time_check_{{ manager_setting_item.week }}" value="{{ manager_setting_item.week }}" class="time-check input-check">
+                                                                {% endif %}
+                                                                <label for="manager_holiday_check_{{ manager_setting_item.week }}" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="{{ manager_setting_item.week }}" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% variable manager_setting_item.week as last_week %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">月</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_1" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_1" name="time_check_1" value="1" class="time-check input-check">
+                                                            <label for="manager_holiday_check_1" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="1" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">火</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_2" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_2" name="time_check_2" value="2" class="time-check input-check">
+                                                            <label for="manager_holiday_check_2" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="2" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">水</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_3" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_3" name="time_check_3" value="3" class="time-check input-check">
+                                                            <label for="manager_holiday_check_3" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="3" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">木</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_4" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_4" name="time_check_4" value="4" class="time-check input-check">
+                                                            <label for="manager_holiday_check_4" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="4" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">金</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_5" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_5" name="time_check_5" value="5" class="time-check input-check">
+                                                            <label for="manager_holiday_check_5" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="5" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">土</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_6" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_6" name="time_check_6" value="6" class="time-check input-check">
+                                                            <label for="manager_holiday_check_6" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="6" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%;">日</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_7" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_7" name="time_check_7" value="7" class="time-check input-check">
+                                                            <label for="manager_holiday_check_7" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="7" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content mb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <div style="width: 20%;"></div>
+                                            <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                <label class="text-end pe-4 mb-0" style="width: 2.5%; color: red;">祝</label>
+                                                <div class="time-area" style="width: 97.5%;">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="text" name="time_from_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        <input type="text" name="time_to_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="manager_holiday_check_8" class="mb-0">休日</label>
+                                                            <input type="checkbox" id="manager_holiday_check_8" name="time_check_8" value="8" class="time-check input-check">
+                                                            <label for="manager_holiday_check_8" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="8" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<input type="hidden" id="get_setting_url" value="{% url 'setting:get' %}">
+<input type="hidden" id="get_setting_time_url" value="{% url 'setting:get_time' %}">
 {% for manager_item in manager_list %}
     <div id="detail_manager_{{ manager_item.display_id }}_modal" class="detail-manager-modal modal fade">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 760px;">
             <div class="modal-content">
-                <div class="modal-header d-block ps-4 pe-4">
-                    <div class="row">
-                        <div class="col-11">
-                            <div class="d-flex align-items-center pt-1">
-                                {% if manager_item.profile.image %}
-                                    <img src="{{ manager_item.profile.image.url }}" class="me-2">
-                                {% else %}
-                                    <img src="{% static 'img/manager-none.png' %}" class="me-2">
-                                {% endif %}
-                                <div>
-                                    {% if manager_item.profile.family_name and manager_item.profile.first_name %}
-                                        <p class="name mb-0">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</p>
-                                    {% elif manager_item.profile.family_name %}
-                                        <p class="name mb-0">{{ manager_item.profile.family_name }}</p>
-                                    {% elif manager_item.profile.first_name %}
-                                        <p class="name mb-0">{{ manager_item.profile.first_name }}</p>
+                <input type="hidden" id="save_manager_{{ manager_item.display_id }}_check_form" value="{% url 'setting:save_manager_check' %}">
+                <form id="save_manager_{{ manager_item.display_id }}_form" action="{% url 'setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="modal-header d-block ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="d-flex align-items-center pt-1">
+                                    {% if manager_item.profile.image %}
+                                        <img src="{{ manager_item.profile.image.url }}" class="me-2">
                                     {% else %}
-                                        <p class="name mb-0">-</p>
+                                        <img src="{% static 'img/manager-none.png' %}" class="me-2">
                                     {% endif %}
-                                    {% if manager_item.authority == 3 %}
-                                        <p class="authority mb-0">管理者</p>
-                                    {% elif manager_item.authority == 2 %}
-                                        <p class="authority mb-0">編集者</p>
-                                    {% elif manager_item.authority == 1 %}
-                                        <p class="authority mb-0">閲覧者</p>
-                                    {% endif %}
-                                </div>
-                                {% if request.user.id != manager_item.id %}
-                                    {% if request.user.authority > 2 %}
-                                        <button type="button" class="btn reset-button d-block" value="{{ manager_item.display_id }}">パスワードリセット</button>
-                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#reset_password_check_modal"></button>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-1">
-                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body d-block ps-4 pe-4">
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">登録日</label>
-                                    <input type="text" value="{{ manager_item.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">ID</label>
-                                    <input type="text" value="#{{ manager_item.display_id }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">氏名</label>
-                                    {% if manager_item.profile.family_name and manager_item.profile.first_name %}
-                                        <input type="text" value="{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% elif manager_item.profile.family_name %}
-                                        <input type="text" value="{{ manager_item.profile.family_name }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% elif manager_item.profile.first_name %}
-                                        <input type="text" value="{{ manager_item.profile.first_name }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% else %}
-                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">フリガナ</label>
-                                    {% if manager_item.profile.family_name_kana and manager_item.profile.first_name_kana %}
-                                        <input type="text" value="{{ manager_item.profile.family_name_kana }} {{ manager_item.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% elif manager_item.profile.family_name_kana %}
-                                        <input type="text" value="{{ manager_item.profile.family_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% elif manager_item.profile.first_name_kana %}
-                                        <input type="text" value="{{ manager_item.profile.first_name_kana }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% else %}
-                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">年齢</label>
-                                    {% if manager_item.profile.age %}
-                                        <input type="text" value="{{ manager_item.profile.age }}歳" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% else %}
-                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">性別</label>
-                                    {% if manager_item.profile.sex == 1 %}
-                                        <input type="text" value="男性" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% elif manager_item.profile.sex == 2 %}
-                                        <input type="text" value="女性" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% else %}
-                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">電話番号</label>
-                                    <input type="text" value="{{ manager_item.profile.phone_number|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">メールアドレス</label>
-                                    <input type="text" value="{{ manager_item.email|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">所属部署</label>
-                                    <input type="text" value="{{ manager_item.profile.department|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="mb-0">役職名</label>
-                                    <input type="text" value="{{ manager_item.profile.job|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% if manager_item.head_flg or manager_item.company_flg or manager_item.authority > 2 %}
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">職務</label>
-                                        <input type="text" value="{{ manager_item.profile.work|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
+                                    <div>
+                                        {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                            <p class="name mb-0">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</p>
+                                        {% elif manager_item.profile.family_name %}
+                                            <p class="name mb-0">{{ manager_item.profile.family_name }}</p>
+                                        {% elif manager_item.profile.first_name %}
+                                            <p class="name mb-0">{{ manager_item.profile.first_name }}</p>
+                                        {% else %}
+                                            <p class="name mb-0">-</p>
+                                        {% endif %}
+                                        {% if manager_item.authority == 3 %}
+                                            <p class="authority mb-0">管理者</p>
+                                        {% elif manager_item.authority == 2 %}
+                                            <p class="authority mb-0">編集者</p>
+                                        {% elif manager_item.authority == 1 %}
+                                            <p class="authority mb-0">閲覧者</p>
+                                        {% endif %}
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">職務</label>
-                                        <input type="text" value="{{ manager_item.profile.work|default:'-' }}" class="input-text readonly ps-2 pe-2" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content pb-2">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">パスワード</label>
-                                        <input type="text" name="password" value="{{ manager_item.profile.password|default:'' }}" class="input-text readonly ps-2 pe-2"readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if manager_item.author_profile %}
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="mb-0">追加者</label>
-                                        <div class="author-area d-flex align-items-center">
-                                            {% if manager_item.author_profile.image %}
-                                                <img src="{{ manager_item.author_profile.image.url }}" class="me-2">
-                                            {% else %}
-                                                <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                                    <div class="d-flex align-items-center ms-auto">
+                                        {% if request.user.authority > 2 %}
+                                            {% if request.user.id != manager_item.id %}
+                                                <button type="button" class="btn reset-button d-block me-2" value="{{ manager_item.display_id }}">パスワードリセット</button>
+                                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#reset_password_check_modal"></button>
                                             {% endif %}
-                                            {% if manager_item.author_profile.family_name and manager_item.author_profile.first_name %}
-                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }} {{ manager_item.author_profile.first_name }}</p>
-                                            {% elif manager_item.author_profile.family_name %}
-                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }}</p>
-                                            {% elif manager_item.author_profile.first_name %}
-                                                <p class="fw-bold mb-0">{{ manager_item.author_profile.first_name }}</p>
-                                            {% else %}
-                                                <p class="fw-bold mb-0">-</p>
-                                            {% endif %}
+                                            <input type="hidden" name="id" value="{{ manager.display_id }}">
+                                            <button type="button" class="btn action-button save-button d-block" value="manager_{{ manager_item.display_id }}">編集を保存</button>
+                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body d-block ps-4 pe-4">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">登録日</label>
+                                        <input type="text" value="{{ manager_item.created_at|date:'Y年m月d日 H:i' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">ID</label>
+                                        <input type="text" value="#{{ manager_item.display_id }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">氏名</label>
+                                        <div class="input-content d-flex" style="width: 55%;">
+                                            <input type="text" name="family_name" class="input-text ps-2 pe-2" value="{{ manager_item.profile.family_name|default:'' }}" data-parsley-errors-messages-disabled required>
+                                            <input type="text" name="first_name" class="input-text ps-2 pe-2 ms-auto" value="{{ manager_item.profile.first_name|default:'' }}" data-parsley-errors-messages-disabled required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
-                </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">フリガナ</label>
+                                        <div class="input-content d-flex" style="width: 55%;">
+                                            <input type="text" name="family_name_kana" class="input-text ps-2 pe-2" value="{{ manager_item.profile.family_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
+                                            <input type="text" name="first_name_kana" class="input-text ps-2 pe-2 ms-auto" value="{{ manager_item.profile.first_name_kana|default:'' }}" data-parsley-errors-messages-disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">年齢</label>
+                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 55%;">
+                                            {% if manager_item.profile.age %}
+                                                <input type="text" id="select_age" name="age" value="{{ manager_item.profile.age }}歳" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden" value="{{ manager_item.profile.age }}">
+                                            {% else %}
+                                                <input type="text" id="select_age" name="age" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden">
+                                            {% endif %}
+                                            <div class="dropdown-menu" aria-labelledby="select_age">
+                                                {% for age_item in age_list %}
+                                                    {% if age_item >= 15 %}
+                                                        {% if age_item == 15 %}
+                                                            <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center">{{ age_item }}歳</button>
+                                                        {% else %}
+                                                            <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ age_item }}歳</button>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">性別</label>
+                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 55%;">
+                                            {% if manager_item.profile.sex == 1 %}
+                                                <input type="text" id="select_sex" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden" value="{{ manager_item.profile.sex }}">
+                                            {% elif manager_item.profile.sex == 2 %}
+                                                <input type="text" id="select_sex" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden" value="{{ manager_item.profile.sex }}">
+                                            {% else %}
+                                                <input type="text" id="select_sex" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden">
+                                            {% endif %}
+                                            <div class="dropdown-menu" aria-labelledby="select_sex">
+                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">男性</button>
+                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">電話番号</label>
+                                        <input type="text" name="phone_number" value="{{ manager.profile.phone_number|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">メールアドレス</label>
+                                        <input type="text" value="{{ manager_item.email|default:'-' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">所属部署</label>
+                                        <input type="text" name="department" value="{{ manager.profile.department|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">役職名</label>
+                                        <input type="text" name="job" value="{{ manager.profile.job|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if manager_item.head_flg or manager_item.company_flg or manager_item.authority > 2 %}
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                            <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
+                                            <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                            <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
+                                            <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content pb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                            <label class="text-end pe-4 mb-0" style="width: 20%;">パスワード</label>
+                                            <input type="text" name="password" value="{{ manager_item.profile.password|default:'' }}" class="input-text readonly ps-2 pe-2" style="width: 55%;" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if manager_item.author_profile %}
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                            <label class="text-end pe-4 mb-0" style="width: 20%;">追加者</label>
+                                            <div class="author-area d-flex align-items-center" style="width: 55%;">
+                                                {% if manager_item.author_profile.image %}
+                                                    <img src="{{ manager_item.author_profile.image.url }}" class="me-2">
+                                                {% else %}
+                                                    <img src="{% static 'img/manager-none.png' %}" class="me-2">
+                                                {% endif %}
+                                                {% if manager_item.author_profile.family_name and manager_item.author_profile.first_name %}
+                                                    <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }} {{ manager_item.author_profile.first_name }}</p>
+                                                {% elif manager_item.author_profile.family_name %}
+                                                    <p class="fw-bold mb-0">{{ manager_item.author_profile.family_name }}</p>
+                                                {% elif manager_item.author_profile.first_name %}
+                                                    <p class="fw-bold mb-0">{{ manager_item.author_profile.first_name }}</p>
+                                                {% else %}
+                                                    <p class="fw-bold mb-0">-</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">基本時間</label>
+                                        <div class="dropdown input-select-dropdown manager-setting-dropdown d-inline-block p-0" style="width: 55%;">
+                                            <input type="text" name="setting" value="{{ search_setting.name|default:'' }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                            <input type="hidden" value="{{ search_setting.display_id|default:'' }}">
+                                            <div class="dropdown-menu">
+                                                {% for online_offline_item in online_offline_list %}
+                                                    {% if forloop.first %}
+                                                        <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center">{{ online_offline_item.name }}</button>
+                                                    {% else %}
+                                                        <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ online_offline_item.name }}</button>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-area-wrap">
+                            {% if manager_item.setting|length > 0 %}
+                                {% variable '' as last_week %}
+                                {% for manager_setting_item in manager_item.setting %}
+                                    {% if last_week == manager_setting_item.week %}
+                                        <div class="content mb-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <div style="width: 20%;"></div>
+                                                        <label class="text-end pe-4 mb-0" style="width: 2.5%;"></label>
+                                                        <div class="time-area" style="width: 97.5%;">
+                                                            <div class="d-flex align-items-center justify-content-start">
+                                                                <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                                <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="content mb-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <div style="width: 20%;"></div>
+                                                        <label class="text-end pe-4 mb-0" style="width: 2.5%;">{{ manager_setting_item.get_week_display }}</label>
+                                                        <div class="time-area" style="width: 97.5%;">
+                                                            <div class="d-flex align-items-center justify-content-start">
+                                                                {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                    <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                                {% else %}
+                                                                    <input type="text" name="time_from_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                                {% endif %}
+                                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                                {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                    <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                                {% else %}
+                                                                    <input type="text" name="time_to_{{ manager_setting_item.week }}_{{ manager_setting_item.number }}" value="{{ manager_setting_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                                {% endif %}
+                                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                    <label for="detail_manager_holiday_check_{{ manager_setting_item.week }}" class="mb-0">休日</label>
+                                                                    {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                                        <input type="checkbox" id="detail_manager_holiday_check_{{ manager_setting_item.week }}" name="time_check_{{ manager_setting_item.week }}" value="{{ manager_setting_item.week }}" class="time-check input-check" checked>
+                                                                    {% else %}
+                                                                        <input type="checkbox" id="detail_manager_holiday_check_{{ manager_setting_item.week }}" name="time_check_{{ manager_setting_item.week }}" value="{{ manager_setting_item.week }}" class="time-check input-check">
+                                                                    {% endif %}
+                                                                    <label for="detail_manager_holiday_check_{{ manager_setting_item.week }}" class="input-check-mark mb-0"></label>
+                                                                </div>
+                                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                    <button type="button" value="{{ manager_setting_item.week }}" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% variable manager_setting_item.week as last_week %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">月</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_1" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_1" name="time_check_1" value="1" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_1" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="1" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">火</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_2" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_2" name="time_check_2" value="2" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_2" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="2" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">水</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_3" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_3" name="time_check_3" value="3" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_3" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="3" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">木</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_4" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_4" name="time_check_4" value="4" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_4" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="4" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">金</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_5" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_5" name="time_check_5" value="5" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_5" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="5" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">土</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_6" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_6" name="time_check_6" value="6" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_6" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="6" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%;">日</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_7" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_7" name="time_check_7" value="7" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_7" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="7" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <div style="width: 20%;"></div>
+                                                <div class="d-flex align-items-center justify-content-start mb-1" style="width: 80%;">
+                                                    <label class="text-end pe-4 mb-0" style="width: 2.5%; color: red;">祝</label>
+                                                    <div class="time-area" style="width: 97.5%;">
+                                                        <div class="d-flex align-items-center justify-content-start">
+                                                            <input type="text" name="time_from_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                            <input type="text" name="time_to_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                                <label for="detail_manager_holiday_check_8" class="mb-0">休日</label>
+                                                                <input type="checkbox" id="detail_manager_holiday_check_8" name="time_check_8" value="8" class="time-check input-check">
+                                                                <label for="detail_manager_holiday_check_8" class="input-check-mark mb-0"></label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                                <button type="button" value="8" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

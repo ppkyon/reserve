@@ -1,7 +1,8 @@
 {% load static %}
+{% load original %}
 
 {% if request.user.authority > 2 or request.user.head_flg or request.user.company_flg %}
-    <div class="mini-table-area manager-list-table mb-2">
+    <div class="mini-table-area manager-list-table mb-3">
         <div class="row">
             <div class="col-12">
                 <table class="table mb-0">
@@ -10,7 +11,22 @@
                             <th class="ps-4" style="vertical-align: middle;">担当者</th>
                             <th style="width: 150px; vertical-align: middle;">編集権限</th>
                             <th style="width: 260px;">
-
+                                <input type="hidden" id="serach_setting_url" value="{% url 'setting:search' %}">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown input-select-dropdown search-setting-dropdown d-inline-block p-0">
+                                        <input type="text" value="{{ search_setting.name|default:'' }}" class="input-text input-select ps-2 pe-2" style="width: 150px;" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="{{ search_setting.display_id|default:'' }}">
+                                        <div class="dropdown-menu" style="min-width: 0px; width: 150px;">
+                                            {% for online_offline_item in online_offline_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center">{{ online_offline_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ online_offline_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
                             </th>
                             <th style="width: 75px;"></th>
                         </tr>
@@ -54,7 +70,57 @@
                                     </div>
                                 </td>
                                 <td>
-                                    
+                                    <div class="d-flex align-items-center justify-content-start">
+                                        {% if manager_item.setting|length > 0 %}
+                                            {% variable '' as last_week %}
+                                            {% for manager_setting_item in manager_item.setting %}
+                                                {% if last_week != manager_setting_item.week %}
+                                                    <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                        <p class="mb-0">{{ manager_setting_item.get_week_display}}</p>
+                                                        {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
+                                                            <p class="mb-0" style="color: #FF0000;">休</p>
+                                                        {% else %}
+                                                            <p class="mb-0" style="color: #007AFF;">出</p>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                                {% variable manager_setting_item.week as last_week %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">月</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">火</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">水</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">木</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">金</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">土</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">日</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                            <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                <p class="mb-0">祝</p>
+                                                <p class="mb-0">-</p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="dropdown d-inline-block p-0">

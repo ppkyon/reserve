@@ -1,0 +1,360 @@
+{% load static %}
+{% load original %}
+
+<div id="add_online_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 760px;">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title">オンラインを追加</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block ps-4 pe-4">
+                <input type="hidden" id="add_online_check_form" value="{% url 'setting:add_online_check' %}">
+                <form id="add_online_form" action="{% url 'setting:add_online' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start mb-1">
+                                    <label for="add_online_name" class="text-end pe-4 mb-0" style="width: 20%;">登録名</label>
+                                    <input type="text" id="add_online_name" name="name" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="mb-0" style="width: 20%;">&nbsp;</label>
+                                    <p class="description mb-2" style="width: 80%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label for="add_online_title" class="text-end pe-4 mb-0" style="width: 20%;">タイトル</label>
+                                    <input type="text" id="add_online_title" name="title" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label for="add_online_outline" class="text-end pe-4 mb-0" style="width: 20%;">概要</label>
+                                    <input type="text" id="add_online_outline" name="outline" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start mb-1">
+                                    <label for="add_online_note" class="text-end pe-4 mb-0" style="width: 20%;">補足</label>
+                                    <input type="text" id="add_online_note" name="note" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="mb-0" style="width: 20%;">&nbsp;</label>
+                                    <p class="description mb-2" style="width: 80%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-start">
+                                    <label class="text-end pe-4 mb-0" style="width: 20%;">基本時間</label>
+                                    <div style="width: 80%;">
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">月</p>
+                                                <input type="text" name="time_from_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_1_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_1" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_1" name="time_check_1" type="checkbox" value="1" class="time-check input-check">
+                                                    <label for="add_online_time_check_1" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="1" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">火</p>
+                                                <input type="text" name="time_from_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_2_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_2" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_2" name="time_check_2" type="checkbox" value="2" class="time-check input-check">
+                                                    <label for="add_online_time_check_2" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="2" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">水</p>
+                                                <input type="text" name="time_from_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_3_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_3" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_3" name="time_check_3" type="checkbox" value="3" class="time-check input-check">
+                                                    <label for="add_online_time_check_3" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="3" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">木</p>
+                                                <input type="text" name="time_from_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_4_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_4" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_4" name="time_check_4" type="checkbox" value="4" class="time-check input-check">
+                                                    <label for="add_online_time_check_4" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="4" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">金</p>
+                                                <input type="text" name="time_from_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_5_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_5" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_5" name="time_check_5" type="checkbox" value="5" class="time-check input-check">
+                                                    <label for="add_online_time_check_5" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="5" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">土</p>
+                                                <input type="text" name="time_from_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_6_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_6" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_6" name="time_check_6" type="checkbox" value="6" class="time-check input-check">
+                                                    <label for="add_online_time_check_6" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="6" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%;">日</p>
+                                                <input type="text" name="time_from_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_7_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_7" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_7" name="time_check_7" type="checkbox" value="7" class="time-check input-check">
+                                                    <label for="add_online_time_check_7" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="7" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="time-area">
+                                            <div class="d-flex align-items-center justify-content-start mb-2">
+                                                <p class="me-2 mb-0" style="width: 2.5%; color: red;">祝</p>
+                                                <input type="text" name="time_from_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                <input type="text" name="time_to_8_1" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                    <label for="add_online_time_check_8" class="mb-0">不可</label>
+                                                    <input id="add_online_time_check_8" name="time_check_8" type="checkbox" value="8" class="time-check input-check">
+                                                    <label for="add_online_time_check_8" class="input-check-mark mb-0"></label>
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                    <button type="button" value="8" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn action-button add-button d-block" value="online">追加する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_check_modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for online_item in online_list %}
+    <div id="save_online_{{ online_item.display_id }}_modal" class="modal save-online-modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 760px;">
+            <div class="modal-content">
+                <div class="modal-header d-block ps-4 pe-4">
+                    <div class="row">
+                        <div class="col-11">
+                            <p class="modal-title">会場詳細</p>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body d-block ps-4 pe-4">
+                    <input type="hidden" id="save_online_{{ online_item.display_id }}_check_form" value="{% url 'setting:save_online_check' %}">
+                    <form id="save_online_{{ online_item.display_id }}_form" action="{% url 'setting:save_online' %}" class="save-online-form" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <input type="hidden" name="id" value="{{ online_item.display_id }}">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-1">
+                                        <label for="save_online_{{ online_item.display_id }}_name" class="text-end pe-4 mb-0" style="width: 20%;">登録名</label>
+                                        <input type="text" id="save_online_{{ online_item.display_id }}_name" name="name" value="{{ online_item.name }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="mb-0" style="width: 20%;">&nbsp;</label>
+                                        <p class="description mb-2" style="width: 80%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label for="save_online_{{ online_item.display_id }}_title" class="text-end pe-4 mb-0" style="width: 20%;">タイトル</label>
+                                        <input type="text" id="save_online_{{ online_item.display_id }}_title" name="title" value="{{ online_item.title }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label for="save_online_{{ online_item.display_id }}_outline" class="text-end pe-4 mb-0" style="width: 20%;">概要</label>
+                                        <input type="text" id="save_online_{{ online_item.display_id }}_outline" name="outline" value="{{ online_item.outline }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-start mb-1">
+                                        <label for="save_online_{{ online_item.display_id }}_note" class="text-end pe-4 mb-0" style="width: 20%;">補足</label>
+                                        <input type="text" id="save_online_{{ online_item.display_id }}_note" name="note" value="{{ online_item.note }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        <label class="mb-0" style="width: 20%;">&nbsp;</label>
+                                        <p class="description mb-2" style="width: 80%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-start justify-content-start">
+                                        <label class="text-end pe-4 mb-0" style="width: 20%;">基本時間</label>
+                                        <div style="width: 80%;">
+                                            {% variable '' as last_week %}
+                                            {% for online_time_item in online_item.time %}
+                                                {% if last_week != online_time_item.week %}
+                                                    {% if not forloop.first %}
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="time-area">
+                                                {% endif %}
+                                                {% if last_week == online_time_item.week %}
+                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                        <p class="me-2 mb-0" style="width: 2.5%;"></p>
+                                                        {% if online_time_item.flg %}
+                                                            <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                        {% else %}
+                                                            {% if online_time_item.number == 1 %}
+                                                                <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% else %}
+                                                                <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        {% if online_time_item.flg %}
+                                                            <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                        {% else %}
+                                                            {% if online_time_item.number == 1 %}
+                                                                <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% else %}
+                                                                <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 47.5%;"></div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                        <p class="me-2 mb-0" style="width: 2.5%;">{{ online_time_item.get_week_display }}</p>
+                                                        {% if online_time_item.flg %}
+                                                            <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                        {% else %}
+                                                            {% if online_time_item.number == 1 %}
+                                                                <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% else %}
+                                                                <input type="text" name="time_from_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_from }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <p class="mb-0 me-2" style="width: 2.5%;">～</p>
+                                                        {% if online_time_item.flg %}
+                                                            <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>
+                                                        {% else %}
+                                                            {% if online_time_item.number == 1 %}
+                                                                <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>
+                                                            {% else %}
+                                                                <input type="text" name="time_to_{{ online_time_item.week }}_{{ online_time_item.number }}" value="{{ online_time_item.time_to }}" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">
+                                                            <label for="save_online_time_check_{{ online_item.display_id }}_{{ online_time_item.week }}" class="mb-0">不可</label>
+                                                            {% if online_time_item.flg %}
+                                                                <input id="save_online_time_check_{{ online_item.display_id }}_{{ online_time_item.week }}" name="time_check_{{ online_time_item.week }}" type="checkbox" value="{{ online_time_item.week }}" class="time-check input-check" checked>
+                                                            {% else %}
+                                                                <input id="save_online_time_check_{{ online_item.display_id }}_{{ online_time_item.week }}" name="time_check_{{ online_time_item.week }}" type="checkbox" value="{{ online_time_item.week }}" class="time-check input-check">
+                                                            {% endif %}
+                                                            <label for="save_online_time_check_{{ online_item.display_id }}_{{ online_time_item.week }}" class="input-check-mark mb-0"></label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start align-items-center ms-1" style="width: 35%;">
+                                                            <button type="button" value="{{ online_time_item.week }}" class="btn main-button add-time-button plus p-0 ps-3 me-0">時間を追加する</button>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if forloop.last %}
+                                                    </div>
+                                                {% endif %}
+                                                {% variable online_time_item.week as last_week %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center ps-4 pe-4">
+                    <button type="button" class="btn action-button save-button d-block" value="online_{{ online_item.display_id }}">保存する</button>
+                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

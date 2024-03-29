@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'flow',
     'question',
     'richmenu',
+    'setting',
     'sign',
     'table',
     'tag',

@@ -156,6 +156,23 @@
 .modal .modal-body .content .authority-area {
     width: 65%;
 }
+.modal .modal-body .content .input-date {
+    text-align: left;
+    background: url(../img/icon/calendar.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+.modal .modal-body .content .input-time {
+    text-align: left;
+    background: url(../img/icon/time.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+.modal .modal-body .content .input-time:disabled {
+    background: url(../img/icon/time.svg) no-repeat,rgba(239, 239, 239, 0.3);
+    background-position: 95%;
+    background-size: 0.75rem;
+}
 .modal .modal-body .image-area {
     border: 1px solid #cdd6dd;
 }
