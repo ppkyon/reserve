@@ -1,0 +1,55 @@
+{% load static %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-tab-area mb-3">
+            <ul class="d-flex align-items-center m-0 p-0">
+                {% if target == 'basic' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'reserve:basic' %}">基本設定</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'reserve:basic' %}">基本設定</a>
+                    </li>
+                {% endif %}
+                {% if target == 'place' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'reserve:place' %}">会場設定</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'reserve:place' %}">会場設定</a>
+                    </li>
+                {% endif %}
+                {% if target == 'setting' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'reserve:setting' %}">予約設定</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'reserve:setting' %}">予約設定</a>
+                    </li>
+                {% endif %}
+                {% if target == 'facility' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'reserve:facility' %}">設備設定</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'reserve:facility' %}">設備設定</a>
+                    </li>
+                {% endif %}
+                {% if target == 'menu' %}
+                    <li class="active me-1">
+                        <a class="ps-3 pe-3" href="{% url 'reserve:menu' %}">対応メニュー設定</a>
+                    </li>
+                {% else %}
+                    <li class="me-1">
+                        <a class="d-block ps-3 pe-3" href="{% url 'reserve:menu' %}">対応メニュー設定</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,485 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'reserve/tab.html' with target='basic' %}
+        <div class="row mb-3">
+            <div class="col-12">
+                <input type="hidden" id="save_basic_check_form" value="{% url 'reserve:save_basic_check' %}">
+                <form id="save_basic_form" action="{% url 'reserve:save_basic' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">受付期間設定</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>受付開始</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="dropdown input-select-dropdown d-inline-block p-0 me-2" style="width: 125px;">
+                                                {% if basic_data.start %}
+                                                    <input type="text" name="start" value="{{ basic_data.start }}週間" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                    <input type="hidden" value="{{ basic_data.start }}">
+                                                {% else %}
+                                                    <input type="text" name="start" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                    <input type="hidden">
+                                                {% endif %}
+                                                <div class="dropdown-menu w-100">
+                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1週間</button>
+                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2週間</button>
+                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3週間</button>
+                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4週間</button>
+                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5週間</button>
+                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6週間</button>
+                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7週間</button>
+                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8週間</button>
+                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9週間</button>
+                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10週間</button>
+                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11週間</button>
+                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12週間</button>
+                                                </div>
+                                            </div>
+                                            <label class="mb-0">前から受付を開始する</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>受付締切</td>
+                                    <td>
+                                        <div class="input-radio-wrap position-relative mb-1">
+                                            <div class="d-flex align-items-center ps-4 mb-0">
+                                                <label class="me-2 mb-0">当日の</label>
+                                                <div class="dropdown input-select-dropdown d-inline-block p-0 me-2" style="width: 150px;">
+                                                    {% if not basic_data or basic_data.deadline == 1 %}
+                                                        {% if basic_data.on_time == 1 %}
+                                                            <input type="text" name="on_time" value="直前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 30 %}
+                                                            <input type="text" name="on_time" value="30分前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 60 %}
+                                                            <input type="text" name="on_time" value="1時間前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 90 %}
+                                                            <input type="text" name="on_time" value="1時間30分前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 120 %}
+                                                            <input type="text" name="on_time" value="2時間前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 150 %}
+                                                            <input type="text" name="on_time" value="2時間30分前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% elif basic_data.on_time == 180 %}
+                                                            <input type="text" name="on_time" value="3時間前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% else %}
+                                                            <input type="text" name="on_time" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                        {% endif %}
+                                                        <input type="hidden" value="{{ basic_data.on_time }}">
+                                                    {% else %}
+                                                        <input type="text" name="on_time" class="input-text input-select readonly w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly disabled>
+                                                        <input type="hidden">
+                                                    {% endif %}
+                                                    <div class="dropdown-menu w-100">
+                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center">直前</button>
+                                                        <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30分前</button>
+                                                        <button type="button" value="60" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1時間前</button>
+                                                        <button type="button" value="90" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1時間30分前</button>
+                                                        <button type="button" value="120" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2時間前</button>
+                                                        <button type="button" value="150" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2時間30分前</button>
+                                                        <button type="button" value="180" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3時間前</button>
+                                                    </div>
+                                                </div>
+                                                <label class="me-2 mb-0">まで受付をする</label>
+                                            </div>
+                                            {% if not basic_data or basic_data.deadline == 1 %}
+                                                <input type="radio" id="basic_deadline_1" name="deadline" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                            {% else %}
+                                                <input type="radio" id="basic_deadline_1" name="deadline" value="1" class="input-radio" data-parsley-multiple="action">
+                                            {% endif %}
+                                            <label for="basic_deadline_1" class="input-radio-mark mb-0" style="top: 20%;"></label>
+                                        </div>
+                                        <div class="input-radio-wrap position-relative mb-1">
+                                            <div class="d-flex align-items-center ps-4 mb-0">
+                                                <div class="dropdown input-select-dropdown d-inline-block p-0 me-2" style="width: 125px;">
+                                                    {% if basic_data.deadline == 2 %}
+                                                        {% if basic_data.any_day %}
+                                                            <input type="text" name="any_day" value="{{ basic_data.any_day }}日前" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden" value="{{ basic_data.any_day }}">
+                                                        {% else %}
+                                                            <input type="text" name="any_day" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden">
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <input type="text" name="any_day" class="input-text input-select readonly w-100 ps-2 pe-2" data-bs-toggle="dropdown" disabled readonly>
+                                                        <input type="hidden">
+                                                    {% endif %}
+                                                    <div class="dropdown-menu w-100">
+                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1日前</button>
+                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2日前</button>
+                                                        <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3日前</button>
+                                                        <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4日前</button>
+                                                        <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5日前</button>
+                                                        <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6日前</button>
+                                                        <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7日前</button>
+                                                        <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8日前</button>
+                                                        <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9日前</button>
+                                                        <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10日前</button>
+                                                        <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14日前</button>
+                                                        <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15日前</button>
+                                                        <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30日前</button>
+                                                    </div>
+                                                </div>
+                                                <label class="me-2 mb-0">の</label>
+                                                <div class="dropdown input-select-dropdown d-inline-block p-0 me-2" style="width: 100px;">
+                                                    {% if basic_data.deadline == 2 %}
+                                                        {% if basic_data.any_time %}
+                                                            <input type="text" name="any_time" value="{{ basic_data.any_time }}時" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden" value="{{ basic_data.any_time }}">
+                                                        {% else %}
+                                                            <input type="text" name="any_time" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden">
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <input type="text" name="any_time" class="input-text input-select readonly w-100 ps-2 pe-2" data-bs-toggle="dropdown" disabled readonly>
+                                                        <input type="hidden">
+                                                    {% endif %}
+                                                    <div class="dropdown-menu w-100">
+                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1時</button>
+                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2時</button>
+                                                        <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3時</button>
+                                                        <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4時</button>
+                                                        <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5時</button>
+                                                        <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6時</button>
+                                                        <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7時</button>
+                                                        <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8時</button>
+                                                        <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9時</button>
+                                                        <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10時</button>
+                                                        <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11時</button>
+                                                        <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12時</button>
+                                                        <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13時</button>
+                                                        <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14時</button>
+                                                        <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15時</button>
+                                                        <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16時</button>
+                                                        <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17時</button>
+                                                        <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18時</button>
+                                                        <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19時</button>
+                                                        <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20時</button>
+                                                        <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21時</button>
+                                                        <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22時</button>
+                                                        <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23時</button>
+                                                        <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24時</button>
+                                                    </div>
+                                                </div>
+                                                <label class="me-2 mb-0">まで受付をする</label>
+                                            </div>
+                                            {% if basic_data.deadline == 2 %}
+                                                <input type="radio" id="basic_deadline_2" name="deadline" value="2" class="input-radio"data-parsley-multiple="action" checked>
+                                            {% else %}
+                                                <input type="radio" id="basic_deadline_2" name="deadline" value="2" class="input-radio"data-parsley-multiple="action">
+                                            {% endif %}
+                                            <label for="basic_deadline_2" class="input-radio-mark mb-0" style="top: 20%;"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>計算方法</td>
+                                    <td>
+                                        <div class="dropdown input-select-dropdown d-inline-block p-0 me-2" style="width: 250px;">
+                                            {% if basic_data.method %}
+                                                {% if basic_data.method == 1 %}
+                                                    <input type="text" name="method" value="日数で計算" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                {% elif basic_data.method == 2 %}
+                                                    <input type="text" name="method" value="営業日で計算(休業日を含まない)" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                {% endif %}
+                                                <input type="hidden" value="{{ basic_data.method }}">
+                                            {% else %}
+                                                <input type="text" name="method" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                <input type="hidden">
+                                            {% endif %}
+                                            <div class="dropdown-menu w-100">
+                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">日数で計算</button>
+                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">営業日で計算(休業日を含まない)</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>営業日設定</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_1" class="mb-0">月</label>
+                                                {% if basic_data.business_mon_day %}
+                                                    <input type="checkbox" id="basic_business_check_1" name="business_check_1" class="input-check" data-parsley-multiple="business_check_1" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_1" name="business_check_1" class="input-check" data-parsley-multiple="business_check_1">
+                                                {% endif %}
+                                                <label for="basic_business_check_1" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_2" class="mb-0">火</label>
+                                                {% if basic_data.business_tue_day %}
+                                                    <input type="checkbox" id="basic_business_check_2" name="business_check_2" class="input-check" data-parsley-multiple="business_check_2" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_2" name="business_check_2" class="input-check" data-parsley-multiple="business_check_2">
+                                                {% endif %}
+                                                <label for="basic_business_check_2" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_3" class="mb-0">水</label>
+                                                {% if basic_data.business_wed_day %}
+                                                    <input type="checkbox" id="basic_business_check_3" name="business_check_3" class="input-check" data-parsley-multiple="business_check_3" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_3" name="business_check_3" class="input-check" data-parsley-multiple="business_check_3">
+                                                {% endif %}
+                                                <label for="basic_business_check_3" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_4" class="mb-0">木</label>
+                                                {% if basic_data.business_thu_day %}
+                                                    <input type="checkbox" id="basic_business_check_4" name="business_check_4" class="input-check" data-parsley-multiple="business_check_4" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_4" name="business_check_4" class="input-check" data-parsley-multiple="business_check_4">
+                                                {% endif %}
+                                                <label for="basic_business_check_4" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_5" class="mb-0">金</label>
+                                                {% if basic_data.business_fri_day %}
+                                                    <input type="checkbox" id="basic_business_check_5" name="business_check_5" class="input-check" data-parsley-multiple="business_check_5" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_5" name="business_check_5" class="input-check" data-parsley-multiple="business_check_5">
+                                                {% endif %}
+                                                <label for="basic_business_check_5" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                <label for="basic_business_check_6" class="mb-0">土</label>
+                                                {% if basic_data.business_sat_day %}
+                                                    <input type="checkbox" id="basic_business_check_6" name="business_check_6" class="input-check" data-parsley-multiple="business_check_6" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_6" name="business_check_6" class="input-check" data-parsley-multiple="business_check_6">
+                                                {% endif %}
+                                                <label for="basic_business_check_6" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-check-wrap ps-4 mb-0">
+                                                <label for="basic_business_check_7" class="mb-0">日</label>
+                                                {% if basic_data.business_sun_day %}
+                                                    <input type="checkbox" id="basic_business_check_7" name="business_check_7" class="input-check" data-parsley-multiple="business_check_7" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="basic_business_check_7" name="business_check_7" class="input-check" data-parsley-multiple="business_check_7">
+                                                {% endif %}
+                                                <label for="basic_business_check_7" class="input-check-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">予約受付単位設定</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_unit_60" class="ps-4 mb-0">1時間毎に予約を受けつける</label>
+                                                {% if not basic_data.unit or basic_data.unit == 60 %}
+                                                    <input type="radio" id="basic_reserve_unit_60" name="unit" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                {% else %}
+                                                    <input type="radio" id="basic_reserve_unit_60" name="unit" value="60" class="input-radio" data-parsley-multiple="action">
+                                                {% endif %}
+                                                <label for="basic_reserve_unit_60" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_unit_30" class="ps-4 mb-0">30分毎に予約を受けつける</label>
+                                                {% if basic_data.unit == 30 %}
+                                                    <input type="radio" id="basic_reserve_unit_30" name="unit" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                {% else %}
+                                                    <input type="radio" id="basic_reserve_unit_30" name="unit" value="30" class="input-radio" data-parsley-multiple="action">
+                                                {% endif %}
+                                                <label for="basic_reserve_unit_30" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative mb-1">
+                                                <label for="basic_reserve_unit_15" class="ps-4 mb-0">15分毎に予約を受けつける</label>
+                                                {% if basic_data.unit == 15 %}
+                                                    <input type="radio" id="basic_reserve_unit_15" name="unit" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                {% else %}
+                                                    <input type="radio" id="basic_reserve_unit_15" name="unit" value="15" class="input-radio" data-parsley-multiple="action">
+                                                {% endif %}
+                                                <label for="basic_reserve_unit_15" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">予約受付確定の<br>タイミング</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_timing_now" class="ps-4 mb-0">即時</label>
+                                                <input type="radio" id="basic_reserve_timing_now" name="timing" value="0" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_timing_now" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_timing_check" class="ps-4 mb-0">確認後送付</label>
+                                                <input type="radio" id="basic_reserve_timing_check" name="timing" value="1" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_timing_check" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">指名予約受付設定</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_appoint_yes" class="ps-4 mb-0">受け付ける</label>
+                                                <input type="radio" id="basic_reserve_appoint_yes" name="appoint" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_appoint_yes" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_appoint_no" class="ps-4 mb-0">受け付けない</label>
+                                                <input type="radio" id="basic_reserve_appoint_no" name="appoint" value="0" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_appoint_no" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">候補者から要望</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_request_yes" class="ps-4 mb-0">受け付ける</label>
+                                                <input type="radio" id="basic_reserve_request_yes" name="request" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_request_yes" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_request_no" class="ps-4 mb-0">受け付けない</label>
+                                                <input type="radio" id="basic_reserve_request_no" name="request" value="0" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_request_no" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">複数人の予約</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_more_yes" class="ps-4 mb-0">受け付ける</label>
+                                                <input type="radio" id="basic_reserve_more_yes" name="more" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_more_yes" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_more_no" class="ps-4 mb-0">受け付けない</label>
+                                                <input type="radio" id="basic_reserve_more_no" name="more" value="0" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_more_no" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">参加に際しての<br>注意事項</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_note_yes" class="ps-4 mb-0">受け付ける</label>
+                                                <input type="radio" id="basic_reserve_note_yes" name="note" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_note_yes" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_note_no" class="ps-4 mb-0">受け付けない</label>
+                                                <input type="radio" id="basic_reserve_note_no" name="note" value="0" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_note_no" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <textarea name="note_text" class="d-block input-textarea m-0" style="width: 400px; min-height: 100px;"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-area mb-3">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 150px;">候補者への質問内容</td>
+                                    <td>
+                                        <div class="d-flex align-items-center mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_question_yes" class="ps-4 mb-0">受け付ける</label>
+                                                <input type="radio" id="basic_reserve_question_yes" name="question" value="1" class="input-radio" data-parsley-multiple="action" checked>
+                                                <label for="basic_reserve_question_yes" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="basic_reserve_question_no" class="ps-4 mb-0">受け付けない</label>
+                                                <input type="radio" id="basic_reserve_question_no" name="question" value="0" class="input-radio" data-parsley-multiple="action">
+                                                <label for="basic_reserve_question_no" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <textarea name="question_text" class="d-block input-textarea m-0" style="width: 400px; min-height: 100px;"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" class="btn save-button mt-2" value="basic">保存する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                <input type="hidden" id="reload_url" value="{% url 'reserve:basic' %}">
+            </div>
+        </div>
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reserve/basic/action.js' %}"></script>
+    <script src="{% static 'js/reserve/basic/data.js' %}"></script>
+{% endblock %}

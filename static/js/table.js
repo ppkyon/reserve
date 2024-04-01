@@ -61,7 +61,7 @@ $( function() {
     });
     
     $( document ).on( 'click', '.table-area .table tbody tr', function () {
-        if ( !$( this ).parents( '.table' ).hasClass( 'parent-table' ) && !$( this ).parents( '.table' ).hasClass( 'children-table' ) ) {
+        if ( !$( this ).parents( '.table' ).hasClass( 'parent-table' ) && !$( this ).parents( '.table' ).hasClass( 'children-table' ) && !$( this ).parents( '.table' ).hasClass( 'reserve-setting-table' ) && !$( this ).parents( '.table' ).hasClass( 'facility-setting-table' ) ) {
             if ( $( this ).parents( '.table' ).length ) {
                 $( '.table-area .table tbody tr' ).each( function() {
                     $( this ).removeClass( 'active' );
@@ -69,6 +69,12 @@ $( function() {
                 $( this ).addClass( 'active' );
             }
         }
+    });
+    $( document ).on( 'click', '.mini-table-area .table tbody tr', function () {
+        $( '.mini-table-area .table tbody tr' ).each( function() {
+            $( this ).removeClass( 'active' );
+        });
+        $( this ).addClass( 'active' );
     });
 
     $( document ).on( 'click', '.table-area .table tbody .favorite-icon', function () {

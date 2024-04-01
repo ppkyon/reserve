@@ -1,0 +1,427 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'reserve/tab.html' with target='facility' %}
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="table-area">
+                    <button type="button" id="facility_change_button" class="d-none" data-bs-toggle="modal" data-bs-target="#facility_change_modal"></button>
+                    <table class="table facility-table mb-0">
+                        <thead>
+                            <tr style="height: 46.22px;">
+                                <th>会場</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for online_offline_item in online_offline_list %}
+                                {% if forloop.first %}
+                                    <tr class="active">
+                                        <td>
+                                            <input type="hidden" value="false">
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <i class='bx bx-folder folder-icon me-1'></i>
+                                                <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.facility_count }})</p>
+                                                <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr style="background-color: #FFF;">
+                                        <td>
+                                            <input type="hidden" value="false">
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <i class='bx bx-folder folder-icon me-1'></i>
+                                                <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.facility_count }})</p>
+                                                <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="hidden" id="save_facility_check_form" value="{% url 'reserve:save_facility_check' %}">
+                <form id="save_facility_form" action="{% url 'reserve:save_facility' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    {% for online_offline_item in online_offline_list %}
+                        {% if forloop.first %}
+                            <div id="{{ online_offline_item.display_id }}" class="facility-list-area">
+                                <div class="table-area">
+                                    <table class="table facility-setting-table mb-0">
+                                        <thead>
+                                            <tr style="height: 46.22px;">
+                                                <th>設備名</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if online_offline_item.facility|length == 0 %}
+                                                <tr style="background-color: #FFF;">
+                                                    <td>
+                                                        <div class="facility-area p-2">
+                                                            <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                <p class="count-text mt-1 mb-0" style="width: 5%;">1.</p>
+                                                                <input type="hidden" value="{{ online_offline_item.random }}">
+                                                                <div style="width: 75%;">
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">設備名</label>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                        <label class="mb-0" style="width: 15%;">受付可能数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="count_{{ online_offline_item.random }}" class="input-text input-select input-count display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly  required>
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                        <label class="ps-4 mb-0" style="width: 20%;">振り分け順</label>
+                                                                        <div class="dropdown input-select-dropdown input-order-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="order_{{ online_offline_item.random }}" value="1" class="input-text input-select input-order display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly  required>
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 20%;">
+                                                                    <div class="d-flex justify-content-end align-items-start">
+                                                                        <button type="button" value="facility" class="btn delete-item-button ms-auto me-2">
+                                                                            <img src="{% static 'img/icon/cross.svg' %}">
+                                                                        </button>
+                                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                {% for facility_item in online_offline_item.facility %}
+                                                    <tr style="background-color: #FFF;">
+                                                        <td>
+                                                            <div class="facility-area p-2">
+                                                                <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                    <p class="count-text mt-1 mb-0" style="width: 5%;">{{ forloop.counter }}.</p>
+                                                                    <input type="hidden" value="{{ facility_item.display_id }}">
+                                                                    <div style="width: 75%;">
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">設備名</label>
+                                                                            <input type="text" name="name_{{ facility_item.display_id }}" value="{{ facility_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                            <label class="mb-0" style="width: 15%;">受付可能数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="count_{{ facility_item.display_id }}" value="{{ facility_item.count }}" class="input-text input-select input-count display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                            <label class="ps-4 mb-0" style="width: 20%;">振り分け順</label>
+                                                                            <div class="dropdown input-select-dropdown input-order-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="order_{{ facility_item.display_id }}" value="{{ facility_item.order }}" class="input-text input-select input-order display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    {% for facility_item in online_offline_item.facility %}
+                                                                                        {% if forloop.first %}
+                                                                                            <button type="button" value="{{ forloop.counter }}" class="btn dropdown-item fw-bold text-center">{{ forloop.counter }}</button>
+                                                                                        {% else %}
+                                                                                            <button type="button" value="{{ forloop.counter }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ forloop.counter }}</button>
+                                                                                        {% endif %}
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="width: 20%;">
+                                                                        <div class="d-flex justify-content-end align-items-start">
+                                                                            <button type="button" value="facility" class="btn delete-item-button ms-auto me-2">
+                                                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                                                            </button>
+                                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-start align-items-center ps-3" style="background-color: #FFF;">
+                                                <button type="button" class="btn add-facility-button main-button plus p-0 ps-3 mb-2">設備を追加する</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div id="{{ online_offline_item.display_id }}" class="facility-list-area d-none">
+                                <div class="table-area">
+                                    <table class="table facility-setting-table mb-0">
+                                        <thead>
+                                            <tr style="height: 46.22px;">
+                                                <th>設備名</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if online_offline_item.facility|length == 0 %}
+                                                <tr style="background-color: #FFF;">
+                                                    <td>
+                                                        <div class="facility-area p-2">
+                                                            <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                <p class="count-text mt-1 mb-0" style="width: 5%;">1.</p>
+                                                                <input type="hidden" value="{{ online_offline_item.random }}">
+                                                                <div style="width: 75%;">
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">設備名</label>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                        <label class="mb-0" style="width: 15%;">受付可能数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="count_{{ online_offline_item.random }}" class="input-text input-select input-count display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                        <label class="ps-4 mb-0" style="width: 20%;">振り分け順</label>
+                                                                        <div class="dropdown input-select-dropdown input-order-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="order_{{ online_offline_item.random }}" value="1" class="input-text input-select input-order display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 20%;">
+                                                                    <div class="d-flex justify-content-end align-items-start">
+                                                                        <button type="button" value="facility" class="btn delete-item-button ms-auto me-2">
+                                                                            <img src="{% static 'img/icon/cross.svg' %}">
+                                                                        </button>
+                                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                {% for facility_item in online_offline_item.facility %}
+                                                    <tr style="background-color: #FFF;">
+                                                        <td>
+                                                            <div class="facility-area p-2">
+                                                                <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                    <p class="count-text mt-1 mb-0" style="width: 5%;">{{ forloop.counter }}.</p>
+                                                                    <input type="hidden" value="{{ facility_item.display_id }}">
+                                                                    <div style="width: 75%;">
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">設備名</label>
+                                                                            <input type="text" name="name_{{ facility_item.display_id }}" value="{{ facility_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                            <label class="mb-0" style="width: 15%;">受付可能数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="count_{{ facility_item.display_id }}" value="{{ facility_item.count }}" class="input-text input-select input-count display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                            <label class="ps-4 mb-0" style="width: 20%;">振り分け順</label>
+                                                                            <div class="dropdown input-select-dropdown input-order-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="order_{{ facility_item.display_id }}" value="{{ facility_item.order }}" class="input-text input-select input-order display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    {% for facility_item in online_offline_item.facility %}
+                                                                                        {% if forloop.first %}
+                                                                                            <button type="button" value="{{ forloop.counter }}" class="btn dropdown-item fw-bold text-center">{{ forloop.counter }}</button>
+                                                                                        {% else %}
+                                                                                            <button type="button" value="{{ forloop.counter }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ forloop.counter }}</button>
+                                                                                        {% endif %}
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="width: 20%;">
+                                                                        <div class="d-flex justify-content-end align-items-start">
+                                                                            <button type="button" value="facility" class="btn delete-item-button ms-auto me-2">
+                                                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                                                            </button>
+                                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-start align-items-center ps-3" style="background-color: #FFF;">
+                                                <button type="button" class="btn add-facility-button main-button plus p-0 ps-3 mb-2">設備を追加する</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" class="btn save-facility-button mt-2">保存する</button>
+                <button type="button" class="save-button d-none" value="facility"></button>
+                <button type="button" value="{{ online_offline_list.0.display_id }}" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                <input type="hidden" id="reload_url" value="{% url 'reserve:facility' %}">
+            </div>
+        </div>
+        {% include 'reserve/modal/facility.html' %}
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reserve/facility/append.js' %}"></script>
+    <script src="{% static 'js/reserve/facility/action.js' %}"></script>
+    <script src="{% static 'js/reserve/facility/data.js' %}"></script>
+{% endblock %}

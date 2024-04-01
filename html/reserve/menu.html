@@ -1,0 +1,261 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'reserve/tab.html' with target='menu' %}
+        <input type="hidden" id="save_menu_check_form" value="{% url 'reserve:save_menu_check' %}">
+        <form id="save_menu_form" action="{% url 'reserve:save_menu' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="title-area p-2">
+                        <p class="fw-bold mb-0">スタッフ設定</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="table-area" style="width: auto; overflow-x: auto;">
+                        <table class="table menu-table menu-manager-table mb-0" style="width: auto; white-space: nowrap;">
+                            <thead>
+                                <tr>
+                                    <th class="fix" style="width: 180px; border-radius: 5px 0 0 0; vertical-align: middle;">会場カテゴリ</th>
+                                    <th class="fix" style="width: 180px; vertical-align: middle;">予約名</th>
+                                    {% for manager_item in manager_list %}
+                                        <th class="text-center" style="width: 130px;">
+                                            <p class="mb-0">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</p>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="input-check-wrap text-center mb-0">
+                                                    <input type="checkbox" id="all_manager_{{ manager_item.display_id }}" class="input-check all-check">
+                                                    <label for="all_manager_{{ manager_item.display_id }}" class="input-check-mark position-relative mb-0"></label>
+                                                </div>
+                                                <label for="all_manager_{{ manager_item.display_id }}" class="mb-0" style="cursor: pointer;">すべて</label>
+                                            </div>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for online_offline_item in online_offline_list %}
+                                    {% for setting_item in online_offline_item.setting %}
+                                        {% if forloop.first %}
+                                            <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for manager_item in setting_item.manager %}
+                                                    <td>
+                                                        <div class="input-check-wrap text-center mb-0">
+                                                            {% if manager_item.menu_flg %}
+                                                                <input type="checkbox" id="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" id="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check">
+                                                            {% endif %}
+                                                            <label for="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check-mark position-relative mb-0"></label>
+                                                        </div>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% else %}
+                                            <tr style="background-color: #FFF;">
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for manager_item in setting_item.manager %}
+                                                    <td>
+                                                        <div class="input-check-wrap text-center mb-0">
+                                                            {% if manager_item.menu_flg %}
+                                                                <input type="checkbox" id="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" id="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check">
+                                                            {% endif %}
+                                                            <label for="manager_{{ setting_item.display_id }}_{{ manager_item.index }}" class="input-check-mark position-relative mb-0"></label>
+                                                        </div>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="title-area p-2">
+                        <p class="fw-bold mb-0">設備設定</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="table-area" style="width: auto; overflow-x: auto;">
+                        <table class="table menu-table menu-facility-table mb-0" style="width: auto; white-space: nowrap;">
+                            <thead>
+                                <tr>
+                                    <th class="fix" style="width: 180px; border-radius: 5px 0 0 0; vertical-align: middle;">会場カテゴリ</th>
+                                    <th class="fix" style="width: 180px; vertical-align: middle;">予約名</th>
+                                    {% for facility_item in facility_list %}
+                                        <th class="text-center" style="width: 130px;">
+                                            <p class="mb-0">{{ facility_item.name }}</p>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="input-check-wrap text-center mb-0">
+                                                    <input type="checkbox" id="all_facility_{{ facility_item.display_id }}" class="input-check all-check">
+                                                    <label for="all_facility_{{ facility_item.display_id }}" class="input-check-mark position-relative mb-0"></label>
+                                                </div>
+                                                <label for="all_facility_{{ facility_item.display_id }}" class="mb-0" style="cursor: pointer;">すべて</label>
+                                            </div>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for online_offline_item in online_offline_list %}
+                                    {% for setting_item in online_offline_item.setting %}
+                                        {% if forloop.first %}
+                                            <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for facility_item in setting_item.facility %}
+                                                    {% if facility_item.facility == online_offline_item.id %}
+                                                        <td>
+                                                            <div class="input-check-wrap text-center mb-0">
+                                                                {% if facility_item.menu_flg %}
+                                                                    <input type="checkbox" id="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check" checked>
+                                                                {% else %}
+                                                                    <input type="checkbox" id="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check">
+                                                                {% endif %}
+                                                                <label for="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check-mark position-relative mb-0"></label>
+                                                            </div>
+                                                        </td>
+                                                    {% else %}
+                                                        <td style="background-color: rgba(0,0,0,0.4);"></td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        {% else %}
+                                            <tr style="background-color: #FFF;">
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for facility_item in setting_item.facility %}
+                                                    {% if facility_item.facility == online_offline_item.id %}
+                                                        <td>
+                                                            <div class="input-check-wrap text-center mb-0">
+                                                                {% if facility_item.menu_flg %}
+                                                                    <input type="checkbox" id="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check" checked>
+                                                                {% else %}
+                                                                    <input type="checkbox" id="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check">
+                                                                {% endif %}
+                                                                <label for="facility_{{ setting_item.display_id }}_{{ facility_item.index }}" class="input-check-mark position-relative mb-0"></label>
+                                                            </div>
+                                                        </td>
+                                                    {% else %}
+                                                        <td style="background-color: rgba(0,0,0,0.4);"></td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="title-area p-2">
+                        <p class="fw-bold mb-0">フロー設定</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="table-area" style="width: 100%; overflow-x: auto;">
+                        <table class="table menu-table menu-flow-table mb-0" style="width: auto; white-space: nowrap;">
+                            <thead>
+                                <tr>
+                                    <th class="fix" style="width: 180px; border-radius: 5px 0 0 0; vertical-align: middle;">会場カテゴリ</th>
+                                    <th class="fix" style="width: 180px; vertical-align: middle;">予約名</th>
+                                    {% for flow_item in flow_list %}
+                                        <th class="text-center" style="width: 130px;">
+                                            <p class="mb-0">{{ flow_item }}</p>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="input-check-wrap text-center mb-0">
+                                                    <input type="checkbox" id="all_flow_{{ forloop.counter }}" class="input-check all-check">
+                                                    <label for="all_flow_{{ forloop.counter }}" class="input-check-mark position-relative mb-0"></label>
+                                                </div>
+                                                <label for="all_flow_{{ forloop.counter }}" class="mb-0" style="cursor: pointer;">すべて</label>
+                                            </div>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for online_offline_item in online_offline_list %}
+                                    {% for setting_item in online_offline_item.setting %}
+                                        {% if forloop.first %}
+                                            <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for flow_item in setting_item.flow %}
+                                                    <td>
+                                                        <div class="input-check-wrap text-center mb-0">
+                                                            {% if flow_item.menu_flg %}
+                                                                <input type="checkbox" id="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" id="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check">
+                                                            {% endif %}
+                                                            <label for="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check-mark position-relative mb-0"></label>
+                                                        </div>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% else %}
+                                            <tr style="background-color: #FFF;">
+                                                <td>{{ setting_item.name }}</td>
+                                                {% for flow_item in setting_item.flow %}
+                                                    <td>
+                                                        <div class="input-check-wrap text-center mb-0">
+                                                            {% if flow_item.menu_flg %}
+                                                                <input type="checkbox" id="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" id="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check">
+                                                            {% endif %}
+                                                            <label for="flow_{{ setting_item.display_id }}_{{ forloop.counter }}" class="input-check-mark position-relative mb-0"></label>
+                                                        </div>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" class="btn save-button mt-2" value="menu">保存する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                <input type="hidden" id="reload_url" value="{% url 'reserve:menu' %}">
+            </div>
+        </div>
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reserve/menu/action.js' %}"></script>
+    <script src="{% static 'js/reserve/menu/data.js' %}"></script>
+{% endblock %}

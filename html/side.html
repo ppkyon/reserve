@@ -129,7 +129,7 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if '/setting/' in request.path %}
+                        {% if '/setting/' in request.path and not '/reserve/' in request.path %}
                             <li class="active position-relative">
                                 <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
@@ -141,6 +141,21 @@
                                 <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
                                     <span>設定</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if '/reserve/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>予約設定</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>予約設定</span>
                                 </a>
                             </li>
                         {% endif %}

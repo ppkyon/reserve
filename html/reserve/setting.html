@@ -1,0 +1,1020 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'reserve/tab.html' with target='setting' %}
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="table-area">
+                    <button type="button" id="setting_change_button" class="d-none" data-bs-toggle="modal" data-bs-target="#setting_change_modal"></button>
+                    <table class="table setting-table mb-0">
+                        <thead>
+                            <tr style="height: 46.22px;">
+                                <th>会場</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for online_offline_item in online_offline_list %}
+                                    {% if forloop.first %}
+                                        <tr class="active">
+                                            <td>
+                                                <input type="hidden" value="false">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <i class='bx bx-folder folder-icon me-1'></i>
+                                                    <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.setting_count }})</p>
+                                                    <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr style="background-color: #FFF;">
+                                            <td>
+                                                <input type="hidden" value="false">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <i class='bx bx-folder folder-icon me-1'></i>
+                                                    <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.setting_count }})</p>
+                                                    <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="hidden" id="save_setting_check_form" value="{% url 'reserve:save_setting_check' %}">
+                <form id="save_setting_form" action="{% url 'reserve:save_setting' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    {% for online_offline_item in online_offline_list %}
+                        {% if forloop.first %}
+                            <div id="{{ online_offline_item.display_id }}" class="setting-list-area">
+                                <div class="table-area">
+                                    <table class="table reserve-setting-table mb-0">
+                                        <thead>
+                                            <tr style="height: 46.22px;">
+                                                <th>予約設定</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if online_offline_item.setting|length == 0 %}
+                                                <tr style="background-color: #FFF;">
+                                                    <td>
+                                                        <div class="setting-area p-2">
+                                                            <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                <p class="count-text mt-1 mb-0" style="width: 5%;">1.</p>
+                                                                <input type="hidden" value="{{ online_offline_item.random }}">
+                                                                <div style="width: 75%;">
+                                                                    <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                        <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">概要</label>
+                                                                        <input type="text" name="outline_{{ online_offline_item.random }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-start mb-1">
+                                                                        <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                        <textarea name="note_{{ online_offline_item.random }}" class="d-block input-textarea ms-0" style="width: 75%;"></textarea>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">時間</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="time_{{ online_offline_item.random }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center">15</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                <button type="button" value="45" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">45</button>
+                                                                                <button type="button" value="60" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">60</button>
+                                                                                <button type="button" value="75" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">75</button>
+                                                                                <button type="button" value="90" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">90</button>
+                                                                                <button type="button" value="105" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">105</button>
+                                                                                <button type="button" value="120" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">120</button>
+                                                                                <button type="button" value="135" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">135</button>
+                                                                                <button type="button" value="150" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">150</button>
+                                                                                <button type="button" value="165" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">165</button>
+                                                                                <button type="button" value="180" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">180</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">分</label>
+                                                                        <div class="d-flex justify-content-center align-items-center ps-4">
+                                                                            <div class="input-check-wrap text-center mb-0">
+                                                                                <input type="checkbox" id="course_flg_{{ online_offline_item.random }}" name="course_flg_{{ online_offline_item.random }}" class="input-check input-course-flg">
+                                                                                <label for="course_flg_{{ online_offline_item.random }}" class="input-check-mark position-relative mb-0"></label>
+                                                                            </div>
+                                                                            <label for="course_flg_{{ online_offline_item.random }}" class="ps-1 mb-0" style="cursor: pointer;">コース選択</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="people_{{ online_offline_item.random }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                        <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="facility_{{ online_offline_item.random }}" class="input-text input-facility input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 20%;">
+                                                                    <div class="d-flex justify-content-end align-items-start flex-column h-100">
+                                                                        <button type="button" value="reserve" class="btn delete-item-button ms-auto me-2">
+                                                                            <img src="{% static 'img/icon/cross.svg' %}">
+                                                                        </button>
+                                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                        <div class="pin-area d-flex align-items-center mt-auto me-1 mb-2">
+                                                                            <span class="me-1">非表示</span>
+                                                                            <input id="check_pin_{{ online_offline_item.random }}" type="checkbox" name="display_flg_{{ online_offline_item.random }}" class="input-required" value="1" checked>
+                                                                            <label for="check_pin_{{ online_offline_item.random }}" class="d-block position-relative mb-0"></label>
+                                                                            <span class="ms-2">表示</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% if online_offline_item.type == 2 %}
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="d-flex justify-content-start align-items-center ms-3">
+                                                                            <button type="button" value="{{ online_offline_item.random }}" class="btn main-button add-meeting-modal-button plus p-0 ps-3 mb-2">ミーティングURLを追加する</button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="mini-table-area meeting-table-area ms-3 mb-2" style="width: 95%;">
+                                                                            <table class="table reserve-meeting-table mb-0">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th style="width: 20%;">ミーティング名</th>
+                                                                                        <th style="width: 20%;">ミーティングURL</th>
+                                                                                        <th style="width: 17.5%;">期限日</th>
+                                                                                        <th style="width: 15%;">ステータス</th>
+                                                                                        <th style="width: 20%;">プラットフォーム</th>
+                                                                                        <th style="width: 7.5%;"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody></tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                {% for setting_item in online_offline_item.setting %}
+                                                    <tr style="background-color: #FFF;">
+                                                        <td>
+                                                            <div class="setting-area p-2">
+                                                                <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                    <p class="count-text mt-1 mb-0" style="width: 5%;">{{ forloop.counter }}.</p>
+                                                                    <input type="hidden" value="{{ setting_item.display_id }}">
+                                                                    <div style="width: 75%;">
+                                                                        <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                            <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">概要</label>
+                                                                            <input type="text" name="outline_{{ setting_item.display_id }}" value="{{ setting_item.outline }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-start mb-1">
+                                                                            <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                            <textarea name="note_{{ setting_item.display_id }}" class="d-block input-textarea ms-0" style="width: 75%;">{{ setting_item.note|default:'' }}</textarea>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">時間</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="time_{{ setting_item.display_id }}" value="{{ setting_item.time }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.time }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center">15</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                    <button type="button" value="45" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">45</button>
+                                                                                    <button type="button" value="60" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">60</button>
+                                                                                    <button type="button" value="75" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">75</button>
+                                                                                    <button type="button" value="90" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">90</button>
+                                                                                    <button type="button" value="105" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">105</button>
+                                                                                    <button type="button" value="120" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">120</button>
+                                                                                    <button type="button" value="135" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">135</button>
+                                                                                    <button type="button" value="150" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">150</button>
+                                                                                    <button type="button" value="165" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">165</button>
+                                                                                    <button type="button" value="180" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">180</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">分</label>
+                                                                            <div class="d-flex justify-content-center align-items-center ps-4">
+                                                                                <div class="input-check-wrap text-center mb-0">
+                                                                                    {% if setting_item.course_flg %}
+                                                                                        <input type="checkbox" id="course_flg_{{ setting_item.display_id }}" name="course_flg_{{ setting_item.display_id }}" class="input-check input-course-flg" checked>
+                                                                                    {% else %}
+                                                                                        <input type="checkbox" id="course_flg_{{ setting_item.display_id }}" name="course_flg_{{ setting_item.display_id }}" class="input-check input-course-flg">
+                                                                                    {% endif %}
+                                                                                    <label for="course_flg_{{ setting_item.display_id }}" class="input-check-mark position-relative mb-0"></label>
+                                                                                </div>
+                                                                                <label for="course_flg_{{ setting_item.display_id }}" class="ps-1 mb-0" style="cursor: pointer;">コース選択</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="people_{{ setting_item.display_id }}" value="{{ setting_item.people }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.people }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                            <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.facility }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="width: 20%;">
+                                                                        <div class="d-flex justify-content-end align-items-start flex-column h-100">
+                                                                            <button type="button" value="reserve" class="btn delete-item-button ms-auto me-2">
+                                                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                                                            </button>
+                                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                            <div class="pin-area d-flex align-items-center mt-auto me-1 mb-2">
+                                                                                <span class="me-1">非表示</span>
+                                                                                    {% if setting_item.display_flg %}
+                                                                                        <input id="check_pin_{{ setting_item.display_id }}" type="checkbox" name="display_flg_{{ setting_item.display_id }}" class="input-required" value="1" checked>
+                                                                                    {% else %}
+                                                                                        <input id="check_pin_{{ setting_item.display_id }}" type="checkbox" name="display_flg_{{ setting_item.display_id }}" class="input-required" value="1">
+                                                                                    {% endif %}
+                                                                                    <label for="check_pin_{{ setting_item.display_id }}" class="d-block position-relative mb-0"></label>
+                                                                                <span class="ms-2">表示</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% if online_offline_item.type == 2 %}
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="d-flex justify-content-start align-items-center ms-3">
+                                                                                <button type="button" value="{{ setting_item.display_id }}" class="btn main-button add-meeting-modal-button plus p-0 ps-3 mb-2">ミーティングURLを追加する</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="mini-table-area meeting-table-area ms-3 mb-2" style="width: 95%;">
+                                                                                <table class="table reserve-meeting-table mb-0">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th style="width: 20%;">ミーティング名</th>
+                                                                                            <th style="width: 20%;">ミーティングURL</th>
+                                                                                            <th style="width: 17.5%;">期限日</th>
+                                                                                            <th style="width: 15%;">ステータス</th>
+                                                                                            <th style="width: 20%;">プラットフォーム</th>
+                                                                                            <th style="width: 7.5%;"></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        {% for meeting_item in setting_item.meeting %}
+                                                                                            <tr class="position-relative">
+                                                                                                <td class="position-relative">
+                                                                                                    <input type="text" value="{{ meeting_item.name }}" class="input-text input-meeting-name readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                                                </td>
+                                                                                                <td class="position-relative">
+                                                                                                    <input type="text" value="{{ meeting_item.url }}" class="input-text input-meeting-url readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.expiration_date %}
+                                                                                                        <input type="text" value="{{ meeting_item.expiration_date|date:'Y/m/d' }}" class="input-text input-meeting-limit w-100 readonly ps-2 pe-2" readonly>
+                                                                                                        <input type="hidden" value="{{ meeting_item.start_date|date:'Y/m/d' }}" class="input-meeting-start">
+                                                                                                    {% else %}
+                                                                                                        <input type="text" value="-" class="input-text input-meeting-limit w-100 readonly ps-2 pe-2" readonly>
+                                                                                                        <input type="hidden" value="" class="input-meeting-start">
+                                                                                                    {% endif %}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.status == 1 %}
+                                                                                                        <div class="d-flex align-items-center">
+                                                                                                            <img src="{% static 'img/icon/warning.svg' %}" class="me-2 alert-image">
+                                                                                                            <label class="alert-text mb-0 p-1 ps-2 pe-2" style="top: -40%; left: 43.3%; z-index: 1000;">期限切れです。ミーティングURLを<br>削除してください。</label>
+                                                                                                            <span style="color: #FF0000;">{{ meeting_item.get_status_display }}</span>
+                                                                                                        </div>
+                                                                                                    {% elif meeting_item.status == 2 %}
+                                                                                                        <div class="d-flex align-items-center">
+                                                                                                            <img src="{% static 'img/icon/notice.png' %}" class="me-2 notice-image">
+                                                                                                            <label class="notice-text mb-0 p-1 ps-2 pe-2" style="top: -40%; left: 43.3%; z-index: 1000;">期限がまもなくです。ミーティングURLの<br>更新を行ってください。</label>
+                                                                                                            <span>使用可能</span>
+                                                                                                        </div>
+                                                                                                    {% else %}
+                                                                                                        <span>{{ meeting_item.get_status_display }}</span>
+                                                                                                    {% endif %}
+                                                                                                    <input type="hidden" value="{{ meeting_item.status }}" class="input-meeting-status">
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.platform == 9 %}
+                                                                                                        <span>{{ meeting_item.platform_text }}</span>
+                                                                                                    {% else %}
+                                                                                                        <span>{{ meeting_item.get_platform_display }}</span>
+                                                                                                    {% endif %}
+                                                                                                    <input type="hidden" value="{{ meeting_item.platform }}" class="input-meeting-platform">
+                                                                                                    <input type="hidden" value="{{ meeting_item.platform_text|default:'' }}" class="input-meeting-platform-text">
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <div class="dropdown d-inline-block p-0">
+                                                                                                        <button type="button" class="btn ps-0" data-bs-toggle="dropdown">
+                                                                                                            <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                                                                                                        </button>
+                                                                                                        <div class="dropdown-menu">
+                                                                                                            <button type="button" class="btn dropdown-item detail-meeting-button fw-bold text-center">詳細</button>
+                                                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                                                            <button type="button" class="btn dropdown-item delete-meeting-button fw-bold text-center border-top p-1 pt-2">削除</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        {% endfor %}
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-start align-items-center ps-3" style="background-color: #FFF;">
+                                                {% if online_offline_item.type == 1 %}
+                                                    <button type="button" value="offline" class="btn add-setting-button main-button plus p-0 ps-3 mb-2">設定を追加する</button>
+                                                {% elif online_offline_item.type == 2 %}
+                                                    <button type="button" value="online" class="btn add-setting-button main-button plus p-0 ps-3 mb-2">設定を追加する</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div id="{{ online_offline_item.display_id }}" class="setting-list-area d-none">
+                                <div class="table-area">
+                                    <table class="table reserve-setting-table mb-0">
+                                        <thead>
+                                            <tr style="height: 46.22px;">
+                                                <th>予約設定</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if online_offline_item.setting|length == 0 %}
+                                                <tr style="background-color: #FFF;">
+                                                    <td>
+                                                        <div class="setting-area p-2">
+                                                            <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                <p class="count-text mt-1 mb-0" style="width: 5%;">1.</p>
+                                                                <input type="hidden" value="{{ online_offline_item.random }}">
+                                                                <div style="width: 75%;">
+                                                                    <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                        <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">概要</label>
+                                                                        <input type="text" name="outline_{{ online_offline_item.random }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-start mb-1">
+                                                                        <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                        <textarea name="note_{{ online_offline_item.random }}" class="d-block input-textarea ms-0" style="width: 75%;"></textarea>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">時間</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="time_{{ online_offline_item.random }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center">15</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                <button type="button" value="45" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">45</button>
+                                                                                <button type="button" value="60" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">60</button>
+                                                                                <button type="button" value="75" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">75</button>
+                                                                                <button type="button" value="90" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">90</button>
+                                                                                <button type="button" value="105" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">105</button>
+                                                                                <button type="button" value="120" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">120</button>
+                                                                                <button type="button" value="135" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">135</button>
+                                                                                <button type="button" value="150" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">150</button>
+                                                                                <button type="button" value="165" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">165</button>
+                                                                                <button type="button" value="180" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">180</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">分</label>
+                                                                        <div class="d-flex justify-content-center align-items-center ps-4">
+                                                                            <div class="input-check-wrap text-center mb-0">
+                                                                                <input type="checkbox" id="course_flg_{{ online_offline_item.random }}" name="course_flg_{{ online_offline_item.random }}" class="input-check input-course-flg">
+                                                                                <label for="course_flg_{{ online_offline_item.random }}" class="input-check-mark position-relative mb-0"></label>
+                                                                            </div>
+                                                                            <label for="course_flg_{{ online_offline_item.random }}" class="ps-1 mb-0" style="cursor: pointer;">コース選択</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="people_{{ online_offline_item.random }}"  class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                        <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
+                                                                        <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                            <input type="text" name="facility_{{ online_offline_item.random }}"  class="input-text input-facility input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="hidden">
+                                                                            <div class="dropdown-menu w-100">
+                                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 20%;">
+                                                                    <div class="d-flex justify-content-end align-items-start flex-column h-100">
+                                                                        <button type="button" value="reserve" class="btn delete-item-button ms-auto me-2">
+                                                                            <img src="{% static 'img/icon/cross.svg' %}">
+                                                                        </button>
+                                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                        <div class="pin-area d-flex align-items-center mt-auto me-1 mb-2">
+                                                                            <span class="me-1">非表示</span>
+                                                                                <input id="check_pin_{{ online_offline_item.random }}" type="checkbox" name="display_flg_{{ online_offline_item.random }}" class="input-required" value="1" checked>
+                                                                                <label for="check_pin_{{ online_offline_item.random }}" class="d-block position-relative mb-0"></label>
+                                                                            <span class="ms-2">表示</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% if online_offline_item.type == 2 %}
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="d-flex justify-content-start align-items-center ms-3">
+                                                                            <button type="button" value="{{ online_offline_item.random }}" class="btn main-button add-meeting-modal-button plus p-0 ps-3 mb-2">ミーティングURLを追加する</button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="mini-table-area meeting-table-area ms-3 mb-2" style="width: 95%;">
+                                                                            <table class="table reserve-setting-meeting-table mb-0">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th style="width: 20%;">ミーティング名</th>
+                                                                                        <th style="width: 20%;">ミーティングURL</th>
+                                                                                        <th style="width: 17.5%;">期限日</th>
+                                                                                        <th style="width: 15%;">ステータス</th>
+                                                                                        <th style="width: 20%;">プラットフォーム</th>
+                                                                                        <th style="width: 7.5%;"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody></tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                {% for setting_item in online_offline_item.setting %}
+                                                    <tr style="background-color: #FFF;">
+                                                        <td>
+                                                            <div class="setting-area p-2">
+                                                                <div class="d-flex justify-content-start align-items-stretch p-2">
+                                                                    <p class="count-text mt-1 mb-0" style="width: 5%;">{{ forloop.counter }}.</p>
+                                                                    <input type="hidden" value="{{ setting_item.display_id }}">
+                                                                    <div style="width: 75%;">
+                                                                        <div class="d-flex justify-content-start align-items-center mb-1">
+                                                                            <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">概要</label>
+                                                                            <input type="text" name="outline_{{ setting_item.display_id }}" value="{{ setting_item.outline }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-start mb-1">
+                                                                            <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                            <textarea name="note_{{ setting_item.display_id }}" class="d-block input-textarea ms-0" style="width: 75%;">{{ setting_item.note }}</textarea>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-start mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">時間</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="time_{{ setting_item.display_id }}" value="{{ setting_item.time }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.time }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center">15</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                    <button type="button" value="45" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">45</button>
+                                                                                    <button type="button" value="60" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">60</button>
+                                                                                    <button type="button" value="75" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">75</button>
+                                                                                    <button type="button" value="90" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">90</button>
+                                                                                    <button type="button" value="105" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">105</button>
+                                                                                    <button type="button" value="120" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">120</button>
+                                                                                    <button type="button" value="135" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">135</button>
+                                                                                    <button type="button" value="150" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">150</button>
+                                                                                    <button type="button" value="165" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">165</button>
+                                                                                    <button type="button" value="180" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">180</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">分</label>
+                                                                            <div class="d-flex justify-content-center align-items-center ps-4">
+                                                                                <div class="input-check-wrap text-center mb-0">
+                                                                                    {% if setting_item.course_flg %}
+                                                                                        <input type="checkbox" id="course_flg_{{ setting_item.display_id }}" name="course_flg_{{ setting_item.display_id }}" class="input-check input-course-flg" checked>
+                                                                                    {% else %}
+                                                                                        <input type="checkbox" id="course_flg_{{ setting_item.display_id }}" name="course_flg_{{ setting_item.display_id }}" class="input-check input-course-flg">
+                                                                                    {% endif %}
+                                                                                    <label for="course_flg_{{ setting_item.display_id }}" class="input-check-mark position-relative mb-0"></label>
+                                                                                </div>
+                                                                                <label for="course_flg_{{ setting_item.display_id }}" class="ps-1 mb-0" style="cursor: pointer;">コース選択</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="people_{{ setting_item.display_id }}" value="{{ setting_item.people }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.people }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label class="ps-2 mb-0" style="width: 5%;">人</label>
+                                                                            <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
+                                                                            <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
+                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="hidden" value="{{ setting_item.facility }}">
+                                                                                <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
+                                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2</button>
+                                                                                    <button type="button" value="3" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3</button>
+                                                                                    <button type="button" value="4" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4</button>
+                                                                                    <button type="button" value="5" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5</button>
+                                                                                    <button type="button" value="6" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">6</button>
+                                                                                    <button type="button" value="7" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">7</button>
+                                                                                    <button type="button" value="8" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">8</button>
+                                                                                    <button type="button" value="9" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">9</button>
+                                                                                    <button type="button" value="10" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">10</button>
+                                                                                    <button type="button" value="11" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">11</button>
+                                                                                    <button type="button" value="12" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">12</button>
+                                                                                    <button type="button" value="13" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">13</button>
+                                                                                    <button type="button" value="14" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">14</button>
+                                                                                    <button type="button" value="15" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">15</button>
+                                                                                    <button type="button" value="16" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">16</button>
+                                                                                    <button type="button" value="17" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">17</button>
+                                                                                    <button type="button" value="18" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">18</button>
+                                                                                    <button type="button" value="19" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">19</button>
+                                                                                    <button type="button" value="20" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">20</button>
+                                                                                    <button type="button" value="21" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">21</button>
+                                                                                    <button type="button" value="22" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">22</button>
+                                                                                    <button type="button" value="23" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">23</button>
+                                                                                    <button type="button" value="24" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">24</button>
+                                                                                    <button type="button" value="25" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">25</button>
+                                                                                    <button type="button" value="26" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">26</button>
+                                                                                    <button type="button" value="27" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">27</button>
+                                                                                    <button type="button" value="28" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">28</button>
+                                                                                    <button type="button" value="29" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">29</button>
+                                                                                    <button type="button" value="30" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">30</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="width: 20%;">
+                                                                        <div class="d-flex justify-content-end align-items-start flex-column h-100">
+                                                                            <button type="button" value="reserve" class="btn delete-item-button ms-auto me-2">
+                                                                                <img src="{% static 'img/icon/cross.svg' %}">
+                                                                            </button>
+                                                                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#delete_item_check_modal"></button>
+                                                                            <div class="pin-area d-flex align-items-center mt-auto me-1 mb-2">
+                                                                                <span class="me-1">非表示</span>
+                                                                                    {% if setting_item.display_flg %}
+                                                                                        <input id="check_pin_{{ setting_item.display_id }}" type="checkbox" name="display_flg_{{ setting_item.display_id }}" class="input-required" value="1" checked>
+                                                                                    {% else %}
+                                                                                        <input id="check_pin_{{ setting_item.display_id }}" type="checkbox" name="display_flg_{{ setting_item.display_id }}" class="input-required" value="1">
+                                                                                    {% endif %}
+                                                                                    <label for="check_pin_{{ setting_item.display_id }}" class="d-block position-relative mb-0"></label>
+                                                                                <span class="ms-2">表示</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% if online_offline_item.type == 2 %}
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="d-flex justify-content-start align-items-center ms-3">
+                                                                                <button type="button" value="{{ setting_item.display_id }}" class="btn main-button add-meeting-modal-button plus p-0 ps-3 mb-2">ミーティングURLを追加する</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="mini-table-area meeting-table-area ms-3 mb-2" style="width: 95%;">
+                                                                                <table class="table reserve-setting-meeting-table mb-0">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th style="width: 20%;">ミーティング名</th>
+                                                                                            <th style="width: 20%;">ミーティングURL</th>
+                                                                                            <th style="width: 17.5%;">期限日</th>
+                                                                                            <th style="width: 15%;">ステータス</th>
+                                                                                            <th style="width: 20%;">プラットフォーム</th>
+                                                                                            <th style="width: 7.5%;"></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        {% for meeting_item in setting_item.meeting %}
+                                                                                            <tr class="position-relative">
+                                                                                                <td class="position-relative">
+                                                                                                    <input type="text" value="{{ meeting_item.name }}" class="input-text input-meeting-name readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                                                </td>
+                                                                                                <td class="position-relative">
+                                                                                                    <input type="text" value="{{ meeting_item.url }}" class="input-text input-meeting-url readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.expiration_date %}
+                                                                                                        <input type="text" value="{{ meeting_item.expiration_date|date:'Y/m/d' }}" class="input-text input-meeting-limit w-100 readonly ps-2 pe-2" readonly>
+                                                                                                        <input type="hidden" value="{{ meeting_item.start_date|date:'Y/m/d' }}" class="input-meeting-start">
+                                                                                                    {% else %}
+                                                                                                        <input type="text" value="-" class="input-text input-meeting-limit w-100 readonly ps-2 pe-2" readonly>
+                                                                                                        <input type="hidden" value="" class="input-meeting-start">
+                                                                                                    {% endif %}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.status == 1 %}
+                                                                                                        <div class="d-flex align-items-center">
+                                                                                                            <img src="{% static 'img/icon/warning.svg' %}" class="me-2 alert-image">
+                                                                                                            <label class="alert-text mb-0 p-1 ps-2 pe-2" style="top: -40%; left: 43.3%; z-index: 1000;">期限切れです。ミーティングURLを<br>削除してください。</label>
+                                                                                                            <span style="color: #FF0000;">{{ meeting_item.get_status_display }}</span>
+                                                                                                        </div>
+                                                                                                    {% elif meeting_item.status == 2 %}
+                                                                                                        <div class="d-flex align-items-center">
+                                                                                                            <img src="{% static 'img/icon/notice.png' %}" class="me-2 notice-image">
+                                                                                                            <label class="notice-text mb-0 p-1 ps-2 pe-2" style="top: -40%; left: 43.3%; z-index: 1000;">期限がまもなくです。ミーティングURLの<br>更新を行ってください。</label>
+                                                                                                            <span>使用可能</span>
+                                                                                                        </div>
+                                                                                                    {% else %}
+                                                                                                        <span>{{ meeting_item.get_status_display }}</span>
+                                                                                                    {% endif %}
+                                                                                                    <input type="hidden" value="{{ meeting_item.status }}" class="input-meeting-status">
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {% if meeting_item.platform == 9 %}
+                                                                                                        <span>{{ meeting_item.platform_text }}</span>
+                                                                                                    {% else %}
+                                                                                                        <span>{{ meeting_item.get_platform_display }}</span>
+                                                                                                    {% endif %}
+                                                                                                    <input type="hidden" value="{{ meeting_item.platform }}" class="input-meeting-platform">
+                                                                                                    <input type="hidden" value="{{ meeting_item.platform_text|default:'' }}" class="input-meeting-platform-text">
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <div class="dropdown d-inline-block p-0">
+                                                                                                        <button type="button" class="btn ps-0" data-bs-toggle="dropdown">
+                                                                                                            <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                                                                                                        </button>
+                                                                                                        <div class="dropdown-menu">
+                                                                                                            <button type="button" class="btn dropdown-item detail-meeting-button fw-bold text-center">詳細</button>
+                                                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_meeting_modal"></button>
+                                                                                                            <button type="button" class="btn dropdown-item delete-meeting-button fw-bold text-center border-top p-1 pt-2">削除</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        {% endfor %}
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-start align-items-center ps-3" style="background-color: #FFF;">
+                                                {% if online_offline_item.type == 1 %}
+                                                    <button type="button" value="offline" class="btn add-setting-button main-button plus p-0 ps-3 mb-2">設定を追加する</button>
+                                                {% elif online_offline_item.type == 2 %}
+                                                    <button type="button" value="online" class="btn add-setting-button main-button plus p-0 ps-3 mb-2">設定を追加する</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" class="btn save-setting-button mt-2">保存する</button>
+                <button type="button" class="save-button d-none" value="setting"></button>
+                <button type="button" value="{{ online_offline_list.0.display_id }}" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                <input type="hidden" id="reload_url" value="{% url 'reserve:setting' %}">
+            </div>
+        </div>
+        {% include 'reserve/modal/meeting.html' %}
+        {% include 'reserve/modal/setting.html' %}
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reserve/setting/append.js' %}"></script>
+    <script src="{% static 'js/reserve/setting/action.js' %}"></script>
+    <script src="{% static 'js/reserve/setting/data.js' %}"></script>
+{% endblock %}

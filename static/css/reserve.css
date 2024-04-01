@@ -1,0 +1,101 @@
+.setting-area,
+.facility-area {
+    border: 1px solid rgba(60,60,67,0.36);
+}
+
+.title-area {
+    background-color: #EBEBEB;
+    border-left: 10px solid #007AFF;
+}
+
+.table-area .delete-item-button img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.table-area .menu-table {
+    border-radius: 5px;
+}
+.table-area .menu-table th,
+.table-area .menu-table td {
+    border: 1px solid rgba(60,60,67,0.18);
+}
+.table-area .menu-table th:before {
+    border-bottom: 0px;
+}
+.table-area .menu-table th.fix {
+    color: #FFF;
+    background-color: #5F6267;
+}
+
+.table-area .pin-area span {
+    width: 2.5rem;
+    color: #707070;
+    font-size: 0.8rem;
+}
+.table-area .pin-area input {
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden;
+}
+.table-area .pin-area label {
+    width: 35px;
+    height: 18px;
+    background: grey;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.table-area .pin-area label:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 0.9rem;
+    height: 0.9rem;
+    background: #fff;
+    border-radius: 90px;
+    transition: .3s;
+}
+.table-area .pin-area input:checked + label {
+    background: #00a389;
+}
+.table-area .pin-area input:checked + label:after {
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
+}
+
+.save-button,
+.save-setting-button,
+.save-facility-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff !important;
+    font-size: 0.8rem;
+    background-color: #00b074;
+    border: 2px solid #00b074;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.save-button:hover,
+.save-setting-button:hover,
+.save-facility-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}
+
+.modal .modal-footer .add-course-button,
+.modal .modal-footer .save-course-button,
+.modal .modal-footer .add-meeting-button,
+.modal .modal-footer .save-meeting-button {
+    width: 11.25rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}

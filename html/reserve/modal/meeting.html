@@ -1,0 +1,83 @@
+{% load static %}
+
+<div id="save_meeting_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="modal-title"></p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block text-center ps-4 pe-4">
+                <form id="save_meeting_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">ミーティング名</label>
+                                    <input type="text" name="name" class="input-text ps-2 pe-2" style="width: 65%;" data-parsley-errors-messages-disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">ミーティングURL</label>
+                                    <input type="url" name="url" class="input-text ps-2 pe-2" style="width: 65%;" data-parsley-errors-messages-disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-start mb-2">
+                                    <label class="me-5 mb-0">プラットフォーム</label>
+                                    <div class="ms-2">
+                                        <div class="input-radio-wrap position-relative text-start mb-2">
+                                            <label for="meeting_platform_line" class="ps-4 mb-0">LINEミーティング</label>
+                                            <input type="radio" id="meeting_platform_line" name="platform" value="1" class="input-radio" checked>
+                                            <label for="meeting_platform_line" class="input-radio-mark"></label>
+                                        </div>
+                                        <div class="input-radio-wrap position-relative text-start mb-2">
+                                            <label for="meeting_platform_zoom" class="ps-4 mb-0">Zoom</label>
+                                            <input type="radio" id="meeting_platform_zoom" name="platform" value="2" class="input-radio">
+                                            <label for="meeting_platform_zoom" class="input-radio-mark"></label>
+                                        </div>
+                                        <div class="input-radio-wrap d-flex align-items-center position-relative text-start mb-0">
+                                            <label for="meeting_platform_other" class="ps-4 mb-0">その他</label>
+                                            <input type="radio" id="meeting_platform_other" name="platform" value="9" class="input-radio">
+                                            <label for="meeting_platform_other" class="input-radio-mark mb-0"></label>
+                                            <input type="text" name="platform_text" class="input-text ps-2 pe-2 ms-2" style="width: 70%;" data-parsley-errors-messages-disabled disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content create-date-content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">作成日</label>
+                                    <input type="text" id="meeting_create_date" name="create_date" class="input-text input-date ps-2 pe-2" style="width: 65%;" data-mindate=today data-parsley-errors-messages-disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center ps-4 pe-4">
+                <button type="button" class="btn add-meeting-button d-block" value="meeting">ミーティングを追加する</button>
+                <button type="button" class="btn save-meeting-button d-block" value="meeting">ミーティングを編集する</button>
+            </div>
+        </div>
+    </div>
+</div>
