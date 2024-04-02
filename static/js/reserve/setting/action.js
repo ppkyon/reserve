@@ -66,6 +66,15 @@ $( function() {
         $( '#delete_item_check_modal .no-button' ).trigger( 'click' );
     });
 
+    $( document ).on( 'click', '.input-question', function () {
+        open_question_modal( $( this ), $( this ).attr( 'name' ).replace( 'question_', '' ) );
+    });
+    $( document ).on( 'click', '#question_modal .table-area tbody button', function () {
+        $( '[name=question_' + $( this ).val() + ']' ).val( '【' + $( this ).next().next().val() + '】' );
+        $( '[name=question_' + $( this ).val() + ']' ).next().val( $( this ).next().val() );
+        $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+    });
+
     $( document ).on( 'click', '.add-meeting-modal-button', function () {
         $( '#save_meeting_modal .modal-title' ).text( 'ミーティングを追加' );
 

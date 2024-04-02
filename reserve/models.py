@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from question.models import ShopQuestion
 from setting.models import ShopOffline, ShopOnline
 from sign.models import AuthUser, AuthShop
 
@@ -116,6 +117,7 @@ class ReserveOfflineSetting(models.Model):
     time = models.IntegerField(default=0)
     people = models.IntegerField(default=0)
     facility = models.IntegerField(default=0)
+    question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_offline_setting")
     course_flg = models.BooleanField(default=False)
     display_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)
@@ -136,6 +138,7 @@ class ReserveOnlineSetting(models.Model):
     time = models.IntegerField(default=0)
     people = models.IntegerField(default=0)
     facility = models.IntegerField(default=0)
+    question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_online_setting")
     course_flg = models.BooleanField(default=False)
     display_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)

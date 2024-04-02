@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 
+from question.models import ShopQuestion
 from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting, ReserveOnlineMeeting
 from setting.models import ShopOffline, ShopOnline
-from sign.models import AuthLogin
 
 from common import create_code
 
@@ -28,6 +28,10 @@ def save(request):
             display_flg = True
         else:
             display_flg = False
+        question = None
+        if request.POST.get('question_'+str(i+1)):
+            question = ShopQuestion.objects.filter(display_id=request.POST.get('question_'+str(i+1))).first()
+        print(request.POST.get('question_'+str(i+1)))
 
         if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('random_'+str(i+1))).exists():
             offline = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('random_'+str(i+1))).first()
@@ -39,6 +43,7 @@ def save(request):
             offline.time = request.POST.get('time_'+str( i + 1 ))
             offline.people = request.POST.get('people_'+str( i + 1 ))
             offline.facility = request.POST.get('facility_'+str( i + 1 ))
+            offline.question = question
             offline.course_flg = course_flg
             offline.display_flg = display_flg
             offline.save()
@@ -52,6 +57,7 @@ def save(request):
             online.time = request.POST.get('time_'+str( i + 1 ))
             online.people = request.POST.get('people_'+str( i + 1 ))
             online.facility = request.POST.get('facility_'+str( i + 1 ))
+            online.question = question
             offline.course_flg = course_flg
             online.display_flg = display_flg
             online.save()
@@ -95,6 +101,8 @@ def save(request):
                     note = request.POST.get('note_'+str( i + 1 )),
                     time = request.POST.get('time_'+str( i + 1 )),
                     people = request.POST.get('people_'+str( i + 1 )),
+                    facility = request.POST.get('facility_'+str( i + 1 )),
+                    question = question,
                     display_flg = display_flg,
                 )
             if ShopOnline.objects.filter(display_id=request.POST.get('id')).exists():
@@ -109,6 +117,8 @@ def save(request):
                     note = request.POST.get('note_'+str( i + 1 )),
                     time = request.POST.get('time_'+str( i + 1 )),
                     people = request.POST.get('people_'+str( i + 1 )),
+                    facility = request.POST.get('facility_'+str( i + 1 )),
+                    question = question,
                     display_flg = display_flg,
                 )
                 for j in range(int(request.POST.get('meeting_count_'+str( i + 1 )))):

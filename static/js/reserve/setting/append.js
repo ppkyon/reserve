@@ -139,6 +139,15 @@ function append_setting_area(type) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
+    html += '<div class="d-flex justify-content-start align-items-center mb-2">';
+    html += '<label class="mb-0" style="width: 15%;">回答フォーム</label>';
+    html += '<div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">';
+    html += '<input type="text" name="question_' + random + '" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="hidden" value="">';
+    html += '</div>';
+    html += '<button type="button" value="' + random + '" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>';
+    html += '<button type="button" value="' + random + '" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>';
+    html += '</div>';
     html += '</div>';
     html += '<div style="width: 20%;">';
     html += '<div class="d-flex justify-content-end align-items-start flex-column h-100">';
