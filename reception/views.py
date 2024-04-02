@@ -294,9 +294,9 @@ class ManagerView(ShopView):
                     for day_index, day in enumerate(week):
                         if day.month == context['date'].month:
                             reception_list = list()
-                            if ShopOffline.objects.filter(display_id=self.request.GET.get("id")).first():
+                            if ShopOffline.objects.filter(id=online_offline_item.id).exists():
                                 reception_list = ReceptionOfflineManager.objects.filter(offline=online_offline_item, manager=manager_item, reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).order_by('number').all()
-                            if ShopOnline.objects.filter(display_id=self.request.GET.get("id")).first():
+                            if ShopOnline.objects.filter(id=online_offline_item.id).exists():
                                 reception_list = ReceptionOnlineManager.objects.filter(online=online_offline_item, manager=manager_item, reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).order_by('number').all()
                             if len(reception_list) > 0:
                                 time_list = list()

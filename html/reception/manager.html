@@ -90,9 +90,212 @@
                                             {% for online_offline_item in online_offline_list %}
                                                 {% for manager_item in online_offline_item.manager %}
                                                     {% if forloop.first %}
-
+                                                        <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
+                                                            <td rowspan="{{ online_offline_item.manager|length }}" style="white-space: normal; word-break: break-word;">
+                                                                <span class="setting-name-{{ online_offline_item.display_id }}">{{ online_offline_item.name }}</span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                {% if manager_item.reception_count == 0 %}
+                                                                    <span style="color: #FF0000">未設定</span>
+                                                                {% elif manager_item.reception_count < days_count %}
+                                                                    <span style="color: #FF0000">一部未設定</span>
+                                                                {% else %}
+                                                                    <span style="color: #007AFF">設定済</span>
+                                                                {% endif %}
+                                                            </td>
+                                                            {% for day in manager_item.reception_list %}
+                                                                {% if day.flg is None %}
+                                                                    {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                        <td class="text-center">
+                                                                            <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                            <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                            <input type="hidden" value="{{ day.day }}">
+                                                                            <input type="hidden" value="{{ day.week }}">
+                                                                            <button type="button" class="btn no-icon p-0"></button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                            <div class="data-area"></div>
+                                                                        </td>
+                                                                    {% else %}
+                                                                        <td class="text-center">
+                                                                            <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                            <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                            <input type="hidden" value="{{ day.day }}">
+                                                                            <input type="hidden" value="{{ day.week }}">
+                                                                            <button type="button" class="btn no-icon p-0"></button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                            <div class="data-area"></div>
+                                                                        </td>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if day.flg %}
+                                                                        {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn work-icon p-0">出</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="1">
+                                                                                    {% for time in day.time %}
+                                                                                        <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
+                                                                                        <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </td>
+                                                                        {% else %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn work-icon p-0">出</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="1">
+                                                                                    {% for time in day.time %}
+                                                                                        <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
+                                                                                        <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </td>
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn holiday-icon p-0">休</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="0">
+                                                                                </div>
+                                                                            </td>
+                                                                        {% else %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn holiday-icon p-0">休</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="0">
+                                                                                </div>
+                                                                            </td>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
                                                     {% else %}
-
+                                                        <tr style="background-color: #FFF;">
+                                                            <td>
+                                                                <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                {% if manager_item.reception_count == 0 %}
+                                                                    <span style="color: #FF0000">未設定</span>
+                                                                {% elif manager_item.reception_count < days_count %}
+                                                                    <span style="color: #FF0000">一部未設定</span>
+                                                                {% else %}
+                                                                    <span style="color: #007AFF">設定済</span>
+                                                                {% endif %}
+                                                            </td>
+                                                            {% for day in manager_item.reception_list %}
+                                                                {% if day.flg is None %}
+                                                                    {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                        <td class="text-center">
+                                                                            <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                            <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                            <input type="hidden" value="{{ day.day }}">
+                                                                            <input type="hidden" value="{{ day.week }}">
+                                                                            <button type="button" class="btn no-icon p-0"></button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                            <div class="data-area"></div>
+                                                                        </td>
+                                                                    {% else %}
+                                                                        <td class="text-center">
+                                                                            <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                            <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                            <input type="hidden" value="{{ day.day }}">
+                                                                            <input type="hidden" value="{{ day.week }}">
+                                                                            <button type="button" class="btn no-icon p-0"></button>
+                                                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                            <div class="data-area"></div>
+                                                                        </td>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if day.flg %}
+                                                                        {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn work-icon p-0">出</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="1">
+                                                                                    {% for time in day.time %}
+                                                                                        <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
+                                                                                        <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </td>
+                                                                        {% else %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn work-icon p-0">出</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="1">
+                                                                                    {% for time in day.time %}
+                                                                                        <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
+                                                                                        <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </td>
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        {% if day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn holiday-icon p-0">休</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="0">
+                                                                                </div>
+                                                                            </td>
+                                                                        {% else %}
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" value="{{ online_offline_item.display_id }}">
+                                                                                <input type="hidden" value="{{ manager_item.display_id }}">
+                                                                                <input type="hidden" value="{{ day.day }}">
+                                                                                <input type="hidden" value="{{ day.week }}">
+                                                                                <button type="button" class="btn holiday-icon p-0">休</button>
+                                                                                <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#manager_input_modal"></button>
+                                                                                <div class="data-area">
+                                                                                    <input type="hidden" name="flg_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}" value="0">
+                                                                                </div>
+                                                                            </td>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endfor %}
@@ -102,11 +305,22 @@
                             </div>
                         </div>
                     </form>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="button" class="btn save-button mt-2" value="manager">設定する</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                            <input type="hidden" id="reload_url" value="{% url 'reception:manager' %}?year={{ date.year }}&month={{ date.month }}">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        {% include 'reception/modal/manager.html' %}
+        {% include 'modal.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/reception/manager/action.js' %}"></script>
+    <script src="{% static 'js/reception/manager/data.js' %}"></script>
 {% endblock %}
