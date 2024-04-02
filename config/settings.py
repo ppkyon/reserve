@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'user',
     
     'maintenance_mode',
+    'storages',
 ]
 
 MIDDLEWARE = [
