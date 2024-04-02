@@ -50,7 +50,7 @@
                                     {% for setting_item in online_offline_item.setting %}
                                         {% if forloop.first %}
                                             <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
-                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.name }}</td>
                                                 <td>{{ setting_item.name }}</td>
                                                 {% for manager_item in setting_item.manager %}
                                                     <td>
@@ -123,7 +123,7 @@
                                     {% for setting_item in online_offline_item.setting %}
                                         {% if forloop.first %}
                                             <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
-                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.name }}</td>
                                                 <td>{{ setting_item.name }}</td>
                                                 {% for facility_item in setting_item.facility %}
                                                     {% if facility_item.facility == online_offline_item.id %}
@@ -204,7 +204,7 @@
                                     {% for setting_item in online_offline_item.setting %}
                                         {% if forloop.first %}
                                             <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
-                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.title }}</td>
+                                                <td rowspan="{{ online_offline_item.setting_count }}" style="white-space: normal; word-break: break-word;">{{ online_offline_item.name }}</td>
                                                 <td>{{ setting_item.name }}</td>
                                                 {% for flow_item in setting_item.flow %}
                                                     <td>

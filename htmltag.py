@@ -61,3 +61,7 @@ def textarea_action_replace(value):
 @register.filter(name="convert_time")
 def convert_time(value):
     return time.strftime('%M:%S', time.gmtime(value))
+
+@register.filter(name="add_num")
+def add_num(value1=None, value2=None):
+    return str(value1) + str(value2)

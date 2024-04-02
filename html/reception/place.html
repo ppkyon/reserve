@@ -1,0 +1,208 @@
+{% extends '../base.html' %}
+
+{% load static %}
+{% load original %}
+
+{% block css %}
+    <link href="{% static 'css/reception.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-area pt-3 pb-3 ps-4 pe-4">
+                    <input type="hidden" id="save_place_check_form" value="{% url 'reception:save_place_check' %}">
+                    <form id="save_place_form" action="{% url 'reception:save_place' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    <a href="{% url 'reception:place' %}?year={{ prev.year }}&month={{ prev.month }}&id={{ setting.display_id }}" class="mt-1 me-3" style="cursor: pointer;">
+                                        <img src="{% static 'img/icon/than-gray-left.svg' %}">
+                                    </a>
+                                    <a href="{% url 'reception:place' %}?year={{ next.year }}&month={{ next.month }}&id={{ setting.display_id }}" class="mt-1 me-4" style="cursor: pointer;">
+                                        <img src="{% static 'img/icon/than-gray-right.svg' %}">
+                                    </a>
+                                    <p class="calendar-title mb-0">{{ date.year }}年 {{ date.month }}月</p>
+                                    <input type="hidden" name="year" value="{{ date.year }}">
+                                    <input type="hidden" name="month" value="{{ date.month }}">
+                                    <div class="dropdown input-select-dropdown place-setting-dropdown d-inline-block p-0 ms-3 me-3">
+                                        <input type="text" name="setting" value="{{ setting.title }}" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="{{ setting.display_id }}">
+                                        <div class="dropdown-menu w-100">
+                                            {% for online_offline_item in online_offline_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center">{{ online_offline_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ online_offline_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ online_offline_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn all-input-button me-2" data-bs-toggle="modal" data-bs-target="#place_all_input_modal">一括入力</button>
+                                    <button type="button" class="btn all-reset-button" data-bs-toggle="modal" data-bs-target="#place_all_reset_modal">一括リセット</button>
+                                </div>
+                                {% if reception_count == 0 %}
+                                    <span class="mini-calendar-status p-1 ps-2 pe-2 ms-5 mb-0" style="background-color: #FF0000;">未設定</span>
+                                {% elif reception_count < days_count %}
+                                    <span class="mini-calendar-status p-1 ps-2 pe-2 ms-5 mb-0" style="background-color: #FF0000;">一部未設定</span>
+                                {% else %}
+                                    <span class="mini-calendar-status p-1 ps-2 pe-2 ms-5 mb-0">設定済</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 position-relative">
+                            <div class="col-12 p-0">
+                                <table class="table calendar-table">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>日曜日</th>
+                                            <th>月曜日</th>
+                                            <th>火曜日</th>
+                                            <th>水曜日</th>
+                                            <th>木曜日</th>
+                                            <th>金曜日</th>
+                                            <th>土曜日</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for week in reception_list %}
+                                            <tr>
+                                                {% for day in week %}
+                                                    <td class="p-1">
+                                                        {% if day.month == date.month %}
+                                                            {% if forloop.first or day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                <div class="d-flex align-items-center mb-1">
+                                                                    <p class="day-text holiday-text text-center mb-1" style="color: #FF5B5B;">{{ day.day }}</p>
+                                                                    <div class="input-check-wrap ms-auto me-1 mb-0" style="padding-left: 1.1rem;">
+                                                                        <label for="setting_not_{{ day.day }}" class="mb-0" style="font-size: 11px;">対応不可</label>
+                                                                        {% if day.flg %}
+                                                                            <input type="checkbox" id="setting_not_{{ day.day }}" name="setting_not_{{ day.day }}" value="{{ day.day }}" class="input-check setting-not-check" data-parsley-multiple="setting_not_{{ day.day }}" checked>
+                                                                        {% else %}
+                                                                            <input type="checkbox" id="setting_not_{{ day.day }}" name="setting_not_{{ day.day }}" value="{{ day.day }}" class="input-check setting-not-check" data-parsley-multiple="setting_not_{{ day.day }}">
+                                                                        {% endif %}
+                                                                        <label for="setting_not_{{ day.day }}" class="input-check-mark mb-0"></label>
+                                                                    </div>
+                                                                </div>
+                                                                {% if day.time|length > 0 %}
+                                                                    {% for day_time in day.time %}
+                                                                        <div class="d-flex align-items-center mb-1">
+                                                                            {% if day.flg %}
+                                                                                <input type="text" name="setting_from_{{ day.day }}_{{ day_time.number }}" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                            {% else %}
+                                                                                <input type="text" name="setting_from_{{ day.day }}_{{ day_time.number }}" value="{{ day_time.from|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                            {% endif %}
+                                                                            <p class="text-center mb-0" style="width: 10%;">～</p>
+                                                                            {% if day.flg %}
+                                                                                <input type="text" name="setting_to_{{ day.day }}_{{ day_time.number }}" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                            {% else %}
+                                                                                <input type="text" name="setting_to_{{ day.day }}_{{ day_time.number }}" value="{{ day_time.to|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class="d-flex align-items-center mb-1">
+                                                                        {% if day.flg %}
+                                                                            <input type="text" name="setting_from_{{ day.day }}_1" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                        {% else %}
+                                                                            <input type="text" name="setting_from_{{ day.day }}_1" value="{{ day.from|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                        {% endif %}
+                                                                        <p class="text-center mb-0" style="width: 10%;">～</p>
+                                                                        {% if day.flg %}
+                                                                            <input type="text" name="setting_to_{{ day.day }}_1" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                        {% else %}
+                                                                            <input type="text" name="setting_to_{{ day.day }}_1" value="{{ day.to|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% endif %}
+                                                                <div class="d-flex justify-content-start align-items-center">
+                                                                    <button type="button" value="{{ day.day }}" class="btn main-button add-time-button plus p-0 me-0">時間を追加する</button>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="d-flex align-items-center mb-1">
+                                                                    <p class="day-text text-center mb-1">{{ day.day }}</p>
+                                                                    <div class="input-check-wrap ms-auto me-1 mb-0" style="padding-left: 1.1rem;">
+                                                                        <label for="setting_not_{{ day.day }}" class="mb-0" style="font-size: 11px;">対応不可</label>
+                                                                        {% if day.flg %}
+                                                                            <input type="checkbox" id="setting_not_{{ day.day }}" name="setting_not_{{ day.day }}" value="{{ day.day }}" class="input-check setting-not-check" data-parsley-multiple="setting_not_{{ day.day }}" checked>
+                                                                        {% else %}
+                                                                            <input type="checkbox" id="setting_not_{{ day.day }}" name="setting_not_{{ day.day }}" value="{{ day.day }}" class="input-check setting-not-check" data-parsley-multiple="setting_not_{{ day.day }}">
+                                                                        {% endif %}
+                                                                        <label for="setting_not_{{ day.day }}" class="input-check-mark mb-0"></label>
+                                                                    </div>
+                                                                </div>
+                                                                {% if day.time|length > 0 %}
+                                                                    {% for day_time in day.time %}
+                                                                        <div class="d-flex align-items-center mb-1">
+                                                                            {% if day.flg %}
+                                                                                <input type="text" name="setting_from_{{ day.day }}_{{ day_time.number }}" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                            {% else %}
+                                                                                <input type="text" name="setting_from_{{ day.day }}_{{ day_time.number }}" value="{{ day_time.from|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                            {% endif %}
+                                                                            <p class="text-center mb-0" style="width: 10%;">～</p>
+                                                                            {% if day.flg %}
+                                                                                <input type="text" name="setting_to_{{ day.day }}_{{ day_time.number }}" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                            {% else %}
+                                                                                <input type="text" name="setting_to_{{ day.day }}_{{ day_time.number }}" value="{{ day_time.to|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class="d-flex align-items-center mb-1">
+                                                                        {% if day.flg %}
+                                                                            <input type="text" name="setting_from_{{ day.day }}_1" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                        {% else %}
+                                                                            <input type="text" name="setting_from_{{ day.day }}_1" value="{{ day.from|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                        {% endif %}
+                                                                        <p class="text-center mb-0" style="width: 10%;">～</p>
+                                                                        {% if day.flg %}
+                                                                            <input type="text" name="setting_to_{{ day.day }}_1" class="input-text input-time readonly ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly disabled>
+                                                                        {% else %}
+                                                                            <input type="text" name="setting_to_{{ day.day }}_1" value="{{ day.to|default:'' }}" class="input-text input-time ps-1 pe-1" style="width: 45%;" data-parsley-errors-messages-disabled readonly>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% endif %}
+                                                                <div class="d-flex justify-content-start align-items-center">
+                                                                    <button type="button" value="{{ day.day }}" class="btn main-button add-time-button plus p-0 me-0">時間を追加する</button>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {% if forloop.first or day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                <p class="any-day-text text-center mb-1" style="color: #FF5B5B;">{{ day.day }}</p>
+                                                            {% else %}
+                                                                <p class="any-day-text text-center mb-1">{{ day.day }}</p>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn save-button mt-2" value="place">設定する</button>
+                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                                <input type="hidden" id="reload_url" value="{% url 'reception:place' %}?year={{ date.year }}&month={{ date.month }}&id={{ setting.display_id }}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% include 'reception/modal/place.html' %}
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reception/place/action.js' %}"></script>
+    <script src="{% static 'js/reception/place/data.js' %}"></script>
+{% endblock %}

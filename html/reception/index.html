@@ -1,0 +1,187 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/reception.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="title-area p-2">
+                    <p class="fw-bold mb-0">会場の受付設定</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>会場の時間設定(日別)</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table reception-place-table mb-0">
+                        <tbody>
+                            {% for online_offline_item in online_offline_list %}
+                                <tr>
+                                    <td style="width: 180px;">{{ online_offline_item.name }}</td>
+                                    <td>
+                                        <div class="mini-table-area reception-mini-table-area ms-3 mb-2" style="width: 95%;">
+                                            <table class="table reception-setting-table mb-0">
+                                                <thead class="text-center">
+                                                    <tr>
+                                                        {% for month_item in month_list %}
+                                                            <th>{{ month_item.year }}年{{ month_item.month }}月</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-center">
+                                                    <tr>
+                                                        {% for month_item in online_offline_item.month %}
+                                                            {% if not month_item.status or month_item.status == 0 %}
+                                                                <td>
+                                                                    <a href="{% url 'reception:place' %}?year={{ month_item.year }}&month={{ month_item.month }}&id={{ online_offline_item.display_id }}" style="color: #FF0000">未設定</a>
+                                                                </td>
+                                                            {% elif month_item.status == 1 %}
+                                                                <td>
+                                                                    <a href="{% url 'reception:place' %}?year={{ month_item.year }}&month={{ month_item.month }}&id={{ online_offline_item.display_id }}" style="color: #007AFF">設定済</a>
+                                                                </td>
+                                                            {% elif month_item.status == 2 %}
+                                                                <td>
+                                                                    <a href="{% url 'reception:place' %}?year={{ month_item.year }}&month={{ month_item.month }}&id={{ online_offline_item.display_id }}" style="color: #FF0000">一部未設定</a>
+                                                                </td>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="title-area p-2">
+                    <p class="fw-bold mb-0">担当者の受付設定</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table reception-manager-table mb-0">
+                        <tbody>
+                            <tr>
+                                <td style="width: 180px;">担当者の時間設定</td>
+                                <td>
+                                    <div class="mini-table-area reception-mini-table-area ms-3 mb-2" style="width: 95%;">
+                                        <table class="table reception-setting-table mb-0">
+                                            <thead class="text-center">
+                                                <tr>
+                                                    {% for month_item in month_list %}
+                                                        <th>{{ month_item.year }}年{{ month_item.month }}月</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-center">
+                                                <tr>
+                                                    {% for month_item in manager_list %}
+                                                        {% if not month_item.status or month_item.status == 0 %}
+                                                            <td>
+                                                                <a href="{% url 'reception:manager' %}?year={{ month_item.year }}&month={{ month_item.month }}" style="color: #FF0000">未設定</a>
+                                                            </td>
+                                                        {% elif month_item.status == 1 %}
+                                                            <td>
+                                                                <a href="{% url 'reception:manager' %}?year={{ month_item.year }}&month={{ month_item.month }}" style="color: #007AFF">設定済</a>
+                                                            </td>
+                                                        {% elif month_item.status == 2 %}
+                                                            <td>
+                                                                <a href="{% url 'reception:manager' %}?year={{ month_item.year }}&month={{ month_item.month }}" style="color: #FF0000">一部未設定</a>
+                                                            </td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="title-area p-2">
+                    <p class="fw-bold mb-0">自動延長設定</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="table-area mb-3">
+                    <table class="table reception-manager-table mb-0">
+                        <tbody>
+                            <tr>
+                                <td style="width: 180px;">自動延長設定</td>
+                                <td>
+                                    <input type="hidden" id="save_data_check_form" value="{% url 'reception:save_data_check' %}">
+                                    <form id="save_data_form" action="{% url 'reception:save_data' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                                        <div class="d-flex align-items-center ms-3 mb-0">
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="auto_flg_off" class="ps-4 mb-0">自動延長しない</label>
+                                                {% if reception.auto_flg %}
+                                                    <input type="radio" id="auto_flg_off" name="auto_flg" value="0" class="input-radio">
+                                                {% else %}
+                                                    <input type="radio" id="auto_flg_off" name="auto_flg" value="0" class="input-radio" checked>
+                                                {% endif %}
+                                                <label for="auto_flg_off" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                <label for="auto_flg_on" class="ps-4 mb-0">受付設定を自動延長する</label>
+                                                {% if reception.auto_flg %}
+                                                    <input type="radio" id="auto_flg_on" name="auto_flg" value="1" class="input-radio" checked>
+                                                {% else %}
+                                                    <input type="radio" id="auto_flg_on" name="auto_flg" value="1" class="input-radio">
+                                                {% endif %}
+                                                <label for="auto_flg_on" class="input-radio-mark mb-0"></label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" class="btn save-button mt-2" value="data">保存する</button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                <input type="hidden" id="reload_url" value="{% url 'reception:index' %}">
+            </div>
+        </div>
+        {% include 'modal.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/reception/data/data.js' %}"></script>
+{% endblock %}

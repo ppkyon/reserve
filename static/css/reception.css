@@ -1,0 +1,177 @@
+.title-area {
+    background-color: #EBEBEB;
+    border-left: 10px solid #007AFF;
+}
+
+.reception-mini-table-area table th {
+    background-color: #F2E8AA !important;
+}
+.mini-calendar-status {
+    color: #FFF;
+    background-color: #007AFF;
+    border-radius: 5px;
+}
+.mini-calendar-top {
+    position: absolute;
+    top: 0px;
+    left: -12px;
+    width: 120%;
+    border-top: 1px solid #B9BBBD;
+}
+
+.card-area {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.calendar-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+.calendar-table {
+    height: calc(100vh - 250px);
+    table-layout: fixed;
+}
+.calendar-table thead th {
+    color: #464255;
+}
+.calendar-table tbody {
+    border: 1px solid #B9BBBD;
+}
+.calendar-table tbody tr {
+    height: 15%;
+}
+.calendar-table tbody td {
+    border: 1px solid #B9BBBD;
+}
+.calendar-table tbody td .day-text {
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+}
+.calendar-table tbody td .any-day-text {
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.manager-table {
+    border-radius: 5px;
+}
+.manager-table th,
+.manager-table td {
+    border: 1px solid rgba(60,60,67,0.18);
+}
+.manager-table th {
+    background-color: #EBEBEB !important;
+}
+.manager-table th:before {
+    border-bottom: 0px;
+}
+.manager-table th.fix {
+    color: #FFF;
+    background-color: #5F6267 !important;
+}
+.manager-table .setting-button {
+    width: 50px;
+    height: 25px;
+    color: #FFF;
+    background-color: #2EC609;
+    border-radius: 5px;
+}
+.manager-table .work-icon {
+    width: 50px;
+    height: 25px;
+    background-color: #F0F1F4;
+    border-top: 4px solid #B8D0E8;
+    border-radius: 5px;
+}
+.manager-table .holiday-icon {
+    width: 50px;
+    height: 25px;
+    background-color: #CCCCCC;
+    border-radius: 5px;
+}
+.manager-table .no-icon {
+    width: 50px;
+    height: 25px;
+    background-color: #FBFACB;
+    border: 1px solid #E5E4C3;
+    border-radius: 5px;
+}
+
+.calendar-table .input-text {
+    height: 1.5rem;
+}
+.input-select {
+    background: url(../img/icon/select-arrow.svg) no-repeat;
+    background-position: 95%;
+    background-size: 0.6rem 0.4rem;
+    cursor: pointer;
+}
+.input-time {
+    text-align: left;
+    background: url(../img/icon/time.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+.input-time:disabled {
+    background: url(../img/icon/time.svg) no-repeat,rgba(239, 239, 239, 0.3);
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+
+.calendar-table .main-button.plus {
+    background-size: 0.6rem 0.6rem;
+}
+.calendar-table .main-button {
+    padding-left: 0.75rem !important;
+    font-size: 0.65rem;
+    line-height: 1.0rem;
+}
+
+.save-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff !important;
+    font-size: 0.8rem;
+    background-color: #00b074;
+    border: 2px solid #00b074;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.all-input-button {
+    width: 6rem;
+    height: 30px;
+    color: #fff !important;
+    font-size: 0.8rem;
+    background-color: #007AFF;
+    border: 2px solid #007AFF;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.all-reset-button {
+    width: 7rem;
+    height: 30px;
+    color: #fff !important;
+    font-size: 0.8rem;
+    background-color: red;
+    border: 2px solid red;
+    border-radius: 3px;
+    line-height: 12px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.save-button:hover,
+.all-input-button:hover,
+.all-reset-button:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
+}

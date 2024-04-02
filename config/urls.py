@@ -26,6 +26,7 @@ urlpatterns = [
     path('head/', include('head.urls')),
     path('line/', include('line.urls')),
     path('question/', include('question.urls')),
+    path('reception/', include('reception.urls')),
     path('reserve/', include('reserve.urls')),
     path('richmenu/', include('richmenu.urls')),
     path('setting/', include('setting.urls')),

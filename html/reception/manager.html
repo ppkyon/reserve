@@ -1,0 +1,112 @@
+{% extends '../base.html' %}
+
+{% load static %}
+{% load original %}
+
+{% block css %}
+    <link href="{% static 'css/reception.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-area pt-3 pb-3 ps-4 pe-4">
+                    <input type="hidden" id="save_manager_check_form" value="{% url 'reception:save_manager_check' %}">
+                    <form id="save_manager_form" action="{% url 'reception:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    <a href="{% url 'reception:manager' %}?year={{ prev.year }}&month={{ prev.month }}" class="mt-1 me-3" style="cursor: pointer;">
+                                        <img src="{% static 'img/icon/than-gray-left.svg' %}">
+                                    </a>
+                                    <a href="{% url 'reception:manager' %}?year={{ next.year }}&month={{ next.month }}" class="mt-1 me-4" style="cursor: pointer;">
+                                        <img src="{% static 'img/icon/than-gray-right.svg' %}">
+                                    </a>
+                                    <p class="calendar-title mb-0">{{ date.year }}年 {{ date.month }}月</p>
+                                    <input type="hidden" name="year" value="{{ date.year }}">
+                                    <input type="hidden" name="month" value="{{ date.month }}">
+                                    <button type="button" class="btn all-input-button ms-3 me-2" data-bs-toggle="modal" data-bs-target="#manager_all_input_modal">一括入力</button>
+                                    <button type="button" class="btn all-reset-button" data-bs-toggle="modal" data-bs-target="#manager_all_reset_modal">一括リセット</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="table-area w-100" style="overflow-x: auto;">
+                                    <table class="table manager-table mb-0" style="white-space: nowrap;">
+                                        <thead>
+                                            <tr>
+                                                <th class="fix" style="width: 150px; border-radius: 5px 0 0 0; vertical-align: middle;">会場カテゴリ</th>
+                                                <th class="fix" style="width: 130px; vertical-align: middle;">スタッフ名</th>
+                                                <th class="fix text-center" style="width: 90px; vertical-align: middle;">設定状況</th>
+                                                {% for week in days %}
+                                                    {% for day in week %}
+                                                        {% if day.month == date.month %}
+                                                            {% if forloop.first or day.month|add_num:'/'|add_num:day.day in holiday %}
+                                                                {% if forloop.counter == 1 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(日)</th>
+                                                                {% elif forloop.counter == 2 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(月)</th>
+                                                                {% elif forloop.counter == 3 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(火)</th>
+                                                                {% elif forloop.counter == 4 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(水)</th>
+                                                                {% elif forloop.counter == 5 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(木)</th>
+                                                                {% elif forloop.counter == 6 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(金)</th>
+                                                                {% elif forloop.counter == 7 %}
+                                                                    <th class="text-center" style="width: 70px; color: #FF5B5B; vertical-align: middle;">{{ day.day }}(土)</th>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.counter == 1 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(日)</th>
+                                                                {% elif forloop.counter == 2 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(月)</th>
+                                                                {% elif forloop.counter == 3 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(火)</th>
+                                                                {% elif forloop.counter == 4 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(水)</th>
+                                                                {% elif forloop.counter == 5 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(木)</th>
+                                                                {% elif forloop.counter == 6 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(金)</th>
+                                                                {% elif forloop.counter == 7 %}
+                                                                    <th class="text-center" style="width: 70px; vertical-align: middle;">{{ day.day }}(土)</th>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for online_offline_item in online_offline_list %}
+                                                {% for manager_item in online_offline_item.manager %}
+                                                    {% if forloop.first %}
+
+                                                    {% else %}
+
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

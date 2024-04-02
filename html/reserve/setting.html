@@ -33,7 +33,7 @@
                                                 <input type="hidden" value="false">
                                                 <div class="d-flex justify-content-start align-items-center">
                                                     <i class='bx bx-folder folder-icon me-1'></i>
-                                                    <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.setting_count }})</p>
+                                                    <p class="content-title mb-0">{{ online_offline_item.name }}({{ online_offline_item.setting_count }})</p>
                                                     <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
                                                 </div>
                                             </td>
@@ -44,7 +44,7 @@
                                                 <input type="hidden" value="false">
                                                 <div class="d-flex justify-content-start align-items-center">
                                                     <i class='bx bx-folder folder-icon me-1'></i>
-                                                    <p class="content-title mb-0">{{ online_offline_item.title }}({{ online_offline_item.setting_count }})</p>
+                                                    <p class="content-title mb-0">{{ online_offline_item.name }}({{ online_offline_item.setting_count }})</p>
                                                     <input type="hidden" class="title-id" value="{{ online_offline_item.display_id }}">
                                                 </div>
                                             </td>
@@ -80,7 +80,7 @@
                                                                 <div style="width: 75%;">
                                                                     <div class="d-flex justify-content-start align-items-center mb-1">
                                                                         <label class="mb-0" style="width: 15%;">登録名</label>
-                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
                                                                         <label class="mb-0" style="width: 15%;">&nbsp;</label>
@@ -88,7 +88,7 @@
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">タイトル</label>
-                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">概要</label>
@@ -267,7 +267,7 @@
                                                                     <div style="width: 75%;">
                                                                         <div class="d-flex justify-content-start align-items-center mb-1">
                                                                             <label class="mb-0" style="width: 15%;">登録名</label>
-                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
                                                                             <label class="mb-0" style="width: 15%;">&nbsp;</label>
@@ -275,7 +275,7 @@
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
                                                                             <label class="mb-0" style="width: 15%;">タイトル</label>
-                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
                                                                             <label class="mb-0" style="width: 15%;">概要</label>
@@ -547,7 +547,7 @@
                                                                 <div style="width: 75%;">
                                                                     <div class="d-flex justify-content-start align-items-center mb-1">
                                                                         <label class="mb-0" style="width: 15%;">登録名</label>
-                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
                                                                         <label class="mb-0" style="width: 15%;">&nbsp;</label>
@@ -555,7 +555,7 @@
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">タイトル</label>
-                                                                        <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                        <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">概要</label>
@@ -734,7 +734,7 @@
                                                                     <div style="width: 75%;">
                                                                         <div class="d-flex justify-content-start align-items-center mb-1">
                                                                             <label class="mb-0" style="width: 15%;">登録名</label>
-                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
                                                                             <label class="mb-0" style="width: 15%;">&nbsp;</label>
@@ -742,7 +742,7 @@
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
                                                                             <label class="mb-0" style="width: 15%;">タイトル</label>
-                                                                            <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
+                                                                            <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
                                                                             <label class="mb-0" style="width: 15%;">概要</label>

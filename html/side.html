@@ -159,6 +159,21 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if '/reception/' in request.path %}
+                            <li class="active position-relative">
+                                <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>毎月受付設定</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="position-relative">
+                                <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                    <span>毎月受付設定</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if request.user.company_flg %}
                             <li class="position-relative">
                                 <a href="{% url 'company:shop:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
