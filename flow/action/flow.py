@@ -127,7 +127,7 @@ def save(request):
                             display_id = create_code(12, ShopTemplateCardType),
                             parent = company_flow_template.template_cardtype,
                             company = auth_login.shop.company,
-                            shop = auth_login.company,
+                            shop = auth_login.shop,
                             name = company_flow_template.template_cardtype.name,
                             title = company_flow_template.template_cardtype.title,
                             type = company_flow_template.template_cardtype.type,
