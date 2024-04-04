@@ -174,7 +174,7 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if request.user.company_flg %}
+                        {% if request.user.company_flg or request.user.head_flg %}
                             <li class="position-relative">
                                 <a href="{% url 'company:shop:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                     <i class='bx bxs-group me-2'></i>
