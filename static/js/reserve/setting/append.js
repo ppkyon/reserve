@@ -101,9 +101,9 @@ function append_setting_area(type) {
     html += '</div>';
     html += '</div>';
     html += '<label class="ps-2 mb-0" style="width: 5%;">人</label>';
-    html += '<label class="ps-4 mb-0" style="width: 20%;">同時対応数</label>';
+    html += '<label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
-    html += '<input type="text" name="people_' + random + '" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="text" name="facility_' + random + '" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<input type="hidden">';
     html += '<div class="dropdown-menu w-100">';
     html += '<button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>';
@@ -142,7 +142,7 @@ function append_setting_area(type) {
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
     html += '<label class="mb-0" style="width: 15%;">回答フォーム</label>';
     html += '<div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">';
-    html += '<input type="text" name="question_' + random + '" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="text" name="question_' + random + '" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>';
     html += '<input type="hidden" value="">';
     html += '</div>';
     html += '<button type="button" value="' + random + '" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>';

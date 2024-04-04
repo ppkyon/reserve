@@ -211,7 +211,7 @@
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">回答フォーム</label>
                                                                         <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
-                                                                            <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                             <input type="hidden" value="">
                                                                         </div>
                                                                         <button type="button" value="{{ online_offline_item.random }}" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>
@@ -372,7 +372,7 @@
                                                                             <label class="ps-2 mb-0" style="width: 5%;">人</label>
                                                                             <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
-                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-facility input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.facility }}">
                                                                                 <div class="dropdown-menu w-100">
                                                                                     <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
@@ -412,10 +412,10 @@
                                                                             <label class="mb-0" style="width: 15%;">回答フォーム</label>
                                                                             <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                                 {% if setting_item.question %}
-                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                                     <input type="hidden" value="{{ setting_item.question.display_id }}">
                                                                                 {% else %}
-                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                                     <input type="hidden" value="">
                                                                                 {% endif %}
                                                                             </div>
@@ -701,7 +701,7 @@
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
                                                                         <label class="mb-0" style="width: 15%;">回答フォーム</label>
                                                                         <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
-                                                                            <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                            <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                             <input type="hidden" value="">
                                                                         </div>
                                                                         <button type="button" value="{{ online_offline_item.random }}" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>
@@ -862,7 +862,7 @@
                                                                             <label class="ps-2 mb-0" style="width: 5%;">人</label>
                                                                             <label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
-                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
+                                                                                <input type="text" name="facility_{{ setting_item.display_id }}" value="{{ setting_item.facility }}" class="input-text input-facility input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.facility }}">
                                                                                 <div class="dropdown-menu w-100">
                                                                                     <button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>
@@ -902,10 +902,10 @@
                                                                             <label class="mb-0" style="width: 15%;">回答フォーム</label>
                                                                             <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                                 {% if setting_item.question %}
-                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                                     <input type="hidden" value="{{ setting_item.question.display_id }}">
                                                                                 {% else %}
-                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly required>
+                                                                                    <input type="text" name="question_{{ setting_item.display_id }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                                     <input type="hidden" value="">
                                                                                 {% endif %}
                                                                             </div>

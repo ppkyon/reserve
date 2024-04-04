@@ -654,7 +654,7 @@
                                                 <button type="button" class="btn reset-button d-block me-2" value="{{ manager_item.display_id }}">パスワードリセット</button>
                                                 <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#reset_password_check_modal"></button>
                                             {% endif %}
-                                            <input type="hidden" name="id" value="{{ manager.display_id }}">
+                                            <input type="hidden" name="id" value="{{ manager_item.display_id }}">
                                             <button type="button" class="btn action-button save-button d-block" value="manager_{{ manager_item.display_id }}">編集を保存</button>
                                             <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
                                         {% endif %}
@@ -772,7 +772,7 @@
                                 <div class="col-12">
                                     <div class="d-flex align-items-center justify-content-start mb-2">
                                         <label class="text-end pe-4 mb-0" style="width: 20%;">電話番号</label>
-                                        <input type="text" name="phone_number" value="{{ manager.profile.phone_number|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
+                                        <input type="text" name="phone_number" value="{{ manager_item.profile.phone_number|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;" data-parsley-errors-messages-disabled required>
                                     </div>
                                 </div>
                             </div>
@@ -792,7 +792,7 @@
                                 <div class="col-12">
                                     <div class="d-flex align-items-center justify-content-start mb-2">
                                         <label class="text-end pe-4 mb-0" style="width: 20%;">所属部署</label>
-                                        <input type="text" name="department" value="{{ manager.profile.department|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                        <input type="text" name="department" value="{{ manager_item.profile.department|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                     </div>
                                 </div>
                             </div>
@@ -802,7 +802,7 @@
                                 <div class="col-12">
                                     <div class="d-flex align-items-center justify-content-start mb-2">
                                         <label class="text-end pe-4 mb-0" style="width: 20%;">役職名</label>
-                                        <input type="text" name="job" value="{{ manager.profile.job|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                        <input type="text" name="job" value="{{ manager_item.profile.job|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                     </div>
                                 </div>
                             </div>
@@ -813,7 +813,7 @@
                                     <div class="col-12">
                                         <div class="d-flex align-items-center justify-content-start mb-2">
                                             <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
-                                            <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                            <input type="text" name="work" value="{{ manager_item.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                         </div>
                                     </div>
                                 </div>
@@ -824,7 +824,7 @@
                                     <div class="col-12">
                                         <div class="d-flex align-items-center justify-content-start mb-2">
                                             <label class="text-end pe-4 mb-0" style="width: 20%;">職務</label>
-                                            <input type="text" name="work" value="{{ manager.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
+                                            <input type="text" name="work" value="{{ manager_item.profile.work|default:'' }}" class="input-text ps-2 pe-2" style="width: 55%;">
                                         </div>
                                     </div>
                                 </div>

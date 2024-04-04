@@ -8,4 +8,5 @@ urlpatterns = [
     path('callback/<int:login>/', callback.callback, name='callback'),
     
     path('relationship/', include('line.analytics.urls')),
+    path('reserve/', include('line.reserve.urls')),
 ]

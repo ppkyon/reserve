@@ -60,13 +60,13 @@ class IndexView(ShopView):
                 context['manager_list'][manager_index].profile.phone_number = phonenumbers.format_number(phonenumbers.parse(context['manager_list'][manager_index].profile.phone_number, 'JP'), phonenumbers.PhoneNumberFormat.NATIONAL)
             if context['search_setting']:
                 if ShopOfflineTime.objects.filter(offline__id=context['search_setting'].id).exists():
-                    if ManagerOffline.objects.filter(manager=self.request.user, offline__id=context['search_setting'].id).exists():
-                        context['manager_list'][manager_index].setting = ManagerOfflineTime.objects.filter(offline=ManagerOffline.objects.filter(manager=self.request.user, offline__id=context['search_setting'].id).first()).order_by('week').all()
+                    if ManagerOffline.objects.filter(manager=manager_item, offline__id=context['search_setting'].id).exists():
+                        context['manager_list'][manager_index].setting = ManagerOfflineTime.objects.filter(offline=ManagerOffline.objects.filter(manager=manager_item, offline__id=context['search_setting'].id).first()).order_by('week').all()
                     else:
                         context['manager_list'][manager_index].setting = ShopOfflineTime.objects.filter(offline__id=context['search_setting'].id).order_by('week', 'number').all()
                 if ShopOnlineTime.objects.filter(online__id=context['search_setting'].id).exists():
-                    if ManagerOnline.objects.filter(manager=self.request.user, online__id=context['search_setting'].id).exists():
-                        context['manager_list'][manager_index].setting = ManagerOnlineTime.objects.filter(online=ManagerOnline.objects.filter(manager=self.request.user, online__id=context['search_setting'].id).first()).order_by('week').all()
+                    if ManagerOnline.objects.filter(manager=manager_item, online__id=context['search_setting'].id).exists():
+                        context['manager_list'][manager_index].setting = ManagerOnlineTime.objects.filter(online=ManagerOnline.objects.filter(manager=manager_item, online__id=context['search_setting'].id).first()).order_by('week').all()
                     else:
                         context['manager_list'][manager_index].setting = ShopOnlineTime.objects.filter(online__id=context['search_setting'].id).order_by('week', 'number').all()
 

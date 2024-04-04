@@ -31,7 +31,6 @@ def save(request):
         question = None
         if request.POST.get('question_'+str(i+1)):
             question = ShopQuestion.objects.filter(display_id=request.POST.get('question_'+str(i+1))).first()
-        print(request.POST.get('question_'+str(i+1)))
 
         if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('random_'+str(i+1))).exists():
             offline = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('random_'+str(i+1))).first()

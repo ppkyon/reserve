@@ -16,11 +16,11 @@
     </head>
     <body>
         <div class="main m-3">
+            <input type="hidden" id="liff_id" value="{{ liff_id }}">
+            <input type="hidden" id="env_static_url" value="{{ static_url }}">
+            <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
             {% block content %}
             {% endblock %}
-            <input type="hidden" id="liff_id" value="{{ liff_id }}">
-            <input type="hidden" id="env_static_url" value="{{ env_static_url }}">
-            <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
         </div>
 
         {% include './js.html' %}

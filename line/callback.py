@@ -99,7 +99,7 @@ def handle_follow(line_user_id, shop):
                                 break
     else:
         text = 'ご登録ありがとうございます。\n只今、採用募集期間外となっております。\n採用募集再開の際にこちらへメッセージを送信致しますのでしばらくお待ちください。'
-        push_text_message(user, text)
+        push_text_message(user, text, None)
 
 def handle_unfollow(line_user_id, shop):
     if LineUser.objects.filter(shop=shop, line_user_id=line_user_id).exists():
