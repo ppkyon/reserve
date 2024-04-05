@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 
 from flow.models import ShopFlowTab, UserFlow
+from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
     ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineSetting, ReserveOnlineSetting,
@@ -705,6 +706,25 @@ def get_date(request):
         'question_flg': question_flg,
     }
     return JsonResponse( data, safe=False )
+
+def get_question(request):
+    if request.POST.get('setting_id'):
+        if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+            setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+            setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        question = None
+        if setting:
+            question = ShopQuestion.objects.filter(id=setting.question.id).values(*get_model_field(ShopQuestion)).first()
+            question['item'] = list(ShopQuestionItem.objects.filter(question__id=question['id']).order_by('number').values(*get_model_field(ShopQuestionItem)).all())
+            for question_index, question_item in enumerate(question['item']):
+                if question_item['type'] == 99:
+                    question['item'][question_index]['choice'] = list(ShopQuestionItemChoice.objects.filter(question_item__id=question_item['id']).values(*get_model_field(ShopQuestionItemChoice)).all())
+            if setting.question:
+                return JsonResponse( {'check': True, 'question': question, 'age_list': [i for i in range(101)]}, safe=False )
+            else:
+                return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
+    return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
 
 
 

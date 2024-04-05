@@ -17,6 +17,7 @@ $( function(){
         $( '.place-area' ).addClass( 'd-none' );
         $( '.course-area' ).addClass( 'd-none' );
         $( '.date-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
         $( '.check-area' ).addClass( 'd-none' );
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );
@@ -30,6 +31,7 @@ $( function(){
         $( '.place-area' ).addClass( 'd-none' );
         $( '.course-area' ).addClass( 'd-none' );
         $( '.date-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
         $( '.check-area' ).addClass( 'd-none' );
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );
@@ -43,6 +45,7 @@ $( function(){
         $( '.place-area' ).addClass( 'd-none' );
         $( '.course-area' ).addClass( 'd-none' );
         $( '.date-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
         $( '.check-area' ).addClass( 'd-none' );
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );

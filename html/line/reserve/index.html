@@ -294,10 +294,33 @@
                         <p class="menu-text mb-0">会場選択</p>
                         <p class="menu-text mb-0">コース選択</p>
                         <p class="menu-text mb-0">日時選択</p>
-                        <p class="menu-text activemb-0">設問</p>
+                        <p class="menu-text active mb-0">設問</p>
                         <p class="menu-text mb-0">予約確認</p>
                         <p class="menu-text mb-0">受付完了</p>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area mb-4">
+            <div class="row">
+                <div class="col-12 text-center p-0">
+                    <p class="content-title pt-2 pb-2 mb-0"></p>
+                    <input type="hidden" id="get_question_url" value="{% url 'line:reserve:get_question' %}">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <p class="content-description pt-2 pb-2 mb-0"></p>
+                </div>
+            </div>
+            <div class="content-question-area">
+                <form id="question_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none"></form>
+            </div>
+        </div>
+        <div class="button-area mb-3">
+            <div class="row">
+                <div class="col-12 text-center p-0 mb-2">
+                    <button type="button" class="btn check-button">この内容で予約する</button>
                 </div>
             </div>
         </div>
@@ -479,4 +502,5 @@
     <script src="{% static 'js/line/reserve/date.js' %}" type="module"></script>
     <script src="{% static 'js/line/reserve/question.js' %}" type="module"></script>
     <script src="{% static 'js/line/reserve/check.js' %}" type="module"></script>
+    <script src="{% static 'js/line/reserve/drop.js' %}" type="module"></script>
 {% endblock %}

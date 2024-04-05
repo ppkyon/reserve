@@ -11,5 +11,6 @@ urlpatterns = [
 
     path('course/get/', action.get_course, name='get_course'),
     path('date/get/', action.get_date, name='get_date'),
+    path('question/get/', action.get_question, name='get_question'),
     path('schedule/send/', action.send_schedule, name='send_schedule'),
 ]
