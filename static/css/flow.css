@@ -113,6 +113,10 @@
     font-weight: 300;
     transition: unset;
 }
+.flow-area .tab-area ul li a img {
+    width: 12.5px;
+    height: 12.5px;
+}
 
 .chart-area {
     width: max-content;

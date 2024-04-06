@@ -57,11 +57,18 @@ class ShopFlow(models.Model):
         db_table = 'shop_flow'
 
 class HeadFlowTab(models.Model):
+    member_choice = (
+        (0, 'no'),
+        (1, 'yes'),
+        (2, 'any'),
+    )
+
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     flow = models.ForeignKey(HeadFlow, on_delete=models.CASCADE, null=True, related_name="head_flow_tab")
     number = models.IntegerField(default=0)
     name = models.CharField(max_length=255,null=True)
     value = models.CharField(max_length=255,null=True)
+    member = models.IntegerField(choices=member_choice, default=0)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -69,11 +76,18 @@ class HeadFlowTab(models.Model):
         db_table = 'head_flow_tab'
 
 class CompanyFlowTab(models.Model):
+    member_choice = (
+        (0, 'no'),
+        (1, 'yes'),
+        (2, 'any'),
+    )
+
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     flow = models.ForeignKey(CompanyFlow, on_delete=models.CASCADE, null=True, related_name="company_flow_tab")
     number = models.IntegerField(default=0)
     name = models.CharField(max_length=255,null=True)
     value = models.CharField(max_length=255,null=True)
+    member = models.IntegerField(choices=member_choice, default=0)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -81,11 +95,18 @@ class CompanyFlowTab(models.Model):
         db_table = 'company_flow_tab'
 
 class ShopFlowTab(models.Model):
+    member_choice = (
+        (0, 'no'),
+        (1, 'yes'),
+        (2, 'any'),
+    )
+    
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     flow = models.ForeignKey(ShopFlow, on_delete=models.CASCADE, null=True, related_name="shop_flow_tab")
     number = models.IntegerField(default=0)
     name = models.CharField(max_length=255,null=True)
     value = models.CharField(max_length=255,null=True)
+    member = models.IntegerField(choices=member_choice, default=0)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 

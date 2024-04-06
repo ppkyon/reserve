@@ -31,6 +31,7 @@ def add(request):
             number = 1,
             name = 'エントリー',
             value = 'entry',
+            member = 0,
         )
 
         free_flow_tab = HeadFlowTab.objects.create(
@@ -39,6 +40,7 @@ def add(request):
             number = 2,
             name = '無料体験',
             value = 'free',
+            member = 0,
         )
 
         first_flow_tab = HeadFlowTab.objects.create(
@@ -47,6 +49,7 @@ def add(request):
             number = 3,
             name = '1回目',
             value = 'first',
+            member = 1,
         )
 
         second_flow_tab = HeadFlowTab.objects.create(
@@ -55,6 +58,7 @@ def add(request):
             number = 4,
             name = '2回目',
             value = 'second',
+            member = 1,
         )
 
         third_flow_tab = HeadFlowTab.objects.create(
@@ -63,6 +67,7 @@ def add(request):
             number = 5,
             name = '3回目',
             value = 'third',
+            member = 1,
         )
 
         fourth_flow_tab = HeadFlowTab.objects.create(
@@ -71,6 +76,7 @@ def add(request):
             number = 6,
             name = '4回目',
             value = 'fourth',
+            member = 1,
         )
 
         fifth_flow_tab = HeadFlowTab.objects.create(
@@ -79,6 +85,7 @@ def add(request):
             number = 7,
             name = '5回目',
             value = 'fifth',
+            member = 1,
         )
 
         if not HeadTemplateGreeting.objects.exists():

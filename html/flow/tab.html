@@ -6,11 +6,25 @@
             {% for flow_tab in flow.shop_flow_tab.all %}
                 {% if forloop.first %}
                     <li class="nav-item me-1">
-                        <a class="nav-link active" href="#{{ flow_tab.value }}" data-bs-toggle="tab">{{ flow_tab.name }}</a>
+                        <a class="nav-link active" href="#{{ flow_tab.value }}" data-bs-toggle="tab">
+                            <span>{{ flow_tab.name }}</span>
+                            {% if flow_tab.member == 0 %}
+                                <img src="{% static 'img/icon/member-no.png' %}">
+                            {% elif flow_tab.member == 1 %}
+                                <img src="{% static 'img/icon/member-yes.png' %}">
+                            {% endif %}
+                        </a>
                     </li>
                 {% else %}
                     <li class="me-1">
-                        <a class="nav-link" href="#{{ flow_tab.value }}" data-bs-toggle="tab">{{ flow_tab.name }}</a>
+                        <a class="nav-link" href="#{{ flow_tab.value }}" data-bs-toggle="tab">
+                            <span>{{ flow_tab.name }}</span>
+                            {% if flow_tab.member == 0 %}
+                                <img src="{% static 'img/icon/member-no.png' %}">
+                            {% elif flow_tab.member == 1 %}
+                                <img src="{% static 'img/icon/member-yes.png' %}">
+                            {% endif %}
+                        </a>
                     </li>
                 {% endif %}
             {% endfor %}

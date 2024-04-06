@@ -285,14 +285,22 @@ function append_flow( data ) {
         var html = '<td>';
         html += '<input type="hidden" name="type" value="' + type + '">';
         html += '<p class="chart-title p-1 ps-2 mb-0" style="background-color: #707070;">' + data.name + '</p>';
-        html += '<div class="chart-content position-relative mb-4"></div>';
+        html += '<div class="chart-content position-relative mb-4">';
+        html += '<div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">';
+        html += '<input type="text" class="input-text input-select input-type ps-2 pe-2" value="' + data.name + '" readonly>';
+        html += '</div>';
+        html += '</div>';
         html += '</td>';
         return html;
     } else if ( data.type == 11 ) {
         var html = '<td>';
         html += '<input type="hidden" name="type" value="' + type + '">';
         html += '<p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">' + data.name + '</p>';
-        html += '<div class="chart-content position-relative mb-4"></div>';
+        html += '<div class="chart-content position-relative mb-4">';
+        html += '<div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">';
+        html += '<input type="text" class="input-text input-select input-type ps-2 pe-2" value="' + data.name + '" readonly>';
+        html += '</div>';
+        html += '</div>';
         html += '</td>';
         return html;
     } else if ( data.type == 51 ) {

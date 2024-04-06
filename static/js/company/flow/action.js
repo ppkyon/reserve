@@ -293,7 +293,14 @@ function select_flow(){
             var last_line = null;
             if ( index == 0 ) {
                 var html = '<li class="nav-item me-1">';
-                html += '<a class="nav-link active" href="#' + value.value + '" data-bs-toggle="tab">' + value.name + '</a>';
+                html += '<a class="nav-link active" href="#' + value.value + '" data-bs-toggle="tab">';
+                html += '<span>' + value.name + '</span>';
+                if ( value.member == 0 ) {
+                    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-no.png">';
+                } else if ( value.member == 1 ) {
+                    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-yes.png">';
+                }
+                html += '</a>';
                 html += '</li>';
                 $( '#save_flow_form .card-area .tab-area .nav' ).append( html );
 
@@ -306,7 +313,14 @@ function select_flow(){
                 $( '#save_flow_form .card-area .chart-area .tab-content' ).append( html );
             } else {
                 var html = '<li class="nav-item me-1">';
-                html += '<a class="nav-link" href="#' + value.value + '" data-bs-toggle="tab">' + value.name + '</a>';
+                html += '<a class="nav-link" href="#' + value.value + '" data-bs-toggle="tab">';
+                html += '<span>' + value.name + '</span>';
+                if ( value.member == 0 ) {
+                    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-no.png">';
+                } else if ( value.member == 1 ) {
+                    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-yes.png">';
+                }
+                html += '</a>';
                 html += '</li>';
                 $( '#save_flow_form .card-area .tab-area .nav' ).append( html );
 

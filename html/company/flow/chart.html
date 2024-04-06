@@ -202,14 +202,22 @@
                                     {% elif flow_item.type == 10 %}
                                         <td>
                                             <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
-                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
-                                            <div class="chart-content position-relative mb-4"></div>
+                                            <p class="chart-title p-1 ps-2 mb-0" style="background-color: #707070;">{{ flow_item.name }}</p>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_item.name }}" readonly>
+                                                </div>
+                                            </div>
                                         </td>
                                     {% elif flow_item.type == 11 %}
                                         <td>
                                             <input type="hidden" name="type" value="{{ flow_item.get_type_display }}">
                                             <p class="chart-title p-1 ps-2 mb-0" style="background-color: #1484FF;">{{ flow_item.name }}</p>
-                                            <div class="chart-content position-relative mb-4"></div>
+                                            <div class="chart-content position-relative mb-4">
+                                                <div class="d-inline-block position-relative p-0 m-2 mt-4 mb-3">
+                                                    <input type="text" class="input-text input-select input-type ps-2 pe-2" value="{{ flow_item.name }}" readonly>
+                                                </div>
+                                            </div>
                                         </td>
                                     {% elif flow_item.type == 51 %}
                                         <td style="width: 10rem;">

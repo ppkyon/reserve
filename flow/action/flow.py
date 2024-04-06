@@ -68,6 +68,7 @@ def save(request):
                 number = company_flow_tab.number,
                 name = company_flow_tab.name,
                 value = company_flow_tab.value,
+                member = company_flow_tab.member,
             )
 
         for company_flow_tab in CompanyFlowTab.objects.filter(flow=company_flow).all():

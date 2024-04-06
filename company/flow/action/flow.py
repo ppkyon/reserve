@@ -59,6 +59,7 @@ def save(request):
                 number = head_flow_tab.number,
                 name = head_flow_tab.name,
                 value = head_flow_tab.value,
+                member = head_flow_tab.member,
             )
 
         for head_flow_tab in HeadFlowTab.objects.filter(flow=head_flow).all():
