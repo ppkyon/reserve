@@ -414,7 +414,7 @@ def push_card_type_message(user, template, author):
                         color = '#5b82db'
                     
                     if card_type_announce_action.button_type == 0:
-                        if card_type_announce_action.type == 5:
+                        if card_type_announce_action.type == 8:
                             action_contents.append(
                                 {
                                     "type": "button",
@@ -430,6 +430,13 @@ def push_card_type_message(user, template, author):
                                 }
                             )
                         else:
+                            url = card_type_announce_action.url
+                            if card_type_announce_action.type == 4:
+                                if shop_line.analytics_id:
+                                    url = 'https://liff.line.me/' + str(shop_line.reserve_id)
+                            elif card_type_announce_action.type == 5:
+                                if shop_line.history_id:
+                                    url = 'https://liff.line.me/' + str(shop_line.history_id)
                             action_contents.append(
                                 {
                                     "type": "button",
@@ -440,12 +447,12 @@ def push_card_type_message(user, template, author):
                                     "action": {
                                         "type": "uri",
                                         "label": card_type_announce_action.label,
-                                        "uri": send_action_replace(card_type_announce_action.url, line_info(shop_line), user)
+                                        "uri": send_action_replace(url, line_info(shop_line), user)
                                     }
                                 }
                             )
                     elif card_type_announce_action.button_type == 1:
-                        if card_type_announce_action.type == 5:
+                        if card_type_announce_action.type == 8:
                             action_contents.append(
                                 {
                                     "type": "button",
@@ -461,6 +468,13 @@ def push_card_type_message(user, template, author):
                                 }
                             )
                         else:
+                            url = card_type_announce_action.url
+                            if card_type_announce_action.type == 4:
+                                if shop_line.analytics_id:
+                                    url = 'https://liff.line.me/' + str(shop_line.reserve_id)
+                            elif card_type_announce_action.type == 5:
+                                if shop_line.history_id:
+                                    url = 'https://liff.line.me/' + str(shop_line.history_id)
                             action_contents.append(
                                 {
                                     "type": "button",
@@ -471,7 +485,7 @@ def push_card_type_message(user, template, author):
                                     "action": {
                                         "type": "uri",
                                         "label": card_type_announce_action.label,
-                                        "uri": send_action_replace(card_type_announce_action.url, line_info(shop_line), user)
+                                        "uri": send_action_replace(url, line_info(shop_line), user)
                                     }
                                 }
                             )

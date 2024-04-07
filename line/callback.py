@@ -77,7 +77,7 @@ def handle_follow(line_user_id, shop):
         flow = ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__gte=datetime.datetime.now(), delete_flg=False).first()
     
     if flow:
-        actin_flg = False
+        action_flg = False
         for flow_tab in ShopFlowTab.objects.filter(flow=flow).order_by('number').all():
             if UserFlow.objects.filter(flow_tab=flow_tab, user=user).exists():
                 flow_flg = False
@@ -86,16 +86,16 @@ def handle_follow(line_user_id, shop):
                         flow_flg = True
                     if flow_flg:
                         if go(user, flow, flow_tab, flow_item):
-                            actin_flg = True
+                            action_flg = True
                             break
             else:
-                if actin_flg:
+                if action_flg:
                     break
                 else:
                     for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).order_by('x','y').all():
                         if flow_item.type:
                             if go(user, flow, flow_tab, flow_item):
-                                actin_flg = True
+                                action_flg = True
                                 break
     else:
         text = 'ご登録ありがとうございます。\n只今、採用募集期間外となっております。\n採用募集再開の際にこちらへメッセージを送信致しますのでしばらくお待ちください。'

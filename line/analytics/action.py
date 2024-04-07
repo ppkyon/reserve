@@ -44,7 +44,7 @@ def url(request):
         elif rich_menu_item.type == 4:
             return JsonResponse( {'url': 'https://liff.line.me/' + str(shop_line.reserve_id), 'type': rich_menu_item.type}, safe=False )
         elif rich_menu_item.type == 5:
-            return JsonResponse( {'url': rich_menu_item.url, 'type': rich_menu_item.type}, safe=False )
+            return JsonResponse( {'url': 'https://liff.line.me/' + str(shop_line.history_id), 'type': rich_menu_item.type}, safe=False )
         elif rich_menu_item.type == 6:
             return JsonResponse( {'url': rich_menu_item.url, 'type': rich_menu_item.type}, safe=False )
         elif rich_menu_item.type == 7:

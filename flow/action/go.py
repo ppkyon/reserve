@@ -98,7 +98,15 @@ def go(user, flow, flow_tab, flow_item):
         elif flow_item.type == 11:
             print()
         elif flow_item.type == 51:
-            print()
+            UserFlow.objects.filter(user=user, flow_tab=flow_tab).all().delete()
+            UserFlow.objects.create(
+                id = str(uuid.uuid4()),
+                user = user,
+                flow = flow,
+                flow_tab = flow_tab,
+                flow_item = flow_item,
+            )
+            return True
         elif flow_item.type == 52:
             flow_timer = ShopFlowTimer.objects.filter(flow=flow_item).first()
             if not flow_timer.type == 0:

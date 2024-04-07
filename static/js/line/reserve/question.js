@@ -1,6 +1,6 @@
 $( function() {
     $( '.question-area .button-area .check-button' ).on( 'click', function() {
-        // if ( $( '#question_form' ).parsley().validate() ) {
+        if ( $( '#question_form' ).parsley().validate() ) {
             $( '.loader-area' ).css( 'opacity', '1' );
             $( '.loader-area' ).removeClass( 'd-none' );
             $( '.question-area' ).addClass( 'd-none' );
@@ -107,7 +107,7 @@ $( function() {
                 $( '.loader-area' ).addClass( 'd-none' );
                 $( '.check-area' ).removeClass( 'd-none' );
             }, 750 );
-        // }
+        }
     });
     
     if ( $( '#question_form' ).length ) {

@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, UserFlow
+from flow.models import ShopFlowTab, ShopFlowItem, UserFlow
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
@@ -14,6 +14,7 @@ from user.models import LineUser
 from itertools import chain
 
 from common import get_model_field
+from flow.action.go import go
 
 import calendar
 import datetime
@@ -728,5 +729,33 @@ def get_question(request):
 
 
 
-def send_schedule(request):
+def send(request):
+    shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
+    user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
+
+    target_flow_tab = None
+    if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+        setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        for menu in ReserveOfflineFlowMenu.objects.filter(shop=shop, offline=setting).all():
+            flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
+            if not target_flow_tab or target_flow_tab.number > flow_tab.number:
+                target_flow_tab = flow_tab
+    if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+        setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        for menu in ReserveOnlineFlowMenu.objects.filter(shop=shop, online=setting).all():
+            flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
+            if not target_flow_tab or target_flow_tab.number > flow_tab.number:
+                target_flow_tab = flow_tab
+
+    action_flg = False
+    user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+    if user_flow:
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
+            if action_flg:
+                if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
+                    break
+            if flow_item.type == 54:
+                action_flg = True
+    else:
+        print(target_flow_tab)
     return JsonResponse( {}, safe=False )
