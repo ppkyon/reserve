@@ -3,13 +3,13 @@ from linebot import LineBotApi
 
 from flow.models import (
     ShopFlowTab, ShopFlowItem, ShopFlowTemplate, ShopFlowRichMenu, ShopFlowTimer, ShopFlowStep,
-    UserFlow, UserFlowTimer
+    UserFlow, UserFlowTimer, UserFlowHistory
 )
 from richmenu.models import UserRichMenu
 from sign.models import ShopLine
 from template.models import ShopTemplateGreeting
 
-from common import send_textarea_replace
+from common import create_code, send_textarea_replace
 from dateutil.relativedelta import relativedelta
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 from line.action.richmenu import create_rich_menu, delete_rich_menu
@@ -58,6 +58,19 @@ def go(user, flow, flow_tab, flow_item):
                     rich_menu = flow_rich_menu.rich_menu
                 )
                 create_rich_menu(user)
+            
+            UserFlowHistory.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlowHistory),
+                user = user,
+                number = UserFlowHistory.objects.filter(user=user).count() + 1,
+                flow = flow_tab,
+                name = flow_tab.name,
+                richmenu = flow_rich_menu.rich_menu,
+                start_flg = True,
+                pass_flg = False,
+                end_flg = False,
+            )
         elif flow_item.type == 8:
             print()
         elif flow_item.type == 9:
@@ -74,6 +87,13 @@ def go(user, flow, flow_tab, flow_item):
                     flow_item = flow_item,
                     end_flg = True,
                 )
+            for user_flow_history_index, user_flow_history in enumerate(UserFlowHistory.objects.filter(user=user, flow=flow_tab).all()):
+                if (user_flow_history_index+1) == UserFlowHistory.objects.filter(user=user, flow=flow_tab).count():
+                    user_flow_history.end_flg = True
+                    user_flow_history.save()
+                else:
+                    user_flow_history.pass_flg = True
+                    user_flow_history.save()
 
             flow_step = ShopFlowStep.objects.filter(flow=flow_item).first()
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, value=flow_step.tab.value).first()
@@ -84,6 +104,8 @@ def go(user, flow, flow_tab, flow_item):
                 flow_tab = flow_tab,
                 flow_item = ShopFlowItem.objects.filter(flow_tab=flow_tab, x=1, y=1).first(),
             )
+
+            UserFlowHistory.objects.filter(user=user).first()
             return True
         elif flow_item.type == 10:
             UserFlow.objects.filter(user=user, flow_tab=flow_tab).all().delete()

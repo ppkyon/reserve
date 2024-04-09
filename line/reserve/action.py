@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, ShopFlowItem, UserFlow
+from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowHistory
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
@@ -13,12 +13,13 @@ from user.models import LineUser
 
 from itertools import chain
 
-from common import get_model_field
+from common import create_code, get_model_field
 from flow.action.go import go
 
 import calendar
 import datetime
 import pandas
+import uuid
 
 def check(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
@@ -740,22 +741,108 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
+    
+        if UserFlowHistory.objects.filter(user=user, flow=flow_tab).exists():
+            for user_flow_history in UserFlowHistory.objects.filter(user=user, flow=flow_tab).all():
+                user_flow_history.pass_flg = True
+                user_flow_history.save()
+        else:
+            target_rich_menu = None
+            for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
+                if flow_item.type == 7:
+                    target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                    target_rich_menu = target_rich_menu.rich_menu
+            UserFlowHistory.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlowHistory),
+                user = user,
+                number = UserFlowHistory.objects.filter(user=user).count() + 1,
+                flow = target_flow_tab,
+                name = target_flow_tab.name,
+                richmenu = target_rich_menu,
+                start_flg = True,
+                pass_flg = True,
+                end_flg = False,
+            )
+        UserFlowHistory.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, UserFlowHistory),
+            user = user,
+            number = UserFlowHistory.objects.filter(user=user).count() + 1,
+            flow = target_flow_tab,
+            offline = setting,
+            name = target_flow_tab.name + '日程調整',
+            start_flg = False,
+            pass_flg = False,
+            end_flg = False,
+        )
+
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOnlineFlowMenu.objects.filter(shop=shop, online=setting).all():
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
+    
+        if UserFlowHistory.objects.filter(user=user, flow=flow_tab).exists():
+            for user_flow_history in UserFlowHistory.objects.filter(user=user, flow=flow_tab).all():
+                user_flow_history.pass_flg = True
+                user_flow_history.save()
+        else:
+            target_rich_menu = None
+            for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
+                if flow_item.type == 7:
+                    target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                    target_rich_menu = target_rich_menu.rich_menu
+            UserFlowHistory.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlowHistory),
+                user = user,
+                number = UserFlowHistory.objects.filter(user=user).count() + 1,
+                flow = target_flow_tab,
+                name = target_flow_tab.name,
+                richmenu = target_rich_menu,
+                start_flg = True,
+                pass_flg = True,
+                end_flg = False,
+            )
+        UserFlowHistory.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, UserFlowHistory),
+            user = user,
+            number = UserFlowHistory.objects.filter(user=user).count() + 1,
+            flow = flow_tab,
+            online = setting,
+            name = flow_tab.name + '日程調整',
+            start_flg = False,
+            pass_flg = False,
+            end_flg = False,
+        )
 
     action_flg = False
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
     if user_flow:
-        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
             if action_flg:
                 if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
                     break
             if flow_item.type == 54:
                 action_flg = True
     else:
-        print(target_flow_tab)
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).order_by('y', 'x').all():
+            if flow_item.type == 10:
+                user_flow = UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    flow = target_flow_tab.flow,
+                    flow_tab = target_flow_tab,
+                    flow_item = flow_item,
+                )
+                break
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
+            if action_flg:
+                if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
+                    break
+            if flow_item.type == 54:
+                action_flg = True
     return JsonResponse( {}, safe=False )

@@ -16,7 +16,7 @@ class IndexView(CompanyView):
         context['tag_genre_list'] = CompanyTagGenre.objects.filter(company=auth_login.company).order_by('-favorite_flg','-created_at').all()
         context['tag_list'] = get_tag_list(self.request.path, self.request.user, CompanyTagGenre.objects.filter(company=auth_login.company).order_by('-favorite_flg','-created_at').first())
         
-        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.shop.company, shop=None, manager=self.request.user).first()
+        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first()
         if not sort:
             sort = {
                 'target': 'created_at',
@@ -24,6 +24,6 @@ class IndexView(CompanyView):
             }
         context['table'] = {
             'sort': sort,
-            'search': TableSearch.objects.filter(url=self.request.path, company=auth_login.shop.company, shop=None, manager=self.request.user).first(),
+            'search': TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first(),
         }
         return context

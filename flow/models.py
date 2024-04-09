@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from reserve.models import ReserveOnlineSetting, ReserveOfflineSetting
 from richmenu.models import HeadRichMenu, CompanyRichMenu, ShopRichMenu
 from sign.models import AuthCompany, AuthShop
 from template.models import (
@@ -772,30 +773,18 @@ class UserFlow(models.Model):
         db_table = 'user_flow'
 
 class UserFlowHistory(models.Model):
-    type_choice = (
-        (1, 'date'),
-        (2, 'pass'),
-        (3, 'offser'),
-        (4, 'manual'),
-    )
-    interview_choice = (
-        (1, '対面'),
-        (2, 'オンライン'),
-    )
-    
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
     user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_history")
     number = models.IntegerField(default=0)
-    type = models.IntegerField(choices=type_choice, default=0)
-    interview = models.IntegerField(choices=interview_choice, default=0)
+    flow = models.ForeignKey(ShopFlowTab, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     name = models.CharField(max_length=255,null=True)
-    template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    template_richvideo = models.ForeignKey(ShopTemplateRichVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    template_cardtype = models.ForeignKey(ShopTemplateCardType, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    image = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     richmenu = models.ForeignKey(ShopRichMenu, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    start_flg = models.BooleanField(default=False)
     pass_flg = models.BooleanField(default=False)
     end_flg = models.BooleanField(default=False)
     checked_at = models.DateTimeField(blank=False, null=True)
