@@ -8,7 +8,11 @@ $( function(){
         form_data.append( 'shop_id', $( '[name=shop_id]' ).val() );
         form_data.append( 'user_id', liff.getContext().userId );
         form_data.append( 'setting_id', $( '.date-area [name=select_setting]' ).next().val() );
-        form_data.append( 'course_id', $( '.course-area [name=course]:checked' ).val() );
+        if ( check_empty($( '.course-area [name=course]:checked' ).val()) ) {
+            form_data.append( 'course_id', $( '.course-area [name=course]:checked' ).val() );
+        } else {
+            form_data.append( 'course_id', '' );
+        }
         form_data.append( 'year', $( this ).val().substring( 0, $( this ).val().indexOf('年') ) );
         form_data.append( 'month', $( this ).val().substring( $( this ).val().indexOf('年')+1, $( this ).val().indexOf('月') ) );
         form_data.append( 'day', $( this ).val().substring( $( this ).val().indexOf('月')+1, $( this ).val().indexOf('日') ) );

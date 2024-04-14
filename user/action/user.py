@@ -1,11 +1,14 @@
+from django.db.models import Q
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, UserFlow
+from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow
+from richmenu.models import UserRichMenu
 from sign.models import AuthLogin
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile
 
-from common import get_model_field
+from common import create_code, get_model_field
+from line.action.richmenu import create_rich_menu, delete_rich_menu
 
 import phonenumbers
 import uuid
@@ -92,4 +95,47 @@ def member(request):
     user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('id')).first()
     user.member_flg = True
     user.save()
+
+    for user_flow in UserFlow.objects.filter(user=user, flow_tab__member=0).order_by('number').all():
+        user_flow.end_flg = True
+        user_flow.save()
+
+    if not UserFlow.objects.filter(Q(user=user), Q(Q(flow_tab__member=1)|Q(flow_tab__member=2))).order_by('number').exists():
+        user_flow = UserFlow.objects.filter(user=user).order_by('number').first()
+        for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), Q(Q(member=1)|Q(member=2))).order_by('number').all():
+            target_flg = False
+            target_flow_item = None
+            target_rich_menu = None
+            for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).all():
+                if flow_item.type == 7:
+                    target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                    target_rich_menu = target_rich_menu.rich_menu
+                if target_flg:
+                    target_flow_item = flow_item
+                if flow_item.type == 54:
+                    target_flg = True
+            
+            delete_rich_menu(user)
+            if target_rich_menu:
+                UserRichMenu.objects.filter(user=user).all().delete()
+                UserRichMenu.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    rich_menu = target_rich_menu
+                )
+                create_rich_menu(user)
+
+            UserFlow.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlow),
+                user = user,
+                number = UserFlow.objects.filter(user=user).count() + 1,
+                flow = flow_tab.flow,
+                flow_tab = flow_tab,
+                flow_item = target_flow_item,
+                name = flow_tab.name,
+                richmenu = target_rich_menu,
+                end_flg = False,
+            )
+            break
     return JsonResponse( {}, safe=False )

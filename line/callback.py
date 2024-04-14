@@ -62,6 +62,8 @@ def callback(request, login):
 
 def handle_follow(line_user_id, shop):
     user = update_user(line_user_id, shop)
+    user.member_flg = False
+    user.save()
 
     UserFlow.objects.filter(user=user).all().delete()
     UserFlowTimer.objects.filter(user=user).all().delete()

@@ -7,11 +7,13 @@ from PIL import Image
 from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowSchedule
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reserve.models import ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+from richmenu.models import UserRichMenu
 from sign.models import AuthShop
 from user.models import LineUser, UserProfile
 
 from common import create_code
 from flow.action.go import go
+from line.action.richmenu import create_rich_menu, delete_rich_menu
 
 import base64
 import cv2
@@ -435,6 +437,16 @@ def send(request):
             user_flow.end_flg = False
             user_flow.save()
         else:
+            delete_rich_menu(user)
+            if target_rich_menu:
+                UserRichMenu.objects.filter(user=user).all().delete()
+                UserRichMenu.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    rich_menu = target_rich_menu
+                )
+                create_rich_menu(user)
+            
             user_flow = UserFlow.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlow),
