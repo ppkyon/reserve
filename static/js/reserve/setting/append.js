@@ -56,7 +56,7 @@ function append_setting_area(type) {
     html += '<label class="ps-2 mb-0" style="width: 5%;">分</label>';
     html += '<div class="d-flex justify-content-center align-items-center ps-4">';
     html += '<div class="input-check-wrap text-center mb-0">';
-    html += '<input type="checkbox" id="course_flg_' + random + '" class="input-check input-course-flg">';
+    html += '<input type="checkbox" id="course_flg_' + random + '" name="course_flg_' + random + '" class="input-check input-course-flg">';
     html += '<label for="course_flg_' + random + '" class="input-check-mark position-relative mb-0"></label>';
     html += '</div>';
     html += '<label for="course_flg_' + random + '" class="ps-1 mb-0" style="cursor: pointer;">コース選択</label>';

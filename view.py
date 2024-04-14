@@ -5,8 +5,10 @@ from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplat
 
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
+from flow.models import UserFlow
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
+from tag.models import UserHashTag
 
 import environ
 
@@ -328,17 +330,24 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         query = Q()
-            
+        
+        query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
             else:
-                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
         else:
-            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+            query_list = self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+
+        for query_index, query_item in enumerate(query_list):
+            query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
+            query_list[query_index].tag = UserHashTag.objects.filter(user=query_item).order_by('number').all()
+        return query_list
+
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()

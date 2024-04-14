@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('setting', '0001_initial'),
-        ('question', '0002_initial'),
+        ('question', '0001_initial'),
         ('sign', '0001_initial'),
     ]
 

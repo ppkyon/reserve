@@ -4,9 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 
+from question.models import UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from flow.models import (
     ShopFlow, ShopFlowTab, ShopFlowItem,
-    UserFlow, UserFlowHistory, UserFlowTimer
+    UserFlow, UserFlowTimer
 )
 from richmenu.models import UserRichMenu, UserRichMenuClick
 from sign.models import AuthShop, ShopLine
@@ -63,11 +64,15 @@ def handle_follow(line_user_id, shop):
     user = update_user(line_user_id, shop)
 
     UserFlow.objects.filter(user=user).all().delete()
-    UserFlowHistory.objects.filter(user=user).all().delete()
     UserFlowTimer.objects.filter(user=user).all().delete()
     UserRichMenu.objects.filter(user=user).all().delete()
     UserRichMenuClick.objects.filter(user=user).all().delete()
-
+    for user_question in UserQuestion.objects.filter(user=user).all():
+        for user_question_item in UserQuestionItem.objects.filter(user=user_question).all():
+            UserQuestionItemChoice.objects.filter(user=user_question_item).all().delete()
+        UserQuestionItem.objects.filter(user=user_question).all().delete()
+    UserQuestion.objects.filter(user=user).all().delete()
+        
     flow = None
     if ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).exists():
         flow = ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).first()

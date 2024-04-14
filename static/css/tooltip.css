@@ -1,4 +1,5 @@
 .tooltip.show {
+    z-index: 100;
     opacity: 1;
 }
 .tooltip-inner {

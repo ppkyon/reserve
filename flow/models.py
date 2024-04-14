@@ -1,9 +1,12 @@
 from django.db import models
 from django.utils import timezone
 
-from reserve.models import ReserveOnlineSetting, ReserveOfflineSetting
+from question.models import ShopQuestion
+from reserve.models import (
+    ReserveOnlineSetting, ReserveOfflineSetting, ReserveOnlineMeeting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineFacility, ReserveOnlineFacility
+)
 from richmenu.models import HeadRichMenu, CompanyRichMenu, ShopRichMenu
-from sign.models import AuthCompany, AuthShop
+from sign.models import AuthUser, AuthCompany, AuthShop
 from template.models import (
     HeadTemplateText, HeadTemplateVideo, HeadTemplateRichMessage, HeadTemplateRichVideo, HeadTemplateCardType,
     CompanyTemplateText, CompanyTemplateVideo, CompanyTemplateRichMessage, CompanyTemplateRichVideo, CompanyTemplateCardType,
@@ -761,38 +764,53 @@ class ShopFlowResult(models.Model):
 
 class UserFlow(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
     user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow")
+    number = models.IntegerField(default=0)
     flow = models.ForeignKey(ShopFlow, on_delete=models.CASCADE, related_name="user_flow")
     flow_tab = models.ForeignKey(ShopFlowTab, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow")
     flow_item = models.ForeignKey(ShopFlowItem, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow")
-    end_flg = models.BooleanField(default=False)
-    updated_at = models.DateTimeField(blank=False, null=True)
-    created_at = models.DateTimeField(default=timezone.now)
-
-    class Meta:
-        db_table = 'user_flow'
-
-class UserFlowHistory(models.Model):
-    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
-    display_id = models.BigIntegerField()
-    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_history")
-    number = models.IntegerField(default=0)
-    flow = models.ForeignKey(ShopFlowTab, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     name = models.CharField(max_length=255,null=True)
     image = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     richmenu = models.ForeignKey(ShopRichMenu, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    start_flg = models.BooleanField(default=False)
-    pass_flg = models.BooleanField(default=False)
     end_flg = models.BooleanField(default=False)
     checked_at = models.DateTimeField(blank=False, null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        db_table = 'user_flow_history'
+        db_table = 'user_flow'
+
+class UserFlowSchedule(models.Model):
+    join_choice = (
+        (0, '未定'),
+        (1, '参加'),
+        (2, '不参加'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    display_id = models.BigIntegerField()
+    flow = models.ForeignKey(UserFlow, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_schedule")
+    number = models.IntegerField(default=0)
+    date = models.DateTimeField(blank=False, null=True)
+    time = models.TimeField(blank=False, null=True)
+    join = models.IntegerField(choices=join_choice, default=0)
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    online_course = models.ForeignKey(ReserveOnlineCourse, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    offline_course = models.ForeignKey(ReserveOfflineCourse, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    online_facility = models.ForeignKey(ReserveOnlineFacility, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    offline_facility = models.ForeignKey(ReserveOfflineFacility, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    meeting = models.ForeignKey(ReserveOnlineMeeting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    memo = models.TextField(max_length=1000, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow_schedule'
 
 class UserFlowTimer(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)

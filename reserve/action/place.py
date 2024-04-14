@@ -37,6 +37,7 @@ def save(request):
         method = 0
         if request.POST.get('offline_course_method_'+str(i+1)):
             method = int(request.POST.get('offline_course_method_'+str(i+1)))
+        business_check_1 = False
         if request.POST.get('offline_course_business_check_1_'+str(i+1)) == '1':
             business_check_1 = True
         business_check_2 = False

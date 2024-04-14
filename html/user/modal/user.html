@@ -1,0 +1,229 @@
+{% load static %}
+
+<div id="edit_user_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            {% if user.profile.image %}
+                                <img src="{{ user.profile.image.url }}" class="user-image me-2">
+                            {% elif user.display_image %}
+                                <img src="{{ user.display_image }}" class="user-image me-2">
+                            {% else %}
+                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                            {% endif %}
+                            <div>
+                                {% if user.profile.name %}
+                                    <p class="title mb-0">{{ user.profile.name }}</p>
+                                {% else %}
+                                    <p class="title mb-0">{{ user.display_name }}</p>
+                                {% endif %}
+                                {% if user.status == 2 %}
+                                    <p class="sub mb-0">ブロック</p>
+                                {% elif user.active_flow.flow_tab.name %}
+                                    <p class="sub mb-0">{{ user.active_flow.flow_tab.name }}</p>
+                                {% else %}
+                                    <p class="sub mb-0">募集期間外</p>
+                                {% endif %}
+                            </div>
+                            <button type="button" class="btn edit-button save-button ms-auto" value="user">編集を保存</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block p-0">
+                <input type="hidden" id="save_user_check_form" value="{% url 'user:save_check' %}">
+                <form id="save_user_form" action="{% url 'user:save' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <input type="hidden" name="id" value="{{ user.display_id }}">
+                    <div class="content ps-4 pe-4 mt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label mb-0">登録日</label>
+                                    <input type="text" class="input-text readonly ps-2 pe-2" value="{{ user.created_at|date:'Y年m月d日 H:i' }}" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">アトエルID</label>
+                                    {% if user.profile.atelle_id %}
+                                        <input type="text" value="#{{ user.profile.atelle_id }}" class="input-text readonly ps-2 pe-2" readonly disabled>
+                                    {% else %}
+                                        <input type="text" value="-" class="input-text readonly ps-2 pe-2" readonly disabled>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">氏名</label>
+                                    {% if user.profile.name %}
+                                        <input type="text" name="name" value="{{ user.profile.name }}" class="input-text ps-2 pe-2">
+                                    {% else %}
+                                        <input type="text" name="name" value="{{ user.display_name }}" class="input-text ps-2 pe-2">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">フリガナ</label>
+                                    {% if user.profile.name_kana %}
+                                        <input type="text" name="name_kana" value="{{ user.profile.name_kana }}" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" data-parsley-errors-messages-disabled>
+                                    {% else %}
+                                        <input type="text" name="name_kana" value="" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" data-parsley-errors-messages-disabled>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">生年月日</label>
+                                    {% if user.profile.birth %}
+                                        <input type="text" name="birth" value="{{ user.profile.birth|date:'Y年m月d日' }}" class="input-text input-birth-date ps-2">
+                                    {% else %}
+                                        <input type="text" name="birth" value="" class="input-text input-birth-date ps-2">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">年齢</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        {% if user.profile.age %}
+                                            <input type="text" id="select_age" name="age" value="{{ user.profile.age }}歳" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" id="select_age" name="age" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ user.profile.age|default:'' }}">
+                                        <div class="dropdown-menu" aria-labelledby="select_age">
+                                            {% for age_item in age_list %}
+                                                {% if age_item >= 15 %}
+                                                    {% if age_item == 15 %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center">{{ age_item }}歳</button>
+                                                    {% else %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ age_item }}歳</button>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        {% if user.profile.sex == 1 %}
+                                            <input type="text" id="select_sex" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif user.profile.sex == 2 %}
+                                            <input type="text" id="select_sex" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" id="select_sex" name="sex" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ user.profile.sex|default:0 }}">
+                                        <div class="dropdown-menu" aria-labelledby="select_sex">
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center">男性</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">電話番号</label>
+                                    {% if user.profile.phone_number %}
+                                        <input type="text" name="phone_number" value="{{ user.profile.phone_number }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                    {% else %}
+                                        <input type="text" name="phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content border-bottom ps-4 pe-4 pb-3 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">メールアドレス</label>
+                                    {% if user.profile.email %}
+                                        <input type="email" name="email" value="{{ user.profile.email }}" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
+                                    {% else %}
+                                        <input type="email" name="email" value="" class="input-text ps-2 pe-2" data-parsley-errors-messages-disabled>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content border-bottom ps-4 pe-4 pb-3 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <label class="mb-0"># タグ</label>
+                                    <div class="tag-area">
+                                        <div class="add-tag-area d-flex align-items-start justify-content-start flex-wrap">
+                                            {% for user_tag_item in user.tag %}
+                                                <div class="position-relative">
+                                                    <label class="tag-label text-center p-1 me-1">{{ user_tag_item.tag.name }}</label>
+                                                    <input type="hidden" name="tag[]" value="{{ user_tag_item.tag.display_id }}">
+                                                    <button type="button" value="" class="btn delete-tag-button p-0">
+                                                        <img src="/static/img/icon/cross-white.svg">
+                                                    </button>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="add-tag-button-area">
+                                            <button type="button" class="btn add-tag-button ps-3">タグを追加する</button>
+                                            <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#tag_modal"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-4 pe-4 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <label class="mb-0">メモ</label>
+                                    <textarea name="memo" class="input-textarea d-block ms-auto" style="height: 100px;">{{ user.profile.memo|default:'' }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from sign.models import AuthCompany, AuthShop
+from user.models import LineUser
 
 class HeadTagGenre(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -102,3 +103,16 @@ class ShopHashTag(models.Model):
 
     class Meta:
         db_table = 'shop_hash_tag'
+
+
+
+class UserHashTag(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, blank=True, null=True, related_name="user_hash_tag")
+    number = models.IntegerField(default=0)
+    tag = models.ForeignKey(ShopTag, on_delete=models.CASCADE, related_name="user_hash_tag")
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_hash_tag'

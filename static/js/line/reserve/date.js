@@ -235,6 +235,7 @@ $( function(){
                 'contentType': false,
             }).done( function( response ){
                 if ( response.check ) {
+                    $( '.question-area .content-area #question_id' ).val( response.question.display_id );
                     $( '.question-area .content-area .content-title' ).text( response.question.title );
                     $( '.question-area .content-area .content-description' ).html( response.question.description.replace(/\r?\n/g, '<br>') );
 
@@ -528,9 +529,9 @@ $( function(){
                                     html += '<div class="input-radio-wrap position-relative mb-1">';
                                     html += '<label for="radio_' + value.number + '_' + choice_value.number + '" class="ps-4 mb-0">' + choice_value.text + '</label>';
                                     if ( value.required_flg ) {
-                                        html += '<input id="radio_' + value.number + '_' + choice_value.number + '" type="radio" name="question_value_' + value.number + '" value="' + choice_value.number + '" class="form-check-input input-radio" data-parsley-errors-container="#error_radio_' + value.number + '" data-parsley-error-message="選択してください" required>';
+                                        html += '<input id="radio_' + value.number + '_' + choice_value.number + '" type="radio" name="choice_value_' + value.number + '" value="' + choice_value.number + '" class="form-check-input input-radio" data-parsley-errors-container="#error_radio_' + value.number + '" data-parsley-error-message="選択してください" required>';
                                     } else {
-                                        html += '<input id="radio_' + value.number + '_' + choice_value.number + '" type="radio" name="question_value_' + value.number + '" value="' + choice_value.number + '" class="form-check-input input-radio" >';
+                                        html += '<input id="radio_' + value.number + '_' + choice_value.number + '" type="radio" name="choice_value_' + value.number + '" value="' + choice_value.number + '" class="form-check-input input-radio" >';
                                     }
                                     html += '<label for="radio_' + value.number + '_' + choice_value.number + '" class="input-radio-mark"></label>';
                                     html += '</div>';
@@ -544,12 +545,12 @@ $( function(){
                                     html += '<label for="check_' + value.number + '_' + choice_value.number + '" class="mb-0">' + choice_value.text + '</label>';
                                     if ( value.required_flg ) {
                                         if ( choice_index == 0 ) {
-                                            html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="question_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check" data-parsley-errors-container="#error_check_' + value.number + '" data-parsley-error-message="選択してください" data-parsley-mincheck="1" required>';
+                                            html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="choice_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check" data-parsley-errors-container="#error_check_' + value.number + '" data-parsley-error-message="選択してください" data-parsley-mincheck="1" required>';
                                         } else {
-                                            html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="question_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check">';
+                                            html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="choice_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check">';
                                         }
                                     } else {
-                                        html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="question_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check">';
+                                        html += '<input id="check_' + value.number + '_' + choice_value.number + '" type="checkbox" name="choice_value_' + value.number + '[]" value="' + choice_value.number + '" class="form-check-input input-check">';
                                     }
                                     html += '<label for="check_' + value.number + '_' + choice_value.number + '" class="input-check-mark mb-0"></label>';
                                     html += '</div>';
@@ -559,9 +560,9 @@ $( function(){
                             } else if ( value.choice_type == 4 ) {
                                 html += '<div class="dropdown input-select-dropdown d-inline-block w-100 p-0">';
                                 if ( value.required_flg ) {
-                                    html += '<input type="text" id="dropdown_' + value.number + '" name="question_text_' + value.number + '" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-container="#error_dropdown_' + value.number + '"  data-parsley-error-message="選択してください" readonly required>';
+                                    html += '<input type="text" id="dropdown_' + value.number + '" name="choice_text_' + value.number + '" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-container="#error_dropdown_' + value.number + '"  data-parsley-error-message="選択してください" readonly required>';
                                 } else {
-                                    html += '<input type="text" id="dropdown_' + value.number + '" name="question_text_' + value.number + '" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-container="#error_dropdown_' + value.number + '"  data-parsley-error-message="選択してください" readonly>';
+                                    html += '<input type="text" id="dropdown_' + value.number + '" name="choice_text_' + value.number + '" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-container="#error_dropdown_' + value.number + '"  data-parsley-error-message="選択してください" readonly>';
                                 }
                                 html += '<input type="hidden">';
                                 html += '<div class="dropdown-menu" aria-labelledby="dropdown_' + value.number + '">';

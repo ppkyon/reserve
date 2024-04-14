@@ -151,6 +151,8 @@ MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_stat
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 NUMBER_GROUPING = 3
+DATA_UPLOAD_MAX_MEMORY_SIZE = 500000000
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         ('template', '0001_initial'),
         ('user', '0001_initial'),
         ('sign', '0001_initial'),
-        ('question', '0002_initial'),
+        ('question', '0001_initial'),
     ]
 
     operations = [

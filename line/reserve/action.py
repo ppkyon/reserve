@@ -1,7 +1,11 @@
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowHistory
-from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
+from PIL import Image
+
+from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowSchedule
+from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
     ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineSetting, ReserveOnlineSetting,
@@ -9,17 +13,27 @@ from reserve.models import (
 )
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
 from sign.models import AuthShop
-from user.models import LineUser
+from user.models import LineUser, UserProfile
 
 from itertools import chain
 
 from common import create_code, get_model_field
 from flow.action.go import go
 
+import base64
 import calendar
+import cv2
 import datetime
+import environ
+import io
+import os
 import pandas
+import urllib.parse
+import urllib.request
 import uuid
+
+env = environ.Env()
+env.read_env('.env')
 
 def check(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
@@ -716,16 +730,16 @@ def get_question(request):
         if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
             setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         question = None
-        if setting:
+        if setting and setting.question:
             question = ShopQuestion.objects.filter(id=setting.question.id).values(*get_model_field(ShopQuestion)).first()
             question['item'] = list(ShopQuestionItem.objects.filter(question__id=question['id']).order_by('number').values(*get_model_field(ShopQuestionItem)).all())
             for question_index, question_item in enumerate(question['item']):
                 if question_item['type'] == 99:
                     question['item'][question_index]['choice'] = list(ShopQuestionItemChoice.objects.filter(question_item__id=question_item['id']).values(*get_model_field(ShopQuestionItemChoice)).all())
-            if setting.question:
+            if question:
                 return JsonResponse( {'check': True, 'question': question, 'age_list': [i for i in range(101)]}, safe=False )
-            else:
-                return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
+        else:
+            return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
     return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
 
 
@@ -734,6 +748,381 @@ def send(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
     user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
 
+    if UserProfile.objects.filter(user=user).exists():
+        user_profile = UserProfile.objects.filter(user=user).first()
+    else:
+        user_profile = UserProfile.objects.create(
+            id = str(uuid.uuid4()),
+            user = user,
+        )
+    user.updated_at = datetime.datetime.now()
+    user.save()
+    
+    question = None
+    if request.POST.get('question_id'):
+        question = ShopQuestion.objects.filter(display_id=request.POST.get('question_id')).first()
+        user_question = UserQuestion.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, UserQuestion),
+            user = user,
+            question = question,
+        )
+        
+        for shop_question_index, shop_question_item in enumerate(ShopQuestionItem.objects.filter(question=question).order_by('number').all()):
+            if request.POST.get('type_'+str(shop_question_index+1)) == '1':
+                if request.POST.get('text_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
+                    )
+                    user_profile.name = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '2':
+                if request.POST.get('text_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
+                    )
+                    user_profile.name_kana = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '3':
+                if request.POST.get('value_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        value = urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))).replace('歳', ''),
+                    )
+                    user_profile.age = urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))).replace('歳', '')
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        value = 0,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '4':
+                if request.POST.get('value_'+str(shop_question_index+1)):
+                    if request.POST.get('value_'+str(shop_question_index+1)):
+                        UserQuestionItem.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user_question,
+                            question = shop_question_item,
+                            value = 0,
+                        )
+                    elif urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))) == '男性':
+                        UserQuestionItem.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user_question,
+                            question = shop_question_item,
+                            value = 1,
+                        )
+                        user_profile.sex = 1
+                    elif urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))) == '女性':
+                        UserQuestionItem.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user_question,
+                            question = shop_question_item,
+                            value = 2,
+                        )
+                        user_profile.sex = 2
+                    user_profile.save()
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '5':
+                if request.POST.get('text_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))).replace( '-', ''),
+                    )
+                    user_profile.phone_number = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))).replace( '-', '')
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '6':
+                if request.POST.get('email_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        email = urllib.parse.unquote(request.POST.get('email_'+str(shop_question_index+1))),
+                    )
+                    user_profile.email = urllib.parse.unquote(request.POST.get('email_'+str(shop_question_index+1)))
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        email = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '7':
+                if request.POST.get('date_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        date = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1))).replace( '/', '-'),
+                    )
+                    today = datetime.date.today()
+                    birthday = datetime.datetime.strptime(urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1))).replace( '/', '-'), '%Y-%m-%d')
+                    user_profile.age = (int(today.strftime("%Y%m%d")) - int(birthday.strftime("%Y%m%d"))) // 10000
+                    user_profile.birth = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1))).replace( '/', '-')
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        date = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '8':
+                if request.POST.get('text_'+str(shop_question_index+1)):
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
+                    )
+                    user_profile.address = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        text = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '9':
+                if request.POST.get('image_'+str(shop_question_index+1)):
+                    if ';base64,' in request.POST.get('image_'+str(shop_question_index+1)):
+                        format, imgstr = request.POST.get('image_'+str(shop_question_index+1)).split(';base64,') 
+                        ext = format.split('/')[-1]
+                        data = ContentFile(base64.b64decode(request.POST.get('image_url_'+str(shop_question_index+1)).replace( ' ', '+' )), name='temp.' + ext)
+                    else:
+                        data = request.POST.get('image_url_'+str(shop_question_index+1))
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        image = data,
+                    )
+                    user_profile.image = data
+                    user_profile.save()
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        image = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '10':
+                if request.POST.get('image_'+str(shop_question_index+1)):
+                    if ';base64,' in request.POST.get('image_'+str(shop_question_index+1)):
+                        format, imgstr = request.POST.get('image_'+str(shop_question_index+1)).split(';base64,') 
+                        ext = format.split('/')[-1]
+                        data = ContentFile(base64.b64decode(request.POST.get('image_url_'+str(shop_question_index+1)).replace( ' ', '+' )), name='temp.' + ext)
+                    else:
+                        data = request.POST.get('image_url_'+str(shop_question_index+1))
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        image = data,
+                    )
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        image = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '11':
+                if request.POST.get('video_'+str(shop_question_index+1)):
+                    if ';base64,' in request.POST.get('video_'+str(shop_question_index+1)):
+                        format, imgstr = request.POST.get('video_'+str(shop_question_index+1)).split(';base64,') 
+                        ext = format.split('/')[-1] 
+                        data = ContentFile(base64.b64decode(request.POST.get('video_'+str(shop_question_index+1)).replace( ' ', '+' )), name='temp.' + ext)
+                    else:
+                        data = request.POST.get('video_url_'+str(shop_question_index+1))
+                    user_question_item = UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        video = data,
+                        video_thumbnail = None,
+                    )
+
+                    if env('AWS_FLG') == 'True':
+                        video_name = './static/' + str(uuid.uuid4()).replace('-', '') + '.mp4'
+                        urllib.request.urlretrieve(user_question_item.video.url, video_name)
+                        cap = cv2.VideoCapture(video_name)
+                    else:
+                        cap = cv2.VideoCapture(user_question_item.video.url[1:])
+                    res, thumbnail = cap.read()
+                    image = Image.fromarray(cv2.cvtColor(thumbnail, cv2.COLOR_BGR2RGB))
+                    image_io = io.BytesIO()
+                    image.save(image_io, format="JPEG")
+                    image_file = InMemoryUploadedFile(image_io, field_name=None, name=str(uuid.uuid4()).replace('-', '') + '.jpg', content_type="image/jpeg", size=image_io.getbuffer().nbytes, charset=None)
+                    
+                    user_question_item.video_thumbnail = image_file
+                    user_question_item.save()
+
+                    cap.release()
+                    if env('AWS_FLG') == 'True':
+                        os.remove(video_name)
+                else:
+                    UserQuestionItem.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user_question,
+                        question = shop_question_item,
+                        video = None,
+                        video_thumbnail = None,
+                    )
+            elif request.POST.get('type_'+str(shop_question_index+1)) == '99':
+                user_question_item = UserQuestionItem.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user_question,
+                    question = shop_question_item,
+                )
+                if request.POST.get('choice_type_'+str(shop_question_index+1)) == '1':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('text_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = None,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '2':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('choice_value_'+str(shop_question_index+1)) == str(shop_question_choice_item.number):
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 1,
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 0,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '3':
+                    choice_value = request.POST.getlist('choice_value_'+str(shop_question_index+1)+'%5B%5D')
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if str(shop_question_choice_item.number) in choice_value:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 1,
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 0,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '4':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('choice_text_'+str(shop_question_index+1)) == shop_question_choice_item.text:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 1,
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                text = 0,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '5':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('date_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                date = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                date = None,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '6':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                time = urllib.parse.unquote(request.POST.get('time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                time = None,
+                            )
+                elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '7':
+                    for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
+                        if request.POST.get('date_time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                date = urllib.parse.unquote(request.POST.get('date_time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
+                            )
+                        else:
+                            UserQuestionItemChoice.objects.create(
+                                id = str(uuid.uuid4()),
+                                user = user_question_item,
+                                question = shop_question_choice_item,
+                                date = None,
+                            )
+
     target_flow_tab = None
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
@@ -741,41 +1130,69 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
+                
+        target_flg = False
+        target_flow_item = None
+        target_rich_menu = None
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
+            if flow_item.type == 7:
+                target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                target_rich_menu = target_rich_menu.rich_menu
+            if target_flg:
+                target_flow_item = flow_item
+            if flow_item.type == 54:
+                target_flg = True
     
-        if UserFlowHistory.objects.filter(user=user, flow=flow_tab).exists():
-            for user_flow_history in UserFlowHistory.objects.filter(user=user, flow=flow_tab).all():
-                user_flow_history.pass_flg = True
-                user_flow_history.save()
+        if UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).exists():
+            user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+            user_flow.flow = target_flow_tab.flow
+            user_flow.flow_tab = target_flow_tab
+            user_flow.flow_item = target_flow_item
+            user_flow.name = target_flow_tab.name
+            user_flow.richmenu = target_rich_menu
+            user_flow.end_flg = False
+            user_flow.save()
         else:
-            target_rich_menu = None
-            for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
-                if flow_item.type == 7:
-                    target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
-                    target_rich_menu = target_rich_menu.rich_menu
-            UserFlowHistory.objects.create(
+            user_flow = UserFlow.objects.create(
                 id = str(uuid.uuid4()),
-                display_id = create_code(12, UserFlowHistory),
+                display_id = create_code(12, UserFlow),
                 user = user,
-                number = UserFlowHistory.objects.filter(user=user).count() + 1,
-                flow = target_flow_tab,
+                number = UserFlow.objects.filter(user=user).count() + 1,
+                flow = target_flow_tab.flow,
+                flow_tab = target_flow_tab,
+                flow_item = target_flow_item,
                 name = target_flow_tab.name,
                 richmenu = target_rich_menu,
-                start_flg = True,
-                pass_flg = True,
                 end_flg = False,
             )
-        UserFlowHistory.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, UserFlowHistory),
-            user = user,
-            number = UserFlowHistory.objects.filter(user=user).count() + 1,
-            flow = target_flow_tab,
-            offline = setting,
-            name = target_flow_tab.name + '日程調整',
-            start_flg = False,
-            pass_flg = False,
-            end_flg = False,
-        )
+        
+        course = None
+        if request.POST.get('course_id'):
+            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
+
+        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
+            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+            user_flow_schedule.number = 1
+            user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
+            user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
+            user_flow_schedule.join = 0
+            user_flow_schedule.offline = setting
+            user_flow_schedule.offline_course = course
+            user_flow_schedule.question = question
+            user_flow_schedule.save()
+        else:
+            UserFlowSchedule.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlow),
+                flow = user_flow,
+                number = 1,
+                date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
+                time = request.POST.get('hour') + ':' + request.POST.get('minute'),
+                join = 0,
+                offline = setting,
+                offline_course = course,
+                question = question,
+            )
 
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
@@ -783,66 +1200,72 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
-    
-        if UserFlowHistory.objects.filter(user=user, flow=flow_tab).exists():
-            for user_flow_history in UserFlowHistory.objects.filter(user=user, flow=flow_tab).all():
-                user_flow_history.pass_flg = True
-                user_flow_history.save()
+        
+        target_flg = False
+        target_flow_item = None
+        target_rich_menu = None
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
+            if flow_item.type == 7:
+                target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                target_rich_menu = target_rich_menu.rich_menu
+            if target_flg:
+                target_flow_item = flow_item
+            if flow_item.type == 54:
+                target_flg = True
+        
+        if UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).exists():
+            user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+            user_flow.flow = target_flow_tab.flow
+            user_flow.flow_tab = target_flow_tab
+            user_flow.flow_item = target_flow_item
+            user_flow.name = target_flow_tab.name
+            user_flow.richmenu = target_rich_menu
+            user_flow.end_flg = False
+            user_flow.save()
         else:
-            target_rich_menu = None
-            for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).all():
-                if flow_item.type == 7:
-                    target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
-                    target_rich_menu = target_rich_menu.rich_menu
-            UserFlowHistory.objects.create(
+            user_flow = UserFlow.objects.create(
                 id = str(uuid.uuid4()),
-                display_id = create_code(12, UserFlowHistory),
+                display_id = create_code(12, UserFlow),
                 user = user,
-                number = UserFlowHistory.objects.filter(user=user).count() + 1,
-                flow = target_flow_tab,
+                number = UserFlow.objects.filter(user=user).count() + 1,
+                flow = target_flow_tab.flow,
+                flow_tab = target_flow_tab,
+                flow_item = target_flow_item,
                 name = target_flow_tab.name,
                 richmenu = target_rich_menu,
-                start_flg = True,
-                pass_flg = True,
                 end_flg = False,
             )
-        UserFlowHistory.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, UserFlowHistory),
-            user = user,
-            number = UserFlowHistory.objects.filter(user=user).count() + 1,
-            flow = flow_tab,
-            online = setting,
-            name = flow_tab.name + '日程調整',
-            start_flg = False,
-            pass_flg = False,
-            end_flg = False,
-        )
+        
+        course = None
+        if request.POST.get('course_id'):
+            course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-    action_flg = False
+        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
+            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+            user_flow_schedule.number = 1
+            user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
+            user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
+            user_flow_schedule.join = 0
+            user_flow_schedule.online = setting
+            user_flow_schedule.online_course = course
+            user_flow_schedule.question = question
+            user_flow_schedule.save()
+        else:
+            UserFlowSchedule.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlow),
+                flow = user_flow,
+                number = 1,
+                date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
+                time = request.POST.get('hour') + ':' + request.POST.get('minute'),
+                join = 0,
+                online = setting,
+                online_course = course,
+                question = question,
+            )
+
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
-    if user_flow:
-        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
-            if action_flg:
-                if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
-                    break
-            if flow_item.type == 54:
-                action_flg = True
-    else:
-        for flow_item in ShopFlowItem.objects.filter(flow_tab=target_flow_tab).order_by('y', 'x').all():
-            if flow_item.type == 10:
-                user_flow = UserFlow.objects.create(
-                    id = str(uuid.uuid4()),
-                    user = user,
-                    flow = target_flow_tab.flow,
-                    flow_tab = target_flow_tab,
-                    flow_item = flow_item,
-                )
-                break
-        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
-            if action_flg:
-                if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
-                    break
-            if flow_item.type == 54:
-                action_flg = True
+    for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
+        if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
+            break
     return JsonResponse( {}, safe=False )

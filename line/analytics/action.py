@@ -12,6 +12,7 @@ def url(request):
     shop_line = ShopLine.objects.filter(shop=shop).first()
     user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
 
+    user_flow = None
     if UserFlow.objects.filter(user=user).exists():
         for flow_tab in ShopFlowTab.objects.filter(flow=UserFlow.objects.filter(user=user).first().flow).order_by('number').all():
             if UserFlow.objects.filter(user=user, flow_tab=flow_tab).exists():

@@ -13,6 +13,7 @@
         </div>
     </div>
     <div class="shop">
+        <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
         <div class="row">
             <div class="col-12">
                 <div class="table-area mb-3">
@@ -75,18 +76,24 @@
                                         {% if object_item.status == 2 %}
                                             <p class="content-title mb-0">ブロック</p>
                                         {% else %}
-
+                                            {% if object_item.active_flow %}
+                                                <p class="content-title mb-0">{{ object_item.active_flow.flow_tab.name }}</p>
+                                            {% else %}
+                                                <p class="content-title mb-0">-</p>
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td class="p-1">
-
+                                        {% for user_tag_item in object_item.tag %}
+                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ user_tag_item.name }}</label>
+                                        {% endfor %}
                                     </td>
                                     <td class="text-center p-1">
                                         <div class="d-flex justify-content-start align-items-center">
                                             <button type="button" value="{{ object_item.display_id }}" class="btn preview-icon-button p-0 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="プレビュー">
                                                 <img src="{% static 'img/icon/preview.png' %}" class="pt-1 pb-1">
                                             </button>
-                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_user_profile"></button>
+                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>
                                             <a href="{% url 'user:detail' %}?id={{ object_item.display_id }}" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">
                                                 <img src="{% static 'img/icon/detail.png' %}">
                                             </a>
@@ -105,10 +112,18 @@
                         </tbody>
                     </table>
                 </div>
+                {% include 'loader.html' %}
             </div>
         </div>
+        {% include 'modal.html' %}
+        {% include 'user/modal/user.html' %}
+        {% include 'user/offcanvas.html' %}
+        {% include 'tag/modal/tag.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/user/index/action.js' %}"></script>
+    <script src="{% static 'js/user/index/data.js' %}"></script>
 {% endblock %}

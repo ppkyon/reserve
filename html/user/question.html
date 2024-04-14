@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="question-area">
+    <div class="table-area">
+        <table class="table text-nowrap mb-0">
+            <thead>
+                <tr>
+                    <th style="width: 75px;"></th>
+                    <th>提出書類</th>
+                    <th style="width: 580px;">メモ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_question in user.question %}
+                    <tr>
+                        <td class="p-1"></td>
+                        <td class="position-relative p-1">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <input type="hidden" value="{{ user_question.display_id }}">
+                                <p class="content-title mb-0">{{ user_question.question.name }}</p>
+                            </div>
+                            <p class="content-date mb-0">{{ user_question.created_at|date:'Y年m月d日 H:i' }}</p>
+                        </td>
+                        <td>
+                            <textarea class="input-textarea readonly w-100 h-100" readonly>{{ user_question.memo|default:'' }}</textarea>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#edit_question_modal"></button>

@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/user/detail.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -12,8 +13,27 @@
         </div>
     </div>
     <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-start align-items-top">
+                    {% include 'user/profile.html' %}
+                    <div class="detail-area">
+                        {% include 'user/step.html' %}
+                        {% include 'user/question.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'user/modal/user.html' %}
+        {% include 'user/modal/step.html' %}
+        {% include 'user/modal/question.html' %}
+        {% include 'tag/modal/tag.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/user/detail/action.js' %}"></script>
+    <script src="{% static 'js/user/detail/data.js' %}"></script>
 {% endblock %}

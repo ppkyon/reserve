@@ -3,7 +3,7 @@ from linebot import LineBotApi
 
 from flow.models import (
     ShopFlowTab, ShopFlowItem, ShopFlowTemplate, ShopFlowRichMenu, ShopFlowTimer, ShopFlowStep,
-    UserFlow, UserFlowTimer, UserFlowHistory
+    UserFlow, UserFlowTimer
 )
 from richmenu.models import UserRichMenu
 from sign.models import ShopLine
@@ -59,18 +59,26 @@ def go(user, flow, flow_tab, flow_item):
                 )
                 create_rich_menu(user)
             
-            UserFlowHistory.objects.create(
-                id = str(uuid.uuid4()),
-                display_id = create_code(12, UserFlowHistory),
-                user = user,
-                number = UserFlowHistory.objects.filter(user=user).count() + 1,
-                flow = flow_tab,
-                name = flow_tab.name,
-                richmenu = flow_rich_menu.rich_menu,
-                start_flg = True,
-                pass_flg = False,
-                end_flg = False,
-            )
+            if UserFlow.objects.filter(flow_tab=flow_tab, user=user).exists():
+                user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
+                user_flow.flow_item = flow_item
+                user_flow.name = flow_tab.name
+                user_flow.richmenu = flow_rich_menu.rich_menu
+                user_flow.end_flg = False
+                user_flow.save()
+            else:
+                UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = flow,
+                    flow_tab = flow_tab,
+                    flow_item = flow_item,
+                    name = flow_tab.name,
+                    richmenu = flow_rich_menu.rich_menu,
+                    end_flg = False,
+                )
         elif flow_item.type == 8:
             print()
         elif flow_item.type == 9:
@@ -87,59 +95,53 @@ def go(user, flow, flow_tab, flow_item):
                     flow_item = flow_item,
                     end_flg = True,
                 )
-            for user_flow_history_index, user_flow_history in enumerate(UserFlowHistory.objects.filter(user=user, flow=flow_tab).all()):
-                if (user_flow_history_index+1) == UserFlowHistory.objects.filter(user=user, flow=flow_tab).count():
-                    user_flow_history.end_flg = True
-                    user_flow_history.save()
-                else:
-                    user_flow_history.pass_flg = True
-                    user_flow_history.save()
 
             flow_step = ShopFlowStep.objects.filter(flow=flow_item).first()
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, value=flow_step.tab.value).first()
             UserFlow.objects.create(
                 id = str(uuid.uuid4()),
+                display_id = create_code(12, UserFlow),
                 user = user,
+                number = UserFlow.objects.filter(user=user).count() + 1,
                 flow = user_flow.flow,
                 flow_tab = flow_tab,
                 flow_item = ShopFlowItem.objects.filter(flow_tab=flow_tab, x=1, y=1).first(),
+                name = flow_tab.name,
             )
-
-            UserFlowHistory.objects.filter(user=user).first()
             return True
         elif flow_item.type == 10:
-            UserFlow.objects.filter(user=user, flow_tab=flow_tab).all().delete()
-            UserFlow.objects.create(
-                id = str(uuid.uuid4()),
-                user = user,
-                flow = flow,
-                flow_tab = flow_tab,
-                flow_item = flow_item,
-            )
+            user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
+            user_flow.user = user
+            user_flow.flow = flow
+            user_flow.flow_tab = flow_tab
+            user_flow.flow_item = flow_item
+            user_flow.save()
             return True
         elif flow_item.type == 11:
-            print()
+            user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
+            user_flow.user = user
+            user_flow.flow = flow
+            user_flow.flow_tab = flow_tab
+            user_flow.flow_item = flow_item
+            user_flow.save()
+            return True
         elif flow_item.type == 51:
-            UserFlow.objects.filter(user=user, flow_tab=flow_tab).all().delete()
-            UserFlow.objects.create(
-                id = str(uuid.uuid4()),
-                user = user,
-                flow = flow,
-                flow_tab = flow_tab,
-                flow_item = flow_item,
-            )
+            user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
+            user_flow.user = user
+            user_flow.flow = flow
+            user_flow.flow_tab = flow_tab
+            user_flow.flow_item = flow_item
+            user_flow.save()
             return True
         elif flow_item.type == 52:
             flow_timer = ShopFlowTimer.objects.filter(flow=flow_item).first()
             if not flow_timer.type == 0:
-                UserFlow.objects.filter(user=user, flow_tab=flow_tab).all().delete()
-                UserFlow.objects.create(
-                    id = str(uuid.uuid4()),
-                    user = user,
-                    flow = flow,
-                    flow_tab = flow_tab,
-                    flow_item = flow_item,
-                )
+                user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
+                user_flow.user = user
+                user_flow.flow = flow
+                user_flow.flow_tab = flow_tab
+                user_flow.flow_item = flow_item
+                user_flow.save()
 
                 action_date = None
                 if flow_timer.type == 1:
@@ -162,8 +164,6 @@ def go(user, flow, flow_tab, flow_item):
         elif flow_item.type == 53:
             print()
         elif flow_item.type == 54:
-            print()
-        elif flow_item.type == 55:
             print()
 
     return False
