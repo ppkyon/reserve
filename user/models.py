@@ -23,6 +23,7 @@ class LineUser(models.Model):
     display_name = models.CharField(max_length=255, null=True)
     display_image = models.CharField(max_length=255, blank=True, null=True)
     status = models.IntegerField(choices=status_choice, default=0)
+    member_flg = models.BooleanField(default=False)
     delete_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)

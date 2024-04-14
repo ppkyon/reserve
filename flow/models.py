@@ -774,6 +774,7 @@ class UserFlow(models.Model):
     image = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     richmenu = models.ForeignKey(ShopRichMenu, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    memo = models.TextField(max_length=1000, blank=True, null=True)
     end_flg = models.BooleanField(default=False)
     checked_at = models.DateTimeField(blank=False, null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
@@ -805,7 +806,6 @@ class UserFlowSchedule(models.Model):
     manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     meeting = models.ForeignKey(ReserveOnlineMeeting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
-    memo = models.TextField(max_length=1000, blank=True, null=True)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
