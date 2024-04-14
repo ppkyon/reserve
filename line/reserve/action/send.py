@@ -6,9 +6,12 @@ from PIL import Image
 
 from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowSchedule
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
-from reserve.models import ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+from reserve.models import (
+    ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+)
 from richmenu.models import UserRichMenu
-from sign.models import AuthShop
+from sign.models import AuthShop, AuthUser
 from user.models import LineUser, UserProfile
 
 from common import create_code
@@ -459,6 +462,34 @@ def send(request):
                 richmenu = target_rich_menu,
                 end_flg = False,
             )
+
+        schedule_list = list()
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).all():
+            schedule_list.append(schedule)
+
+        date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+        add_date = date + datetime.timedelta(minutes=setting.time)
+
+        manager_list = list()
+        facility_list = list()
+        for schedule_item in schedule_list:
+            schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
+            schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+
+            if add_date > schedule_date and schedule_add_date > date:
+                manager_list.append(schedule_item.manager)
+                facility_list.append(schedule_item.offline_facility)
+        
+        manager = None
+        for manager_item in AuthUser.objects.filter(shop=shop, authority__gte=2, status__gte=3, head_flg=False, delete_flg=False).order_by('created_at').all():
+            if not manager_item in manager_list:
+                manager = manager_item
+                break
+        facility = None
+        for facility_item in ReserveOfflineFacilityMenu.objects.filter(shop=shop, offline=setting).all():
+            if not facility_item in facility_list:
+                facility = facility_item.facility
+                break
         
         course = None
         if request.POST.get('course_id'):
@@ -472,6 +503,8 @@ def send(request):
             user_flow_schedule.join = 0
             user_flow_schedule.offline = setting
             user_flow_schedule.offline_course = course
+            user_flow_schedule.offline_facility = facility
+            user_flow_schedule.manager = manager
             user_flow_schedule.question = question
             user_flow_schedule.save()
         else:
@@ -485,6 +518,8 @@ def send(request):
                 join = 0,
                 offline = setting,
                 offline_course = course,
+                offline_facility = facility,
+                manager = manager,
                 question = question,
             )
 
@@ -529,6 +564,34 @@ def send(request):
                 richmenu = target_rich_menu,
                 end_flg = False,
             )
+
+        schedule_list = list()
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).all():
+            schedule_list.append(schedule)
+
+        date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+        add_date = date + datetime.timedelta(minutes=setting.time)
+
+        manager_list = list()
+        facility_list = list()
+        for schedule_item in schedule_list:
+            schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
+            schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+
+            if add_date > schedule_date and schedule_add_date > date:
+                manager_list.append(schedule_item.manager)
+                facility_list.append(schedule_item.offline_facility)
+        
+        manager = None
+        for manager_item in AuthUser.objects.filter(shop=shop, authority__gte=2, status__gte=3, head_flg=False, delete_flg=False).order_by('created_at').all():
+            if not manager_item in manager_list:
+                manager = manager_item
+                break
+        facility = None
+        for facility_item in ReserveOnlineFacilityMenu.objects.filter(shop=shop, offline=setting).all():
+            if not facility_item in facility_list:
+                facility = facility_item.facility
+                break
         
         course = None
         if request.POST.get('course_id'):
@@ -542,6 +605,8 @@ def send(request):
             user_flow_schedule.join = 0
             user_flow_schedule.online = setting
             user_flow_schedule.online_course = course
+            user_flow_schedule.online_facility = facility
+            user_flow_schedule.manager = manager
             user_flow_schedule.question = question
             user_flow_schedule.save()
         else:
@@ -555,6 +620,8 @@ def send(request):
                 join = 0,
                 online = setting,
                 online_course = course,
+                online_facility = facility,
+                manager = manager,
                 question = question,
             )
 

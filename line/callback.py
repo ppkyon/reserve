@@ -7,7 +7,7 @@ from linebot.exceptions import InvalidSignatureError
 from question.models import UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from flow.models import (
     ShopFlow, ShopFlowTab, ShopFlowItem,
-    UserFlow, UserFlowTimer
+    UserFlow, UserFlowSchedule, UserFlowTimer
 )
 from richmenu.models import UserRichMenu, UserRichMenuClick
 from sign.models import AuthShop, ShopLine
@@ -65,6 +65,8 @@ def handle_follow(line_user_id, shop):
     user.member_flg = False
     user.save()
 
+    for user_flow in UserFlow.objects.filter(user=user).all():
+        UserFlowSchedule.objects.filter(flow=user_flow).all().delete()
     UserFlow.objects.filter(user=user).all().delete()
     UserFlowTimer.objects.filter(user=user).all().delete()
     UserRichMenu.objects.filter(user=user).all().delete()
