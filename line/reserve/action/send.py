@@ -8,7 +8,7 @@ from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, U
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reserve.models import (
     ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
-    ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from richmenu.models import UserRichMenu
 from sign.models import AuthShop, AuthUser
@@ -583,12 +583,12 @@ def send(request):
                 facility_list.append(schedule_item.offline_facility)
         
         manager = None
-        for manager_item in AuthUser.objects.filter(shop=shop, authority__gte=2, status__gte=3, head_flg=False, delete_flg=False).order_by('created_at').all():
+        for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=shop, online=setting).all():
             if not manager_item in manager_list:
                 manager = manager_item
                 break
         facility = None
-        for facility_item in ReserveOnlineFacilityMenu.objects.filter(shop=shop, offline=setting).all():
+        for facility_item in ReserveOnlineFacilityMenu.objects.filter(shop=shop, online=setting).all():
             if not facility_item in facility_list:
                 facility = facility_item.facility
                 break

@@ -619,8 +619,8 @@
     <div id="detail_manager_{{ manager_item.display_id }}_modal" class="detail-manager-modal modal fade">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 760px;">
             <div class="modal-content">
-                <input type="hidden" id="save_manager_{{ manager_item.display_id }}_check_form" value="{% url 'setting:save_manager_check' %}">
-                <form id="save_manager_{{ manager_item.display_id }}_form" action="{% url 'setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                <input type="hidden" id="save_managers_{{ manager_item.display_id }}_check_form" value="{% url 'setting:save_manager_check' %}">
+                <form id="save_managers_{{ manager_item.display_id }}_form" action="{% url 'setting:save_manager' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                     <div class="modal-header d-block ps-4 pe-4">
                         <div class="row">
                             <div class="col-11">
@@ -655,7 +655,7 @@
                                                 <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#reset_password_check_modal"></button>
                                             {% endif %}
                                             <input type="hidden" name="id" value="{{ manager_item.display_id }}">
-                                            <button type="button" class="btn action-button save-button d-block" value="manager_{{ manager_item.display_id }}">編集を保存</button>
+                                            <button type="button" class="btn action-button save-button d-block" value="managers_{{ manager_item.display_id }}">編集を保存</button>
                                             <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
                                         {% endif %}
                                     </div>

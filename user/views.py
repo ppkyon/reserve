@@ -4,6 +4,7 @@ from view import UserView, UserListView
 
 from question.models import UserQuestion
 from flow.models import UserFlow, UserFlowSchedule
+from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
 from sign.models import AuthLogin
 from tag.models import UserHashTag
 from user.models import LineUser, UserProfile
@@ -42,6 +43,13 @@ class DetailView(UserView):
         context['user'].flow = UserFlow.objects.filter(user=context['user']).order_by('number').all()
         for user_flow_index, user_flow_item in enumerate(context['user'].flow):
             context['user'].flow[user_flow_index].schedule = UserFlowSchedule.objects.filter(flow=user_flow_item).order_by('number').all()
+            for user_flow_schedule_index, user_flow_schedule_item in enumerate(context['user'].flow[user_flow_index].schedule):
+                if user_flow_schedule_item.offline:
+                    context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].manager_list = ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=user_flow_schedule_item.offline).all()
+                    context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].facility_list = ReserveOfflineFacilityMenu.objects.filter(shop=auth_login.shop, offline=user_flow_schedule_item.offline).all()
+                elif user_flow_schedule_item.online:
+                    context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].manager_list = ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=user_flow_schedule_item.online).all()
+                    context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].facility_list = ReserveOnlineFacilityMenu.objects.filter(shop=auth_login.shop, online=user_flow_schedule_item.online).all()
 
         context['user'].tag = UserHashTag.objects.filter(user=context['user']).order_by('number').all()
 

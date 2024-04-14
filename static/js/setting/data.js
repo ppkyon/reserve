@@ -150,41 +150,49 @@ $( function() {
         }
         return form_data;
     };
-    save_data.manager = function(id) {
+    save_success.manager = function(modal) {
+        $( '#save_check_modal .yes-button' ).val('manager');
+        $( modal ).trigger( 'click' );
+        up_modal();
+    };
+    save_error.manager = function(message='') {
+        
+    };
+    save_data.managers = function(id) {
         var form_data = new FormData();
-        form_data.append( 'id', $( '#save_manager_' + id + '_form [name=id]' ).val() );
-        form_data.append( 'family_name', $( '#save_manager_' + id + '_form [name=family_name]' ).val() );
-        form_data.append( 'first_name', $( '#save_manager_' + id + '_form [name=first_name]' ).val() );
-        form_data.append( 'family_name_kana', $( '#save_manager_' + id + '_form [name=family_name_kana]' ).val() );
-        form_data.append( 'first_name_kana', $( '#save_manager_' + id + '_form [name=first_name_kana]' ).val() );
-        form_data.append( 'phone_number', $( '#save_manager_' + id + '_form [name=phone_number]' ).val() );
-        form_data.append( 'department', $( '#save_manager_' + id + '_form [name=department]' ).val() );
-        form_data.append( 'job', $( '#save_manager_' + id + '_form [name=job]' ).val() );
-        form_data.append( 'work', $( '#save_manager_' + id + '_form [name=work]' ).val() );
-        if ( check_empty( $( '#save_manager_' + id + '_form [name=age]' ).next().val() ) ) {
-            form_data.append( 'age', $( '#save_manager_' + id + '_form [name=age]' ).next().val() );
+        form_data.append( 'id', $( '#save_managers_' + id + '_form [name=id]' ).val() );
+        form_data.append( 'family_name', $( '#save_managers_' + id + '_form [name=family_name]' ).val() );
+        form_data.append( 'first_name', $( '#save_managers_' + id + '_form [name=first_name]' ).val() );
+        form_data.append( 'family_name_kana', $( '#save_managers_' + id + '_form [name=family_name_kana]' ).val() );
+        form_data.append( 'first_name_kana', $( '#save_managers_' + id + '_form [name=first_name_kana]' ).val() );
+        form_data.append( 'phone_number', $( '#save_managers_' + id + '_form [name=phone_number]' ).val() );
+        form_data.append( 'department', $( '#save_managers_' + id + '_form [name=department]' ).val() );
+        form_data.append( 'job', $( '#save_managers_' + id + '_form [name=job]' ).val() );
+        form_data.append( 'work', $( '#save_managers_' + id + '_form [name=work]' ).val() );
+        if ( check_empty( $( '#save_managers_' + id + '_form [name=age]' ).next().val() ) ) {
+            form_data.append( 'age', $( '#save_managers_' + id + '_form [name=age]' ).next().val() );
         } else {
             form_data.append( 'age', '0' );
         }
-        if ( check_empty( $( '#save_manager_' + id + '_form [name=sex]' ).next().val() ) ) {
-            form_data.append( 'sex', $( '#save_manager_' + id + '_form [name=sex]' ).next().val() );
+        if ( check_empty( $( '#save_managers_' + id + '_form [name=sex]' ).next().val() ) ) {
+            form_data.append( 'sex', $( '#save_managers_' + id + '_form [name=sex]' ).next().val() );
         } else {
             form_data.append( 'sex', '0' );
         }
-        if ( check_empty( $( '#save_manager_' + id + '_form [name=setting]' ).val() ) ) {
-            form_data.append( 'setting', $( '#save_manager_' + id + '_form [name=setting]' ).next().val() );
+        if ( check_empty( $( '#save_managers_' + id + '_form [name=setting]' ).val() ) ) {
+            form_data.append( 'setting', $( '#save_managers_' + id + '_form [name=setting]' ).next().val() );
             for ( var i = 1; i <= 8; i++ ) {
-                form_data.append( 'time_count_' + i, $( '#save_manager_' + id + '_form [name*=time_from_' + i + ']' ).length );
-                for ( var j = 1; j <= $( '#save_manager_' + id + '_form [name*=time_from_' + i + ']' ).length; j++ ) {
-                    form_data.append( 'time_from_' + i + '_' + j, $( '#save_manager_' + id + '_form [name=time_from_' + i + '_' + j + ']' ).val() );
-                    form_data.append( 'time_to_' + i + '_' + j, $( '#save_manager_' + id + '_form [name=time_to_' + i + '_' + j + ']' ).val() );
+                form_data.append( 'time_count_' + i, $( '#save_managers_' + id + '_form [name*=time_from_' + i + ']' ).length );
+                for ( var j = 1; j <= $( '#save_managers_' + id + '_form [name*=time_from_' + i + ']' ).length; j++ ) {
+                    form_data.append( 'time_from_' + i + '_' + j, $( '#save_managers_' + id + '_form [name=time_from_' + i + '_' + j + ']' ).val() );
+                    form_data.append( 'time_to_' + i + '_' + j, $( '#save_managers_' + id + '_form [name=time_to_' + i + '_' + j + ']' ).val() );
                 }
-                if ( $( '#save_manager_' + id + '_form [name=time_check_' + i + ']' ).prop( 'checked' ) ) {
+                if ( $( '#save_managers_' + id + '_form [name=time_check_' + i + ']' ).prop( 'checked' ) ) {
                     form_data.append( 'time_check_' + i, 1 );
                 } else {
                     form_data.append( 'time_check_' + i, 0 );
                 }
-                if ( $( '#save_manager_' + id + '_form [name=calendar_check_' + i + ']' ).prop( 'checked' ) ) {
+                if ( $( '#save_managers_' + id + '_form [name=calendar_check_' + i + ']' ).prop( 'checked' ) ) {
                     form_data.append( 'calendar_check_' + i, 1 );
                 } else {
                     form_data.append( 'calendar_check_' + i, 0 );
@@ -193,12 +201,12 @@ $( function() {
         }
         return form_data;
     };
-    save_success.manager = function(modal, value) {
+    save_success.managers = function(modal, value) {
         $( '#save_check_modal .yes-button' ).val(value);
         $( modal ).trigger( 'click' );
         up_modal();
     };
-    save_error.manager = function(message='') {
+    save_error.managers = function(message='') {
         
     };
 

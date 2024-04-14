@@ -58,7 +58,12 @@
 }
 .detail-area .step-area .table-area tr,
 .step-modal .table-area tr {
+    height: 60px;
     background-color: #FFF !important;
+}
+.detail-area .step-area .table-area tr:nth-of-type(2n),
+.step-modal .table-area tr:nth-of-type(2n) {
+    height: 44px;
 }
 .detail-area .step-area .table-area tr:nth-of-type(4n-1),
 .detail-area .step-area .table-area tr:nth-of-type(4n),
@@ -88,7 +93,7 @@
     top: -42%;
     left: 25px;
     width: 2px;
-    height: 83px;
+    height: 84px;
     background-color: #d0d6de;
 }
 .detail-area .step-area .table-area .content-date,
