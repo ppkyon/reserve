@@ -28,6 +28,7 @@ def save(request):
             display_flg = True
         else:
             display_flg = False
+
         question = None
         if request.POST.get('question_'+str(i+1)):
             question = ShopQuestion.objects.filter(display_id=request.POST.get('question_'+str(i+1))).first()
@@ -57,7 +58,7 @@ def save(request):
             online.people = request.POST.get('people_'+str( i + 1 ))
             online.facility = request.POST.get('facility_'+str( i + 1 ))
             online.question = question
-            offline.course_flg = course_flg
+            online.course_flg = course_flg
             online.display_flg = display_flg
             online.save()
 
@@ -102,6 +103,7 @@ def save(request):
                     people = request.POST.get('people_'+str( i + 1 )),
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
+                    course_flg = course_flg,
                     display_flg = display_flg,
                 )
             if ShopOnline.objects.filter(display_id=request.POST.get('id')).exists():
@@ -118,6 +120,7 @@ def save(request):
                     people = request.POST.get('people_'+str( i + 1 )),
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
+                    course_flg = course_flg,
                     display_flg = display_flg,
                 )
                 for j in range(int(request.POST.get('meeting_count_'+str( i + 1 )))):

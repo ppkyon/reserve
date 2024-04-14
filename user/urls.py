@@ -12,6 +12,7 @@ urlpatterns = [
     path('save/', user.save, name='save'),
     path('save/check', user.save_check, name='save_check'),
     path('get/', user.get, name='get'),
+    path('member/', user.member, name='member'),
     
     path('step/save/', step.save, name='save_step'),
     path('step/save/check', step.save_check, name='save_step_check'),

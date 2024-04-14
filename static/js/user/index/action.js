@@ -239,4 +239,39 @@ $( function() {
         $( '#edit_user_modal #save_user_form .tag-area .add-tag-area' ).append( html );
         $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
     });
+
+    $( document ).on( 'click', '.table-area tbody tr td .button-area .dropdown-menu .member-button', function () {
+        $( '#member_user_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+    });
+    $( document ).on( 'click', '#member_user_check_modal .yes-button', function () {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#member_user_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'member_user' );
 });

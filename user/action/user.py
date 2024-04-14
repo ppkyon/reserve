@@ -84,3 +84,12 @@ def get(request):
         user['tag'][user_tag_index]['tag'] = ShopTag.objects.filter(id=user_tag_item['tag']).values(*get_model_field(ShopTag)).first()
 
     return JsonResponse( user, safe=False )
+
+
+
+def member(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('id')).first()
+    user.member_flg = True
+    user.save()
+    return JsonResponse( {}, safe=False )

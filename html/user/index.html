@@ -45,15 +45,43 @@
                                                     {% endif %}
                                                     {% if user_profile.name %}
                                                         {% if user_profile.age %}
-                                                            <p class="content-title mb-0">{{ user_profile.name }} ({{ user_profile.age }})</p>
+                                                            <p class="d-flex align-items-center content-title mb-0">
+                                                                <span>{{ user_profile.name }} ({{ user_profile.age }})</span>
+                                                                {% if object_item.member_flg %}
+                                                                    <img src="{% static 'img/icon/member-yes.png' %}" class="ms-1" width="12" height="12">
+                                                                {% else %}
+                                                                    <img src="{% static 'img/icon/member-no.png' %}" class="ms-1" width="12" height="12">
+                                                                {% endif %}
+                                                            </p>
                                                         {% else %}
-                                                            <p class="content-title mb-0">{{ user_profile.name }}</p>
+                                                            <p class="d-flex align-items-center content-title mb-0">
+                                                                <span>{{ user_profile.name }}</span>
+                                                                {% if object_item.member_flg %}
+                                                                    <img src="{% static 'img/icon/member-yes.png' %}" class="ms-1" width="12" height="12">
+                                                                {% else %}
+                                                                    <img src="{% static 'img/icon/member-no.png' %}" class="ms-1" width="12" height="12">
+                                                                {% endif %}
+                                                            </p>
                                                         {% endif %}
                                                     {% else %}
                                                         {% if user_profile.age %}
-                                                            <p class="content-title mb-0">{{ object_item.display_name }} ({{ user_profile.age }})</p>
+                                                            <p class="d-flex align-items-center content-title mb-0">
+                                                                <span>{{ object_item.display_name }} ({{ user_profile.age }})</span>
+                                                                {% if object_item.member_flg %}
+                                                                    <img src="{% static 'img/icon/member-yes.png' %}" class="ms-1" width="12" height="12">
+                                                                {% else %}
+                                                                    <img src="{% static 'img/icon/member-no.png' %}" class="ms-1" width="12" height="12">
+                                                                {% endif %}
+                                                            </p>
                                                         {% else %}
-                                                            <p class="content-title mb-0">{{ object_item.display_name }}</p>
+                                                            <p class="d-flex align-items-center content-title mb-0">
+                                                                <span>{{ object_item.display_name }}</span>
+                                                                {% if object_item.member_flg %}
+                                                                    <img src="{% static 'img/icon/member-yes.png' %}" width="12" height="12">
+                                                                {% else %}
+                                                                    <img src="{% static 'img/icon/member-no.png' %}" width="12" height="12">
+                                                                {% endif %}
+                                                            </p>
                                                         {% endif %}
                                                     {% endif %}
                                                 {% endif %}
@@ -102,7 +130,10 @@
                                                     <i class='bx bx-dots-vertical-rounded menu-icon'></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdown_menu">
-                                                    
+                                                    {% if not object_item.member_flg %}
+                                                        <button type="button" value="{{ object_item.display_id }}" class="btn member-button dropdown-item fw-bold text-center">会員登録</a>
+                                                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
