@@ -116,3 +116,48 @@
 .side-area .com-area p:last-child {
     font-weight: 300;
 }
+
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .side {
+        display: block !important;
+        width: 125px;
+        background-color: #FFF;
+        overflow: hidden scroll !important;
+    }
+
+    .logo-area p {
+        font-size: 0.6rem !important;
+    }
+    .logo-img {
+        width: 4rem !important;
+        height: 2rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .side-area .logo-area span {
+        font-size: 0.6rem !important;
+    }
+    .side-area .logo-area p {
+        margin-top: 0 !important;
+        line-height: 1 !important;
+    }
+
+    .side-area .menu-area ul li a,
+    .menu-area img,
+    .menu-area span {
+        display:block !important;
+        text-align: center;
+        width: 100%;
+        margin: 0 auto !important;
+    }
+
+    .side-area .menu-area ul li a {
+        margin: 0.4rem auto !important;
+    }    
+
+    .side-area .menu-area ul li:before{
+        height: 2.8rem;
+    }
+}
