@@ -821,3 +821,43 @@ class UserFlowTimer(models.Model):
 
     class Meta:
         db_table = 'user_flow_timer'
+
+class UserFlowActionReminder(models.Model):
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE)
+    template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
+    template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
+    template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
+    template_richvideo = models.ForeignKey(ShopTemplateRichVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
+    template_cardtype = models.ForeignKey(ShopTemplateCardType, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
+    action_date = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow_action_reminder'
+
+class UserFlowActionMessage(models.Model):
+    type_choice = (
+        (0, '即時'),
+        (1, '日時'),
+        (2, '経過時間'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE)
+    template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
+    template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
+    template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
+    template_richvideo = models.ForeignKey(ShopTemplateRichVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
+    template_cardtype = models.ForeignKey(ShopTemplateCardType, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
+    type = models.IntegerField(choices=type_choice, default=0)
+    date = models.IntegerField(default=0)
+    time = models.TimeField(blank=False, null=True)
+    action_date = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'user_flow_action_message'

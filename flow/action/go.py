@@ -3,7 +3,8 @@ from linebot import LineBotApi
 
 from flow.models import (
     ShopFlowTab, ShopFlowItem, ShopFlowTemplate, ShopFlowRichMenu, ShopFlowTimer, ShopFlowStep,
-    UserFlow, UserFlowTimer
+    ShopFlowActionReminder, ShopFlowActionMessage,
+    UserFlow, UserFlowSchedule, UserFlowTimer, UserFlowActionReminder, UserFlowActionMessage
 )
 from richmenu.models import UserRichMenu
 from sign.models import ShopLine
@@ -126,13 +127,56 @@ def go(user, flow, flow_tab, flow_item):
             user_flow.save()
             return True
         elif flow_item.type == 51:
-            print('aaa')
             user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
             user_flow.user = user
             user_flow.flow = flow
             user_flow.flow_tab = flow_tab
             user_flow.flow_item = flow_item
             user_flow.save()
+
+            for shop_flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).order_by('y', 'x').all():
+                if flow_item.x < shop_flow_item.x and flow_item.y == shop_flow_item.y:
+                    if shop_flow_item.type == 8:
+                        shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=shop_flow_item).first()
+                        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+                        action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+                        action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
+                        action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
+                        UserFlowActionReminder.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user,
+                            template_text = shop_flow_action_reminder.template_text,
+                            template_video = shop_flow_action_reminder.template_video,
+                            template_richmessage = shop_flow_action_reminder.template_richmessage,
+                            template_richvideo = shop_flow_action_reminder.template_richvideo,
+                            template_cardtype = shop_flow_action_reminder.template_cardtype,
+                            action_date = action_date,
+                        )
+
+                        shop_flow_action_message = ShopFlowActionMessage.objects.filter(flow=shop_flow_item).first()
+                        action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+                        if shop_flow_action_message.type == 0:
+                            action_date = None
+                        elif shop_flow_action_message.type == 1:
+                            action_date = action_date + datetime.timedelta(shop_flow_action_message.date)
+                            action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_message.time.hour, shop_flow_action_message.time.minute, 0)
+                        elif shop_flow_action_message.type == 2:
+                            action_date = action_date + datetime.timedelta(shop_flow_action_message.date)
+                            action_date = action_date + datetime.timedelta(hours=shop_flow_action_message.time.hour)
+                            action_date = action_date + datetime.timedelta(minutes=shop_flow_action_message.time.minute)
+                        UserFlowActionMessage.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user,
+                            template_text = shop_flow_action_message.template_text,
+                            template_video = shop_flow_action_message.template_video,
+                            template_richmessage = shop_flow_action_message.template_richmessage,
+                            template_richvideo = shop_flow_action_message.template_richvideo,
+                            template_cardtype = shop_flow_action_message.template_cardtype,
+                            type = shop_flow_action_message.type,
+                            date = shop_flow_action_message.date,
+                            time = shop_flow_action_message.time,
+                            action_date = action_date,
+                        )
             return True
         elif flow_item.type == 52:
             flow_timer = ShopFlowTimer.objects.filter(flow=flow_item).first()
