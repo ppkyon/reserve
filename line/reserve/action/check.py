@@ -243,6 +243,7 @@ def check(request):
                         if len(reception_data) > 0 :
                             people_number = 0
                             people_count = setting['people']
+                            same_count = setting['facility']
 
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             schedule_add_date = schedule_date + datetime.timedelta(minutes=setting['time'])
@@ -260,7 +261,14 @@ def check(request):
                                                 if schedule_date == reception['from']:
                                                     if count_flg:
                                                         if reception['facility'] and reception['facility'].count < people_count:
-                                                            people_count = reception['facility'].count
+                                                            same_count = same_count - 1
+                                                            if same_count > 0:
+                                                                people_number = people_number + 1
+                                                                facility_count = facility_count - 1
+                                                                if facility_list[people_number]:
+                                                                    people_count = people_count + facility_list[people_number].count
+                                                            else:
+                                                                people_count = reception['facility'].count
                                                         count_flg = False
                                                     people_count = people_count - 1
                                                     if people_count <= 0:

@@ -417,6 +417,14 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
+        
+        manager_list = list()
+        facility_list = list()
+        if setting:
+            for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=setting).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=setting).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
                 
         target_flg = False
         target_flow_item = None
@@ -470,26 +478,58 @@ def send(request):
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
 
-        manager_list = list()
-        facility_list = list()
+        people_number = 0
+        people_count = setting.people
+        same_count = setting.facility
+
+        reception_manager_list = list()
+        reception_facility_list = list()
+        count_flg = True
         for schedule_item in schedule_list:
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
             schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
 
             if add_date > schedule_date and schedule_add_date > date:
-                manager_list.append(schedule_item.manager)
-                facility_list.append(schedule_item.offline_facility)
-        
+                if schedule_item.offline == setting:
+                    if schedule_date == date:
+                        if count_flg:
+                            if schedule_item.offline_facility.count < people_count:
+                                same_count = same_count - 1
+                                if same_count > 0:
+                                    people_number = people_number + 1
+                                    reception_facility_list.append(schedule_item.offline_facility)
+                                    if facility_list[people_number]:
+                                        people_count = people_count + facility_list[people_number].count
+                                else:
+                                    people_count = schedule_item.offline_facility.count
+                            count_flg = False
+                        people_count = people_count - 1
+                        if people_count <= 0:
+                            reception_manager_list.append(schedule_item.manager)
+                            reception_facility_list.append(schedule_item.offline_facility)
+
+                            people_number = people_number + 1
+                            people_count = setting.people
+                            if schedule_item.offline_facility.count < people_count:
+                                people_count = schedule_item.offline_facility.count
+                    else:
+                        reception_manager_list.append(schedule_item.manager)
+                        reception_facility_list.append(schedule_item.offline_facility)
+                else:
+                    reception_manager_list.append(schedule_item.manager)
+                    reception_facility_list.append(schedule_item.offline_facility)
+
         manager = None
-        for manager_item in AuthUser.objects.filter(shop=shop, authority__gte=2, status__gte=3, head_flg=False, delete_flg=False).order_by('created_at').all():
-            if not manager_item in manager_list:
-                manager = manager_item
+        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).all():
+            if not manager_item.manager in reception_manager_list:
+                manager = manager_item.manager
                 break
         facility = None
         for facility_item in ReserveOfflineFacilityMenu.objects.filter(shop=shop, offline=setting).all():
-            if not facility_item in facility_list:
+            if not facility_item.facility in reception_facility_list:
                 facility = facility_item.facility
                 break
+
         
         course = None
         if request.POST.get('course_id'):
@@ -529,6 +569,14 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
+        
+        manager_list = list()
+        facility_list = list()
+        if setting:
+            for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=setting).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=setting).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
         
         target_flg = False
         target_flow_item = None
@@ -572,24 +620,55 @@ def send(request):
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
 
-        manager_list = list()
-        facility_list = list()
+        people_number = 0
+        people_count = setting.people
+        same_count = setting.facility
+
+        reception_manager_list = list()
+        reception_facility_list = list()
+        count_flg = True
         for schedule_item in schedule_list:
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
-            schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+            schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.online.time)
 
             if add_date > schedule_date and schedule_add_date > date:
-                manager_list.append(schedule_item.manager)
-                facility_list.append(schedule_item.offline_facility)
-        
+                if schedule_item.online == setting:
+                    if schedule_date == date:
+                        if count_flg:
+                            if schedule_item.online_facility.count < people_count:
+                                same_count = same_count - 1
+                                if same_count > 0:
+                                    people_number = people_number + 1
+                                    reception_facility_list.append(schedule_item.online_facility)
+                                    if facility_list[people_number]:
+                                        people_count = people_count + facility_list[people_number].count
+                                else:
+                                    people_count = schedule_item.online_facility.count
+                            count_flg = False
+                        people_count = people_count - 1
+                        if people_count <= 0:
+                            reception_manager_list.append(schedule_item.manager)
+                            reception_facility_list.append(schedule_item.online_facility)
+
+                            people_number = people_number + 1
+                            people_count = setting.people
+                            if schedule_item.online_facility.count < people_count:
+                                people_count = schedule_item.online_facility.count
+                    else:
+                        reception_manager_list.append(schedule_item.manager)
+                        reception_facility_list.append(schedule_item.online_facility)
+                else:
+                    reception_manager_list.append(schedule_item.manager)
+                    reception_facility_list.append(schedule_item.online_facility)
+
         manager = None
         for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=shop, online=setting).all():
-            if not manager_item in manager_list:
-                manager = manager_item
+            if not manager_item.manager in reception_manager_list:
+                manager = manager_item.manager
                 break
         facility = None
         for facility_item in ReserveOnlineFacilityMenu.objects.filter(shop=shop, online=setting).all():
-            if not facility_item in facility_list:
+            if not facility_item.facility in reception_facility_list:
                 facility = facility_item.facility
                 break
         
