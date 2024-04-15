@@ -4,6 +4,7 @@ from django.db import models
 
 from PIL import Image
 
+from flow.models import UserFlow, UserFlowSchedule
 from sign.models import CompanyProfile
 from user.models import UserProfile
 
@@ -100,6 +101,33 @@ def send_action_replace( text, line_data, user ):
     company_profile = CompanyProfile.objects.filter(company=user.shop.company).first()
     if company_profile and company_profile.company_name:
         text = text.replace( '【企業名】', company_profile.company_name )
+    
+    reserve_date = ''
+    for user_flow in UserFlow.objects.filter(user=user).order_by('number').all():
+        if user_flow.flow_item.type == 6:
+            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+            date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+            if user_flow_schedule.online:
+                add_date = date + datetime.timedelta(minutes=user_flow_schedule.online.time)
+            elif user_flow_schedule.offline:
+                add_date = date + datetime.timedelta(minutes=user_flow_schedule.offline.time)
+
+            if user_flow_schedule.date.weekday() == 0:
+                week = '(月)'
+            elif user_flow_schedule.date.weekday() == 1:
+                week = '(火)'
+            elif user_flow_schedule.date.weekday() == 2:
+                week = '(水)'
+            elif user_flow_schedule.date.weekday() == 3:
+                week = '(木)'
+            elif user_flow_schedule.date.weekday() == 4:
+                week = '(金)'
+            elif user_flow_schedule.date.weekday() == 5:
+                week = '(土)'
+            elif user_flow_schedule.date.weekday() == 6:
+                week = '(日)'
+            reserve_date = str(date.year) + '年' + str(date.month) + '月' + str(date.day) + '日' + week + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
+    text = text.replace( '【予約日時】', reserve_date )
     return text
 
 

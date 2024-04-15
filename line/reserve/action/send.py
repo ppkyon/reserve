@@ -435,6 +435,7 @@ def send(request):
                 target_rich_menu = target_rich_menu.rich_menu
             if target_flg:
                 target_flow_item = flow_item
+                break
             if flow_item.type == 54:
                 target_flg = True
     
@@ -587,6 +588,7 @@ def send(request):
                 target_rich_menu = target_rich_menu.rich_menu
             if target_flg:
                 target_flow_item = flow_item
+                break
             if flow_item.type == 54:
                 target_flg = True
         

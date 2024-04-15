@@ -26,6 +26,7 @@ $( function(){
                 create_menu( response, 'end' );
 
                 if ( response.error_flg ) {
+                    $( '.date-area' ).addClass( 'd-none' );
                     $( '.error-area' ).removeClass( 'd-none' );
                 } else if ( response.place_flg ) {
                     create_place(response);

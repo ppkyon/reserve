@@ -126,6 +126,7 @@ def go(user, flow, flow_tab, flow_item):
             user_flow.save()
             return True
         elif flow_item.type == 51:
+            print('aaa')
             user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
             user_flow.user = user
             user_flow.flow = flow

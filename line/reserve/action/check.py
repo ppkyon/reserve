@@ -23,6 +23,15 @@ def check(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
     user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
 
+    end_offline_setting = list()
+    end_online_setting = list()
+    for user_flow in UserFlow.objects.filter(user=user).all():
+        for user_flow in UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').all():
+            if user_flow.offline:
+                end_offline_setting.append(user_flow.offline.id)
+            if user_flow.online:
+                end_online_setting.append(user_flow.online.id)
+
     offline_list = list(ShopOffline.objects.filter(shop=shop).order_by('created_at').values(*get_model_field(ShopOffline)).all())
     for offline_index, offline_item in enumerate(offline_list):
         offline_list[offline_index]['type'] = 1
@@ -66,7 +75,8 @@ def check(request):
                                     course_flg = True
                                 if setting_item['question']:
                                     question_flg = True
-                                setting_list.append(setting_item)
+                                if not setting_item['id'] in end_offline_setting:
+                                    setting_list.append(setting_item)
                     elif online_offline_item['type'] == 2:
                         setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
                         for setting_item in setting:
@@ -75,20 +85,26 @@ def check(request):
                                     course_flg = True
                                 if setting_item['question']:
                                     question_flg = True
-                                setting_list.append(setting_item)
+                                if not setting_item['id'] in end_online_setting:
+                                    setting_list.append(setting_item)
 
     if place_flg:
-        data = {
-            'offline_place': ReserveOfflinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOfflinePlace)).first(),
-            'online_place': ReserveOnlinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOnlinePlace)).first(),
-            'offline_list': online_offline_list,
-            'online_offline_list': offline_list,
-            'online_list': online_list,
-            'place_flg': place_flg,
-            'course_flg': course_flg,
-            'question_flg': question_flg,
-            'error_flg': False,
-        }
+        if len(setting_list) > 0:
+            data = {
+                'offline_place': ReserveOfflinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOfflinePlace)).first(),
+                'online_place': ReserveOnlinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOnlinePlace)).first(),
+                'online_offline_list': online_offline_list,
+                'offline_list': offline_list,
+                'online_list': online_list,
+                'place_flg': place_flg,
+                'course_flg': course_flg,
+                'question_flg': question_flg,
+                'error_flg': False,
+            }
+        else:
+            data = {
+                'error_flg': True,
+            }
         return JsonResponse( data, safe=False )
 
     online_offline = None
@@ -100,20 +116,25 @@ def check(request):
             setting = setting_item
 
     if course_flg:
-        course_list = list()
-        if online_offline['type'] == 1:
-            course_list = list(ReserveOfflineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOfflineCourse)).all())
-        if online_offline['type'] == 2:
-            course_list = list(ReserveOnlineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOnlineCourse)).all())
+        if len(setting_list) > 0:
+            course_list = list()
+            if online_offline['type'] == 1:
+                course_list = list(ReserveOfflineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOfflineCourse)).all())
+            if online_offline['type'] == 2:
+                course_list = list(ReserveOnlineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOnlineCourse)).all())
 
-        data = {
-            'online_offline': online_offline,
-            'setting': setting,
-            'course_list': course_list,
-            'place_flg': place_flg,
-            'course_flg': course_flg,
-            'question_flg': question_flg,
-        }                        
+            data = {
+                'online_offline': online_offline,
+                'setting': setting,
+                'course_list': course_list,
+                'place_flg': place_flg,
+                'course_flg': course_flg,
+                'question_flg': question_flg,
+            }       
+        else:
+            data = {
+                'error_flg': True,
+            }                     
         return JsonResponse( data, safe=False )
     
     current = datetime.datetime.now()
@@ -376,27 +397,32 @@ def check(request):
             'day': end_date.day,
         }
 
-    data = {
-        'online_offline': online_offline,
-        'setting': setting,
-        'setting_list': setting_list,
-        'year': current.year,
-        'start': str(days[0].month) + '月' + str(days[0].day) + '日',
-        'end': str(days[-1].month) + '月' + str(days[-1].day) + '日',
-        'prev_year': prev.year,
-        'prev_month': prev.month,
-        'prev_day': prev.day,
-        'next_year': next.year,
-        'next_month': next.month,
-        'next_day': next.day,
-        'week_day': week_day,
-        'week_time': week_time,
-        'week_schedule': send_schedule,
-        'start_date': start_date,
-        'end_date': end_date,
-        'reserve_data': ReserveBasic.objects.filter(shop=shop).values(*get_model_field(ReserveBasic)).first(),
-        'place_flg': place_flg,
-        'course_flg': course_flg,
-        'question_flg': question_flg,
-    }
-    return JsonResponse( data, safe=False )
+    if len(setting_list) > 0: 
+        data = {
+            'online_offline': online_offline,
+            'setting': setting,
+            'setting_list': setting_list,
+            'year': current.year,
+            'start': str(days[0].month) + '月' + str(days[0].day) + '日',
+            'end': str(days[-1].month) + '月' + str(days[-1].day) + '日',
+            'prev_year': prev.year,
+            'prev_month': prev.month,
+            'prev_day': prev.day,
+            'next_year': next.year,
+            'next_month': next.month,
+            'next_day': next.day,
+            'week_day': week_day,
+            'week_time': week_time,
+            'week_schedule': send_schedule,
+            'start_date': start_date,
+            'end_date': end_date,
+            'reserve_data': ReserveBasic.objects.filter(shop=shop).values(*get_model_field(ReserveBasic)).first(),
+            'place_flg': place_flg,
+            'course_flg': course_flg,
+            'question_flg': question_flg,
+        }
+    else:
+        data = {
+            'error_flg': True,
+        }
+        return JsonResponse( data, safe=False )

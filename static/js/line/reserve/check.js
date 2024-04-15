@@ -89,7 +89,10 @@ $( function(){
         }, 750 );
     });
 
-    $( '.button-area .close-button, .reserveform .error-area .close-button' ).on( 'click', function() {
+    $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {
+        liff.closeWindow();
+    });
+    $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {
         liff.closeWindow();
     });
 });
