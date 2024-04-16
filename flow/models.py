@@ -825,7 +825,8 @@ class UserFlowTimer(models.Model):
 class UserFlowActionReminder(models.Model):
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
-    user = models.ForeignKey(LineUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_action_reminder")
+    flow = models.ForeignKey(UserFlow, on_delete=models.CASCADE, related_name="user_flow_action_reminder")
     template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
     template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
     template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_reminder")
@@ -846,7 +847,8 @@ class UserFlowActionMessage(models.Model):
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
-    user = models.ForeignKey(LineUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_flow_action_message")
+    flow = models.ForeignKey(UserFlow, on_delete=models.CASCADE, related_name="user_flow_action_message")
     template_text = models.ForeignKey(ShopTemplateText, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
     template_video = models.ForeignKey(ShopTemplateVideo, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")
     template_richmessage = models.ForeignKey(ShopTemplateRichMessage, on_delete=models.CASCADE, blank=True, null=True, related_name="user_flow_action_message")

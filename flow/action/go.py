@@ -145,6 +145,7 @@ def go(user, flow, flow_tab, flow_item):
                         UserFlowActionReminder.objects.create(
                             id = str(uuid.uuid4()),
                             user = user,
+                            flow = user_flow,
                             template_text = shop_flow_action_reminder.template_text,
                             template_video = shop_flow_action_reminder.template_video,
                             template_richmessage = shop_flow_action_reminder.template_richmessage,
@@ -167,6 +168,7 @@ def go(user, flow, flow_tab, flow_item):
                         UserFlowActionMessage.objects.create(
                             id = str(uuid.uuid4()),
                             user = user,
+                            flow = user_flow,
                             template_text = shop_flow_action_message.template_text,
                             template_video = shop_flow_action_message.template_video,
                             template_richmessage = shop_flow_action_message.template_richmessage,

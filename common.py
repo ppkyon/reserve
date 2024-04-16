@@ -69,12 +69,14 @@ def display_textarea_replace( text ):
 def send_textarea_replace( text, line_data, user ):
     text = text.replace( '<br>', '\n' )
     text = text.replace( '</div>', '\n' )
-    if user.user_profile.name:
-        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user.user_profile.name )
-        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user.user_profile.name )
-    else:
-        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user.display_name )
-        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user.display_name )
+    for user_profile in user.user_profile.all():
+        if user_profile.name:
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user_profile.name )
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user_profile.name )
+        else:
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', user.display_name )
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', user.display_name )
+        break
     
     if line_data and line_data.display_name:
         text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/line-name.png" class="ms-1 me-1">', line_data.display_name )
