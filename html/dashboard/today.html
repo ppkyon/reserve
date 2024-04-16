@@ -1,0 +1,85 @@
+{% load static %}
+
+<div class="today-area">
+    <div class="row mb-2">
+        <div class="col-12">
+            <div class="main-area">
+                <p class="title me-4 mb-2">本日の予約</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="mini-table-area">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;">#</th>
+                            {% include 'table/sort.html' with text='予約者氏名' target='name' %}
+                            {% include 'table/sort.html' with text='予約日時' target='date' width='275' %}
+                            {% include 'table/sort.html' with text='メニュー' target='setting' width='180' %}
+                            <th style="width: 120px;">受付チェック</th>
+                            <th style="width: 100px;">予約者詳細</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for today_reserve_item in today_reserve_list %}
+                            <tr class="position-relative">
+                                <td>
+                                    <p class="content-title mb-0">{{ forloop.counter }}</p>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        {% if today_reserve_item.profile.image %}
+                                            <img src="{{ today_reserve_item.profile.image.url }}" class="user-image me-2">
+                                        {% elif today_reserve_item.display_image %}
+                                            <img src="{{ today_reserve_item.display_image }}" class="user-image me-2">
+                                        {% else %}
+                                            <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                                        {% endif %}
+                                        {% if today_reserve_item.profile.name %}
+                                            {% if today_reserve_item.profile.age %}
+                                                <p class="content-title mb-0">{{ today_reserve_item.profile.name }} ({{ today_reserve_item.profile.age }})</p>
+                                            {% else %}
+                                                <p class="content-title mb-0">{{ today_reserve_item.profile.name }}</p>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if today_reserve_item.profile.age %}
+                                                <p class="content-title mb-0">{{ today_reserve_item.display_name }} ({{ today_reserve_item.profile.age }})</p>
+                                            {% else %}
+                                                <p class="content-title mb-0">{{ today_reserve_item.display_name }}</p>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="content-title mb-0">{{ today_reserve_item.reserve }}</p>
+                                </td>
+                                <td>
+                                    {% if today_reserve_item.schedule.offline %}
+                                        <p class="content-title mb-0">{{ today_reserve_item.schedule.offline.name }}</p>
+                                    {% elif today_reserve_item.schedule.online %}
+                                        <p class="content-title mb-0">{{ today_reserve_item.schedule.online.name }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn check-button">確認</button>
+                                </td>
+                                <td class="text-center">
+                                    <div class="dropdown d-inline-block p-0">
+                                        <button type="button" class="btn" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

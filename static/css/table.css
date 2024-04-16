@@ -123,20 +123,25 @@
 
 .table-area .table tbody .company-image,
 .table-area .table tbody .shop-image,
-.table-area .table tbody .user-image {
+.table-area .table tbody .user-image,
+.mini-table-area .table tbody .company-image,
+.mini-table-area .table tbody .shop-image,
+.mini-table-area .table tbody .user-image {
     width: 2.2rem;
     height: 2.2rem;
     border: 1px solid #a5c9ff;
     border-radius: 50%;
     object-fit: cover;
 }
-.table-area .table tbody .content-image {
+.table-area .table tbody .content-image,
+.mini-table-area .table tbody .content-image {
     width: 60px;
     height: 60px;
     object-fit: cover;
     aspect-ratio: 1/1;
 }
-.table-area .table tbody .content-title {
+.table-area .table tbody .content-title,
+.mini-table-area .table tbody .content-title {
     width: 100%;
     height: 1.05rem;
     font-size: 0.75rem;
@@ -146,7 +151,8 @@
     -webkit-line-clamp: 1;
     overflow: hidden;
 }
-.table-area .table tbody .content-text {
+.table-area .table tbody .content-text,
+.mini-table-area .table tbody .content-text {
     width: 100%;
     height: 2.15rem;
     font-size: 0.75rem;
@@ -156,14 +162,16 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
 }
-.table-area .table tbody .content-date {
+.table-area .table tbody .content-date,
+.mini-table-area .table tbody .content-date {
     position: absolute;
     bottom: 1rem;
     font-size: 0.5rem;
     font-weight: 500;
     color: #707070;
 }
-.table-area .table tbody .content-tag {
+.table-area .table tbody .content-tag,
+.mini-table-area .table tbody .content-tag {
     width: 4rem;
     font-size: 0.6rem;
     color: #FFF;

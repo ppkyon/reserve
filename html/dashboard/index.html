@@ -3,9 +3,21 @@
 {% load static %}
 
 {% block css %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% include 'dashboard/top.html' %}
+        {% include 'dashboard/today.html' %}
+        {% include 'dashboard/new.html' %}
+        {% include 'dashboard/after.html' %}
+    </div>
 {% endblock %}
 
 {% block js %}
