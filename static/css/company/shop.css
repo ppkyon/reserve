@@ -223,3 +223,27 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .company .table-area .table th {
+        padding: 0.75rem 0.25rem !important;
+    }
+    .company-tag-tablet {
+        width: 180px !important;
+    }
+
+    .setting-area .title {
+        width: 45% !important;
+    }
+    .setting-area .start-button {
+        margin-right: 0.5rem !important;
+    }
+    .setting-area .button-area {
+        width: 30% !important;
+    }
+    .setting-area .button-area .login-button {
+        font-size: 0.65rem;
+    }
+
+}

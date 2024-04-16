@@ -160,4 +160,9 @@
     .side-area .menu-area ul li:before{
         height: 2.8rem;
     }
+
+    .menu-area li a .bx {
+        display: block;
+        margin: 0 auto !important;
+    }
 }
