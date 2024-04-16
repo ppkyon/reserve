@@ -254,3 +254,14 @@
     background-color: red;
     border-radius: 5px;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .card-area .title-area label {
+        margin-right: 0.25rem !important;
+    }
+    .title-area .description {
+        margin-left: 1rem !important;
+    }
+
+}
