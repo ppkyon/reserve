@@ -41,3 +41,13 @@ html {
     background: #707070;
     border-radius: 5px;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .main {
+        margin-left: 125px;
+        width: calc(100% - 125px);
+
+    }
+
+}

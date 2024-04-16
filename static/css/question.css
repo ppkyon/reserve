@@ -192,3 +192,21 @@
 .delete-area .delete-button:hover {
     box-shadow: 0 4px 8px rgb(0 0 0 / 0.16);
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .copy-item-button{
+        margin-left: 0.5rem !important;
+    }
+
+    .order-up-button{
+        margin-left: 0.25rem !important;
+    }
+    .order-down-button{
+        margin-left: 0.5rem !important;
+    }
+
+    .display-area .content-area .top-area .input-type {
+        width: 8.5rem !important;
+    }
+}
