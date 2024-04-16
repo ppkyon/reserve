@@ -4,14 +4,15 @@ from django.db import models
 
 from PIL import Image
 
-from flow.models import UserFlow, UserFlowSchedule
-from sign.models import CompanyProfile
+from flow.models import UserFlow, UserFlowSchedule, UserFlowActionReminder, UserFlowActionMessage
+from sign.models import CompanyProfile, ManagerProfile
 from user.models import UserProfile
 
 import cv2
 import datetime
 import io
 import itertools
+import phonenumbers
 import string
 import random
 import uuid
@@ -86,6 +87,53 @@ def send_textarea_replace( text, line_data, user ):
     if company_profile and company_profile.company_name:
         text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/company-name.png" class="ms-1 me-1">', company_profile.company_name )
         text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/company-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', company_profile.company_name )
+
+    manager = None
+    reserve_date = None
+    place_address = None
+    if UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).exists():
+        for reminder_item in UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).order_by('flow__number').all():
+            for schedule in UserFlowSchedule.objects.filter(flow=reminder_item.flow).order_by('number').all():
+                manager = schedule.manager
+                date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                if schedule.online:
+                    add_date = date + datetime.timedelta(minutes=schedule.online.time)
+                elif schedule.offline:
+                    add_date = date + datetime.timedelta(minutes=schedule.offline.time)
+                    place_address = schedule.offline.offline.address
+                if schedule.date.weekday() == 0:
+                    week = '(月)'
+                elif schedule.date.weekday() == 1:
+                    week = '(火)'
+                elif schedule.date.weekday() == 2:
+                    week = '(水)'
+                elif schedule.date.weekday() == 3:
+                    week = '(木)'
+                elif schedule.date.weekday() == 4:
+                    week = '(金)'
+                elif schedule.date.weekday() == 5:
+                    week = '(土)'
+                elif schedule.date.weekday() == 6:
+                    week = '(日)'
+                reserve_date = str(date.year) + '年' + str(date.month) + '月' + str(date.day) + '日' + week + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
+                break
+
+    if manager:
+        manager_profile = ManagerProfile.objects.filter(manager=manager).first()
+        if manager_profile:
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1">', manager_profile.family_name + manager_profile.first_name )
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', manager_profile.family_name + manager_profile.first_name )
+        if manager_profile and manager_profile.phone_number:
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1">', phonenumbers.format_number(phonenumbers.parse(manager_profile.phone_number, 'JP'), phonenumbers.PhoneNumberFormat.NATIONAL) )
+            text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1" style="font-size: 12.8px;">', phonenumbers.format_number(phonenumbers.parse(manager_profile.phone_number, 'JP'), phonenumbers.PhoneNumberFormat.NATIONAL) )
+    
+    if reserve_date:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1">', reserve_date )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1" style="font-size: 12.8px;">', reserve_date )
+
+    if place_address:
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/offline-address.png" class="ms-1 me-1">', place_address )
+        text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/offline-address.png" class="ms-1 me-1" style="font-size: 12.8px;">', place_address )
 
     return text
 

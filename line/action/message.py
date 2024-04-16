@@ -2,7 +2,10 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
 
 from linebot import LineBotApi
-from linebot.models import TextSendMessage, ImageSendMessage, VideoSendMessage, FlexSendMessage
+from linebot.models import (
+    MessageAction, ButtonsTemplate,
+    TextSendMessage, ImageSendMessage, VideoSendMessage, FlexSendMessage, TemplateSendMessage
+)
 
 from PIL import Image
 
@@ -643,6 +646,28 @@ def push_card_type_message(user, template, author):
             contents=contents,
         )
     )
+
+def push_button_message(user):
+    global line_bot_api
+    shop_line = ShopLine.objects.filter(shop=user.shop).first()
+    line_bot_api = LineBotApi(shop_line.channel_access_token)
+
+    line_bot_api.push_message(
+        user.line_user_id,
+        TemplateSendMessage(
+            alt_text='確認メッセージ',
+            template=ButtonsTemplate(
+                text='上記内容を確認したらボタンを押してください！',
+                actions=[
+                    MessageAction(
+                        label='確認しました！',
+                        text='確認しました！'
+                    )
+                ]
+            )
+        )
+    )
+    return None
 
 
 
