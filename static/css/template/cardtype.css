@@ -384,3 +384,11 @@
     color: #4d4d4d;
     background-color: #efefef;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .content-area .input-check-wrap {
+        padding-left: 1.25rem !important;
+    }
+
+}

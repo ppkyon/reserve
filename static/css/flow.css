@@ -283,3 +283,15 @@
 #timer_modal .modal-body .input-text {
     width: 6rem;
 }
+
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .thead-flow-tablet {
+        width: 450px !important;
+    }
+
+    .title-area .select-button {
+        width: 7.5rem;
+    }
+}
