@@ -244,3 +244,19 @@
     border-radius: 0.4rem;
     line-height: 0.8rem;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1024px) {
+    .main .main-button {
+        font-size: 0.75rem !important;
+    }
+
+    .profile-area .content input {
+        width: 55%;
+    }
+    .profile-area .content label,
+    .input-text {
+        font-size: 0.75rem;
+    }
+
+}
