@@ -210,7 +210,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = free_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -223,7 +223,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = free_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
@@ -343,7 +343,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = first_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -356,7 +356,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = first_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
@@ -476,7 +476,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = second_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -489,7 +489,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = second_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
@@ -609,7 +609,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = third_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -622,7 +622,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = third_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
@@ -742,7 +742,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = fourth_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -755,7 +755,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = fourth_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
@@ -875,7 +875,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = fifth_action_reminder_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">さん、こんにちは😃<br>明日の確認でご連絡いたしました。<br>予定通りご参加可能な場合は、以下「確認しました」をタップしてください🔽<br><br>🔶詳細<br>日時：<img src="' + settings.STATIC_URL + 'img/textarea/reserve-date.png" class="ms-1 me-1"><br>持ち物：運動しやすい服装<br><br>【緊急連絡先】<br>当日にトラブル等が発生した場合や、急にご都合が悪くなった際は、こちらにご連絡お願いします。<br>担当者：<img src="' + settings.STATIC_URL + 'img/textarea/manager-name.png" class="ms-1 me-1"><br>連絡先：<img src="' + settings.STATIC_URL + 'img/textarea/manager-phone.png" class="ms-1 me-1"><br><br>それでは、ご参加お待ちしております～😊🌷',
         )
 
@@ -888,7 +888,7 @@ def add(request):
             id = str(uuid.uuid4()),
             template = fifth_action_message_template,
             number = 1,
-            message_type = 0,
+            message_type = 1,
             text = 'ご参加いただきまして、有難うございました😊',
         )
 
