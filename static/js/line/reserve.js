@@ -256,9 +256,11 @@ function create_course(response) {
 }
 
 function create_date(response) {
-
     $( '.date-area .content-area .date-year-text' ).text( response.year );
+    $( '.date-area .content-area .date-year-text' ).next().val( response.year );
     $( '.date-area .content-area .date-week-text' ).text( response.start + '～' + response.end );
+    $( '.date-area .content-area .date-week-text' ).next().val( response.start.substring(0, response.start.indexOf('月')) );
+    $( '.date-area .content-area .date-week-text' ).next().next().val( response.start.substring(response.start.indexOf('月')+1, response.start.indexOf('日')) );
 
     $( '.date-area .content-area .prev-date-arrow' ).next().val( response.prev_year );
     $( '.date-area .content-area .prev-date-arrow' ).next().next().val( response.prev_month );

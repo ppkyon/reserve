@@ -397,7 +397,7 @@ def check(request):
             'day': end_date.day,
         }
 
-    if len(setting_list) > 0: 
+    if len(setting_list) > 0:
         data = {
             'online_offline': online_offline,
             'setting': setting,
@@ -421,6 +421,7 @@ def check(request):
             'course_flg': course_flg,
             'question_flg': question_flg,
         }
+        return JsonResponse( data, safe=False )
     else:
         data = {
             'error_flg': True,

@@ -103,17 +103,15 @@ def member(request):
     if not UserFlow.objects.filter(Q(user=user), Q(Q(flow_tab__member=1)|Q(flow_tab__member=2))).order_by('number').exists():
         user_flow = UserFlow.objects.filter(user=user).order_by('number').first()
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), Q(Q(member=1)|Q(member=2))).order_by('number').all():
-            target_flg = False
             target_flow_item = None
             target_rich_menu = None
             for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).all():
                 if flow_item.type == 7:
                     target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
                     target_rich_menu = target_rich_menu.rich_menu
-                if target_flg:
+                if flow_item.type == 10:
                     target_flow_item = flow_item
-                if flow_item.type == 54:
-                    target_flg = True
+                    break
             
             delete_rich_menu(user)
             if target_rich_menu:
