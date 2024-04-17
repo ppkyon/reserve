@@ -8,7 +8,6 @@ from sign.models import AuthLogin
 from template.models import ShopTemplateVideo
 
 from common import create_code, get_model_field
-from line.action.richmenu import remove_rich_menu
 from richmenu.action.list import get_list
 from table.action import action_search
 
