@@ -7,6 +7,7 @@ app_name = 'line'
 urlpatterns = [
     path('callback/<int:login>/', callback.callback, name='callback'),
     
+    path('history/', include('line.history.urls')),
     path('relationship/', include('line.analytics.urls')),
     path('reserve/', include('line.reserve.urls')),
 ]
