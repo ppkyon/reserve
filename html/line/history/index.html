@@ -1,0 +1,81 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/line/history.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" name="shop_id" value="{{ shop_id }}">
+    <input type="hidden" id="check_url" value="{% url 'line:history:check' %}">
+    <div class="history-area d-none">
+        <div class="top-area">
+            <div class="profile-area">
+                <div class="row">
+                    <div class="col-12 p-0">
+                        <div class="d-flex align-items-center p-3 ps-4 pe-4">
+                            <img class="user-image ms-2 me-2">
+                            <p class="user-name mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-area border-top border-bottom">
+                <ul class="nav justify-content-center">
+                    <li class="nav-item text-center" style="width: 50%;">
+                        <a href="#history" class="nav-link active" data-bs-toggle="tab">
+                            <img src="{% static 'img/history/history.svg' %}" class="d-none">
+                            <img src="{% static 'img/history/history-color.svg' %}">
+                            <p class="mb-0">予約確認/変更</p>
+                        </a>
+                    </li>
+                    <li class="nav-item text-center" style="width: 50%;">
+                        <a href="#question" class="nav-link" data-bs-toggle="tab">
+                            <img src="{% static 'img/history/question.svg' %}">
+                            <img src="{% static 'img/history/question-color.svg' %}" class="d-none">
+                            <p class="mb-0">回答</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-area border-top" style="height: 100%;">
+            <div class="tab-content">
+                <div id="history" class="tab-pane active"></div>
+                <div id="question" class="tab-pane">
+                    <div class="question-content-area m-3">
+                        <div class="position-relative">
+                            <p class="fw-bold pt-3 ps-3 pe-3 mb-0">名前</p>
+                            <p class="ps-3 pe-3 mb-0">山田太郎</p>
+                            <img src="{% static 'img/history/question-arrow.svg' %}" class="position-absolute" style="top: 65%; right: 8%;" width="15" height="15">
+                        </div>
+                        <hr>
+                        <div class="position-relative">
+                            <p class="fw-bold ps-3 pe-3 mb-0">フリガナ</p>
+                            <p class="ps-3 pe-3 mb-0">ヤマダタロウ</p>
+                            <img src="{% static 'img/history/question-arrow.svg' %}" class="position-absolute" style="top: 53%; right: 8%;" width="15" height="15">
+                        </div>
+                        <hr>
+                        <div class="position-relative">
+                            <p class="fw-bold ps-3 pe-3 mb-0">生年月日</p>
+                            <p class="ps-3 pe-3 mb-0">1992年01月01日</p>
+                            <img src="{% static 'img/history/question-arrow.svg' %}" class="position-absolute" style="top: 53%; right: 8%;" width="15" height="15">
+                        </div>
+                        <hr>
+                        <div class="position-relative">
+                            <p class="fw-bold ps-3 pe-3 mb-0">電話番号</p>
+                            <p class="pb-3 ps-3 pe-3 mb-0">090-1234-5678</p>
+                            <img src="{% static 'img/history/question-arrow.svg' %}" class="position-absolute" style="top: 33%; right: 8%;" width="15" height="15">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/line/history.js' %}" type="module"></script>
+    <script src="{% static 'js/line/history/history.js' %}" type="module"></script>
+{% endblock %}

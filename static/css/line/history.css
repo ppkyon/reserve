@@ -1,0 +1,41 @@
+body {
+    background-color: #F1F1F1;
+}
+.main {
+    margin: 0 !important;
+}
+.top-area {
+    background-color: #FFF;
+}
+
+.history-area .profile-area .user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.history-area .profile-area .user-name {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.history-area .tab-area .nav-item {
+    border: 0;
+}
+.history-area .tab-area .nav-link img {
+    width: 30px;
+    height: 30px;
+}
+.history-area .tab-area .nav-link p {
+    color: #707070;
+}
+.history-area .tab-area .nav-link.active p {
+    color: #6FC5B6;
+}
+
+.history-area .history-content-area,
+.history-area .question-content-area {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}

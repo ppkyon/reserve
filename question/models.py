@@ -251,34 +251,6 @@ class UserQuestion(models.Model):
         db_table = 'user_question'
 
 class UserQuestionItem(models.Model):
-    type_choice = (
-        (1, '氏名'),
-        (2, 'フリガナ'),
-        (3, '年齢'),
-        (4, '性別'),
-        (5, '電話番号'),
-        (6, 'メールアドレス'),
-        (7, '生年月日'),
-        (8, '住所'),
-        (9, 'プロフィール写真'),
-        (10, '画像'),
-        (11, '動画'),
-        (51, '予約形式'),
-        (52, '予約日程'),
-        (53, '予約可能日'),
-        (54, '予約日程再調整'),
-        (99, '設問'),
-    )
-    choice_type_choice = (
-        (1, 'フリーテキスト'),
-        (2, 'ラジオボタン'),
-        (3, 'チェックボックス'),
-        (4, 'プルダウン'),
-        (5, '日付'),
-        (6, '時間'),
-        (7, '日時'),
-    )
-
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     user = models.ForeignKey(UserQuestion, on_delete=models.CASCADE, related_name="user_question_item")
     question = models.ForeignKey(ShopQuestionItem, on_delete=models.CASCADE, related_name="user_question_item")
