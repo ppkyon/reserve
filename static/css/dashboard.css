@@ -25,3 +25,96 @@
     box-shadow: 0 3px 5px rgb(0 0 0 / 20%);
     transition: all .4s ease-in-out;
 }
+
+.modal .modal-body .input-label {
+    color: #000;
+    font-size: 0.8rem;
+}
+.modal .modal-body .input-text,
+.modal .modal-body .input-textarea,
+.modal .modal-body .dropdown,
+.modal .modal-body .tag-area {
+    width: 65%;
+}
+.modal .modal-body .input-textarea {
+    margin: 0;
+}
+.modal .modal-body .dropdown .input-text {
+    width: 100%;
+}
+.modal .modal-body .tag-area .tag-label {
+    width: 4.25rem;
+    font-size: 0.6rem;
+    color: #FFF;
+    background-color: #666F86;
+    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.modal .modal-body .add-tag-button {
+    color: #007aff;
+    font-size: 0.8rem;
+    background: url(../img/icon/plus-blue.svg) no-repeat;
+    background-size: 0.8rem;
+    background-position: 0;
+    cursor: pointer;
+}
+.modal .modal-body .tag-area .delete-tag-button {
+    position: absolute;
+    top: -30%;
+    right: 0%;
+}
+.modal .modal-body .tag-area .delete-tag-button img {
+    width: 15px;
+    height: 15px;
+    background-color: #7c7b69;
+    border-radius: 50%;
+}
+
+.modal .modal-header .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.modal .modal-header .title {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.modal .modal-header .sub {
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+.modal .modal-header .edit-button {
+    margin-left: auto;
+    width: 6.25rem;
+    height: 1.9rem;
+    color: #fff;
+    font-size: 0.75rem;
+    background-color: #007AFF;
+    border: none;
+    border-radius: 0.4rem;
+    line-height: 0.8rem;
+}
+
+.offcanvas .offcanvas-header .user-image {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.offcanvas .offcanvas-body .tag-area .tag-label {
+    width: 4.25rem;
+    font-size: 0.6rem;
+    color: #FFF;
+    background-color: #666F86;
+    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-area table tbody tr td .dropdown-menu {
+    right: -100% !important;
+}

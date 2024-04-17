@@ -13,12 +13,20 @@
         </div>
     </div>
     <div class="shop">
+        <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
         {% include 'dashboard/top.html' %}
         {% include 'dashboard/today.html' %}
         {% include 'dashboard/new.html' %}
         {% include 'dashboard/after.html' %}
+        {% include 'modal.html' %}
+        {% include 'user/modal/user.html' %}
+        {% include 'user/offcanvas.html' %}
+        {% include 'tag/modal/tag.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/dashboard/action.js' %}"></script>
+    <script src="{% static 'js/dashboard/data.js' %}"></script>
 {% endblock %}
