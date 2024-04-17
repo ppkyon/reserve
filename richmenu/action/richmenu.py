@@ -7,9 +7,9 @@ from richmenu.models import ShopRichMenu, ShopRichMenuItem
 from sign.models import AuthLogin
 from template.models import ShopTemplateVideo
 
-from richmenu.action.list import get_list
-
 from common import create_code, get_model_field
+from line.action.richmenu import remove_rich_menu
+from richmenu.action.list import get_list
 from table.action import action_search
 
 import base64
@@ -40,6 +40,7 @@ def save(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
     if request.POST.get('id') and ShopRichMenu.objects.filter(display_id=request.POST.get('id')).exists():
         rich_menu = ShopRichMenu.objects.filter(display_id=request.POST.get('id')).first()
+        rich_menu.rich_menu_id = None
         rich_menu.name = request.POST.get('name')
         rich_menu.menu_type = request.POST.get('menu_type')
         rich_menu.menu_flg = menu_flg
