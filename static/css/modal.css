@@ -60,3 +60,11 @@
 .up-modal {
     z-index: 1065;
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .modal-dialog {
+        margin: 0.25rem auto;
+    }
+
+}

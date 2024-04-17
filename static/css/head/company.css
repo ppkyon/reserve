@@ -122,3 +122,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+@media screen and (max-width: 1024px) {
+    .head .table-area .table th{
+        padding: 0.75rem 0.25rem !important;
+    }
+    .company-tag-tablet {
+        width: 180px !important;
+    }
+
+}
+

@@ -65,3 +65,57 @@
     color: red;
     font-weight: 600;
 }
+
+.side-sp,
+.logo-area-sp {
+    display: none !important;
+}
+
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .header {
+        width: 97%;
+        background-color: #fff;
+    } 
+
+    .header .menu-area-sp {
+        width: 2.8rem !important;
+        height: 2.8rem !important;
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+    }
+    .header .menu-area-sp span {
+        display: block;
+        position: absolute;
+        width: 2.5rem;
+        border-bottom: solid 1px #333;
+    }
+    .header .menu-area-sp span:nth-child(1) {
+        top: 1rem;
+    }
+    .header .menu-area-sp span:nth-child(2) {
+        top: 2rem;
+    }
+    .header .menu-area-sp span:nth-child(3) {
+        top: 3rem;
+    }
+
+    .logo-area-sp {
+        display: block !important;
+    }
+    .header .logo-area-sp {
+        margin-left:calc(128.09px - 60.8px) !important;
+    }
+    .header .logo-area-sp img {
+        width: 6rem !important;
+        height: auto !important;
+    }
+
+    .com-area {
+        background-color: #fff;
+        margin: 0 !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+}

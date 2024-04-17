@@ -295,3 +295,14 @@
         width: 7.5rem;
     }
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .thead-flow-tablet {
+        width: 420px !important;
+    }
+
+    .flow-area {
+        height: 100vh;
+    }
+}

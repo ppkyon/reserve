@@ -258,5 +258,17 @@
     .input-text {
         font-size: 0.75rem;
     }
+}
 
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .profile-area .top button {
+        width: 5.5rem;
+        font-size: 0.6rem;
+        padding: 0.25rem !important;
+    }
+
+    .main .main-button {
+        font-size: 0.65rem !important;
+    }
 }
