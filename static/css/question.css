@@ -210,3 +210,14 @@
         width: 8.5rem !important;
     }
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .card-area{
+        padding: 1rem 2rem !important;
+    }
+    .input-area .display-area .action-area {
+        padding-left: 0.25rem !important;
+    }
+
+}

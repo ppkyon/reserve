@@ -51,3 +51,14 @@ html {
     }
 
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .main {
+        margin-left: 0 !important;
+        width:100% !important;
+        margin-top: 4rem !important;
+
+    }
+
+}

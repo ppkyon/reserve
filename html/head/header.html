@@ -1,6 +1,149 @@
 {% load static %}
 
 <div class="header d-flex position-fixed">
+    <div class="menu-area-sp toggle pt-2">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="logo-area-sp text-center pt-2">
+        <img src="{% static 'img/logo.svg' %}" class="logo-img">
+    </div>
+
+    <div class="side-sp position-fixed">
+        <div class="side-area">
+            <div class="row">
+                <div class="col-12">
+                    <div class="logo-area text-center pt-2">
+                        <p>管理画面ダッシュボード</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="menu-area">
+                        <ul class="d-flex position-relative m-0 p-0 pb-1">
+                            {% if '/head/company/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:company:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                        <span>企業管理</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:company:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                        <span>企業管理</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/tag/' in request.path %}
+                                <li class="active position-relative">
+                                   <a href="{% url 'head:tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-tag.svg' %}" class="me-2">
+                                        <span>タグ</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:tag:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-tag.svg' %}" class="me-2">
+                                        <span>タグ</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/template/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                        <span>テンプレート管理</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                        <span>テンプレート管理</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/richmenu/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
+                                        <span>リッチメニュー管理</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
+                                        <span>リッチメニュー管理</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/question/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
+                                        <span>回答フォーム管理</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
+                                        <span>回答フォーム管理</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/flow/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-flow.svg' %}" class="me-2">
+                                        <span>フロー管理</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-flow.svg' %}" class="me-2">
+                                        <span>フロー管理</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if '/head/setting/' in request.path %}
+                                <li class="active position-relative">
+                                    <a href="{% url 'head:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                        <span>設定</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="position-relative">
+                                    <a href="{% url 'head:setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                        <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                        <span>設定</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="com-area position-relative mt-5 mb-0 ps-3 pe-3">
+                        <p class="m-0">@L Admin Dashboard</p>
+                        <p class="m-0">©2022 All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="dropdown header-dropdown">
         <button type="button" id="header_manager_dropdown" class="btn d-flex position-relative dropdown-toggle" data-bs-toggle="dropdown">
             {% if header.manager.profile.family_name and header.manager.profile.first_name %}
@@ -53,3 +196,6 @@
         </div>
     </div>
 </div>
+
+<script src="/static/js/library/jquery.min.js"></script>
+<script src="/static/js/head/header/header.js"></script>

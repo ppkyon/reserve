@@ -392,3 +392,11 @@
     }
 
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .content-area .input-check-wrap {
+        width: 30% !important;
+    }
+
+}
