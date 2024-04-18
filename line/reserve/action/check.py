@@ -196,6 +196,8 @@ def check(request):
     send_schedule = list()
     reserve_data = ReserveBasic.objects.filter(shop=shop).first()
     reception_data = list()
+    reception_manager_data = list()
+    reception_facility_data = list()
     week_schedule = list()
     week_time = list()
     unit_time = '60min'
@@ -286,8 +288,8 @@ def check(request):
                                                             if same_count > 0:
                                                                 people_number = people_number + 1
                                                                 facility_count = facility_count - 1
-                                                                if facility_list[people_number]:
-                                                                    people_count = people_count + facility_list[people_number].count
+                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count < people_count:
+                                                                    people_count = reception['facility'].count + facility_list[people_number].count
                                                             else:
                                                                 people_count = reception['facility'].count
                                                         count_flg = False
