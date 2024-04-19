@@ -130,7 +130,7 @@
 
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .side {
         display: block !important;
         width: 125px;
@@ -192,7 +192,6 @@
         top:4rem;
         width: 125px !important;
         height: 100%;
-        padding-bottom: 12rem;
         transition: 0.5s ease;
     }
     .side-sp.open {
@@ -203,8 +202,7 @@
     }
 
     .side-area {
-        height: 100%;
-        padding-bottom: 5rem;
+        min-height: 200vh !important;
     }
     .side-area-text-sp{
         font-size: 0.7rem;
