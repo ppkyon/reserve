@@ -43,7 +43,7 @@ html {
 }
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .main {
         margin-left: 125px;
         width: calc(100% - 125px);

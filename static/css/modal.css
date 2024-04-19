@@ -61,10 +61,25 @@
     z-index: 1065;
 }
 
+#head_question_modal .modal-body .table-area .table tbody tr td,
+#company_question_modal .modal-body .table-area .table tbody tr td{
+    padding: 1.5rem 0.75rem !important;
+}
+
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
     .modal-dialog {
         margin: 0.25rem auto;
     }
+
+    #company_template_video_modal .modal-dialog{
+        max-width: 750px !important;
+    }
+
+    #company_question_modal .modal-dialog {
+        max-width: 750px;
+
+    }
+
 
 }
