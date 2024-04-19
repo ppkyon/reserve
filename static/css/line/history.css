@@ -1,8 +1,10 @@
 body {
+    margin: 0 !important;
     background-color: #F1F1F1;
 }
 .main {
-    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 .top-area {
     background-color: #FFF;
@@ -38,4 +40,143 @@ body {
     background: #fff;
     border-radius: 1rem;
     box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 0.16);
+}
+
+.menu-area .menu-icon {
+    width: 11vw;
+    height: 11vw;
+}
+.menu-area .menu-bar {
+    width: 7.5vw;
+    border: 0.5px solid #A7ACB3;
+}
+.menu-area .menu-text {
+    width: 18.8%;
+    font-size: 11px;
+    text-align: center;
+}
+.menu-area .menu-text.active {
+    color: #00A841;
+    font-weight: bold;
+}
+
+.content-area .content-message {
+    font-size: 18px;
+    font-weight: bold;
+}
+.content-area .content-notice-message {
+    color: #FF0000;
+    font-size: 3.7vw;
+    font-weight: bold;
+}
+.content-area .content-title {
+    color: #FFF;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #802077;
+}
+.content-area .content-description {
+    font-size: 14px;
+}
+.content-area .content-item-area {
+    border-left: 1px solid #707070;
+    border-bottom: 1px solid #707070;
+    border-right: 1px solid #707070;
+}
+.content-area .content-item-area .content-item-title {
+    color: #802077;
+    font-size: 16px;
+    font-weight: bold;
+}
+.content-area .content-item-area .content-item-description {
+    font-size: 14px;
+}
+.content-area .content-item-area .arrow-icon {
+    width: 17.5px;
+    height: 17.5px;
+}
+.content-area .date-arrow-icon {
+    width: 40px;
+    color: #FFF;
+    font-size: 26px;
+    text-align: center;
+    background-color: #5ABBAA;
+    border-radius: 5px;
+}
+.content-area .date-year-text {
+    font-size: 16px;
+}
+.content-area .date-week-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.date-area .table {
+    border: 1px solid #BEBEBE;
+}
+.date-area .table th {
+    border: 1px solid #BEBEBE;
+}
+.date-area .table td {
+    border: 1px solid #BEBEBE;
+}
+.date-area .table td.no {
+    color: #00B074;
+    font-weight: bold;
+    background-color: #4D4D4D;
+}
+.date-area .table td.yes {
+    color: #00B074;
+    font-weight: bold;
+}
+
+.footer-area .footer-bar {
+    border-top: 1px solid #707070;
+}
+.footer-area .footer-label {
+    width: 80px;
+    color: #FFF;
+    font-size: 14px;
+    text-align: center;
+    background-color: #00B074;
+    border-radius: 10px;
+}
+.footer-area .footer-text {
+    font-size: 15px;
+}
+.footer-area .footer-button {
+    width: 90%;
+    color: #FFF;
+    font-size: 16px;
+    background-color: #00B074;
+}
+
+.button-area .check-button,
+.button-area .reserve-button {
+    width: 90%;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #00B074;
+}
+.button-area .close-button,
+.error-area .close-button {
+    width: 90%;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ABABAB;
+}
+
+.loader-area {
+    top: 40%;
+    left: 50%;
+    color: #000;
+    text-align: center;
+    transform: translateY(-50%) translateX(-50%);
+    transition: 0s;
+}
+.loader-area .table-loader {
+    width: 3rem;
+    height: 3rem;
 }

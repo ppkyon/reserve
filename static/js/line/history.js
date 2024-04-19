@@ -29,11 +29,23 @@ $( function(){
 
             $( '.history-area .content-area' ).find( '#history' ).empty();
             $.each( response.history, function( index, value ) {
-                if ( check_empty(value.reserve) ) {
-                    var html = '<div class="history-content-area m-3">';
+                if ( check_empty(value.schedule) && check_empty(value.reserve) ) {
+                    var html = '';
+                    if ( value.end_flg ) {
+                        html += '<div class="history-content-area m-3">';
+                    } else {
+                        html += '<div class="history-content-area active m-3">';
+                    }
+                    html += '<input type="hidden" name="flow" value="' + value.display_id + '">';
+                    html += '<input type="hidden" name="schedule" value="' + value.schedule.display_id + '">';
+                    html += '<input type="hidden" name="place" value="' + value.place.display_id + '">';
+                    if ( check_empty(value.course) ) {
+                        html += '<input type="hidden" name="course" value="' + value.course.display_id + '">';
+                    }
+                    html += '<input type="hidden" name="setting" value="' + value.setting.display_id + '">';
                     html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0" style="font-size: 1rem;">' + value.reserve + '</p>';
                     html += '<p class="fw-bold ps-3 pe-3 mb-0" style="font-size: 0.8rem;">会場</p>';
-                    html += '<p class="ps-3 pe-3 mb-1" style="font-size: 0.8rem;">' + value.shop.title + '</p>';
+                    html += '<p class="ps-3 pe-3 mb-1" style="font-size: 0.8rem;">' + value.place.title + '</p>';
                     html += '<p class="fw-bold ps-3 pe-3 mb-0" style="font-size: 0.8rem;">コース</p>';
                     html += '<p class="ps-3 pe-3 mb-0 mb-1">' + value.setting.title + '</p>';
                     if ( check_empty(value.setting.outline) ) {
@@ -61,9 +73,9 @@ $( function(){
                     }
                     html += '<div class="position-relative">';
                     if ( item_index == 0 ) {
-                        html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0">' + item_value.data.title + '</p>';
+                        html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0">' + item_value.title + '</p>';
                     } else {
-                        html += '<p class="fw-bold ps-3 pe-3 mb-0">' + item_value.data.title + '</p>';
+                        html += '<p class="fw-bold ps-3 pe-3 mb-0">' + item_value.title + '</p>';
                     }
                     if ( item_index == value.item.length - 1 ) {
                         if ( check_empty(item_value.text) ) {
@@ -81,7 +93,7 @@ $( function(){
                                         if ( choice_count != 0 ) {
                                             html += ',';
                                         }
-                                        html += choice_value.data.text;
+                                        html += choice_value.title;
                                         choice_count = choice_count + 1;
                                     }
                                 });
@@ -100,7 +112,7 @@ $( function(){
                                 var choice_count = 0
                                 html += '<p class="pb-3 ps-3 pe-3 mb-0">';
                                 $.each( item_value.choice, function( choice_index, choice_value ) {
-                                    if ( choice_value.data.type == 1 ) {
+                                    if ( choice_value.type == 1 ) {
                                         if ( check_empty(choice_value.text) ) {
                                             if ( choice_index != 0 ) {
                                                 html += ',';
@@ -108,15 +120,15 @@ $( function(){
                                             html += choice_value.text;
                                             choice_count = choice_count + 1;
                                         }
-                                    } else if ( choice_value.data.type == 2 || choice_value.data.type == 3 || choice_value.data.type == 4 ) {
+                                    } else if ( choice_value.type == 2 || choice_value.type == 3 || choice_value.type == 4 ) {
                                         if ( choice_value.text == '1' ) {
                                             if ( choice_count != 0 ) {
                                                 html += ',';
                                             }
-                                            html += choice_value.data.text;
+                                            html += choice_value.title;
                                             choice_count = choice_count + 1;
                                         }
-                                    } else if ( choice_value.data.type == 5 || choice_value.data.type == 7 ) {
+                                    } else if ( choice_value.type == 5 || choice_value.type == 7 ) {
                                         if ( check_empty(choice_value.date) ) {
                                             if ( choice_index != 0 ) {
                                                 html += ',';
@@ -124,7 +136,7 @@ $( function(){
                                             html += choice_value.date;
                                             choice_count = choice_count + 1;
                                         }
-                                    } else if ( choice_value.data.type == 6 ) {
+                                    } else if ( choice_value.type == 6 ) {
                                         if ( check_empty(choice_value.time) ) {
                                             if ( choice_index != 0 ) {
                                                 html += ',';

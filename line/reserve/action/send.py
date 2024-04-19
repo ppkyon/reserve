@@ -62,6 +62,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
                     )
                     user_profile.name = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
@@ -71,6 +78,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '2':
@@ -79,6 +93,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
                     )
                     user_profile.name_kana = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
@@ -88,6 +109,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '3':
@@ -96,6 +124,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         value = urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))).replace('歳', ''),
                     )
                     user_profile.age = urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))).replace('歳', '')
@@ -105,6 +140,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         value = 0,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '4':
@@ -114,6 +156,13 @@ def send(request):
                             id = str(uuid.uuid4()),
                             user = user_question,
                             question = shop_question_item,
+                            number = shop_question_item.number,
+                            type = shop_question_item.type,
+                            title = shop_question_item.title,
+                            description = shop_question_item.description,
+                            choice_type = shop_question_item.choice_type,
+                            choice_count = shop_question_item.choice_count,
+                            required_flg = shop_question_item.required_flg,
                             value = 0,
                         )
                     elif urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))) == '男性':
@@ -121,6 +170,13 @@ def send(request):
                             id = str(uuid.uuid4()),
                             user = user_question,
                             question = shop_question_item,
+                            number = shop_question_item.number,
+                            type = shop_question_item.type,
+                            title = shop_question_item.title,
+                            description = shop_question_item.description,
+                            choice_type = shop_question_item.choice_type,
+                            choice_count = shop_question_item.choice_count,
+                            required_flg = shop_question_item.required_flg,
                             value = 1,
                         )
                         user_profile.sex = 1
@@ -129,6 +185,13 @@ def send(request):
                             id = str(uuid.uuid4()),
                             user = user_question,
                             question = shop_question_item,
+                            number = shop_question_item.number,
+                            type = shop_question_item.type,
+                            title = shop_question_item.title,
+                            description = shop_question_item.description,
+                            choice_type = shop_question_item.choice_type,
+                            choice_count = shop_question_item.choice_count,
+                            required_flg = shop_question_item.required_flg,
                             value = 2,
                         )
                         user_profile.sex = 2
@@ -139,6 +202,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))).replace( '-', ''),
                     )
                     user_profile.phone_number = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))).replace( '-', '')
@@ -148,6 +218,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '6':
@@ -156,6 +233,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         email = urllib.parse.unquote(request.POST.get('email_'+str(shop_question_index+1))),
                     )
                     user_profile.email = urllib.parse.unquote(request.POST.get('email_'+str(shop_question_index+1)))
@@ -165,6 +249,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         email = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '7':
@@ -173,6 +264,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         date = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1))).replace( '/', '-'),
                     )
                     today = datetime.date.today()
@@ -185,6 +283,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         date = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '8':
@@ -193,6 +298,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1))),
                     )
                     user_profile.address = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)))
@@ -202,6 +314,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         text = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '9':
@@ -216,6 +335,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         image = data,
                     )
                     user_profile.image = data
@@ -225,6 +351,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         image = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '10':
@@ -239,6 +372,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         image = data,
                     )
                 else:
@@ -246,6 +386,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         image = None,
                     )
             elif request.POST.get('type_'+str(shop_question_index+1)) == '11':
@@ -260,6 +407,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         video = data,
                         video_thumbnail = None,
                     )
@@ -287,6 +441,13 @@ def send(request):
                         id = str(uuid.uuid4()),
                         user = user_question,
                         question = shop_question_item,
+                        number = shop_question_item.number,
+                        type = shop_question_item.type,
+                        title = shop_question_item.title,
+                        description = shop_question_item.description,
+                        choice_type = shop_question_item.choice_type,
+                        choice_count = shop_question_item.choice_count,
+                        required_flg = shop_question_item.required_flg,
                         video = None,
                         video_thumbnail = None,
                     )
@@ -295,6 +456,13 @@ def send(request):
                     id = str(uuid.uuid4()),
                     user = user_question,
                     question = shop_question_item,
+                    number = shop_question_item.number,
+                    type = shop_question_item.type,
+                    title = shop_question_item.title,
+                    description = shop_question_item.description,
+                    choice_type = shop_question_item.choice_type,
+                    choice_count = shop_question_item.choice_count,
+                    required_flg = shop_question_item.required_flg,
                 )
                 if request.POST.get('choice_type_'+str(shop_question_index+1)) == '1':
                     for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
@@ -303,6 +471,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
                             )
                         else:
@@ -310,6 +480,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = None,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '2':
@@ -319,6 +491,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 1,
                             )
                         else:
@@ -326,6 +500,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 0,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '3':
@@ -336,6 +512,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 1,
                             )
                         else:
@@ -343,6 +521,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 0,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '4':
@@ -352,6 +532,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 1,
                             )
                         else:
@@ -359,6 +541,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 text = 0,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '5':
@@ -368,6 +552,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 date = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
                             )
                         else:
@@ -375,6 +561,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 date = None,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '6':
@@ -384,6 +572,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 time = urllib.parse.unquote(request.POST.get('time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
                             )
                         else:
@@ -391,6 +581,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 time = None,
                             )
                 elif request.POST.get('choice_type_'+str(shop_question_index+1)) == '7':
@@ -400,6 +592,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 date = urllib.parse.unquote(request.POST.get('date_time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
                             )
                         else:
@@ -407,6 +601,8 @@ def send(request):
                                 id = str(uuid.uuid4()),
                                 user = user_question_item,
                                 question = shop_question_choice_item,
+                                number = shop_question_choice_item.number,
+                                title = shop_question_choice_item.text,
                                 date = None,
                             )
 
@@ -547,6 +743,7 @@ def send(request):
             user_flow_schedule.offline_facility = facility
             user_flow_schedule.manager = manager
             user_flow_schedule.question = question
+            user_flow_schedule.updated_at = datetime.datetime.now()
             user_flow_schedule.save()
         else:
             UserFlowSchedule.objects.create(
@@ -562,6 +759,7 @@ def send(request):
                 offline_facility = facility,
                 manager = manager,
                 question = question,
+                updated_at = datetime.datetime.now()
             )
 
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
@@ -689,6 +887,7 @@ def send(request):
             user_flow_schedule.online_facility = facility
             user_flow_schedule.manager = manager
             user_flow_schedule.question = question
+            user_flow_schedule.updated_at = datetime.datetime.now()
             user_flow_schedule.save()
         else:
             UserFlowSchedule.objects.create(
@@ -704,6 +903,7 @@ def send(request):
                 online_facility = facility,
                 manager = manager,
                 question = question,
+                updated_at = datetime.datetime.now()
             )
 
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()

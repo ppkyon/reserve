@@ -638,7 +638,7 @@ def push_card_type_message(user, template, author):
         "type": "carousel",
         "contents": carousel_contents
     }
-
+    
     line_bot_api.push_message(
         user.line_user_id,
         FlexSendMessage(

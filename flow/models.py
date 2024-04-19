@@ -806,6 +806,8 @@ class UserFlowSchedule(models.Model):
     manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     question = models.ForeignKey(ShopQuestion, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
     meeting = models.ForeignKey(ReserveOnlineMeeting, on_delete=models.CASCADE, blank=False, null=True, related_name="user_flow_history")
+    check_flg = models.BooleanField(default=False)
+    cancel_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
