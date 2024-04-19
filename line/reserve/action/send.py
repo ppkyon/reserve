@@ -53,6 +53,11 @@ def send(request):
             display_id = create_code(12, UserQuestion),
             user = user,
             question = question,
+            title = question.title,
+            name = question.name,
+            description =  question.description,
+            color = question.color,
+            count = question.count,
         )
         
         for shop_question_index, shop_question_item in enumerate(ShopQuestionItem.objects.filter(question=question).order_by('number').all()):

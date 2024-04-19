@@ -2,7 +2,7 @@ $( function(){
     $( '.button-area .reserve-button' ).on( 'click', function() {
         $( '.loader-area' ).css( 'opacity', '1' );
         $( '.loader-area' ).removeClass( 'd-none' );
-        $( '.check-area' ).addClass( 'd-none' );
+        $( '.history-check-area' ).addClass( 'd-none' );
 
         var form_data = new FormData();
         form_data.append( 'shop_id', $( '[name=shop_id]' ).val() );
@@ -26,7 +26,40 @@ $( function(){
             setTimeout( function() {
                 $( '.loader-area' ).css( 'opacity', '0' );
                 $( '.loader-area' ).addClass( 'd-none' );
-                $( '.end-area' ).removeClass( 'd-none' );
+                $( '.history-end-area' ).removeClass( 'd-none' );
+            }, 750 );
+        }).fail( function(){
+        
+        });
+    });
+    $( '.button-area .question-button' ).on( 'click', function() {
+        $( '.loader-area' ).css( 'opacity', '1' );
+        $( '.loader-area' ).removeClass( 'd-none' );
+        $( '.question-check-area' ).addClass( 'd-none' );
+        
+        var form_data = new FormData();
+        form_data.append( 'shop_id', $( '[name=shop_id]' ).val() );
+        form_data.append( 'user_id', liff.getContext().userId );
+        form_data.append( 'question_id', $( '.question-area .content-area #question_id' ).val() );
+        if ( check_empty($( '.question-area .content-area #question_id' ).val()) ) {
+            $.each( $( '#question_form' ).serialize().split( '&' ), function( index, value ) {
+                var question_answer = value.split( '=' );
+                form_data.append( question_answer[0], question_answer[1] );
+            });
+        }
+        form_data.append( 'csrfmiddlewaretoken', $( '#csrf_token' ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#send_question_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.question-end-area' ).removeClass( 'd-none' );
             }, 750 );
         }).fail( function(){
         
@@ -41,7 +74,9 @@ $( function(){
         $( '.loader-area' ).removeClass( 'd-none' );
         $( '.history-area' ).addClass( 'd-none' );
         $( '.date-area' ).addClass( 'd-none' );
-        $( '.check-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
+        $( '.history-check-area' ).addClass( 'd-none' );
+        $( '.question-check-area' ).addClass( 'd-none' );
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );
             $( '.loader-area' ).addClass( 'd-none' );
@@ -53,11 +88,27 @@ $( function(){
         $( '.loader-area' ).removeClass( 'd-none' );
         $( '.history-area' ).addClass( 'd-none' );
         $( '.date-area' ).addClass( 'd-none' );
-        $( '.check-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
+        $( '.history-check-area' ).addClass( 'd-none' );
+        $( '.question-check-area' ).addClass( 'd-none' );
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );
             $( '.loader-area' ).addClass( 'd-none' );
             $( '.date-area' ).removeClass( 'd-none' );
+        }, 750 );
+    });
+    $( '.menu-area .question-icon' ).on( 'click', function() {
+        $( '.loader-area' ).css( 'opacity', '1' );
+        $( '.loader-area' ).removeClass( 'd-none' );
+        $( '.history-area' ).addClass( 'd-none' );
+        $( '.date-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
+        $( '.history-check-area' ).addClass( 'd-none' );
+        $( '.question-check-area' ).addClass( 'd-none' );
+        setTimeout( function() {
+            $( '.loader-area' ).css( 'opacity', '0' );
+            $( '.loader-area' ).addClass( 'd-none' );
+            $( '.question-area' ).removeClass( 'd-none' );
         }, 750 );
     });
     

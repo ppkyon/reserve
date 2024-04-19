@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 
 from flow.models import UserFlowSchedule
+from question.models import UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
     ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse,
@@ -351,3 +352,11 @@ def date(request):
         'reserve_data': reserve_data,
     }
     return JsonResponse( data, safe=False )
+
+def question(request):
+    question = UserQuestion.objects.filter(display_id=request.POST.get('question_id')).values(*get_model_field(UserQuestion)).first()
+    question['item'] = list(UserQuestionItem.objects.filter(user=question['id']).order_by('number').values(*get_model_field(UserQuestionItem)).all())
+    for question_item_index, question_item in enumerate(question['item']):
+        if question_item['type'] == 99:
+            question['item'][question_item_index]['choice'] = list(UserQuestionItemChoice.objects.filter(user=question_item['id']).order_by('number').values(*get_model_field(UserQuestionItemChoice)).all())
+    return JsonResponse( question, safe=False )

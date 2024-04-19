@@ -43,6 +43,7 @@
         <div class="content-area border-top" style="height: 100%;">
             <div class="tab-content">
                 <input type="hidden" id="get_date_url" value="{% url 'line:history:get_date' %}">
+                <input type="hidden" id="get_question_url" value="{% url 'line:history:get_question' %}">
                 <div id="history" class="tab-pane active"></div>
                 <div id="question" class="tab-pane">
                     <div class="question-content-area m-3"></div>
@@ -171,7 +172,7 @@
             </div>
         </div>
     </div>
-    <div class="check-area d-none">
+    <div class="history-check-area d-none">
         <div class="menu-area mt-3">
             <div class="row">
                 <div class="col-12 p-0">
@@ -237,7 +238,7 @@
             </div>
         </div>
     </div>
-    <div class="end-area d-none">
+    <div class="history-end-area d-none">
         <div class="menu-area mt-3">
             <div class="row">
                 <div class="col-12 p-0">
@@ -307,6 +308,160 @@
             </div>
         </div>
     </div>
+    <div class="question-area d-none">
+        <div class="menu-area mt-3">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="d-flex align-items-center">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon history-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-off.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-no.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-no.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12 p-0">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <p class="menu-text mb-0" style="width: 37%">予約履歴</p>
+                        <p class="menu-text active mb-0" style="margin-right: 3.5%; width: 18%;">設問</p>
+                        <p class="menu-text mb-0" style="margin-left: 3.5%; width: 18%;">確認</p>
+                        <p class="menu-text mb-0" style="width: 37%">受付完了</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area mb-4">
+            <div class="row">
+                <div class="col-12 text-center p-0">
+                    <input type="hidden" id="question_id">
+                    <p class="content-title pt-2 pb-2 mb-0"></p>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <p class="content-description pt-2 pb-2 mb-0"></p>
+                </div>
+            </div>
+            <div class="content-question-area">
+                <form id="question_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none"></form>
+            </div>
+        </div>
+        <div class="button-area mb-3">
+            <div class="row">
+                <div class="col-12 text-center p-0 mb-2">
+                    <button type="button" class="btn check-button">確認する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="question-check-area d-none">
+        <div class="menu-area mt-3">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="d-flex align-items-center">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon history-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon question-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-off.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-no.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12 p-0">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <p class="menu-text mb-0" style="width: 37%">予約履歴</p>
+                        <p class="menu-text mb-0" style="margin-right: 3.5%; width: 18%;">設問</p>
+                        <p class="menu-text active mb-0" style="margin-left: 3.5%; width: 18%;">確認</p>
+                        <p class="menu-text mb-0" style="width: 37%">受付完了</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area mb-4">
+            <div class="row">
+                <div class="col-12 text-center p-0">
+                    <p class="content-title pt-2 pb-2 mb-0">設問内容</p>
+                    <input type="hidden" id="send_question_url" value="{% url 'line:history:question' %}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="content-item-area"></div>
+                </div>
+            </div>
+        </div>
+        <div class="button-area mb-3">
+            <div class="row">
+                <div class="col-12 text-center p-0 mb-2">
+                    <button type="button" class="btn question-button">この内容で変更する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="question-end-area d-none">
+        <div class="menu-area mt-3">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="d-flex align-items-center">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon history-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon question-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-on.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                        <img src="{% static 'img/reserve/menu-off.svg' %}" class="menu-icon" style="width: 11vw; height: 11vw;">
+                        <label class="menu-bar mb-0" style="width: 12.5vw"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12 p-0">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <p class="menu-text mb-0" style="width: 37%">予約履歴</p>
+                        <p class="menu-text mb-0" style="margin-right: 3.5%; width: 18%;">設問</p>
+                        <p class="menu-text mb-0" style="margin-left: 3.5%; width: 18%;">確認</p>
+                        <p class="menu-text active mb-0" style="width: 37%">受付完了</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area mb-4">
+            <div class="row mb-3">
+                <div class="col-12 text-center p-0">
+                    <p class="content-message mb-1">変更を承りました！</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center p-0">
+                    <p class="content-title pt-2 pb-2 mb-0">設問内容</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="content-item-area"></div>
+                </div>
+            </div>
+        </div>
+        <div class="button-area mb-3">
+            <div class="row">
+                <div class="col-12 text-center p-0">
+                    <button type="button" class="btn close-button">トーク画面に戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="loader-area d-flex align-items-center position-absolute text-center d-none" style="opacity: 0">
         <div class="table-loader spinner-border">
             <span class="visually-hidden">Loading...</span>
@@ -320,4 +475,5 @@
     <script src="{% static 'js/line/history/history.js' %}" type="module"></script>
     <script src="{% static 'js/line/history/date.js' %}" type="module"></script>
     <script src="{% static 'js/line/history/check.js' %}" type="module"></script>
+    <script src="{% static 'js/line/history/question.js' %}" type="module"></script>
 {% endblock %}

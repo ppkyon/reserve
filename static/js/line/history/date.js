@@ -194,8 +194,8 @@ $( function(){
         $( this ).css( 'color', '#FF0000' );
         
         $( '.footer-area .footer-date-text' ).text( $( this ).find( 'input[type=hidden]' ).val() );
-        $( '.check-area .check-date-text' ).text( $( this ).find( 'input[type=hidden]' ).val() );
-        $( '.end-area .end-date-text' ).text( $( this ).find( 'input[type=hidden]' ).val() );
+        $( '.history-check-area .check-date-text' ).text( $( this ).find( 'input[type=hidden]' ).val() );
+        $( '.history-end-area .end-date-text' ).text( $( this ).find( 'input[type=hidden]' ).val() );
         $( '.button-area .reserve-button' ).val( $( this ).find( 'input[type=hidden]' ).val() );
         $( '.date-area .footer-area' ).removeClass( 'd-none' );
     });
@@ -208,7 +208,7 @@ $( function(){
         setTimeout( function() {
             $( '.loader-area' ).css( 'opacity', '0' );
             $( '.loader-area' ).addClass( 'd-none' );
-            $( '.check-area' ).removeClass( 'd-none' );
+            $( '.history-check-area' ).removeClass( 'd-none' );
         }, 750 );
 
     });

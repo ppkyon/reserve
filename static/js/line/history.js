@@ -71,7 +71,8 @@ $( function(){
                     if ( item_index != 0 ) {
                         html += '<hr>';
                     }
-                    html += '<div class="position-relative">';
+                    html += '<div class="question-content-item-area position-relative">';
+                    html += '<input type="hidden" name="question_id" value="' + value.display_id + '">';
                     if ( item_index == 0 ) {
                         html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0">' + item_value.title + '</p>';
                     } else {

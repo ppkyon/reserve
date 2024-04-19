@@ -11,6 +11,8 @@ urlpatterns = [
     path('check/', check.check, name='check'),
     
     path('date/get/', get.date, name='get_date'),
+    path('question/get/', get.question, name='get_question'),
     
     path('send/', send.send, name='send'),
+    path('question/', send.question, name='question'),
 ]

@@ -88,6 +88,20 @@ $( function(){
             $( '.date-area' ).removeClass( 'd-none' );
         }, 750 );
     });
+    $( '.menu-area .question-icon' ).on( 'click', function() {
+        $( '.loader-area' ).css( 'opacity', '1' );
+        $( '.loader-area' ).removeClass( 'd-none' );
+        $( '.place-area' ).addClass( 'd-none' );
+        $( '.course-area' ).addClass( 'd-none' );
+        $( '.date-area' ).addClass( 'd-none' );
+        $( '.question-area' ).addClass( 'd-none' );
+        $( '.check-area' ).addClass( 'd-none' );
+        setTimeout( function() {
+            $( '.loader-area' ).css( 'opacity', '0' );
+            $( '.loader-area' ).addClass( 'd-none' );
+            $( '.question-area' ).removeClass( 'd-none' );
+        }, 750 );
+    });
 
     $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {
         liff.closeWindow();
