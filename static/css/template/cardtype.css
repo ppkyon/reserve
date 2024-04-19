@@ -386,7 +386,7 @@
 }
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .content-area .input-check-wrap {
         padding-left: 1.25rem !important;
     }
