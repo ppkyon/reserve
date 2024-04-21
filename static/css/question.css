@@ -194,7 +194,7 @@
 }
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .copy-item-button{
         margin-left: 0.5rem !important;
     }
@@ -204,10 +204,6 @@
     }
     .order-down-button{
         margin-left: 0.5rem !important;
-    }
-
-    .display-area .content-area .top-area .input-type {
-        width: 8.5rem !important;
     }
 }
 
@@ -219,5 +215,9 @@
     .input-area .display-area .action-area {
         padding-left: 0.25rem !important;
     }
+    .display-area .content-area .top-area .input-type {
+        width: 8rem !important;
+    } 
+
 
 }

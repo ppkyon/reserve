@@ -246,7 +246,7 @@
 }
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .main .main-button {
         font-size: 0.75rem !important;
     }

@@ -286,13 +286,15 @@
 
 
 /* iPad用レスポンシブ */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     .thead-flow-tablet {
         width: 450px !important;
     }
 
     .title-area .select-button {
         width: 7.5rem;
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important; 
     }
 }
 
@@ -302,7 +304,20 @@
         width: 420px !important;
     }
 
-    .flow-area {
-        height: 100vh;
+    .card-area {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
     }
+
+    .title-area .save-area .save-button {
+        width: 5rem !important;
+        height: 27px ;
+        line-height: 0;
+    }
+
+    .flow-area {
+        height: 110vh;
+    }
+
+
 }
