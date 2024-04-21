@@ -1,15 +1,15 @@
 from django.db.models import Q
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
+from flow.models import ShopFlow, ShopFlowTab, UserFlowSchedule
+from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
-    ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
-from sign.models import AuthShop
-from user.models import LineUser
+from sign.models import AuthLogin
 
 from itertools import chain
 
@@ -19,125 +19,88 @@ import calendar
 import datetime
 import pandas
 
-def check(request):
-    shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
-    user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
+def course(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    course = list()
+    if ShopOffline.objects.filter(display_id=request.POST.get('id')).exists():
+        course = list(ReserveOfflineCourse.objects.filter(shop=auth_login.shop).values(*get_model_field(ReserveOfflineCourse)).all())
+    if ShopOnline.objects.filter(display_id=request.POST.get('id')).exists():
+        course = list(ReserveOnlineCourse.objects.filter(shop=auth_login.shop).values(*get_model_field(ReserveOnlineCourse)).all())
+    return JsonResponse( course, safe=False )
 
-    end_offline_setting = list()
-    end_online_setting = list()
-    for user_flow in UserFlow.objects.filter(user=user).all():
-        for user_flow in UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').all():
-            if user_flow.offline:
-                end_offline_setting.append(user_flow.offline.id)
-            if user_flow.online:
-                end_online_setting.append(user_flow.online.id)
+def date(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
 
-    offline_list = list(ShopOffline.objects.filter(shop=shop).order_by('created_at').values(*get_model_field(ShopOffline)).all())
-    for offline_index, offline_item in enumerate(offline_list):
-        offline_list[offline_index]['type'] = 1
-        offline_list[offline_index]['time'] = list(ShopOfflineTime.objects.filter(offline__id=offline_item['id']).order_by('week').values(*get_model_field(ShopOfflineTime)).all())
-    online_list = list(ShopOnline.objects.filter(shop=shop).order_by('created_at').all())
-    for online_index, online_item in enumerate(online_list):
-        online_list[online_index]['type'] = 2
-        online_list[online_index]['time'] = list(ShopOnlineTime.objects.filter(online__id=online_item['id']).order_by('week').values(*get_model_field(ShopOnlineTime)).all())
-    online_offline_list = list(chain(offline_list, online_list))
-    
-    if len(online_offline_list) == 0:
-        data = {
-            'error_flg': True,
-        }
-        return JsonResponse( data, safe=False )
-
-    place_flg = False
-    if len(online_offline_list) > 1:
-        place_flg = True
-
-    member_query = Q(member=2)
-    if user.member_flg:
-        member_query.add(Q(member=1), Q.OR)
+    if request.POST.get('id'):
+        if ShopOffline.objects.filter(display_id=request.POST.get('id')).exists():
+            offline_list = list(ShopOffline.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopOffline)).all())
+            for offline_index, offline_item in enumerate(offline_list):
+                offline_list[offline_index]['type'] = 1
+                offline_list[offline_index]['time'] = list(ShopOfflineTime.objects.filter(offline__id=offline_item['id']).order_by('week').values(*get_model_field(ShopOfflineTime)).all())
+            online_offline_list = offline_list
+        if ShopOnline.objects.filter(display_id=request.POST.get('id')).exists():
+            online_list = list(ShopOnline.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopOnline)).all())
+            for online_index, online_item in enumerate(online_list):
+                online_list[online_index]['type'] = 2
+                online_list[online_index]['time'] = list(ShopOnlineTime.objects.filter(online__id=online_item['id']).order_by('week').values(*get_model_field(ShopOnlineTime)).all())
+            online_offline_list = online_list
     else:
-        member_query.add(Q(member=0), Q.OR)
+        offline_list = list(ShopOffline.objects.filter(shop=auth_login.shop).order_by('created_at').values(*get_model_field(ShopOffline)).all())
+        for offline_index, offline_item in enumerate(offline_list):
+            offline_list[offline_index]['type'] = 1
+            offline_list[offline_index]['time'] = list(ShopOfflineTime.objects.filter(offline__id=offline_item['id']).order_by('week').values(*get_model_field(ShopOfflineTime)).all())
+        online_list = list(ShopOnline.objects.filter(shop=auth_login.shop).order_by('created_at').values(*get_model_field(ShopOnline)).all())
+        for online_index, online_item in enumerate(online_list):
+            online_list[online_index]['type'] = 2
+            online_list[online_index]['time'] = list(ShopOnlineTime.objects.filter(online__id=online_item['id']).order_by('week').values(*get_model_field(ShopOnlineTime)).all())
+        online_offline_list = list(chain(offline_list, online_list))
 
-    course_flg = False
+    flow = None
+    if ShopFlow.objects.filter(shop=auth_login.shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).exists():
+        flow = ShopFlow.objects.filter(shop=auth_login.shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).first()
+    elif ShopFlow.objects.filter(shop=auth_login.shop, period_to__gte=datetime.datetime.now(), period_from__isnull=True, delete_flg=False).exists():
+        flow = ShopFlow.objects.filter(shop=auth_login.shop, period_to__gte=datetime.datetime.now(), period_from__isnull=True, delete_flg=False).first()
+    elif ShopFlow.objects.filter(shop=auth_login.shop, period_from__lte=datetime.datetime.now(), period_to__gte=datetime.datetime.now(), delete_flg=False).exists():
+        flow = ShopFlow.objects.filter(shop=auth_login.shop, period_from__lte=datetime.datetime.now(), period_to__gte=datetime.datetime.now(), delete_flg=False).first()
+        
     question_flg = False
     setting_list = list()
-    user_flow = UserFlow.objects.filter(user=user, end_flg=False).first()
-    if user_flow:
-        for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), member_query).order_by('number').all():
-            check_flow = UserFlow.objects.filter(user=user, flow_tab=flow_tab).first()
-            if not check_flow or not check_flow.end_flg:
-                for online_offline_item in online_offline_list:
-                    if online_offline_item['type'] == 1:
-                        setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
-                        for setting_item in setting:
-                            if ReserveOfflineFlowMenu.objects.filter(offline__id=setting_item['id'], flow=flow_tab.name).exists():
-                                if setting_item['course_flg']:
-                                    course_flg = True
-                                if setting_item['question']:
-                                    question_flg = True
-                                if not setting_item['id'] in end_offline_setting:
-                                    setting_list.append(setting_item)
-                    elif online_offline_item['type'] == 2:
-                        setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
-                        for setting_item in setting:
-                            if ReserveOnlineFlowMenu.objects.filter(online__id=setting_item['id'], flow=flow_tab.name).exists():
-                                if setting_item['course_flg']:
-                                    course_flg = True
-                                if setting_item['question']:
-                                    question_flg = True
-                                if not setting_item['id'] in end_online_setting:
-                                    setting_list.append(setting_item)
-
-    if place_flg:
-        if len(setting_list) > 0:
-            data = {
-                'offline_place': ReserveOfflinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOfflinePlace)).first(),
-                'online_place': ReserveOnlinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOnlinePlace)).first(),
-                'online_offline_list': online_offline_list,
-                'offline_list': offline_list,
-                'online_list': online_list,
-                'place_flg': place_flg,
-                'course_flg': course_flg,
-                'question_flg': question_flg,
-                'error_flg': False,
-            }
-        else:
-            data = {
-                'error_flg': True,
-            }
-        return JsonResponse( data, safe=False )
-
+    if flow:
+        for flow_tab in ShopFlowTab.objects.filter(Q(flow=flow), Q(Q(member=0)|Q(member=2))).order_by('number').all():
+            for online_offline_item in online_offline_list:
+                if online_offline_item['type'] == 1:
+                    setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
+                    for setting_item in setting:
+                        if ReserveOfflineFlowMenu.objects.filter(offline__id=setting_item['id'], flow=flow_tab.name).exists():
+                            if setting_item['question']:
+                                question_flg = True
+                            setting_list.append(setting_item)
+                elif online_offline_item['type'] == 2:
+                    setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOnlineSetting)).all())
+                    for setting_item in setting:
+                        if ReserveOnlineFlowMenu.objects.filter(online__id=setting_item['id'], flow=flow_tab.name).exists():
+                            if setting_item['question']:
+                                question_flg = True
+                            setting_list.append(setting_item)
+    
     online_offline = None
     for online_offline_item in online_offline_list:
         online_offline = online_offline_item
+        break
     setting = None
     for setting_item in setting_list:
         if not setting:
-            setting = setting_item
-
-    if course_flg:
-        if len(setting_list) > 0:
-            course_list = list()
-            if online_offline['type'] == 1:
-                course_list = list(ReserveOfflineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOfflineCourse)).all())
-            if online_offline['type'] == 2:
-                course_list = list(ReserveOnlineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOnlineCourse)).all())
-
-            data = {
-                'online_offline': online_offline,
-                'setting': setting,
-                'course_list': course_list,
-                'place_flg': place_flg,
-                'course_flg': course_flg,
-                'question_flg': question_flg,
-            }       
-        else:
-            data = {
-                'error_flg': True,
-            }                     
-        return JsonResponse( data, safe=False )
+            if request.POST.get('setting_id'):
+                if setting_item['display_id'] == int(request.POST.get('setting_id')):
+                    setting = setting_item
+            else:
+                setting = setting_item
     
-    current = datetime.datetime.now()
+    
+    if request.POST.get("year") and request.POST.get("month") and request.POST.get("day"):
+        current = datetime.datetime(int(request.POST.get("year")), int(request.POST.get("month")), int(request.POST.get("day")))
+    else:
+        current = datetime.datetime.now()
     prev = current - datetime.timedelta(days=7)
     next = current + datetime.timedelta(days=7)
 
@@ -149,16 +112,17 @@ def check(request):
 
     manager_list = list()
     facility_list = list()
-    if online_offline['type'] == 1:
-        for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline__id=setting['id']).all():
-            manager_list.append(manager_menu_item.manager)
-        for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline__id=setting['id']).order_by('facility__order').all():
-            facility_list.append(facility_menu_item.facility)
-    elif online_offline['type'] == 2:
-        for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online__id=setting['id']).all():
-            manager_list.append(manager_menu_item.manager)
-        for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online__id=setting['id']).order_by('facility__order').all():
-            facility_list.append(facility_menu_item.facility)
+    if setting:
+        if online_offline['type'] == 1:
+            for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline__id=setting['id']).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline__id=setting['id']).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
+        elif online_offline['type'] == 2:
+            for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online__id=setting['id']).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online__id=setting['id']).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
 
     time = {
         'from': None,
@@ -166,17 +130,23 @@ def check(request):
     }
     for day in days:
         if online_offline['type'] == 1:
-            reception = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).first()
+            reception = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).all()
         elif online_offline['type'] == 2:
-            reception = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).first()
-        if reception:
-            reception_from = reception.reception_from
-            reception_to = reception.reception_to
-            reception_flg = reception.reception_flg
-        else:
+            reception = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).all()
+        if len(reception) == 0:
             reception_from = None
             reception_to = None
             reception_flg = True
+        else:
+            for reception_item in reception:
+                if not reception_item.reception_flg:
+                    if not time['from'] or ( reception_item.reception_from and time['from'] > reception_item.reception_from ):
+                        time['from'] = reception_item.reception_from
+                    if not time['to'] or ( reception_item.reception_to and time['to'] < reception_item.reception_to ):
+                        time['to'] = reception_item.reception_to
+                reception_from = time['from']
+                reception_to = time['to']
+                reception_flg = reception_item.reception_flg
         
         week_day.append({
             'year': day.year,
@@ -193,8 +163,19 @@ def check(request):
             if not time['to'] or ( reception_to and time['to'] < reception_to ):
                 time['to'] = reception_to
     
+    course = None
+    if request.POST.get('course_id'):
+        if online_offline['type'] == 1:
+            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
+        elif online_offline['type'] == 2:
+            course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
+    if course:
+        course_data = course
+    else:
+        course_data = ReserveBasic.objects.filter(shop=auth_login.shop).first()
+    
+    reserve_data = ReserveBasic.objects.filter(shop=auth_login.shop).first()
     send_schedule = list()
-    reserve_data = ReserveBasic.objects.filter(shop=shop).first()
     reception_data = list()
     week_schedule = list()
     week_time = list()
@@ -218,7 +199,7 @@ def check(request):
             })
 
             for schedule_week_value in week_day:
-                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
+                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
                     date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                     if schedule.online:
                         reception_data.append({
@@ -286,8 +267,8 @@ def check(request):
                                                             if same_count > 0:
                                                                 people_number = people_number + 1
                                                                 facility_count = facility_count - 1
-                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count < people_count:
-                                                                    people_count = reception['facility'].count + facility_list[people_number].count
+                                                                if facility_list[people_number]:
+                                                                    people_count = people_count + facility_list[people_number].count
                                                             else:
                                                                 people_count = reception['facility'].count
                                                         count_flg = False
@@ -334,51 +315,51 @@ def check(request):
             })
     
     start_date = datetime.datetime.now()
-    if reserve_data:
-        if reserve_data.deadline == 1 and reserve_data.on_time and reserve_data.on_time != 0 and reserve_data.on_time != 1:
-            start_date = start_date + datetime.timedelta(minutes=reserve_data.on_time)
-        elif reserve_data.deadline == 2 and reserve_data.any_day and reserve_data.any_day != 0 and reserve_data.any_time and reserve_data.any_time != 0:
-            if reserve_data.method == 0 or reserve_data.method == 1:
-                if start_date.hour >= reserve_data.any_time:
-                    start_date = start_date + datetime.timedelta(days=reserve_data.any_day+1)
+    if course_data:
+        if course_data.deadline == 1 and course_data.on_time and course_data.on_time != 0 and course_data.on_time != 1:
+            start_date = start_date + datetime.timedelta(minutes=course_data.on_time)
+        elif course_data.deadline == 2 and course_data.any_day and course_data.any_day != 0 and course_data.any_time and course_data.any_time != 0:
+            if course_data.method == 0 or course_data.method == 1:
+                if start_date.hour >= course_data.any_time:
+                    start_date = start_date + datetime.timedelta(days=course_data.any_day+1)
                     start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
                 else:
-                    start_date = start_date + datetime.timedelta(days=reserve_data.any_day)
+                    start_date = start_date + datetime.timedelta(days=course_data.any_day)
                     start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
-            elif reserve_data.method == 2:
-                if reserve_data.business_mon_day or reserve_data.business_tue_day or reserve_data.business_wed_day or reserve_data.business_thu_day or reserve_data.business_fri_day or reserve_data.business_sat_day or reserve_data.business_sun_day:
+            elif course_data.method == 2:
+                if course_data.business_mon_day or course_data.business_tue_day or course_data.business_wed_day or course_data.business_thu_day or course_data.business_fri_day or course_data.business_sat_day or course_data.business_sun_day:
                     count_date = datetime.datetime.now()
-                    count = reserve_data.any_day
+                    count = course_data.any_day
                     while count > 0:
                         count_date = count_date + datetime.timedelta(days=1)
                         if count_date.weekday() == 0:
-                            if reserve_data.business_mon_day:
+                            if course_data.business_mon_day:
                                 count = count - 1
                         elif count_date.weekday() == 1:
-                            if reserve_data.business_tue_day:
+                            if course_data.business_tue_day:
                                 count = count - 1
                         elif count_date.weekday() == 2:
-                            if reserve_data.business_wed_day:
+                            if course_data.business_wed_day:
                                 count = count - 1
                         elif count_date.weekday() == 3:
-                            if reserve_data.business_thu_day:
+                            if course_data.business_thu_day:
                                 count = count - 1
                         elif count_date.weekday() == 4:
-                            if reserve_data.business_fri_day:
+                            if course_data.business_fri_day:
                                 count = count - 1
                         elif count_date.weekday() == 5:
-                            if reserve_data.business_sat_day:
+                            if course_data.business_sat_day:
                                 count = count - 1
                         elif count_date.weekday() == 6:
-                            if reserve_data.business_sun_day:
+                            if course_data.business_sun_day:
                                 count = count - 1
                     start_date = datetime.datetime(count_date.year, count_date.month, count_date.day, 0, 0, 0)
                 else:
-                    if start_date.hour >= reserve_data.any_time:
-                        start_date = start_date + datetime.timedelta(days=reserve_data.any_day+1)
+                    if start_date.hour >= course_data.any_time:
+                        start_date = start_date + datetime.timedelta(days=course_data.any_day+1)
                         start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
                     else:
-                        start_date = start_date + datetime.timedelta(days=reserve_data.any_day)
+                        start_date = start_date + datetime.timedelta(days=course_data.any_day)
                         start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
     
     start_date = {
@@ -389,41 +370,63 @@ def check(request):
         'minute': start_date.minute,
     }
     end_date = None
-    if reserve_data and reserve_data.start != 0:
-        end_date = datetime.datetime.now() +  datetime.timedelta(days=(reserve_data.start*7)+1)
+    if course_data and course_data.start != 0:
+        end_date = datetime.datetime.now() +  datetime.timedelta(days=(course_data.start*7)+1)
         end_date = {
             'year': end_date.year,
             'month': end_date.month,
             'day': end_date.day,
         }
-
-    if len(setting_list) > 0:
-        data = {
-            'online_offline': online_offline,
-            'setting': setting,
-            'setting_list': setting_list,
-            'year': current.year,
-            'start': str(days[0].month) + '月' + str(days[0].day) + '日',
-            'end': str(days[-1].month) + '月' + str(days[-1].day) + '日',
-            'prev_year': prev.year,
-            'prev_month': prev.month,
-            'prev_day': prev.day,
-            'next_year': next.year,
-            'next_month': next.month,
-            'next_day': next.day,
-            'week_day': week_day,
-            'week_time': week_time,
-            'week_schedule': send_schedule,
-            'start_date': start_date,
-            'end_date': end_date,
-            'reserve_data': ReserveBasic.objects.filter(shop=shop).values(*get_model_field(ReserveBasic)).first(),
-            'place_flg': place_flg,
-            'course_flg': course_flg,
-            'question_flg': question_flg,
-        }
-        return JsonResponse( data, safe=False )
+    
+    course = None
+    if request.POST.get('course_id'):
+        if online_offline['type'] == 1:
+            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).values(*get_model_field(ReserveOfflineCourse)).first()
+        elif online_offline['type'] == 2:
+            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).values(*get_model_field(ReserveOfflineCourse)).first()
+    if course:
+        reserve_data = course
     else:
-        data = {
-            'error_flg': True,
-        }
-        return JsonResponse( data, safe=False )
+        reserve_data = ReserveBasic.objects.filter(shop=auth_login.shop).values(*get_model_field(ReserveBasic)).first()
+
+    data = {
+        'online_offline': online_offline,
+        'setting': setting,
+        'setting_list': setting_list,
+        'year': current.year,
+        'start': str(days[0].month) + '月' + str(days[0].day) + '日',
+        'end': str(days[-1].month) + '月' + str(days[-1].day) + '日',
+        'prev_year': prev.year,
+        'prev_month': prev.month,
+        'prev_day': prev.day,
+        'next_year': next.year,
+        'next_month': next.month,
+        'next_day': next.day,
+        'week_day': week_day,
+        'week_time': week_time,
+        'week_schedule': send_schedule,
+        'start_date': start_date,
+        'end_date': end_date,
+        'reserve_data': reserve_data,
+        'question_flg': question_flg,
+    }
+    return JsonResponse( data, safe=False )
+
+def question(request):
+    if request.POST.get('setting_id'):
+        if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+            setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+            setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        question = None
+        if setting and setting.question:
+            question = ShopQuestion.objects.filter(id=setting.question.id).values(*get_model_field(ShopQuestion)).first()
+            question['item'] = list(ShopQuestionItem.objects.filter(question__id=question['id']).order_by('number').values(*get_model_field(ShopQuestionItem)).all())
+            for question_index, question_item in enumerate(question['item']):
+                if question_item['type'] == 99:
+                    question['item'][question_index]['choice'] = list(ShopQuestionItemChoice.objects.filter(question_item__id=question_item['id']).values(*get_model_field(ShopQuestionItemChoice)).all())
+            if question:
+                return JsonResponse( {'check': True, 'question': question, 'age_list': [i for i in range(101)]}, safe=False )
+        else:
+            return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )
+    return JsonResponse( {'check': False, 'question': None, 'age_list': [i for i in range(101)]}, safe=False )

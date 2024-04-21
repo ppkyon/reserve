@@ -1,0 +1,229 @@
+{% load static %}
+
+<div id="edit_step_modal" class="modal step-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            {% if user.profile.image %}
+                                <img src="{{ user.profile.image.url }}" class="user-image me-2">
+                            {% elif user.display_image %}
+                                <img src="{{ user.display_image }}" class="user-image me-2">
+                            {% else %}
+                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                            {% endif %}
+                            <div>
+                                {% if user.profile.name %}
+                                    {% if user.profile.age %}
+                                        <p class="title mb-0">{{ user.profile.name }} ({{ user.profile.age }})</p>
+                                    {% else %}
+                                        <p class="title mb-0">{{ user.profile.name }}</p>
+                                    {% endif %}
+                                {% else %}
+                                    {% if user.profile.age %}
+                                        <p class="title mb-0">{{ user.display_name }} ({{ user.profile.age }})</p>
+                                    {% else %}
+                                        <p class="title mb-0">{{ user.display_name }}</p>
+                                    {% endif %}
+                                {% endif %}
+                                <p class="sub mb-0" style="color: #707070;">#{{ user.profile.atelle_id }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block p-0">
+                <input type="hidden" id="save_step_check_form" value="{% url 'temp:save_step_check' %}">
+                <form id="save_step_form" action="{% url 'temp:save_step' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <input type="hidden" name="user_id" value="{{ user.display_id }}">
+                    <div class="table-area">
+                        <table class="table text-nowrap mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th>コース</th>
+                                    <th style="width: 160px;">日時</th>
+                                    <th style="width: 100px;">参加/不参加</th>
+                                    <th style="width: 120px;">担当者</th>
+                                    <th style="width: 120px;">設備</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user_flow in user.flow %}
+                                    <tr>
+                                        <td class="position-relative ps-3 pe-1" rowspan="2">
+                                            {% if forloop.first %}
+                                                {% if user_flow.end_flg %}
+                                                    <label class="process pass mb-0"></label>
+                                                {% else %}
+                                                    <label class="process mb-0"></label>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if user_flow.end_flg %}
+                                                    <label class="process any pass mb-0"></label>
+                                                {% else %}
+                                                    <label class="process any mb-0"></label>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="position-relative" rowspan="2">
+                                            {% for user_flow_schedule in user_flow.schedule %}
+                                                {% if forloop.last %}
+                                                    {% if user_flow_schedule.online %}
+                                                        <label class="online-offline-mark ps-2 pe-2 mb-0">オンライン</label>
+                                                        {% if user_flow_schedule.online_course %}
+                                                            <p class="content-course mb-0">{{ user_flow_schedule.online_course.title }}</p>
+                                                        {% else %}
+                                                            <p class="content-course mb-0">-</p>
+                                                        {% endif %}
+                                                    {% elif user_flow_schedule.offline %}
+                                                        <label class="online-offline-mark ps-2 pe-2 mb-0">対面</label>
+                                                        {% if user_flow_schedule.offline_course %}
+                                                            <p class="content-course mb-0">{{ user_flow_schedule.offline_course.title }}</p>
+                                                        {% else %}
+                                                            <p class="content-course mb-0">-</p>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <p class="content-title mb-0">{{ user_flow.name }}</p>
+                                                <input type="hidden" value="{{ user_flow.display_id }}">
+                                                <input type="hidden" value="{{ user_flow.schedule|length }}">
+                                            </div>
+                                            {% if user_flow.updated_at %}
+                                                <p class="content-date mb-0">{{ user_flow.updated_at|date:'Y年m月d日 H:i' }}</p>
+                                            {% else %}
+                                                <p class="content-date mb-0">{{ user_flow.created_at|date:'Y年m月d日 H:i' }}</p>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user_flow.schedule|length %}
+                                                {% for user_flow_schedule in user_flow.schedule %}
+                                                    {% if user_flow_schedule.date and user_flow_schedule.time %}
+                                                        {% if user_flow.end_flg %}
+                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date readonly w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}" readonly>
+                                                        {% else %}
+                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}">
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% if user_flow.end_flg %}
+                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="-" readonly>
+                                                        {% else %}
+                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date readonly w-100 ps-1" value="">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="-" readonly>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user_flow.schedule|length %}
+                                                {% for user_flow_schedule in user_flow.schedule %}
+                                                    {% if user_flow.end_flg %}
+                                                        <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                    {% else %}
+                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                            <input type="text" name="join_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.get_join_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                            <div class="dropdown-menu" style="max-height: 55px;">
+                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>
+                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user_flow.schedule|length %}
+                                                {% for user_flow_schedule in user_flow.schedule %}
+                                                    {% if user_flow.end_flg %}
+                                                        <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                    {% else %}
+                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                            <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                            <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
+                                                            <div class="dropdown-menu" style="max-height: 55px;">
+                                                                {% for manager_item in user_flow_schedule.manager_list %}
+                                                                    {% if forloop.first %}
+                                                                        <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
+                                                                    {% else %}
+                                                                        <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user_flow.schedule|length %}
+                                                {% for user_flow_schedule in user_flow.schedule %}
+                                                    {% if user_flow.end_flg %}
+                                                        <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                    {% else %}
+                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                            {% if user_flow_schedule.online_facility %}
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.online_facility.display_id }}">
+                                                            {% elif user_flow_schedule.offline_facility %}
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.offline_facility.display_id }}">
+                                                            {% else %}
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="hidden" value="">
+                                                            {% endif %}
+                                                            <div class="dropdown-menu" style="max-height: 55px;">
+                                                                {% for facility_item in user_flow_schedule.facility_list %}
+                                                                    {% if forloop.first %}
+                                                                        <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center">{{ facility_item.facility.name }}</button>
+                                                                    {% else %}
+                                                                        <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ facility_item.facility.name }}</button>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-0" colspan="4">
+                                            {% if user_flow.end_flg %}
+                                                <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text text-center readonly w-100" value="-" readonly>
+                                            {% else %}
+                                                <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text w-100" value="">
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center flex-nowrap">
+                {% if request.user.authority > 1 %}
+                    <button type="button" value="step" class="btn save-button">保存する</button>
+                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#save_check_modal"></button>
+                {% endif %}
+                <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>

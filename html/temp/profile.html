@@ -1,0 +1,107 @@
+{% load static %}
+
+<div class="profile-area pb-3 me-3">
+    <div class="top border-bottom mb-2 p-3 pt-2 pb-2">
+        <div class="d-flex align-items-center pt-1">
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" class="user-image me-2">
+            {% elif user.display_image %}
+                <img src="{{ user.display_image }}" class="user-image me-2">
+            {% else %}
+                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+            {% endif %}
+            <div style="width: 100px;">
+                {% if user.profile.name %}
+                    <p class="title mb-0">{{ user.profile.name }}</p>
+                {% else %}
+                    <p class="title mb-0">{{ user.display_name }}</p>
+                {% endif %}
+            </div>
+            {% if request.user.authority > 1 %}
+                <button type="button" class="btn ms-auto edit-button" data-bs-toggle="modal" data-bs-target="#edit_user_modal">個人情報編集</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">登録日</label>
+        <input type="text" class="input-text readonly ps-2" value="{{ user.created_at }}" readonly>
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">アトエルID</label>
+        {% if user.profile.atelle_id %}
+            <input type="text" value="#{{ user.profile.atelle_id }}" class="input-text readonly ps-2" readonly>
+        {% else %}
+            <input type="text" value="-" class="input-text readonly ps-2" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">氏名</label>
+        {% if user.profile.name %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.name }}" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.display_name }}" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">フリガナ</label>
+        {% if user.profile.name_kana %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.name_kana }}" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">生年月日</label>
+        {% if user.profile.birth %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.birth|date:'Y年m月d日' }}" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">年齢</label>
+        {% if user.profile.age %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.age }}歳" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">性別</label>
+        {% if user.profile.sex == 1 %}
+            <input type="text" class="input-text readonly ps-2" value="男性" readonly>
+        {% elif user.profile.sex == 2 %}
+            <input type="text" class="input-text readonly ps-2" value="女性" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center ps-2 pe-2 mb-2">
+        <label class="input-label mb-0">電話番号</label>
+        {% if user.profile.phone_number %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.phone_number }}" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0">メール</br>アドレス</label>
+        {% if user.profile.email %}
+            <input type="text" class="input-text readonly ps-2" value="{{ user.profile.email }}" readonly>
+        {% else %}
+            <input type="text" class="input-text readonly ps-2" value="-" readonly>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-between align-items-start border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0"># タグ</label>
+        <div class="tag-area">
+            {% for user_tag_item in user.tag %}
+                <label class="tag-label text-center p-1 me-1 mb-0">{{ user_tag_item.tag.name }}</label>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-start border-bottom ps-2 pe-2 pb-3 mb-3">
+        <label class="input-label mb-0">メモ</label>
+        <textarea class="input-textarea d-block ms-auto ps-2" readonly>{{ user.profile.memo|default:'' }}</textarea>
+    </div>
+</div>

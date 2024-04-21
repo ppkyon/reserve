@@ -1,0 +1,39 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/user/detail.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-start align-items-top">
+                    {% include 'temp/profile.html' %}
+                    <div class="detail-area">
+                        {% include 'temp/step.html' %}
+                        {% include 'temp/question.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'modal.html' %}
+        {% include 'temp/modal/user.html' %}
+        {% include 'temp/modal/step.html' %}
+        {% include 'temp/modal/question.html' %}
+        {% include 'tag/modal/tag.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/temp/detail/action.js' %}"></script>
+    <script src="{% static 'js/temp/detail/data.js' %}"></script>
+{% endblock %}

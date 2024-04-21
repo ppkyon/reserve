@@ -25,6 +25,7 @@ urlpatterns = [
     path('flow/', include('flow.urls')),
     path('head/', include('head.urls')),
     path('line/', include('line.urls')),
+    path('proxy/', include('proxy.urls')),
     path('question/', include('question.urls')),
     path('reception/', include('reception.urls')),
     path('reserve/', include('reserve.urls')),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
     path('tag/', include('tag.urls')),
+    path('temp/', include('temp.urls')),
     path('template/', include('template.urls')),
     path('user/', include('user.urls')),
 ]
