@@ -115,5 +115,4 @@ def member(request):
                 richmenu = None,
                 end_flg = False,
             )
-            break
     return JsonResponse( {}, safe=False )
