@@ -38,6 +38,10 @@ class DashboardView(ShopView):
             schedule.flow.user.flow = schedule.flow
             schedule.flow.user.schedule = schedule
             schedule.flow.user.reserve = get_reserve_date(schedule)
+
+            if schedule.number > 1:
+                schedule.flow.user.reserve = schedule.flow.user.reserve + ' → ' + get_reserve_date(UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1).first())
+
             context['new_reserve_list'].append(schedule.flow.user)
 
         context['after_reserve_list'] = list()
@@ -71,4 +75,5 @@ def get_reserve_date(schedule):
         week = '(土)'
     elif schedule.date.weekday() == 6:
         week = '(日)'
-    return str(date.month) + '/' + str(date.day) + week + ' ' + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
+    reserve_data = str(date.month) + '/' + str(date.day) + week + ' ' + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
+    return reserve_data
