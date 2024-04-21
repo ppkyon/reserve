@@ -48,18 +48,28 @@ def send(request):
     question = None
     if request.POST.get('question_id'):
         question = ShopQuestion.objects.filter(display_id=request.POST.get('question_id')).first()
-        user_question = UserQuestion.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, UserQuestion),
-            user = user,
-            question = question,
-            title = question.title,
-            name = question.name,
-            description =  question.description,
-            color = question.color,
-            count = question.count,
-        )
+        if UserQuestion.objects.filter(user=user, question=question).exists():
+            user_question = UserQuestion.objects.filter(user=user, question=question).first()
+            user_question.title = question.title
+            user_question.name = question.name
+            user_question.description =  question.description
+            user_question.color = question.color
+            user_question.count = question.count
+            user_question.save()
+        else:
+            user_question = UserQuestion.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserQuestion),
+                user = user,
+                question = question,
+                title = question.title,
+                name = question.name,
+                description =  question.description,
+                color = question.color,
+                count = question.count,
+            )
         
+        UserQuestionItem.objects.filter(user=user_question).all().delete()
         for shop_question_index, shop_question_item in enumerate(ShopQuestionItem.objects.filter(question=question).order_by('number').all()):
             if request.POST.get('type_'+str(shop_question_index+1)) == '1':
                 if request.POST.get('text_'+str(shop_question_index+1)):
@@ -737,35 +747,21 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
-            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
-            user_flow_schedule.number = 1
-            user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
-            user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
-            user_flow_schedule.join = 0
-            user_flow_schedule.offline = setting
-            user_flow_schedule.offline_course = course
-            user_flow_schedule.offline_facility = facility
-            user_flow_schedule.manager = manager
-            user_flow_schedule.question = question
-            user_flow_schedule.updated_at = datetime.datetime.now()
-            user_flow_schedule.save()
-        else:
-            UserFlowSchedule.objects.create(
-                id = str(uuid.uuid4()),
-                display_id = create_code(12, UserFlow),
-                flow = user_flow,
-                number = 1,
-                date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
-                time = request.POST.get('hour') + ':' + request.POST.get('minute'),
-                join = 0,
-                offline = setting,
-                offline_course = course,
-                offline_facility = facility,
-                manager = manager,
-                question = question,
-                updated_at = datetime.datetime.now()
-            )
+        UserFlowSchedule.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, UserFlow),
+            flow = user_flow,
+            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+            date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
+            time = request.POST.get('hour') + ':' + request.POST.get('minute'),
+            join = 0,
+            offline = setting,
+            offline_course = course,
+            offline_facility = facility,
+            manager = manager,
+            question = question,
+            updated_at = datetime.datetime.now()
+        )
 
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
@@ -881,35 +877,21 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
-            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
-            user_flow_schedule.number = 1
-            user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
-            user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
-            user_flow_schedule.join = 0
-            user_flow_schedule.online = setting
-            user_flow_schedule.online_course = course
-            user_flow_schedule.online_facility = facility
-            user_flow_schedule.manager = manager
-            user_flow_schedule.question = question
-            user_flow_schedule.updated_at = datetime.datetime.now()
-            user_flow_schedule.save()
-        else:
-            UserFlowSchedule.objects.create(
-                id = str(uuid.uuid4()),
-                display_id = create_code(12, UserFlow),
-                flow = user_flow,
-                number = 1,
-                date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
-                time = request.POST.get('hour') + ':' + request.POST.get('minute'),
-                join = 0,
-                online = setting,
-                online_course = course,
-                online_facility = facility,
-                manager = manager,
-                question = question,
-                updated_at = datetime.datetime.now()
-            )
+        UserFlowSchedule.objects.create(
+            id = str(uuid.uuid4()),
+            display_id = create_code(12, UserFlow),
+            flow = user_flow,
+            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+            date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day'),
+            time = request.POST.get('hour') + ':' + request.POST.get('minute'),
+            join = 0,
+            online = setting,
+            online_course = course,
+            online_facility = facility,
+            manager = manager,
+            question = question,
+            updated_at = datetime.datetime.now()
+        )
 
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():

@@ -9,6 +9,7 @@ from flow.models import UserFlow
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
 from tag.models import UserHashTag
+from user.models import LineUser
 
 import environ
 
@@ -80,6 +81,7 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
 
         image = None
         name = None
+        temp_flg = False
         if not self.request.user.is_anonymous:
             auth_login = AuthLogin.objects.filter(user=self.request.user).first()
             if auth_login:
@@ -88,10 +90,14 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                 if shop_profile:
                     image = shop_profile.shop_logo_image.url
                     name = shop_profile.shop_name
+
+            if LineUser.objects.filter(shop=shop, proxy_flg=True).exists():
+                temp_flg = True
         
         context['side'] = {
             'logo_image': image,
             'logo_name': name,
+            'temp_flg': temp_flg,
         }
         return context
 
@@ -111,6 +117,11 @@ class ShopView(ShopBaseView):
         return context
 
 class UserView(ShopBaseView):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+class TempView(ShopBaseView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         return context
@@ -335,13 +346,78 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                query_list = self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(sort.target, self.default_sort).distinct().all()
             if sort.sort == 2:
-                query_list = self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by('-'+sort.target, self.default_sort).distinct().all()
             else:
-                query_list = self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).distinct().all()
         else:
-            query_list = self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+            query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).distinct().all()
+
+        for query_index, query_item in enumerate(query_list):
+            query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
+            query_list[query_index].tag = UserHashTag.objects.filter(user=query_item).order_by('number').all()
+        return query_list
+
+    
+    def get_context_data(self, *args, **kwargs):
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        context = super().get_context_data(*args, **kwargs)
+        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if not sort:
+            if '-' in self.default_sort:
+                sort = {
+                    'target': self.default_sort.replace('-', ''),
+                    'sort': 2,
+                }
+            else:
+                sort = {
+                    'target': self.default_sort,
+                    'sort': 1,
+                }
+        
+        number = self.get_paginate_by(None)
+        count = self.get_queryset().count()
+        count_start = 1
+        if number > count:
+            count_end = count
+        else:
+            count_end = number
+        if count_end == 0:
+            count_start = 0
+        context['table'] = {
+            'number': self.get_paginate_by(None),
+            'sort': sort,
+            'count': count,
+            'count_start': count_start,
+            'count_end': count_end,
+        }
+        return context
+
+class TempBaseLisView(MultipleObjectMixin, ShopBaseView):
+    def get_paginate_by(self, queryset):
+        number = 5
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        table_number = TableNumber.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if table_number:
+            number = table_number.number
+        return number
+
+    def get_queryset(self):
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        query = Q()
+        
+        query_list = list()
+        sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        if sort:
+            if sort.sort == 1:
+                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(sort.target, self.default_sort).distinct().all()
+            if sort.sort == 2:
+                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by('-'+sort.target, self.default_sort).distinct().all()
+            else:
+                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).distinct().all()
+        else:
+            query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).distinct().all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
@@ -393,4 +469,7 @@ class ShopListView(MultipleObjectTemplateResponseMixin, BaseListView, ShopBaseLi
     pass
 
 class UserListView(MultipleObjectTemplateResponseMixin, BaseListView, UserBaseLisView):
+    pass
+
+class TempListView(MultipleObjectTemplateResponseMixin, BaseListView, TempBaseLisView):
     pass

@@ -94,52 +94,23 @@ class SimpleLoginView(LoginView):
 
     def get(self, request, **kwargs):
         if request.user.is_authenticated:
-            if request.user.head_flg:
-                return redirect('/head/shop/')
-            elif request.user.company_flg:
-                return redirect('/company/shop/')
-            elif request.user.status <= 1:
-                return redirect('/setting/')
-            else:
-                return redirect('/dashboard/')
+            return redirect('/proxy/')
         else:
             return render(self.request, self.template_name, {'title': self.title, 'site_name': env('SITE_NAME')})
     
     def get_success_url(self):
-        if self.request.user.head_flg:
-            return self.get_redirect_url() or resolve_url('head:company:index')
-        elif self.request.user.company_flg:
-            if AuthLogin.objects.filter(user=self.request.user).exists():
-                auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-                auth_login.company = self.request.user.company
-                auth_login.save()
-            else:
-                AuthLogin.objects.create(
-                    id = str(uuid.uuid4()),
-                    user = self.request.user,
-                    company = self.request.user.company,
-                )
-                
-            if self.request.user.status <= 1:
-                return self.get_redirect_url() or resolve_url('company:setting:index')
-            else:
-                return self.get_redirect_url() or resolve_url('company:shop:index')
+        if AuthLogin.objects.filter(user=self.request.user).exists():
+            auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+            auth_login.shop = self.request.user.shop
+            auth_login.save()
         else:
-            if AuthLogin.objects.filter(user=self.request.user).exists():
-                auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-                auth_login.shop = self.request.user.shop
-                auth_login.save()
-            else:
-                AuthLogin.objects.create(
-                    id = str(uuid.uuid4()),
-                    user = self.request.user,
-                    company = self.request.user.company,
-                    shop = self.request.user.shop,
-                )
-            if self.request.user.status <= 1:
-                return self.get_redirect_url() or resolve_url('setting:index')
-            else:
-                return self.get_redirect_url() or resolve_url('dashboard:index')
+            AuthLogin.objects.create(
+                id = str(uuid.uuid4()),
+                user = self.request.user,
+                company = self.request.user.company,
+                shop = self.request.user.shop,
+            )
+        return self.get_redirect_url() or resolve_url('proxy:index')
 
     def form_invalid(self, form):
         for error_message in form.errors.as_data():

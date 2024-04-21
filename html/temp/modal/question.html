@@ -1,0 +1,125 @@
+{% load static %}
+
+<input type="hidden" id="get_question_url" value="{% url 'temp:get_question' %}">
+<div id="edit_question_modal" class="modal question-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4 pb-4">
+                <div class="d-flex justify-content-end">
+                    <div class="pt-2">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block" style="max-height: 50vh; min-height: 50vh;">
+                <div class="row">
+                    <div class="col-12" style="overflow-y: scroll;">
+                        <div class="question-answer-area mt-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-block">
+                <div class="row border-bottom mt-1 mb-3">
+                    <div class="col-10 offset-1">
+                        <form id="save_question_form" action="{% url 'temp:save_question' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id">
+                            <div class="d-flex justify-content-start align-items-start mb-3">
+                                <p class="memo-title mt-2 mb-0" style="width: 50px;">メモ</p>
+                                <textarea name="memo" class="input-textarea d-block w-100 ms-auto" style="height: 100px;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-button text-center">
+                    <button type="button" class="btn yes-button me-3">保存する</button>
+                    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#edit_question_check_modal"></button>
+                    <button type="button" class="btn no-button " data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="edit_question_check_modal" class="modal up-modal fade" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="content-area" style="opacity: 1;">
+                    <div class="row text-center mb-2">
+                        <div class="col-12">
+                            <div class="mx-auto">
+                                <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                            </div>
+                            <div class="ps-5 pe-5">
+                                <p class="modal-title mb-1">保存してもよろしいですか？</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col-5 offset-1">
+                            <button type="button" class="btn yes-button">保存する</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#edit_question_success_modal"></button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#edit_question_error_modal"></button>
+                        </div>
+                        <div class="col-5">
+                            <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="loader-area" style="opacity: 0;">
+                    <div class="modal-loader-area d-flex justify-content-center align-items-center">
+                        <div class="form-loader spinner-border">
+                            <span class="visually-hidden">評価中...</span>
+                        </div>
+                        <p class="h5 fw-bold ms-3 mb-0">評価中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="edit_question_success_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">保存しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="edit_question_error_modal" class="modal up-modal modal-reload fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">保存に失敗しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

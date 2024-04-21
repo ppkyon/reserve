@@ -203,31 +203,32 @@ def date(request):
 
             for schedule_week_value in week_day:
                 for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
-                    date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
-                    if schedule.online:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.online.time),
-                            'setting': schedule.online,
-                            'course': schedule.online_course,
-                            'facility': schedule.online_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': schedule.meeting,
-                            'end_flg': schedule.flow.end_flg,
-                        })
-                    elif schedule.offline:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.offline.time),
-                            'setting': schedule.offline,
-                            'course': schedule.offline_course,
-                            'facility': schedule.offline_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': None,
-                            'end_flg': schedule.flow.end_flg,
-                        })
+                    if schedule.join == 0 or schedule.join == 1:
+                        date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                        if schedule.online:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.online.time),
+                                'setting': schedule.online,
+                                'course': schedule.online_course,
+                                'facility': schedule.online_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': schedule.meeting,
+                                'end_flg': schedule.flow.end_flg,
+                            })
+                        elif schedule.offline:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.offline.time),
+                                'setting': schedule.offline,
+                                'course': schedule.offline_course,
+                                'facility': schedule.offline_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': None,
+                                'end_flg': schedule.flow.end_flg,
+                            })
             
             send_week = list()
             for schedule_week_value in week_day:
@@ -270,8 +271,8 @@ def date(request):
                                                             if same_count > 0:
                                                                 people_number = people_number + 1
                                                                 facility_count = facility_count - 1
-                                                                if facility_list[people_number]:
-                                                                    people_count = people_count + facility_list[people_number].count
+                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count < people_count:
+                                                                    people_count = reception['facility'].count + facility_list[people_number].count
                                                             else:
                                                                 people_count = reception['facility'].count
                                                         count_flg = False

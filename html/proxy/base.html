@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+        <title>{{ title }}</title>
+
+        <link href="{% static 'img/favicon.jpg' %}" rel="icon" type="image/x-icon">
+
+        {% include './css.html' %}
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="main m-3">
+            <input type="hidden" id="env_static_url" value="{{ env.static_url }}">
+            <input type="hidden" id="env_media_url" value="{{ env.media_url }}">
+            <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% include './js.html' %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

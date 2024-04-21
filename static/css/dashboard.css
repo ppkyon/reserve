@@ -20,6 +20,16 @@
     width: 100%;
     color: #FFF;
     font-size: 0.7rem;
+    background-color: #46A342;
+    border-radius: 3px;
+    box-shadow: 0 3px 5px rgb(0 0 0 / 20%);
+    transition: all .4s ease-in-out;
+}
+.table-area tbody .action-button,
+.mini-table-area tbody .action-button {
+    width: 100%;
+    color: #FFF;
+    font-size: 0.7rem;
     background-color: #3b86ff;
     border-radius: 3px;
     box-shadow: 0 3px 5px rgb(0 0 0 / 20%);

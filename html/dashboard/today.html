@@ -16,8 +16,9 @@
                         <tr>
                             <th style="width: 30px;">#</th>
                             {% include 'table/sort.html' with text='予約者氏名' target='name' %}
-                            {% include 'table/sort.html' with text='予約日時' target='date' width='275' %}
-                            {% include 'table/sort.html' with text='メニュー' target='setting' width='180' %}
+                            {% include 'table/sort.html' with text='予約日時' target='date' width='300' %}
+                            {% include 'table/sort.html' with text='メニュー' target='setting' width='150' %}
+                            {% include 'table/sort.html' with text='LINE登録' target='line' width='120' %}
                             <th style="width: 120px;">受付チェック</th>
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
@@ -63,7 +64,18 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <button type="button" class="btn check-button">確認</button>
+                                    {% if today_reserve_item.proxy_flg %}
+                                        <p class="content-title mb-0">未登録</p>
+                                    {% else %}
+                                        <p class="content-title mb-0">登録済み</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if today_reserve_item.proxy_flg %}
+                                        <a href="{% url 'temp:detail' %}?id={{ today_reserve_item.display_id }}" class="btn action-button">対応</a>
+                                    {% else %}
+                                        <a href="{% url 'user:detail' %}?id={{ today_reserve_item.display_id }}" class="btn action-button">対応</a>
+                                    {% endif %}
                                 </td>
                                 <td class="text-center">
                                     <div class="dropdown d-inline-block p-0">

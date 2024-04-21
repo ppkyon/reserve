@@ -64,10 +64,12 @@
                         <td>
                             {% if user_flow.schedule|length > 0 %}
                                 {% for user_flow_schedule in user_flow.schedule %}
-                                    {% if user_flow_schedule.date and user_flow_schedule.time %}
-                                        <input type="text" class="input-text text-center readonly w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}" readonly>
-                                    {% else %}
-                                        <input type="text" class="input-text text-center readonly w-100 ps-1" value="-" readonly>
+                                    {% if forloop.last %}
+                                        {% if user_flow_schedule.date and user_flow_schedule.time %}
+                                            <input type="text" class="input-text text-center readonly w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}" readonly>
+                                        {% else %}
+                                            <input type="text" class="input-text text-center readonly w-100 ps-1" value="-" readonly>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
@@ -77,7 +79,9 @@
                         <td>
                             {% if user_flow.schedule|length > 0 %}
                                 {% for user_flow_schedule in user_flow.schedule %}
-                                    <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
+                                    {% if forloop.last %}
+                                        <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
                                 <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
@@ -86,14 +90,16 @@
                         <td class="text-center">
                             {% if user_flow.schedule|length > 0 %}
                                 {% for user_flow_schedule in user_flow.schedule %}
-                                    {% if user_flow_schedule.manager.manager_profile %}
-                                        {% if user_flow_schedule.manager.manager_profile.image %}
-                                            <img src="{{ user_flow_schedule.manager.manager_profile.image.url }}" class="user-image me-2">
+                                    {% if forloop.last %}
+                                        {% if user_flow_schedule.manager.manager_profile %}
+                                            {% if user_flow_schedule.manager.manager_profile.image %}
+                                                <img src="{{ user_flow_schedule.manager.manager_profile.image.url }}" class="user-image me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/manager-none.png' %}" class="user-image me-2">
+                                            {% endif %}
                                         {% else %}
                                             <img src="{% static 'img/manager-none.png' %}" class="user-image me-2">
                                         {% endif %}
-                                    {% else %}
-                                        <img src="{% static 'img/manager-none.png' %}" class="user-image me-2">
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -101,12 +107,14 @@
                         <td>
                             {% if user_flow.schedule|length > 0 %}
                                 {% for user_flow_schedule in user_flow.schedule %}
-                                    {% if user_flow_schedule.online_facility %}
-                                        <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.online_facility.name }}" readonly>
-                                    {% elif user_flow_schedule.offline_facility %}
-                                        <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.offline_facility.name }}" readonly>
-                                    {% else %}
-                                        <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                    {% if forloop.last %}
+                                        {% if user_flow_schedule.online_facility %}
+                                            <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.online_facility.name }}" readonly>
+                                        {% elif user_flow_schedule.offline_facility %}
+                                            <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.offline_facility.name }}" readonly>
+                                        {% else %}
+                                            <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             {% else %}

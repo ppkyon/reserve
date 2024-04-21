@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cron',
     'fixture',
     'flow',
+    'proxy',
     'question',
     'reception',
     'reserve',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'table',
     'tag',
     'talk',
+    'temp',
     'template',
     'user',
     

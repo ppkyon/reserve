@@ -1,4 +1,40 @@
 $( function() {
+    $( document ).on( 'click', '.new-area .check-button', function () {
+        $( '#check_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#check_check_modal .yes-button', function () {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#check_schedule_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#check_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#check_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'check' );
+
     $( document ).on( 'click', '.table tbody .dropdown-preview-button', function () {
         var target = $( this );
         var form_data = new FormData();
