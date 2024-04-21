@@ -62,8 +62,12 @@ $( function() {
                 var id = $( this ).find( '.content-title' ).next().val();
                 var count = $( this ).find( '.content-title' ).next().next().val();
                 for ( var i = 1; i <= count; i++ ) {
-                    form_data.append( 'date_' + id + '_' + i, $( '#save_step_form [name=date_' + id + '_' + i + ']' ).val() );
-                    form_data.append( 'join_' + id + '_' + i, $( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val() );
+                    if ( check_empty($( '#save_step_form [name=date_' + id + '_' + i + ']' ).val()) ) {
+                        form_data.append( 'date_' + id + '_' + i, $( '#save_step_form [name=date_' + id + '_' + i + ']' ).val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'join_' + id + '_' + i, $( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val() );
+                    }
                 }
                 form_data.append( 'memo_' + id, $( '#save_step_form [name=memo_' + id + ']' ).val() );
             }

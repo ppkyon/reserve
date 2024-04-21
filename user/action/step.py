@@ -28,8 +28,9 @@ def save(request):
                 join = 0
                 if request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     join = int(request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)))
-                user_flow_schedule.join = join
-                user_flow_schedule.save()
+                if user_flow_schedule.join == 0:
+                    user_flow_schedule.join = join
+                    user_flow_schedule.save()
 
                 if join == 1:
                     flow_flg = False

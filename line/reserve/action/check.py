@@ -26,11 +26,12 @@ def check(request):
     end_offline_setting = list()
     end_online_setting = list()
     for user_flow in UserFlow.objects.filter(user=user).all():
-        for user_flow in UserFlowSchedule.objects.filter(Q(flow=user_flow), Q(Q(join=0)|Q(join=1))).order_by('number').all():
-            if user_flow.offline:
-                end_offline_setting.append(user_flow.offline.id)
-            if user_flow.online:
-                end_online_setting.append(user_flow.online.id)
+        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow).count()).first()
+        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ):
+            if user_flow_schedule.offline:
+                end_offline_setting.append(user_flow_schedule.offline.id)
+            if user_flow_schedule.online:
+                end_online_setting.append(user_flow_schedule.online.id)
 
     offline_list = list(ShopOffline.objects.filter(shop=shop).order_by('created_at').values(*get_model_field(ShopOffline)).all())
     for offline_index, offline_item in enumerate(offline_list):
@@ -219,31 +220,32 @@ def check(request):
 
             for schedule_week_value in week_day:
                 for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
-                    date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
-                    if schedule.online:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.online.time),
-                            'setting': schedule.online,
-                            'course': schedule.online_course,
-                            'facility': schedule.online_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': schedule.meeting,
-                            'end_flg': schedule.flow.end_flg,
-                        })
-                    elif schedule.offline:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.offline.time),
-                            'setting': schedule.offline,
-                            'course': schedule.offline_course,
-                            'facility': schedule.offline_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': None,
-                            'end_flg': schedule.flow.end_flg,
-                        })
+                    if schedule.join == 0 or schedule.join == 1:
+                        date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                        if schedule.online:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.online.time),
+                                'setting': schedule.online,
+                                'course': schedule.online_course,
+                                'facility': schedule.online_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': schedule.meeting,
+                                'end_flg': schedule.flow.end_flg,
+                            })
+                        elif schedule.offline:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.offline.time),
+                                'setting': schedule.offline,
+                                'course': schedule.offline_course,
+                                'facility': schedule.offline_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': None,
+                                'end_flg': schedule.flow.end_flg,
+                            })
             
             send_week = list()
             for schedule_week_value in week_day:
