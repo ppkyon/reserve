@@ -1,5 +1,6 @@
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db.models import Q
 from django.http import JsonResponse
 
 from PIL import Image
@@ -649,6 +650,21 @@ def send(request):
             richmenu = None,
             end_flg = False,
         )
+
+        for flow_tab in ShopFlowTab.objects.filter(Q(flow=target_flow_tab.flow), Q(Q(member=0)|Q(member=2))).all():
+            if flow_tab.number > user_flow.flow_tab.number:
+                UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = flow_tab.flow,
+                    flow_tab = flow_tab,
+                    flow_item = None,
+                    name = flow_tab.name,
+                    richmenu = None,
+                    end_flg = False,
+                )
         
         schedule_list = list()
         for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).all():
@@ -770,6 +786,21 @@ def send(request):
             richmenu = None,
             end_flg = False,
         )
+
+        for flow_tab in ShopFlowTab.objects.filter(Q(flow=target_flow_tab.flow), Q(Q(member=0)|Q(member=2))).all():
+            if flow_tab.number > user_flow.flow_tab.number:
+                UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = flow_tab.flow,
+                    flow_tab = flow_tab,
+                    flow_item = None,
+                    name = flow_tab.name,
+                    richmenu = None,
+                    end_flg = False,
+                )
 
         schedule_list = list()
         for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).all():
