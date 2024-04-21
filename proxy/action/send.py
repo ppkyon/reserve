@@ -4,18 +4,16 @@ from django.http import JsonResponse
 
 from PIL import Image
 
-from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowSchedule
+from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reserve.models import (
     ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
-from richmenu.models import UserRichMenu
 from sign.models import AuthLogin
 from user.models import LineUser, UserProfile
 
 from common import create_code
-from line.action.richmenu import create_rich_menu, delete_rich_menu
 
 import base64
 import cv2
