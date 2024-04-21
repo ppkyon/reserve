@@ -16,8 +16,9 @@
                         <tr>
                             <th style="width: 30px;">#</th>
                             {% include 'table/sort.html' with text='予約者氏名' target='name' %}
-                            {% include 'table/sort.html' with text='予約日時' target='date' width='275' %}
-                            {% include 'table/sort.html' with text='メニュー' target='setting' width='180' %}
+                            {% include 'table/sort.html' with text='予約日時' target='date' width='300' %}
+                            {% include 'table/sort.html' with text='メニュー' target='setting' width='150' %}
+                            {% include 'table/sort.html' with text='LINE登録' target='line' width='120' %}
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
                     </thead>
@@ -59,6 +60,13 @@
                                         <p class="content-title mb-0">{{ after_reserve_item.schedule.offline.name }}</p>
                                     {% elif after_reserve_item.schedule.online %}
                                         <p class="content-title mb-0">{{ after_reserve_item.schedule.online.name }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if after_reserve_item.proxy_flg %}
+                                        <p class="content-title mb-0">未登録</p>
+                                    {% else %}
+                                        <p class="content-title mb-0">登録済み</p>
                                     {% endif %}
                                 </td>
                                 <td class="text-center">
