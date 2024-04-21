@@ -48,18 +48,28 @@ def send(request):
     question = None
     if request.POST.get('question_id'):
         question = ShopQuestion.objects.filter(display_id=request.POST.get('question_id')).first()
-        user_question = UserQuestion.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, UserQuestion),
-            user = user,
-            question = question,
-            title = question.title,
-            name = question.name,
-            description =  question.description,
-            color = question.color,
-            count = question.count,
-        )
+        if UserQuestion.objects.filter(user=user, question=question).exists():
+            user_question = UserQuestion.objects.filter(user=user, question=question).first()
+            user_question.title = question.title
+            user_question.name = question.name
+            user_question.description =  question.description
+            user_question.color = question.color
+            user_question.count = question.count
+            user_question.save()
+        else:
+            user_question = UserQuestion.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, UserQuestion),
+                user = user,
+                question = question,
+                title = question.title,
+                name = question.name,
+                description =  question.description,
+                color = question.color,
+                count = question.count,
+            )
         
+        UserQuestionItem.objects.filter(user=user_question).all().delete()
         for shop_question_index, shop_question_item in enumerate(ShopQuestionItem.objects.filter(question=question).order_by('number').all()):
             if request.POST.get('type_'+str(shop_question_index+1)) == '1':
                 if request.POST.get('text_'+str(shop_question_index+1)):
