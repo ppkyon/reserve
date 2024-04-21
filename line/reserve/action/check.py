@@ -26,7 +26,7 @@ def check(request):
     end_offline_setting = list()
     end_online_setting = list()
     for user_flow in UserFlow.objects.filter(user=user).all():
-        for user_flow in UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').all():
+        for user_flow in UserFlowSchedule.objects.filter(Q(flow=user_flow), Q(Q(join=0)|Q(join=1))).order_by('number').all():
             if user_flow.offline:
                 end_offline_setting.append(user_flow.offline.id)
             if user_flow.online:

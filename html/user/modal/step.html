@@ -105,17 +105,19 @@
                                         <td>
                                             {% if user_flow.schedule|length %}
                                                 {% for user_flow_schedule in user_flow.schedule %}
-                                                    {% if user_flow_schedule.date and user_flow_schedule.time %}
-                                                        {% if user_flow.end_flg %}
-                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}" readonly>
+                                                    {% if forloop.last %}
+                                                        {% if user_flow_schedule.date and user_flow_schedule.time %}
+                                                            {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
+                                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}" readonly>
+                                                            {% else %}
+                                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}">
+                                                            {% endif %}
                                                         {% else %}
-                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date w-100 ps-1" value="{{ user_flow_schedule.date|date:'Y/m/d' }} {{ user_flow_schedule.time|date:'H:i' }}">
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {% if user_flow.end_flg %}
-                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="-" readonly>
-                                                        {% else %}
-                                                            <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date readonly w-100 ps-1" value="">
+                                                            {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
+                                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="-" readonly>
+                                                            {% else %}
+                                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text input-date readonly w-100 ps-1" value="">
+                                                            {% endif %}
                                                         {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
@@ -126,23 +128,25 @@
                                         <td>
                                             {% if user_flow.schedule|length %}
                                                 {% for user_flow_schedule in user_flow.schedule %}
-                                                    {% if user_flow.end_flg %}
-                                                        {% if user_flow_schedule.join %}
-                                                            <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                    {% if forloop.last %}
+                                                        {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
+                                                            {% if user_flow_schedule.join %}
+                                                                <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                            {% else %}
+                                                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                                <input type="hidden">
+                                                            {% endif %}
                                                         {% else %}
-                                                            <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
-                                                            <input type="hidden">
-                                                        {% endif %}
-                                                    {% else %}
-                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
-                                                            <input type="text" name="join_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.get_join_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.join }}">
-                                                            <div class="dropdown-menu" style="max-height: 55px;">
-                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>
-                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>
+                                                            <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                                <input type="text" name="join_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.get_join_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                                <div class="dropdown-menu" style="max-height: 55px;">
+                                                                    <button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>
+                                                                    <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
@@ -152,28 +156,30 @@
                                         <td>
                                             {% if user_flow.schedule|length %}
                                                 {% for user_flow_schedule in user_flow.schedule %}
-                                                    {% if user_flow.end_flg %}
-                                                        {% if user_flow_schedule.manager %}
-                                                            <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
+                                                    {% if forloop.last %}
+                                                        {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
+                                                            {% if user_flow_schedule.manager %}
+                                                                <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
+                                                            {% else %}
+                                                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                                <input type="hidden">
+                                                            {% endif %}
                                                         {% else %}
-                                                            <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
-                                                            <input type="hidden">
-                                                        {% endif %}
-                                                    {% else %}
-                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
-                                                            <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
-                                                            <div class="dropdown-menu" style="max-height: 55px;">
-                                                                {% for manager_item in user_flow_schedule.manager_list %}
-                                                                    {% if forloop.first %}
-                                                                        <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
-                                                                    {% else %}
-                                                                        <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
-                                                                    {% endif %}
-                                                                {% endfor %}
+                                                            <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                                <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
+                                                                <div class="dropdown-menu" style="max-height: 55px;">
+                                                                    {% for manager_item in user_flow_schedule.manager_list %}
+                                                                        {% if forloop.first %}
+                                                                            <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
+                                                                        {% else %}
+                                                                            <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
@@ -183,39 +189,41 @@
                                         <td>
                                             {% if user_flow.schedule|length %}
                                                 {% for user_flow_schedule in user_flow.schedule %}
-                                                    {% if user_flow.end_flg %}
-                                                        {% if user_flow_schedule.online_facility %}
-                                                            <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select w-100 readonly ps-2 pe-2" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.online_facility.display_id }}">
-                                                        {% elif user_flow_schedule.offline_facility %}
-                                                            <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select w-100 readonly ps-2 pe-2" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.offline_facility.display_id }}">
-                                                        {% else %}
-                                                            <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="-" class="input-text input-select w-100 readonly ps-2 pe-2"  readonly>
-                                                            <input type="hidden" value="">
-                                                        {% endif %}
-                                                    {% else %}
-                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                    {% if forloop.last %}
+                                                        {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
                                                             {% if user_flow_schedule.online_facility %}
-                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select w-100 readonly ps-2 pe-2" readonly>
                                                                 <input type="hidden" value="{{ user_flow_schedule.online_facility.display_id }}">
                                                             {% elif user_flow_schedule.offline_facility %}
-                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select w-100 readonly ps-2 pe-2" readonly>
                                                                 <input type="hidden" value="{{ user_flow_schedule.offline_facility.display_id }}">
                                                             {% else %}
-                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="-" class="input-text input-select w-100 readonly ps-2 pe-2"  readonly>
                                                                 <input type="hidden" value="">
                                                             {% endif %}
-                                                            <div class="dropdown-menu" style="max-height: 55px;">
-                                                                {% for facility_item in user_flow_schedule.facility_list %}
-                                                                    {% if forloop.first %}
-                                                                        <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center">{{ facility_item.facility.name }}</button>
-                                                                    {% else %}
-                                                                        <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ facility_item.facility.name }}</button>
-                                                                    {% endif %}
-                                                                {% endfor %}
+                                                        {% else %}
+                                                            <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                                {% if user_flow_schedule.online_facility %}
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="hidden" value="{{ user_flow_schedule.online_facility.display_id }}">
+                                                                {% elif user_flow_schedule.offline_facility %}
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="hidden" value="{{ user_flow_schedule.offline_facility.display_id }}">
+                                                                {% else %}
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="hidden" value="">
+                                                                {% endif %}
+                                                                <div class="dropdown-menu" style="max-height: 55px;">
+                                                                    {% for facility_item in user_flow_schedule.facility_list %}
+                                                                        {% if forloop.first %}
+                                                                            <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center">{{ facility_item.facility.name }}</button>
+                                                                        {% else %}
+                                                                            <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ facility_item.facility.name }}</button>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
@@ -225,7 +233,7 @@
                                     </tr>
                                     <tr>
                                         <td class="pt-0" colspan="4">
-                                            {% if user_flow.end_flg %}
+                                            {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
                                                 <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text text-center readonly w-100" value="-" readonly>
                                             {% else %}
                                                 <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text w-100" value="">
