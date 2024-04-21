@@ -71,7 +71,8 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <button type="button" class="btn check-button">確認</button>
+                                    <button type="button" value="{{ new_reserve_item.schedule.display_id }}" class="btn check-button">確認</button>
+                                    <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#check_check_modal"></button>
                                 </td>
                                 <td class="text-center">
                                     <div class="dropdown d-inline-block p-0">
