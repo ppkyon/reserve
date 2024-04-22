@@ -377,3 +377,23 @@ def get_all(request):
             template_list[template_index]['item'] = list(ShopTemplateCardTypeImage.objects.filter(template_id=template_item['id']).values(*get_model_field(ShopTemplateCardTypeImage)).all())
         template_list[template_index]['more'] = ShopTemplateCardTypeMore.objects.filter(template_id=template_item['id']).values(*get_model_field(ShopTemplateCardTypeMore)).first()
     return JsonResponse( template_list, safe=False )
+
+def preview(request):
+    template = ShopTemplateCardType.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopTemplateCardType)).first()
+    if template['type'] == 1:
+        template['item'] = list(ShopTemplateCardTypeAnnounce.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypeAnnounce)).all())
+        for content_index, content_item in enumerate(template['item']):
+            template['item'][content_index]['text'] = list(ShopTemplateCardTypeAnnounceText.objects.filter(card_type__id=content_item['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypeAnnounceText)).all())
+            template['item'][content_index]['action'] = list(ShopTemplateCardTypeAnnounceAction.objects.filter(card_type__id=content_item['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypeAnnounceAction)).all())
+        template['more'] = ShopTemplateCardTypeMore.objects.filter(template__id=template['id']).values(*get_model_field(ShopTemplateCardTypeMore)).first()
+    elif template['type'] == 2:
+        template['item'] = list(ShopTemplateCardTypeLocation.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypeLocation)).all())
+        template['more'] = ShopTemplateCardTypeMore.objects.filter(template__id=template['id']).values(*get_model_field(ShopTemplateCardTypeMore)).first()
+    elif template['type'] == 3:
+        template['item'] = list(ShopTemplateCardTypePerson.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypePerson)).all())
+        template['more'] = ShopTemplateCardTypeMore.objects.filter(template__id=template['id']).values(*get_model_field(ShopTemplateCardTypeMore)).first()
+    elif template['type'] == 4:
+        template['item'] = list(ShopTemplateCardTypeImage.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(ShopTemplateCardTypeImage)).all())
+        template['more'] = ShopTemplateCardTypeMore.objects.filter(template__id=template['id']).values(*get_model_field(ShopTemplateCardTypeMore)).first()
+
+    return JsonResponse( template, safe=False )

@@ -28,6 +28,7 @@ urlpatterns = [
     path('text/paging/', text.paging, name='paging_text'),
     path('text/get/', text.get, name='get_text'),
     path('text/all/get/', text.get_all, name='get_all_text'),
+    path('text/preview/', text.preview, name='preview_text'),
 
     path('video/save/', video.save, name='save_video'),
     path('video/save/check/', video.save_check, name='save_video_check'),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('video/paging/', video.paging, name='paging_video'),
     path('video/get/', video.get, name='get_video'),
     path('video/all/get/', video.get_all, name='get_all_video'),
+    path('video/preview/', video.preview, name='preview_video'),
     
     path('richmessage/save/', richmessage.save, name='save_richmessage'),
     path('richmessage/save/check/', richmessage.save_check, name='save_richmessage_check'),
@@ -48,6 +50,7 @@ urlpatterns = [
     path('richmessage/paging/', richmessage.paging, name='paging_richmessage'),
     path('richmessage/get/', richmessage.get, name='get_richmessage'),
     path('richmessage/all/get/', richmessage.get_all, name='get_all_richmessage'),
+    path('richmessage/preview/', richmessage.preview, name='preview_richmessage'),
     
     path('richvideo/save/', richvideo.save, name='save_richvideo'),
     path('richvideo/save/check/', richvideo.save_check, name='save_richvideo_check'),
@@ -58,6 +61,7 @@ urlpatterns = [
     path('richvideo/paging/', richvideo.paging, name='paging_richvideo'),
     path('richvideo/get/', richvideo.get, name='get_richvideo'),
     path('richvideo/all/get/', richvideo.get_all, name='get_all_richvideo'),
+    path('richvideo/preview/', richvideo.preview, name='preview_richvideo'),
     
     path('cardtype/save/', cardtype.save, name='save_cardtype'),
     path('cardtype/save/check/', cardtype.save_check, name='save_cardtype_check'),
@@ -68,6 +72,7 @@ urlpatterns = [
     path('cardtype/paging/', cardtype.paging, name='paging_cardtype'),
     path('cardtype/get/', cardtype.get, name='get_cardtype'),
     path('cardtype/all/get/', cardtype.get_all, name='get_all_cardtype'),
+    path('cardtype/preview/', cardtype.preview, name='preview_cardtype'),
     
     path('greeting/save/', greeting.save, name='save_greeting'),
     path('greeting/save/check/', greeting.save_check, name='save_greeting_check'),

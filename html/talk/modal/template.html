@@ -1,0 +1,37 @@
+{% load static %}
+
+<input type="hidden" id="send_template_url" value="{% url 'talk:send_template' %}">
+<div id="template_check_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="content-area" style="opacity: 1;">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <div class="ps-3 pe-3">
+                                <p class="modal-title mb-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-3">
+                        <div class="col-5 offset-1">
+                            <button type="button" class="btn yes-button">送信</button>
+                            <input type="hidden" value="">
+                        </div>
+                        <div class="col-5">
+                            <button type="button" class="btn no-button">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="loader-area" style="opacity: 0;">
+                    <div class="modal-loader-area d-flex justify-content-center align-items-center">
+                        <div class="form-loader spinner-border">
+                            <span class="visually-hidden">送信中...</span>
+                        </div>
+                        <p class="h5 fw-bold ms-3 mb-0">送信中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

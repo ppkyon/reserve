@@ -48,6 +48,12 @@ def create_expiration_date(hours):
 
 
 
+def display_time(time):
+    if '前' in time.split(',')[0]:
+        return time.split(',')[0]
+    else:
+        return time.split(',')[0] + '前'
+
 def display_textarea_replace( text ):
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1">', '【応募者の名前】' )
     text = text.replace( '<img src="' + settings.STATIC_URL + 'img/textarea/display-name.png" class="ms-1 me-1" style="font-size: 12.8px;">', '【応募者の名前】' )

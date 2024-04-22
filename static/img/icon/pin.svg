@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+  <g id="Group_10211" data-name="Group 10211" transform="translate(-466 -541)">
+    <g id="Group_10210" data-name="Group 10210" transform="translate(-12674 190)">
+      <circle id="Ellipse_11" data-name="Ellipse 11" cx="11" cy="11" r="11" transform="translate(13140 351)" fill="#5b82db"/>
+    </g>
+    <path id="Icon_metro-pin" data-name="Icon metro-pin" d="M18.2,14.141l-5.607-2.686a1.609,1.609,0,0,0-1.965.436,1.091,1.091,0,0,0,.527,1.631l5.606,2.686a1.608,1.608,0,0,0,1.965-.437,1.089,1.089,0,0,0-.526-1.63Zm-4.624-2.9,4.361,2.089L19.415,9.9,16.4,8.459l-2.833,2.778Zm-3.215,8.8,4.172-4.2-1.869-.9-2.3,5.1ZM21.218,8.007,17.48,6.216a1.207,1.207,0,0,0-1.474.328A.818.818,0,0,0,16.4,7.767l3.738,1.791a1.207,1.207,0,0,0,1.474-.328.818.818,0,0,0-.4-1.223Z" transform="translate(490.033 536.644) rotate(90)" fill="#fff"/>
+  </g>
+</svg>

@@ -3,6 +3,12 @@ $( function() {
         $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).val( $( this ).text() );
         $( this ).parents( '.dropdown' ).find( 'input[type=hidden]' ).val( $( this ).val() );
     });
+    $( document ).on( 'click', '.input-manager-select-dropdown .dropdown-item', function () {
+        $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).val( $( this ).find( 'span' ).text() );
+        if ( $( this ).parents( '.dropdown' ).find( 'input[type=hidden]' ).length ) {
+            $( this ).parents( '.dropdown' ).find( 'input[type=hidden]' ).val( $( this ).val() );
+        }
+    });
     $( document ).on( 'click', '.input-color-select-dropdown .dropdown-item', function () {
         $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).attr( 'placeholder', '' );
         $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).prev().remove();

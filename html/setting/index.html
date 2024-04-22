@@ -28,7 +28,7 @@
                     <span>パスワード変更</span>
                 </button>
                 <button class="btn main-button plus ms-auto p-0 ps-3 mb-3" data-bs-toggle="modal" data-bs-target="#add_manager_modal">担当者を追加する</button>
-            {% elif request.user.head_flg and request.user.company_flg %}
+            {% elif request.user.head_flg or request.user.company_flg %}
                 <button class="btn main-button plus ms-auto p-0 ps-3 mb-3" data-bs-toggle="modal" data-bs-target="#add_manager_modal">担当者を追加する</button>
             {% else %}
                 <button id="change_password_button" class="btn d-flex align-items-center main-button p-0 me-3 mb-3" data-bs-toggle="modal" data-bs-target="#change_password_modal">

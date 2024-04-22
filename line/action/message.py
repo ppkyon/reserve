@@ -356,7 +356,7 @@ def push_card_type_message(user, template, author):
                     card_type_announce = message_card_type_announce,
                     number = card_type_announce_text.number,
                     title = card_type_announce_text.title,
-                    text = card_type_announce_text.text,
+                    text = send_action_replace(card_type_announce_text.text, line_info(shop_line), user),
                     flg = card_type_announce_text.flg,
                 )
                 if card_type_announce_text.flg:

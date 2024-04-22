@@ -1,14 +1,237 @@
 {% load static %}
+{% load humanize %}
+{% load original %}
 
 <div class="list-area">
+    <input type="hidden" id="update_talk_flg" value="True">
+    <input type="hidden" id="update_talk_url" value="{% url 'talk:update_talk' %}">
     <div class="search-area position-relative">
         <div class="row">
             <div class="col-12">
+                <input type="hidden" id="user_search_url" value="{% url 'talk:search_user' %}">
                 <input type="text" id="user_search" class="input-text d-block ps-2 pe-2" placeholder="名前で検索">
             </div>
         </div>
     </div>
+    <input type="hidden" id="change_user_url" value="{% url 'talk:change_user' %}">
     <div class="user-area pb-2">
-        
+        {% for line_user_item in line_user %}
+            <input type="hidden" class="user-area-id" value="{{ line_user_item.user.display_id }}">
+            {% if line_user_item.user.display_id == line_message_user.display_id %}
+                <div class="user-item-area active d-flex align-items-center justify-content-between position-relative p-2">
+                    <div class="image-area position-relative">
+                        {% if line_user_item.profile.image %}
+                            <img src="{{ line_user_item.profile.image.url }}">
+                        {% elif line_user_item.user.display_image %}
+                            <img src="{{ line_user_item.user.display_image }}">
+                        {% else %}
+                            <img src="{% static 'img/user-none.png' %}">
+                        {% endif %}
+                        {% if line_user_item.message_pin %}
+                            {% if line_user_item.message_pin.pin_flg %}
+                                <div class="pin-area">
+                                    <img src="{% static 'img/icon/pin.svg' %}">
+                                </div>
+                            {% else %}
+                                <div class="pin-area d-none">
+                                    <img src="{% static 'img/icon/pin.svg' %}">
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="pin-area d-none">
+                                <img src="{% static 'img/icon/pin.svg' %}">
+                            </div>
+                        {% endif %}
+                        {% if line_user_item.message_read %}
+                            {% if line_user_item.message_read.read_count != 0 %}
+                                <label class="notice-area">{{ line_user_item.message_read.read_count }}</label>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="info-area p-1">
+                        <div class="name-area d-flex align-items-center">
+                            {% if line_user_item.profile and line_user_item.profile.name %}
+                                <p class="name mb-0">{{ line_user_item.profile.name }}</p>
+                            {% else %}
+                                <p class="name mb-0">{{ line_user_item.user.display_name }}</p>
+                            {% endif %}
+                            <p class="time ms-auto mb-0">{{ line_user_item.message.send_date|naturaltime|display_time }}</p>
+                        </div>
+                        <div class="message-area mb-1">
+                            {% if line_user_item.message.message_type == 0 %}
+                                <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                            {% elif line_user_item.message.message_type == 1 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が写真を送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">写真を送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 2 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が動画を送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">動画を送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 3 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 4 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 5 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチメッセージを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">リッチメッセージを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 6 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチビデオを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">リッチビデオを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 7 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">カードタイプメッセージを送信しました</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="status-area d-flex align-items-center justify-content-end mt-1">
+                            {% if line_user_item.message_status %}
+                                {% if line_user_item.message_status.status == 1 %}
+                                    <span class="danger">{{ line_user_item.message_status.get_status_display }}</span>
+                                {% elif line_user_item.message_status.status == 2 %}
+                                    <span class="complete">{{ line_user_item.message_status.get_status_display }}</span>
+                                {% else %}
+                                    <span class="d-none"></span>
+                                {% endif %}
+                            {% else %}
+                                <span class="d-none"></span>
+                            {% endif %}
+                            {% if line_user_item.message_manager %}
+                                <span class="manager ms-1">{{ line_user_item.message_manager.family_name }} {{ line_user_item.message_manager.first_name }}</span>
+                            {% else %}
+                                <span class="d-none"></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="user-item-area d-flex align-items-center justify-content-between position-relative p-2">
+                    <div class="image-area position-relative">
+                        {% if line_user_item.profile.image %}
+                            <img src="{{ line_user_item.profile.image.url }}">
+                        {% elif line_user_item.user.display_image %}
+                            <img src="{{ line_user_item.user.display_image }}">
+                        {% else %}
+                            <img src="{% static 'img/user-none.png' %}">
+                        {% endif %}
+                        {% if line_user_item.message_pin %}
+                            {% if line_user_item.message_pin.pin_flg %}
+                                <div class="pin-area">
+                                    <img src="{% static 'img/icon/pin.svg' %}">
+                                </div>
+                            {% else %}
+                                <div class="pin-area d-none">
+                                    <img src="{% static 'img/icon/pin.svg' %}">
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="pin-area d-none">
+                                <img src="{% static 'img/icon/pin.svg' %}">
+                            </div>
+                        {% endif %}
+                        {% if line_user_item.message_read %}
+                            {% if line_user_item.message_read.read_count != 0 %}
+                                <label class="notice-area">{{ line_user_item.message_read.read_count }}</label>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="info-area p-1">
+                        <div class="name-area d-flex align-items-center">
+                            {% if line_user_item.profile and line_user_item.profile.name %}
+                                <p class="name mb-0">{{ line_user_item.profile.name }}</p>
+                            {% else %}
+                                <p class="name mb-0">{{ line_user_item.user.display_name }}</p>
+                            {% endif %}
+                            <p class="time ms-auto mb-0">{{ line_user_item.message.send_date|naturaltime|display_time }}</p>
+                        </div>
+                        <div class="message-area mb-1">
+                            {% if line_user_item.message.message_type == 0 %}
+                                <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                            {% elif line_user_item.message.message_type == 1 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.display_name }}が写真を送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">写真を送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 2 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が動画を送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">動画を送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 3 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 4 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">{{ line_user_item.message.text }}</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 5 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチメッセージを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">リッチメッセージを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 6 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチビデオを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">リッチビデオを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 7 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">カードタイプメッセージを送信しました</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="status-area d-flex align-items-center justify-content-end mt-1">
+                            {% if line_user_item.message_status %}
+                                {% if line_user_item.message_status.status == 1 %}
+                                    <span class="danger">{{ line_user_item.message_status.get_status_display }}</span>
+                                {% elif line_user_item.message_status.status == 2 %}
+                                    <span class="complete">{{ line_user_item.message_status.get_status_display }}</span>
+                                {% else %}
+                                    <span class="d-none"></span>
+                                {% endif %}
+                            {% else %}
+                                <span class="d-none"></span>
+                            {% endif %}
+                            {% if line_user_item.message_manager %}
+                                <span class="manager ms-1">{{ line_user_item.message_manager.family_name }} {{ line_user_item.message_manager.first_name }}</span>
+                            {% else %}
+                                <span class="d-none"></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 </div>

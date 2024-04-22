@@ -2,36 +2,96 @@
 
 <div class="info-area d-flex align-items-center position-relative ps-3 pe-3">
     <div class="image-area me-1">
-        <img id="line_message_user_image" src="{% static 'img/user-none.png' %}">
+        {% if line_message_user.profile.image %}
+            <img id="line_message_user_image" src="{{ line_message_user.profile.image.url }}">
+        {% elif line_message_user.display_image %}
+            <img id="line_message_user_image" src="{{ line_message_user.display_image }}">
+        {% else %}
+            <img id="line_message_user_image" src="{% static 'img/user-none.png' %}">
+        {% endif %}
     </div>
     <div class="control-area">
         <div class="name-area d-flex align-items-center justify-content-start">
-            
+            {% if line_message_user.profile and line_message_user.profile.name %}
+                <p id="line_message_user_name" class="mb-0">{{ line_message_user.profile.name }}</p>
+            {% else %}
+                <p id="line_message_user_name" class="mb-0">{{ line_message_user.display_name }}</p>
+            {% endif %}
         </div>
         {% if request.user.authority > 1 %}
             <div class="action-area d-flex align-items-center justify-content-end">
                 <div class="pin-area d-flex me-1">
+                    <input type="hidden" id="change_pin_url" value="{% url 'talk:change_pin' %}">
                     <span class="me-1">ピン留め</span>
-                    <input id="check_pin" type="checkbox" value="1">
+                    {% if line_message_user.message_pin %}
+                        {% if line_message_user.message_pin.pin_flg %}
+                            <input id="check_pin" type="checkbox" value="1" checked>
+                        {% else %}
+                            <input id="check_pin" type="checkbox" value="1">
+                        {% endif %}
+                    {% else %}
+                        <input id="check_pin" type="checkbox" value="1">
+                    {% endif %}
                     <label for="check_pin" class="d-block position-relative mb-0"></label>
                 </div>
                 <div class="status-area me-1">
+                    <input type="hidden" id="chenge_status_url" value="{% url 'talk:change_status' %}">
                     <div class="dropdown input-select-dropdown d-inline-block p-0">
-                        <input type="text" id="select_status" name="status" value="対応なし" class="input-text input-select readonly ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                        <input type="hidden">
+                        {% if line_message_user.message_status %}
+                            {% if line_message_user.message_status.status == 0 %}
+                                <input type="text" id="select_status" name="status" value="対応なし" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                <input type="hidden">
+                            {% else %}
+                                <input type="text" id="select_status" name="status" value="{{ line_message_user.message_status.get_status_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                <input type="hidden" value="{{ line_message_user.message_status.status }}">
+                            {% endif %}
+                        {% else %}
+                            <input type="text" id="select_status" name="status" value="対応なし" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                            <input type="hidden">
+                        {% endif %}
                         <div class="dropdown-menu" aria-labelledby="select_status">
-
+                            {% for status_index, status_value in status_list %}
+                                {% if forloop.first %}
+                                    <button type="button" value="{{ status_index }}" class="btn select_status_button dropdown-item fw-bold text-center p-1">{{ status_value }}</button>
+                                {% else %}
+                                    <button type="button" value="{{ status_index }}" class="btn select_status_button dropdown-item fw-bold text-center border-top p-1 pt-2">{{ status_value }}</button>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div class="manager-area me-1">
+                    <input type="hidden" id="change_manager_url" value="{% url 'talk:change_manager' %}">
                     <div class="dropdown input-manager-select-dropdown d-inline-block p-0">
-                        <input type="text" id="select_manager" name="manager" value="担当者なし" class="input-text input-select readonly ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                        <input type="hidden">
+                        {% if line_message_user.message_manager %}
+                            <input type="text" id="select_manager" name="manager" value="{{ line_message_user.message_manager.family_name }} {{ line_message_user.message_manager.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                            <input type="hidden" value="{{ line_message_user.message_manager.display_id }}">
+                        {% else %}
+                            <input type="text" id="select_manager" name="manager" value="担当者なし" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                            <input type="hidden">
+                        {% endif %}
                         <div class="dropdown-menu" aria-labelledby="select_manager">
                             <button type="button" value="" class="btn select_manager_button dropdown-item fw-bold text-start p-1 pt-2 pb-2 ms-1">
                                 <span>担当者なし</span>
                             </button>
+                            {% for manager_item in manager %}
+                                <button type="button" value="{{ manager_item.display_id }}" class="btn select_manager_button dropdown-item fw-bold text-start border-top p-1 pt-2">
+                                    {% if manager_item.profile.image %}
+                                        <img src="{{ manager_item.profile.image.url }}" class="rounded-circle ms-1 me-1 mb-0" width="25" height="25">
+                                    {% else %}
+                                        <img src="{% static 'img/manager-none.png' %}" class="rounded-circle ms-1 me-1 mb-0" width="25" height="25">
+                                    {% endif %}
+                                    {% if manager_item.profile.family_name and manager_item.profile.first_name %}
+                                        <span>{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
+                                    {% elif manager_item.profile.family_name %}
+                                        <span>{{ manager_item.profile.family_name }}</span>
+                                    {% elif manager_item.profile.first_name %}
+                                        <span>{{ manager_item.profile.first_name }}</span>
+                                    {% else %}
+                                        <span>-</span>
+                                    {% endif %}
+                                </button>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

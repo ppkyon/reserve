@@ -10,7 +10,7 @@ from template.models import ShopTemplateText, ShopTemplateTextItem, ShopTemplate
 
 from template.action.list import get_text_list
 
-from common import create_code, get_model_field
+from common import create_code, display_textarea_replace, get_model_field
 from table.action import action_search
 
 import base64
@@ -214,3 +214,11 @@ def get_all(request):
     for template_index, template_item in enumerate(template_list):
         template_list[template_index]['item'] = ShopTemplateTextItem.objects.filter(template__id=template_item['id']).order_by('number').values(*get_model_field(ShopTemplateTextItem)).first()
     return JsonResponse( template_list, safe=False )
+
+def preview(request):
+    template = ShopTemplateText.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopTemplateText)).first()
+    template['item'] = list(ShopTemplateTextItem.objects.filter(template__id=template['id']).values(*get_model_field(ShopTemplateTextItem)).all())
+    for template_index, template_item in enumerate(template['item']):
+        if template_item['text']:
+            template['item'][template_index]['text'] = display_textarea_replace(template_item['text'])
+    return JsonResponse( template, safe=False )

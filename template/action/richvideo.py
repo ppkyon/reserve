@@ -143,3 +143,7 @@ def get_all(request):
     for template_index, template_item in enumerate(template_list):
         template_list[template_index]['video_display_time'] = time.strftime('%M:%S', time.gmtime(template_item['video_time']))
     return JsonResponse( template_list, safe=False )
+
+def preview(request):
+    template = ShopTemplateRichVideo.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopTemplateRichVideo)).first()
+    return JsonResponse( template, safe=False )

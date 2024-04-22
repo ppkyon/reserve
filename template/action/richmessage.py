@@ -140,3 +140,8 @@ def get_all(request):
     for template_index, template_item in enumerate(template_list):
         template_list[template_index]['item'] = list(ShopTemplateRichMessageItem.objects.filter(template__id=template_item['id']).order_by('number').values(*get_model_field(ShopTemplateRichMessageItem)).all())
     return JsonResponse( template_list, safe=False )
+
+def preview(request):
+    template = ShopTemplateRichMessage.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopTemplateRichMessage)).first()
+    template['item'] = list(ShopTemplateRichMessageItem.objects.filter(template__id=template['id']).order_by('number').values(*get_model_field(ShopTemplateRichMessageItem)).all())
+    return JsonResponse( template, safe=False )

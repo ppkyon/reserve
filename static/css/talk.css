@@ -409,6 +409,30 @@
     object-fit: contain;
 }
 
+.chat-area .message-area .action-area .menu-area .template-button,
+.chat-area .message-area .action-area .menu-area .name-button {
+    color: #007aff;
+    font-size: 12px;
+    border: none;
+    border-radius: 41px;
+    transition: all .3s ease-in-out;
+}
+.chat-area .message-area .action-area .menu-area .template-button:hover,
+.chat-area .message-area .action-area .menu-area .name-button:hover {
+    background-color: rgba(59,134,255,0.15);
+}
+.chat-area .message-area .action-area .menu-area button img {
+    width: 0.9rem;
+    height: 0.9rem;
+    object-fit: contain;
+}
+.chat-area .message-area .action-area .menu-area button i {
+    color: rgba(59,64,67,0.65);
+    font-size: 17px;
+}
+.chat-area .message-area .action-area .menu-area .dropdown-menu {
+    max-height: 180px;
+}
 .chat-area .message-area .action-area .button-area button {
     width: 5rem;
     height: 1.8rem;
@@ -421,4 +445,27 @@
     border-radius: 0.3rem;
     outline: none;
     line-height: 0.9rem;
+}
+
+.modal .modal-body .image-area,
+.modal .modal-body .video-area,
+.modal .modal-body .drop-display-zone {
+    max-width: 100%;
+    border-radius: 10px;
+}
+.modal .modal-body .image-area img,
+.modal .modal-body .video-area video,
+.modal .modal-body .drop-display-zone img {
+    width: 100%;
+    border-radius: 10px;
+}
+.modal .modal-footer .send-button {
+    width: 6rem;
+    height: 35px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #007AFF;
+    border: none;
+    line-height: 0.8rem;
 }

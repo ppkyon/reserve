@@ -21,8 +21,33 @@
                 {% include 'talk/talk.html' %}
             </div>
         </div>
+        <input type="hidden" id="get_text_preview_url" value="{% url 'template:preview_text' %}">
+        <input type="hidden" id="get_video_preview_url" value="{% url 'template:preview_video' %}">
+        <input type="hidden" id="get_richmessage_preview_url" value="{% url 'template:preview_richmessage' %}">
+        <input type="hidden" id="get_richvideo_preview_url" value="{% url 'template:preview_richvideo' %}">
+        <input type="hidden" id="get_cardtype_preview_url" value="{% url 'template:preview_cardtype' %}">
+        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#template_check_modal"></button>
+        {% include 'template/text/modal/text.html' %}
+        {% include 'template/video/modal/video.html' %}
+        {% include 'template/richmessage/modal/richmessage.html' %}
+        {% include 'template/richvideo/modal/richvideo.html' %}
+        {% include 'template/cardtype/modal/cardtype.html' %}
+        {% include 'talk/modal/image.html' %}
+        {% include 'talk/modal/video.html' %}
+        {% include 'talk/modal/template.html' %}
+        {% include 'preview.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
+    <script src="{% static 'js/talk/user.js' %}"></script>
+    <script src="{% static 'js/talk/info.js' %}"></script>
+    <script src="{% static 'js/talk/message.js' %}"></script>
+    <script src="{% static 'js/talk/action.js' %}"></script>
+    <script src="{% static 'js/talk/drop.js' %}"></script>
 {% endblock %}
