@@ -648,6 +648,16 @@ def push_card_type_message(user, template, author):
     )
 
 def push_button_message(user):
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        message_type = 8,
+        account_type = 1,
+        send_date = timezone.datetime.now(),
+    )
+
     global line_bot_api
     shop_line = ShopLine.objects.filter(shop=user.shop).first()
     line_bot_api = LineBotApi(shop_line.channel_access_token)

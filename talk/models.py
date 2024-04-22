@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from sign.models import AuthUser
 from user.models import LineUser
 
 import os
@@ -34,7 +35,7 @@ class TalkMessage(models.Model):
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     display_id = models.BigIntegerField()
-    user = models.ForeignKey(LineUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="talk_message")
     line_user_id = models.CharField(max_length=255, null=False, blank=False)
     line_message_id = models.CharField(max_length=255, blank=True, null=True)
     reply_token = models.CharField(max_length=255, blank=True, null=True)
@@ -287,3 +288,68 @@ class TalkMessageCardTypeMore(models.Model):
 
     class Meta:
         db_table = 'talk_message_card_type_more'
+
+
+
+class TalkManager(models.Model):
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.OneToOneField(LineUser, on_delete=models.CASCADE, related_name="talk_manager")
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name="talk_manager")
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = 'talk_manager'
+
+class TalkStatus(models.Model):
+    status_choice = (
+        (0, '対応なし'),
+        (1, '要対応'),
+        (2, '対応済み'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.OneToOneField(LineUser, on_delete=models.CASCADE, related_name="talk_status")
+    status = models.IntegerField(choices=status_choice, default=0)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'talk_status'
+
+class TalkPin(models.Model):
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="talk_pin")
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name="talk_pin")
+    pin_flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'talk_pin'
+
+class TalkRead(models.Model):
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="talk_read")
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name="talk_read")
+    read_count = models.IntegerField(default=0)
+    read_flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'talk_read'
+
+class TalkUpdate(models.Model):
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name="talk_update")
+    update_flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'talk_update'

@@ -33,6 +33,7 @@ urlpatterns = [
     path('setting/', include('setting.urls')),
     path('table/', include('table.urls')),
     path('tag/', include('tag.urls')),
+    path('talk/', include('talk.urls')),
     path('temp/', include('temp.urls')),
     path('template/', include('template.urls')),
     path('user/', include('user.urls')),

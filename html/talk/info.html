@@ -1,0 +1,41 @@
+{% load static %}
+
+<div class="info-area d-flex align-items-center position-relative ps-3 pe-3">
+    <div class="image-area me-1">
+        <img id="line_message_user_image" src="{% static 'img/user-none.png' %}">
+    </div>
+    <div class="control-area">
+        <div class="name-area d-flex align-items-center justify-content-start">
+            
+        </div>
+        {% if request.user.authority > 1 %}
+            <div class="action-area d-flex align-items-center justify-content-end">
+                <div class="pin-area d-flex me-1">
+                    <span class="me-1">ピン留め</span>
+                    <input id="check_pin" type="checkbox" value="1">
+                    <label for="check_pin" class="d-block position-relative mb-0"></label>
+                </div>
+                <div class="status-area me-1">
+                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                        <input type="text" id="select_status" name="status" value="対応なし" class="input-text input-select readonly ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                        <input type="hidden">
+                        <div class="dropdown-menu" aria-labelledby="select_status">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="manager-area me-1">
+                    <div class="dropdown input-manager-select-dropdown d-inline-block p-0">
+                        <input type="text" id="select_manager" name="manager" value="担当者なし" class="input-text input-select readonly ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                        <input type="hidden">
+                        <div class="dropdown-menu" aria-labelledby="select_manager">
+                            <button type="button" value="" class="btn select_manager_button dropdown-item fw-bold text-start p-1 pt-2 pb-2 ms-1">
+                                <span>担当者なし</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

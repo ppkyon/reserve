@@ -1,0 +1,424 @@
+.list-area {
+    height: calc(100vh - 100px);
+    background-color: #fefefe;
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+.search-area input {
+    margin: 1.5rem auto 1rem;
+    width: 100%;
+    max-width: 18rem;
+    text-align: left;
+    background: url(../img/icon/search.svg) no-repeat,#fff;
+    background-position: 95%;
+    background-size: 0.75rem;
+}
+.search-area input:focus-visible {
+    outline: 0px;
+}
+.search-area input::placeholder {
+    color: #afafaf;
+}
+
+.user-area {
+    height: calc(100% - 69px);
+    overflow: auto;
+}
+.user-area .user-item-area {
+    width: 100%;
+    background-color: #fff;
+    cursor: pointer;
+    transition: .3s;
+}
+.user-area .user-item-area.active {
+    background-color: #f5f5f5;
+}
+.user-area .user-item-area .image-area {
+    width: 3rem;
+    height: 3rem;
+}
+.user-area .user-item-area .image-area .pin-area {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1rem;
+    height: 1rem;
+}
+.user-area .user-item-area .image-area .notice-area {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: #fff;
+    font-size: 0.65rem;
+    text-align: center;
+    background-color: red;
+    border-radius: 50%;
+}
+.user-area .user-item-area .image-area img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info-area {
+    width: calc(100% - 4rem);
+    word-break: break-all;
+}
+.info-area .name-area {
+    width: 100%;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    word-break: break-all;
+}
+.info-area .name-area .name {
+    font-size: 0.8rem;
+}
+.info-area .name-area .time {
+    color: #707070;
+    font-size: 0.6rem;
+}
+
+.info-area .message-area .message {
+    height: 1.75rem;
+    color: #707070;
+    font-size: 0.6rem;
+    opacity: .7;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.info-area .status-area span {
+    padding: 0.25rem 0.5rem;
+    color: #fff;
+    font-size: 0.6rem;
+    border-radius: 0.2rem;
+}
+.info-area .status-area .danger {
+    background-color: #FF0000;
+}
+.info-area .status-area .complete {
+    background-color: #0B2B50;
+}
+.info-area .status-area .manager {
+    background-color: #e36f4d;
+}
+
+.chat-area {
+    width: 100%;
+    height: calc(100vh - 100px);
+    background-color: #fefefe;
+    border-radius: 0.8rem;
+    transition: all .4s ease-in-out;
+}
+.chat-area .info-area {
+    width: 100%;
+    height: 5rem;
+    color: #aaa;
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid #e5e4ef;
+    border-radius: 0.8rem 0.8rem 0 0;
+}
+.chat-area .info-area .image-area img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.chat-area .info-area .control-area {
+    width: 100%;
+}
+.chat-area .info-area .control-area .name-area p {
+    color: #000;
+    font-size: 1rem;
+}
+.chat-area .info-area .control-area .pin-area span {
+    color: #707070;
+    font-size: 0.8rem;
+}
+.chat-area .info-area .control-area .pin-area input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+.chat-area .info-area .control-area .pin-area label {
+    width: 35px;
+    height: 18px;
+    background: grey;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.chat-area .info-area .control-area .pin-area label:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 0.9rem;
+    height: 0.9rem;
+    background: #fff;
+    border-radius: 90px;
+    transition: .3s;
+}
+.chat-area .info-area .control-area .pin-area input:checked + label {
+    background: #00a389;
+}
+.chat-area .info-area .control-area .pin-area input:checked + label:after {
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
+}
+.chat-area .info-area .control-area .status-area,
+.chat-area .info-area .control-area .manager-area {
+    width: 20%;
+}
+.chat-area .info-area .control-area .search-area {
+    width: 30%;
+}
+.chat-area .info-area .control-area .status-area input,
+.chat-area .info-area .control-area .manager-area input {
+    width: 100%;
+}
+.chat-area .info-area .control-area .status-area .dropdown-menu {
+    min-width: 100%;
+}
+.chat-area .info-area .control-area .manager-area .dropdown-menu {
+    min-width: 150%;
+}
+
+.chat-area .message-area {
+    width: 100%;
+    height: calc(100% - 5rem);
+    background-color: #fff;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.chat-area .message-area .content-area {
+    height: calc(100% - 10rem);
+    color: #464255;
+    scroll-behavior: smooth;
+    overflow: auto;
+}
+.chat-area .message-area .content-area .date-area label {
+    color: #FFF;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 30px;
+}
+.chat-area .message-area .content-area .content-item {
+    width: 90%;
+    max-width: 20rem;
+    min-height: 2.5rem;
+}
+.chat-area .message-area .content-area .content-item.manager {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+.chat-area .message-area .content-area .content-item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.chat-area .message-area .content-area .content-item.manager > img {
+    left: auto;
+    right: 0;
+}
+.chat-area .message-area .content-area .content-item .text-area {
+    min-width: 50px;
+    color: #707070;
+    font-size: 12px;
+    background: #efeef5;
+    border-radius: 10px;
+    line-height: 1.2rem;
+    word-break: break-all;
+}
+.chat-area .message-area .content-area .content-item.manager .text-area {
+    color: #fff;
+    background-color: #6ec8ef;
+    word-break: break-word;
+}
+.chat-area .message-area .content-area .content-item .image-area,
+.chat-area .message-area .content-area .content-item .video-area {
+    max-width: 70%;
+    border-radius: 10px;
+}
+.chat-area .message-area .content-area .content-item .image-area.half,
+.chat-area .message-area .content-area .content-item .video-area.half {
+    max-width: 55%;
+}
+.chat-area .message-area .content-area .content-item .image-area img,
+.chat-area .message-area .content-area .content-item .video-area video {
+    max-width: 100%;
+    border-radius: 10px;
+}
+.chat-area .message-area .content-area .content-item > p {
+    color: #afafaf;
+    font-size: 12px;
+    line-height: 15px;
+    opacity: .6;
+}
+.chat-area .message-area .content-area .content-item.manager > p {
+    text-align: right;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area .one {
+    flex: 1 0%;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area .two {
+    flex: 1 1 0%;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area .three {
+    flex: 1 1 0%;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area .person {
+    flex: 1 0%;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow: hidden;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-image-area .person span {
+    border-radius: 50%;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-header-area .label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    background-color: rgb(102, 111, 134);
+    border-radius: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-header-area .action-label {
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    bottom: 10px;
+    width: 130px;
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+    transform: translateX(-50%);
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .title {
+    color: rgb(53, 58, 64);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .name {
+    color: rgb(53, 58, 64);
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .description {
+    color: rgb(73, 80, 87);
+    font-size: 0.5rem;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .price {
+    color: rgb(53, 58, 64);
+    font-size: 0.8rem;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .place,
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .plus {
+    color: rgb(73, 80, 87);
+    font-size: 0.65rem;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .place img,
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .plus img {
+    width: 13px;
+    height: 13px;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .tag {
+    height: 20px;
+    padding-top: 0.1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.6rem;
+    background-color: rgb(102, 111, 134);
+    border-radius: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-body-area .more {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: rgb(91, 130, 219);
+    font-size: 0.8rem;
+    text-align: center;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.chat-area .message-area .content-area .content-item .card-type-area .card-type-footer-area button {
+    width: 100%;
+    color: rgb(91, 130, 219);
+    font-size: 0.7rem;
+    text-align: center;
+    background: transparent;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.chat-area .message-area .send-area {
+    width: 100%;
+    transition: all .4s ease-in-out;
+}
+.chat-area .message-area .send-area textarea {
+    padding: 0.5rem 0.6rem 0.5rem 2.6rem;
+    border: 1px solid #e5e4ef;
+}
+.chat-area .message-area .send-area > img {
+    position: absolute;
+    top: 60%;
+    left: 2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    object-fit: contain;
+}
+
+.chat-area .message-area .action-area .button-area button {
+    width: 5rem;
+    height: 1.8rem;
+    color: #fff;
+    font-size: 0.8rem;
+    background: url(../img/icon/send.png) no-repeat,#00b074;
+    background-size: 0.75rem;
+    background-position: 0.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    outline: none;
+    line-height: 0.9rem;
+}

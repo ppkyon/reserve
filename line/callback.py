@@ -10,14 +10,18 @@ from flow.models import (
     UserFlow, UserFlowSchedule, UserFlowTimer, UserFlowActionReminder, UserFlowActionMessage
 )
 from richmenu.models import UserRichMenu, UserRichMenuClick
-from sign.models import AuthShop, ShopLine
+from sign.models import AuthShop, ShopLine, AuthUser
+from talk.models import TalkMessage, TalkRead, TalkUpdate
 from user.models import LineUser, UserProfile
 
 from common import create_code
 from flow.action.go import go
 from line.action.message import push_text_message
 
+import cv2
 import datetime
+import os
+import pathlib
 import uuid
 
 @csrf_exempt
@@ -133,7 +137,130 @@ def handle_unfollow(line_user_id, shop):
 
 def handle_message(line_user_id, shop, body):
     user = update_user(line_user_id, shop)
+    message = get_message_data(body)
+
+    for type_key, type_value in TalkMessage._meta.get_field('message_type').choices:
+        if type_value == message['type']:
+            message_type = type_key
+    
+    if message_type == 0:
+        handle_text_message(user, message, message_type)
+    elif message_type == 1:
+        handle_image_message(user, message, message_type)
+    elif message_type == 2:
+        handle_video_message(user, message, message_type)
+    elif message_type == 3:
+        handle_audio_message(user, message, message_type)
+    elif message_type == 4:
+        handle_location_message(user, message, message_type)
+        
+    count_read(user)
+    talk_update(user)
+
     return None
+
+def handle_text_message(user, message, message_type):
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        text = message['text'],
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
+
+def handle_image_message(user, message, message_type):
+    id = str(uuid.uuid4()).replace('-', '')
+    message_content = line_bot_api.get_message_content(message['id'])
+    file_path = 'media/uploads/talk/image/' + id + '.jpg'
+    if not os.path.exists('media/uploads/talk/'):
+        os.mkdir('media/uploads/talk/')
+    if not os.path.exists('media/uploads/talk/image/'):
+        os.mkdir('media/uploads/talk/image/')
+    with open(pathlib.Path(file_path).absolute(), "wb") as f:
+        for chunk in message_content.iter_content():
+            f.write(chunk)
+    
+    image = cv2.imread(file_path)
+    image_height, image_width = image.shape[:2]
+    
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        image = 'uploads/talk/image/' + id + '.jpg',
+        image_width = image_width,
+        image_height = image_height,
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
+
+def handle_video_message(user, message, message_type):
+    id = str(uuid.uuid4()).replace('-', '')
+    message_content = line_bot_api.get_message_content(message['id'])
+    file_path = 'media/uploads/talk/video/' + id + '.mp4'
+    if not os.path.exists('media/uploads/talk/'):
+        os.mkdir('media/uploads/talk/')
+    if not os.path.exists('media/uploads/talk/video/'):
+        os.mkdir('media/uploads/talk/video/')
+    with open(pathlib.Path(file_path).absolute(), "wb") as f:
+        for chunk in message_content.iter_content():
+            f.write(chunk)
+    
+    cap = cv2.VideoCapture(file_path)
+    video_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    video_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        video = 'uploads/talk/video/' + id + '.mp4',
+        video_width = video_width,
+        video_height = video_height,
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
+
+def handle_audio_message(user, message, message_type):
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        text = '音声メッセージを送信しました',
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
+
+def handle_location_message(user, message, message_type):
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        text = '位置情報を送信しました',
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
 
 
 
@@ -178,6 +305,56 @@ def update_user(line_user_id, shop):
         )
 
     return line_user
+
+def count_read(user):
+    if not user.delete_flg:
+        for manager_item in AuthUser.objects.filter(shop=user.shop, authority=3, head_flg=False, delete_flg=False).all():
+            if TalkRead.objects.filter(user=user, manager=manager_item).exists():
+                read = TalkRead.objects.filter(user=user, manager=manager_item).first()
+                read.read_count += 1
+                read.read_flg = True
+                read.save()
+            else:
+                TalkRead.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    manager = manager_item,
+                    read_count = 1,
+                    read_flg = True
+                )
+
+def talk_update(user):
+    for manager_item in AuthUser.objects.filter(shop=user.shop, head_flg=False, delete_flg=False).all():
+        if TalkUpdate.objects.filter(manager=manager_item).exists():
+            talk = TalkUpdate.objects.filter(manager=manager_item).first()
+            talk.update_flg = True
+            talk.save()
+        else:
+            TalkUpdate.objects.create(
+                id = str(uuid.uuid4()),
+                manager = manager_item,
+                update_flg = True,
+            )
+
+
+
+def get_message_data(body):
+    message = {}
+
+    message_data = body[body.find('{"type":"message","message":{"type":"')+len('{"type":"message","message":{"type":"'):]
+    message['type'] = message_data[:message_data.find('","')]
+    message_data = message_data[message_data.find('","id":"')+len('","id":"'):]
+    message['id'] = message_data[:message_data.find('","')]
+    message_data = message_data[message_data.find('","text":"')+len('","text":"'):]
+    message['text'] = message_data[:message_data.find('"},"')]
+    message_data = message_data[message_data.find('},"timestamp":')+len('},"timestamp":'):]
+    message['timestamp'] = message_data[:message_data.find(',"')]
+    message_data = message_data[message_data.find('"},"replyToken":"')+len('"},"replyToken":"'):]
+    message['reply_token'] = message_data[:message_data.find('","')]
+    
+    return message
+
+
 
 def create_atelle_id():
     code_list = UserProfile.objects.values_list('atelle_id', flat=True)
