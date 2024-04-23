@@ -99,3 +99,19 @@
     border-radius: 0.4rem;
     line-height: 0.8rem;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1180px) {
+    .setting-area-tablet {
+        width: 18% !important;
+    }
+
+    .mini-table-date-tablet {
+        width: 16% !important;
+    }
+    .mini-table-status-tablet {
+        width: 14% !important;
+    }
+
+
+}

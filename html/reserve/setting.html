@@ -79,31 +79,31 @@
                                                                 <input type="hidden" value="{{ online_offline_item.random }}">
                                                                 <div style="width: 75%;">
                                                                     <div class="d-flex justify-content-start align-items-center mb-1">
-                                                                        <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>
                                                                         <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                         <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">タイトル</label>
                                                                         <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">概要</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">概要</label>
                                                                         <input type="text" name="outline_{{ online_offline_item.random }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-start mb-1">
-                                                                        <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                        <label class="setting-area-tablet mt-2 mb-0" style="width: 15%;">補足</label>
                                                                         <textarea name="note_{{ online_offline_item.random }}" class="d-block input-textarea ms-0" style="width: 75%;"></textarea>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                         <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">時間</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">時間</label>
                                                                         <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                             <input type="text" name="time_{{ online_offline_item.random }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                             <input type="hidden">
@@ -132,7 +132,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">同時対応数</label>
                                                                         <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                             <input type="text" name="people_{{ online_offline_item.random }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                             <input type="hidden">
@@ -209,7 +209,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">回答フォーム</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">回答フォーム</label>
                                                                         <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                             <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                             <input type="hidden" value="">
@@ -250,8 +250,8 @@
                                                                                     <tr>
                                                                                         <th style="width: 20%;">ミーティング名</th>
                                                                                         <th style="width: 20%;">ミーティングURL</th>
-                                                                                        <th style="width: 17.5%;">期限日</th>
-                                                                                        <th style="width: 15%;">ステータス</th>
+                                                                                        <th class="mini-table-date-tablet" style="width: 17.5%;">期限日</th>
+                                                                                        <th class="mini-table-status-tablet" style="width: 15%;">ステータス</th>
                                                                                         <th style="width: 20%;">プラットフォーム</th>
                                                                                         <th style="width: 7.5%;"></th>
                                                                                     </tr>
@@ -275,31 +275,31 @@
                                                                     <input type="hidden" value="{{ setting_item.display_id }}">
                                                                     <div style="width: 75%;">
                                                                         <div class="d-flex justify-content-start align-items-center mb-1">
-                                                                            <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>
                                                                             <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                             <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">タイトル</label>
                                                                             <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">概要</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">概要</label>
                                                                             <input type="text" name="outline_{{ setting_item.display_id }}" value="{{ setting_item.outline }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-start mb-1">
-                                                                            <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                            <label class="setting-area-tablet mt-2 mb-0" style="width: 15%;">補足</label>
                                                                             <textarea name="note_{{ setting_item.display_id }}" class="d-block input-textarea ms-0" style="width: 75%;">{{ setting_item.note|default:'' }}</textarea>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                             <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">時間</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">時間</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                                 <input type="text" name="time_{{ setting_item.display_id }}" value="{{ setting_item.time }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.time }}">
@@ -332,7 +332,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">同時対応数</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                                 <input type="text" name="people_{{ setting_item.display_id }}" value="{{ setting_item.people }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.people }}">
@@ -409,7 +409,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">回答フォーム</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">回答フォーム</label>
                                                                             <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                                 {% if setting_item.question %}
                                                                                     <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
@@ -459,8 +459,8 @@
                                                                                         <tr>
                                                                                             <th style="width: 20%;">ミーティング名</th>
                                                                                             <th style="width: 20%;">ミーティングURL</th>
-                                                                                            <th style="width: 17.5%;">期限日</th>
-                                                                                            <th style="width: 15%;">ステータス</th>
+                                                                                            <th class="mini-table-date-tablet" style="width: 17.5%;">期限日</th>
+                                                                                            <th class="mini-table-status-tablet" style="width: 15%;">ステータス</th>
                                                                                             <th style="width: 20%;">プラットフォーム</th>
                                                                                             <th style="width: 7.5%;"></th>
                                                                                         </tr>
@@ -569,31 +569,31 @@
                                                                 <input type="hidden" value="{{ online_offline_item.random }}">
                                                                 <div style="width: 75%;">
                                                                     <div class="d-flex justify-content-start align-items-center mb-1">
-                                                                        <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>
                                                                         <input type="text" name="name_{{ online_offline_item.random }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                         <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">タイトル</label>
                                                                         <input type="text" name="title_{{ online_offline_item.random }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">概要</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">概要</label>
                                                                         <input type="text" name="outline_{{ online_offline_item.random }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-start mb-1">
-                                                                        <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                        <label class="setting-area-tablet mt-2 mb-0" style="width: 15%;">補足</label>
                                                                         <textarea name="note_{{ online_offline_item.random }}" class="d-block input-textarea ms-0" style="width: 75%;"></textarea>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                         <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">時間</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">時間</label>
                                                                         <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                             <input type="text" name="time_{{ online_offline_item.random }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                             <input type="hidden">
@@ -622,7 +622,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">同時対応数</label>
                                                                         <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                             <input type="text" name="people_{{ online_offline_item.random }}"  class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                             <input type="hidden">
@@ -699,7 +699,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                        <label class="mb-0" style="width: 15%;">回答フォーム</label>
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">回答フォーム</label>
                                                                         <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                             <input type="text" name="question_{{ online_offline_item.random }}" value="" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
                                                                             <input type="hidden" value="">
@@ -740,8 +740,8 @@
                                                                                     <tr>
                                                                                         <th style="width: 20%;">ミーティング名</th>
                                                                                         <th style="width: 20%;">ミーティングURL</th>
-                                                                                        <th style="width: 17.5%;">期限日</th>
-                                                                                        <th style="width: 15%;">ステータス</th>
+                                                                                        <th class="mini-table-date-tablet" style="width: 17.5%;">期限日</th>
+                                                                                        <th class="mini-table-status-tablet" style="width: 15%;">ステータス</th>
                                                                                         <th style="width: 20%;">プラットフォーム</th>
                                                                                         <th style="width: 7.5%;"></th>
                                                                                     </tr>
@@ -765,31 +765,31 @@
                                                                     <input type="hidden" value="{{ setting_item.display_id }}">
                                                                     <div style="width: 75%;">
                                                                         <div class="d-flex justify-content-start align-items-center mb-1">
-                                                                            <label class="mb-0" style="width: 15%;">登録名</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>
                                                                             <input type="text" name="name_{{ setting_item.display_id }}" value="{{ setting_item.name }}" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                             <p class="description mb-2" style="width: 75%;">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">タイトル</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">タイトル</label>
                                                                             <input type="text" name="title_{{ setting_item.display_id }}" value="{{ setting_item.title }}" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">概要</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">概要</label>
                                                                             <input type="text" name="outline_{{ setting_item.display_id }}" value="{{ setting_item.outline }}" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-start mb-1">
-                                                                            <label class="mt-2 mb-0" style="width: 15%;">補足</label>
+                                                                            <label class="setting-area-tablet mt-2 mb-0" style="width: 15%;">補足</label>
                                                                             <textarea name="note_{{ setting_item.display_id }}" class="d-block input-textarea ms-0" style="width: 75%;">{{ setting_item.note }}</textarea>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-start mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">&nbsp;</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>
                                                                             <p class="description mb-2" style="width: 75%;">タイトル、概要、補足はユーザー画面にも表示されます。</p>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">時間</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">時間</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                                 <input type="text" name="time_{{ setting_item.display_id }}" value="{{ setting_item.time }}" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.time }}">
@@ -822,7 +822,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">同時対応数</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">同時対応数</label>
                                                                             <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">
                                                                                 <input type="text" name="people_{{ setting_item.display_id }}" value="{{ setting_item.people }}" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>
                                                                                 <input type="hidden" value="{{ setting_item.people }}">
@@ -899,7 +899,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex justify-content-start align-items-center mb-2">
-                                                                            <label class="mb-0" style="width: 15%;">回答フォーム</label>
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">回答フォーム</label>
                                                                             <div class="dropdown input-select-dropdown input-question-dropdown d-inline-block p-0" style="width: 45%;">
                                                                                 {% if setting_item.question %}
                                                                                     <input type="text" name="question_{{ setting_item.display_id }}" value="【{{ setting_item.question.name }}】" class="input-text input-question input-select w-100 ps-2 pe-2" data-parsley-errors-messages-disabled readonly>
@@ -949,8 +949,8 @@
                                                                                         <tr>
                                                                                             <th style="width: 20%;">ミーティング名</th>
                                                                                             <th style="width: 20%;">ミーティングURL</th>
-                                                                                            <th style="width: 17.5%;">期限日</th>
-                                                                                            <th style="width: 15%;">ステータス</th>
+                                                                                            <th class="mini-table-date-tablet" style="width: 17.5%;">期限日</th>
+                                                                                            <th class="mini-table-status-tablet" style="width: 15%;">ステータス</th>
                                                                                             <th style="width: 20%;">プラットフォーム</th>
                                                                                             <th style="width: 7.5%;"></th>
                                                                                         </tr>
