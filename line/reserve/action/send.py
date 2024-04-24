@@ -614,7 +614,7 @@ def send(request):
                 target_flg = True
 
         if UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).exists():
-            user_flow = UserFlow.objects.filter(user__shop=user.shop, flow_tab=target_flow_tab).first()
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
             user_flow.flow = target_flow_tab.flow
             user_flow.flow_tab = target_flow_tab
             user_flow.flow_item = target_flow_item
@@ -704,8 +704,7 @@ def send(request):
             if not facility_item.facility in reception_facility_list:
                 facility = facility_item.facility
                 break
-
-        
+            
         course = None
         if request.POST.get('course_id'):
             course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
