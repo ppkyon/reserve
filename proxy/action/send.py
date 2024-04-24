@@ -63,6 +63,7 @@ def send(request):
             id = str(uuid.uuid4()),
             display_id = create_code(12, UserQuestion),
             user = user,
+            question = question,
             title = question.title,
             name = question.name,
             description =  question.description,
