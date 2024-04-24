@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from view import ShopView
 
 from flow.models import UserFlowSchedule
+from sign.models import AuthLogin
 from user.models import LineUser, UserProfile
 
 import datetime
@@ -17,12 +18,13 @@ class DashboardView(ShopView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         
         now = datetime.datetime.now()
         after = now + datetime.timedelta(days=1)
-        context['today_user_count'] = LineUser.objects.filter(created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0))).count()
+        context['today_user_count'] = LineUser.objects.filter(shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0))).count()
 
-        context['today_reserve_count'] = UserFlowSchedule.objects.filter(date=now.replace(hour=0, minute=0, second=0, microsecond=0)).count()
+        context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).count()
         context['today_reserve_list'] = list()
         for schedule in UserFlowSchedule.objects.filter(date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).all():
             schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
@@ -31,7 +33,7 @@ class DashboardView(ShopView):
             schedule.flow.user.reserve = get_reserve_date(schedule)
             context['today_reserve_list'].append(schedule.flow.user)
 
-        context['new_reserve_count'] = UserFlowSchedule.objects.filter(created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0))).count()
+        context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0))).count()
         context['new_reserve_list'] = list()
         for schedule in UserFlowSchedule.objects.filter(created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).all():
             schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
@@ -45,7 +47,7 @@ class DashboardView(ShopView):
             context['new_reserve_list'].append(schedule.flow.user)
 
         context['after_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).all():
             schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
             schedule.flow.user.flow = schedule.flow
             schedule.flow.user.schedule = schedule
