@@ -22,6 +22,7 @@ class Command(BaseCommand):
             line_bot_api = LineBotApi(shop_line.channel_access_token)
 
             if reminder_item.template_text:
+                self.stdout.write(self.style.SUCCESS('send_action_reminder successfully!!'))
                 for template_text_item in ShopTemplateTextItem.objects.filter(template__shop=reminder_item.user.shop, template=reminder_item.template_text).all():
                     if template_text_item.message_type == 0 or template_text_item.message_type == 1:
                         self.stdout.write(self.style.SUCCESS('send_action_reminder successfully!!'))
