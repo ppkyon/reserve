@@ -59,16 +59,15 @@ def check(request):
     else:
         member_query.add(Q(member=0), Q.OR)
 
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(end_offline_setting)
-
     course_flg = False
     question_flg = False
     setting_list = list()
     user_flow = UserFlow.objects.filter(user=user, end_flg=False).first()
     if user_flow:
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), member_query).order_by('number').all():
+            import logging
+            logger = logging.getLogger('development')
+            logger.info(flow_tab)
             check_flow = UserFlow.objects.filter(user=user, flow_tab=flow_tab).first()
             if not check_flow or not check_flow.end_flg:
                 for online_offline_item in online_offline_list:
