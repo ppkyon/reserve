@@ -84,7 +84,9 @@ $( function(){
                         } else if ( check_empty(item_value.email) ) {
                             html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.email + '</p>';
                         } else if ( check_empty(item_value.date) ) {
-                            html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.date + '</p>';
+                            var date = new Date( item_value.date );
+                            date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                            html += '<p class="pb-3 ps-3 pe-3 mb-0">' + date + '</p>';
                         } else if ( check_empty(item_value.choice) ) {
                             if ( item_value.choice.length > 0 ) {
                                 var choice_count = 0
@@ -107,7 +109,9 @@ $( function(){
                         } else if ( check_empty(item_value.email) ) {
                             html += '<p class="ps-3 pe-3 mb-0">' + item_value.email + '</p>';
                         } else if ( check_empty(item_value.date) ) {
-                            html += '<p class="ps-3 pe-3 mb-0">' + item_value.date + '</p>';
+                            var date = new Date( item_value.date );
+                            date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                            html += '<p class="ps-3 pe-3 mb-0">' + date + '</p>';
                         } else if ( check_empty(item_value.choice) ) {
                             if ( item_value.choice.length > 0 ) {
                                 var choice_count = 0

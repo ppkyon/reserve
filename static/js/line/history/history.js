@@ -477,13 +477,17 @@ $( function(){
                     if ( value.required_flg ) {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.date) ) {
-                                html += '<input type="text" name="date_' + value.number + '" value="' + value.date + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '" required>';
+                                var date = new Date( value.date );
+                                date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                                html += '<input type="text" name="date_' + value.number + '" value="' + date + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '" required>';
                             } else {
                                 html += '<input type="text" name="date_' + value.number + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '" required>';
                             }
                         } else {
                             if ( check_empty(value.date) ) {
-                                html += '<input type="text" name="date_' + value.number + '" value="' + value.date + '" class="input-text input-birth-date ps-2 pe-2" required>';
+                                var date = new Date( value.date );
+                                date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                                html += '<input type="text" name="date_' + value.number + '" value="' + date + '" class="input-text input-birth-date ps-2 pe-2" required>';
                             } else {
                                 html += '<input type="text" name="date_' + value.number + '" class="input-text input-birth-date ps-2 pe-2" required>';
                             }
@@ -491,13 +495,17 @@ $( function(){
                     } else {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.date) ) {
-                                html += '<input type="text" name="date_' + value.number + '" value="' + value.date + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '">';
+                                var date = new Date( value.date );
+                                date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                                html += '<input type="text" name="date_' + value.number + '" value="' + date + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '">';
                             } else {
                                 html += '<input type="text" name="date_' + value.number + '" class="input-text input-birth-date ps-2 pe-2" placeholder="' + value.description + '">';
                             }
                         } else {
                             if ( check_empty(value.date) ) {
-                                html += '<input type="text" name="date_' + value.number + '" value="' + value.date + '" class="input-text input-birth-date ps-2 pe-2">';
+                                var date = new Date( value.date );
+                                date = date.getFullYear() + '/' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + date.getDate() ).slice(-2);
+                                html += '<input type="text" name="date_' + value.number + '" value="' + date + '" class="input-text input-birth-date ps-2 pe-2">';
                             } else {
                                 html += '<input type="text" name="date_' + value.number + '" class="input-text input-birth-date ps-2 pe-2">';
                             }
