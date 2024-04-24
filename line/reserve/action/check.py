@@ -89,7 +89,7 @@ def check(request):
                                 if not setting_item['id'] in end_online_setting:
                                     setting_list.append(setting_item)
 
-    if len(setting_list) > 0:
+    if len(setting_list) == 0:
         data = {
             'error_flg': True,
         }
