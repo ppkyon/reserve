@@ -130,8 +130,9 @@
                                                     <i class='bx bx-dots-vertical-rounded menu-icon'></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdown_menu">
+                                                    <a href="{% url 'talk:index' %}?id={{ object_item.display_id }}" class="btn edit-button all-loading-action dropdown-item fw-bold text-center p-1 ps-2 pe-2">1対1トーク</a>
                                                     {% if not object_item.member_flg %}
-                                                        <button type="button" value="{{ object_item.display_id }}" class="btn member-button dropdown-item fw-bold text-center">会員登録</a>
+                                                        <button type="button" value="{{ object_item.display_id }}" class="btn member-button dropdown-item fw-bold text-center border-top p-1 ps-2 pe-2 pt-2">会員登録</a>
                                                         <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>
                                                     {% endif %}
                                                 </div>
