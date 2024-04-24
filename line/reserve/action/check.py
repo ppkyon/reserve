@@ -108,6 +108,10 @@ def check(request):
         }
         return JsonResponse( data, safe=False )
 
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(setting_list)
+
     online_offline = None
     for online_offline_item in online_offline_list:
         online_offline = online_offline_item
@@ -115,6 +119,10 @@ def check(request):
     for setting_item in setting_list:
         if not setting:
             setting = setting_item
+
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(setting)
 
     if course_flg:
         course_list = list()
