@@ -340,7 +340,7 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
 
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-        query = Q()
+        query = Q(shop=auth_login.shop)
         
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
@@ -405,7 +405,7 @@ class TempBaseLisView(MultipleObjectMixin, ShopBaseView):
 
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-        query = Q()
+        query = Q(shop=auth_login.shop)
         
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()

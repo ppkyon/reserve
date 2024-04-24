@@ -120,8 +120,8 @@ def save(request):
                     print()
                 elif flow_item.type == 6:
                     company_flow_template = CompanyFlowTemplate.objects.filter(flow=company_flow_item).first()
-                    if ShopTemplateCardType.objects.filter(parent=company_flow_template.template_cardtype).exists():
-                        template = ShopTemplateCardType.objects.filter(parent=company_flow_template.template_cardtype).first()
+                    if ShopTemplateCardType.objects.filter(parent=company_flow_template.template_cardtype, shop=auth_login.shop).exists():
+                        template = ShopTemplateCardType.objects.filter(parent=company_flow_template.template_cardtype, shop=auth_login.shop).first()
                     else:
                         template = ShopTemplateCardType.objects.create(
                             id = str(uuid.uuid4()),
@@ -297,8 +297,8 @@ def save(request):
                     )
                 elif flow_item.type == 7:
                     company_flow_rich_menu = CompanyFlowRichMenu.objects.filter(flow=company_flow_item).first()
-                    if ShopRichMenu.objects.filter(parent=company_flow_rich_menu.rich_menu).exists():
-                        rich_menu = ShopRichMenu.objects.filter(parent=company_flow_rich_menu.rich_menu).first()
+                    if ShopRichMenu.objects.filter(parent=company_flow_rich_menu.rich_menu, shop=auth_login.shop).exists():
+                        rich_menu = ShopRichMenu.objects.filter(parent=company_flow_rich_menu.rich_menu, shop=auth_login.shop).first()
                     else:
                         if company_flow_rich_menu.rich_menu:
                             rich_menu = ShopRichMenu.objects.create(
@@ -347,8 +347,8 @@ def save(request):
                     company_flow_action_reminder = CompanyFlowActionReminder.objects.filter(flow=company_flow_item).first()
                     template_text = None
                     if company_flow_action_reminder.template_text:
-                        if ShopTemplateText.objects.filter(parent=company_flow_action_reminder.template_text).exists():
-                            template_text = ShopTemplateText.objects.filter(parent=company_flow_action_reminder.template_text).first()
+                        if ShopTemplateText.objects.filter(parent=company_flow_action_reminder.template_text, shop=auth_login.shop).exists():
+                            template_text = ShopTemplateText.objects.filter(parent=company_flow_action_reminder.template_text, shop=auth_login.shop).first()
                         else:
                             template_text = ShopTemplateText.objects.create(
                                 id = str(uuid.uuid4()),
@@ -358,26 +358,26 @@ def save(request):
                                 shop = auth_login.shop,
                                 name = company_flow_action_reminder.template_text.name,
                             )
-                        for company_template_text_item in company_flow_action_reminder.template_text.company_template_text_item.all():
-                            ShopTemplateTextItem.objects.create(
-                                id = str(uuid.uuid4()),
-                                template = template_text,
-                                number = company_template_text_item.number,
-                                message_type = company_template_text_item.message_type,
-                                text = company_template_text_item.text,
-                                image = company_template_text_item.image,
-                                image_width = company_template_text_item.image_width,
-                                image_height = company_template_text_item.image_height,
-                                video = company_template_text_item.video,
-                                video_width = company_template_text_item.video_width,
-                                video_height = company_template_text_item.video_height,
-                                video_thumbnail = company_template_text_item.video_thumbnail,
-                                template_text = company_template_text_item.template_text,
-                                template_video = company_template_text_item.template_video,
-                                template_richmessage = company_template_text_item.template_richmessage,
-                                template_richvideo = company_template_text_item.template_richvideo,
-                                template_cardtype = company_template_text_item.template_cardtype,
-                            )
+                            for company_template_text_item in company_flow_action_reminder.template_text.company_template_text_item.all():
+                                ShopTemplateTextItem.objects.create(
+                                    id = str(uuid.uuid4()),
+                                    template = template_text,
+                                    number = company_template_text_item.number,
+                                    message_type = company_template_text_item.message_type,
+                                    text = company_template_text_item.text,
+                                    image = company_template_text_item.image,
+                                    image_width = company_template_text_item.image_width,
+                                    image_height = company_template_text_item.image_height,
+                                    video = company_template_text_item.video,
+                                    video_width = company_template_text_item.video_width,
+                                    video_height = company_template_text_item.video_height,
+                                    video_thumbnail = company_template_text_item.video_thumbnail,
+                                    template_text = company_template_text_item.template_text,
+                                    template_video = company_template_text_item.template_video,
+                                    template_richmessage = company_template_text_item.template_richmessage,
+                                    template_richvideo = company_template_text_item.template_richvideo,
+                                    template_cardtype = company_template_text_item.template_cardtype,
+                                )
                     template_video = None
                     template_richmessage = None
                     template_richvideo = None
@@ -396,8 +396,8 @@ def save(request):
                     company_flow_action_message = CompanyFlowActionMessage.objects.filter(flow=company_flow_item).first()
                     template_text = None
                     if company_flow_action_message.template_text:
-                        if ShopTemplateText.objects.filter(parent=company_flow_action_message.template_text).exists():
-                            template_text = ShopTemplateText.objects.filter(parent=company_flow_action_message.template_text).first()
+                        if ShopTemplateText.objects.filter(parent=company_flow_action_message.template_text, shop=auth_login.shop).exists():
+                            template_text = ShopTemplateText.objects.filter(parent=company_flow_action_message.template_text, shop=auth_login.shop).first()
                         else:
                             template_text = ShopTemplateText.objects.create(
                                 id = str(uuid.uuid4()),
@@ -407,26 +407,26 @@ def save(request):
                                 shop = auth_login.shop,
                                 name = company_flow_action_message.template_text.name,
                             )
-                        for company_template_text_item in company_flow_action_message.template_text.company_template_text_item.all():
-                            ShopTemplateTextItem.objects.create(
-                                id = str(uuid.uuid4()),
-                                template = template_text,
-                                number = company_template_text_item.number,
-                                message_type = company_template_text_item.message_type,
-                                text = company_template_text_item.text,
-                                image = company_template_text_item.image,
-                                image_width = company_template_text_item.image_width,
-                                image_height = company_template_text_item.image_height,
-                                video = company_template_text_item.video,
-                                video_width = company_template_text_item.video_width,
-                                video_height = company_template_text_item.video_height,
-                                video_thumbnail = company_template_text_item.video_thumbnail,
-                                template_text = company_template_text_item.template_text,
-                                template_video = company_template_text_item.template_video,
-                                template_richmessage = company_template_text_item.template_richmessage,
-                                template_richvideo = company_template_text_item.template_richvideo,
-                                template_cardtype = company_template_text_item.template_cardtype,
-                            )
+                            for company_template_text_item in company_flow_action_message.template_text.company_template_text_item.all():
+                                ShopTemplateTextItem.objects.create(
+                                    id = str(uuid.uuid4()),
+                                    template = template_text,
+                                    number = company_template_text_item.number,
+                                    message_type = company_template_text_item.message_type,
+                                    text = company_template_text_item.text,
+                                    image = company_template_text_item.image,
+                                    image_width = company_template_text_item.image_width,
+                                    image_height = company_template_text_item.image_height,
+                                    video = company_template_text_item.video,
+                                    video_width = company_template_text_item.video_width,
+                                    video_height = company_template_text_item.video_height,
+                                    video_thumbnail = company_template_text_item.video_thumbnail,
+                                    template_text = company_template_text_item.template_text,
+                                    template_video = company_template_text_item.template_video,
+                                    template_richmessage = company_template_text_item.template_richmessage,
+                                    template_richvideo = company_template_text_item.template_richvideo,
+                                    template_cardtype = company_template_text_item.template_cardtype,
+                                )
                     template_video = None
                     template_richmessage = None
                     template_richvideo = None
