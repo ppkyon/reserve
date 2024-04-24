@@ -155,6 +155,14 @@
         line-height: 1 !important;
     }
 
+    .side-area .com-area {
+        margin-top: 1rem !important;
+    }
+        
+    .side-area .com-area p {
+        font-size: 0.6rem  !important;
+    }
+
     .side-area .menu-area ul li a,
     .menu-area img,
     .menu-area span {

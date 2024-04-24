@@ -258,6 +258,18 @@
     .input-text {
         font-size: 0.75rem;
     }
+
+    .mini-table-area .table tbody input {
+        width: 100%;
+    }
+
+    .mini-table-area .week-area-tablet {
+        width: 220px !important;
+    }
+
+    .mini-table-area .week-tablet {
+        margin-right: 1rem !important;
+    }
 }
 
 /* スマホ用レスポンシブ */
