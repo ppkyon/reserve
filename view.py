@@ -272,7 +272,7 @@ class ShopBaseLisView(MultipleObjectMixin, ShopBaseView):
 
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
-        query = Q()
+        query = Q(shop=auth_login.shop)
         if 'flow' in self.request.path:
             query.add(Q(delete_flg=False), Q.AND)
 
