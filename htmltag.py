@@ -74,7 +74,7 @@ def add_num(value1=None, value2=None):
 def display_day(value):
     if '年' in value:
         locale.setlocale(locale.LC_TIME, 'ja_JP')
-        date = datetime.strptime(value, '%Y年%m月%d日')
+        date = datetime.datetime.strptime(value, '%Y年%m月%d日')
         return value.split('年')[1] + '(' + date.strftime('%a') + ')'
     else:
         return value
