@@ -225,3 +225,21 @@
     font-size: 12px;
     background-color: #efefef;
 }
+
+/* iPad用レスポンシブ */
+@media screen and (max-width: 1180px) {
+    .table-area-tablet {
+        overflow-x: auto;
+    }
+    .table-tablet {
+        min-width: 45rem;
+        border-collapse: collapse;
+    }
+
+    .question-area .table-area .table .memo-tablet {
+        width: 420px !important;
+    }
+
+
+
+}
