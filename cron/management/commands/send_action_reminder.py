@@ -24,6 +24,7 @@ class Command(BaseCommand):
             if reminder_item.template_text:
                 for template_text_item in ShopTemplateTextItem.objects.filter(template__shop=reminder_item.user.shop, template=reminder_item.template_text).all():
                     if template_text_item.message_type == 0 or template_text_item.message_type == 1:
+                        self.stdout.write(template_text_item.text)
                         if template_text_item.text:
                             text = send_textarea_replace(template_text_item.text, line_info(shop_line), reminder_item.user)
                             if text:
