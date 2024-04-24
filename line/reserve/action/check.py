@@ -62,7 +62,7 @@ def check(request):
     course_flg = False
     question_flg = False
     setting_list = list()
-    user_flow = UserFlow.objects.filter(user=user, end_flg=False).first()
+    user_flow = UserFlow.objects.filter(user=user).first()
     if user_flow:
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), member_query).order_by('number').all():
             import logging
