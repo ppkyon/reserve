@@ -22,7 +22,7 @@ class Command(BaseCommand):
             line_bot_api = LineBotApi(shop_line.channel_access_token)
 
             if reminder_item.template_text:
-                for template_text_item in ShopTemplateTextItem.objects.filter(template=reminder_item.template_text).all():
+                for template_text_item in ShopTemplateTextItem.objects.filter(shop=reminder_item.user.shop, template=reminder_item.template_text).all():
                     if template_text_item.message_type == 0 or template_text_item.message_type == 1:
                         if template_text_item.text:
                             text = send_textarea_replace(template_text_item.text, line_info(shop_line), reminder_item.user)
