@@ -37,10 +37,11 @@ def check(request):
 
     user_question = list(UserQuestion.objects.filter(user__id=user['id']).order_by('created_at').values(*get_model_field(UserQuestion)).all())
     for user_question_index, user_question_item in enumerate(user_question):
-        user_question[user_question_index]['item'] = list(UserQuestionItem.objects.filter(user__id=user_question_item['id']).order_by('created_at').values(*get_model_field(UserQuestionItem)).all())
+        user_question[user_question_index]['item'] = list(UserQuestionItem.objects.filter(question__id=user_question_item['id']).order_by('created_at').values(*get_model_field(UserQuestionItem)).all())
         for user_question_item_index, user_question_item_item in enumerate(user_question[user_question_index]['item']):
-            user_question[user_question_index]['item'][user_question_item_index]['choice'] = list(UserQuestionItemChoice.objects.filter(user__id=user_question_item_item['id']).values(*get_model_field(UserQuestionItemChoice)).all())
+            user_question[user_question_index]['item'][user_question_item_index]['choice'] = list(UserQuestionItemChoice.objects.filter(question__id=user_question_item_item['id']).values(*get_model_field(UserQuestionItemChoice)).all())
 
+    print(user_question)
     data = {
         'user': user,
         'history': user_flow,

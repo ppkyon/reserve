@@ -285,8 +285,7 @@ class UserQuestionItem(models.Model):
     )
 
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
-    user = models.ForeignKey(UserQuestion, on_delete=models.CASCADE, related_name="user_question_item")
-    question = models.ForeignKey(ShopQuestionItem, on_delete=models.CASCADE, related_name="user_question_item")
+    question = models.ForeignKey(UserQuestion, on_delete=models.CASCADE, related_name="user_question_item")
     number = models.IntegerField(default=0)
     type = models.IntegerField(choices=type_choice, default=0)
     title = models.CharField(max_length=255,null=True)
@@ -309,8 +308,7 @@ class UserQuestionItem(models.Model):
 
 class UserQuestionItemChoice(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
-    user = models.ForeignKey(UserQuestionItem, on_delete=models.CASCADE, related_name="user_question_item_choice")
-    question = models.ForeignKey(ShopQuestionItemChoice, on_delete=models.CASCADE, related_name="user_question_item_choice")
+    question = models.ForeignKey(UserQuestionItem, on_delete=models.CASCADE, related_name="user_question_item_choice")
     number = models.IntegerField(default=0)
     title = models.CharField(max_length=255, null=True)
     text = models.CharField(max_length=255, null=True)

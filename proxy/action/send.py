@@ -63,7 +63,6 @@ def send(request):
             id = str(uuid.uuid4()),
             display_id = create_code(12, UserQuestion),
             user = user,
-            question = question,
             title = question.title,
             name = question.name,
             description =  question.description,
@@ -71,13 +70,13 @@ def send(request):
             count = question.count,
         )
         
+        UserQuestionItem.objects.filter(question=user_question).all().delete()
         for shop_question_index, shop_question_item in enumerate(ShopQuestionItem.objects.filter(question=question).order_by('number').all()):
             if request.POST.get('type_'+str(shop_question_index+1)) == '1':
                 if request.POST.get('text_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -92,8 +91,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -107,8 +105,7 @@ def send(request):
                 if request.POST.get('text_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -123,8 +120,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -138,8 +134,7 @@ def send(request):
                 if request.POST.get('value_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -154,8 +149,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -170,8 +164,7 @@ def send(request):
                     if request.POST.get('value_'+str(shop_question_index+1)):
                         UserQuestionItem.objects.create(
                             id = str(uuid.uuid4()),
-                            user = user_question,
-                            question = shop_question_item,
+                            question = user_question,
                             number = shop_question_item.number,
                             type = shop_question_item.type,
                             title = shop_question_item.title,
@@ -184,8 +177,7 @@ def send(request):
                     elif urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))) == '男性':
                         UserQuestionItem.objects.create(
                             id = str(uuid.uuid4()),
-                            user = user_question,
-                            question = shop_question_item,
+                            question = user_question,
                             number = shop_question_item.number,
                             type = shop_question_item.type,
                             title = shop_question_item.title,
@@ -199,8 +191,7 @@ def send(request):
                     elif urllib.parse.unquote(request.POST.get('value_'+str(shop_question_index+1))) == '女性':
                         UserQuestionItem.objects.create(
                             id = str(uuid.uuid4()),
-                            user = user_question,
-                            question = shop_question_item,
+                            question = user_question,
                             number = shop_question_item.number,
                             type = shop_question_item.type,
                             title = shop_question_item.title,
@@ -216,8 +207,7 @@ def send(request):
                 if request.POST.get('text_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -232,8 +222,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -247,8 +236,7 @@ def send(request):
                 if request.POST.get('email_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -263,8 +251,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -278,8 +265,7 @@ def send(request):
                 if request.POST.get('date_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -297,8 +283,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -312,8 +297,7 @@ def send(request):
                 if request.POST.get('text_'+str(shop_question_index+1)):
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -328,8 +312,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -349,8 +332,7 @@ def send(request):
                         data = request.POST.get('image_url_'+str(shop_question_index+1))
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -365,8 +347,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -386,8 +367,7 @@ def send(request):
                         data = request.POST.get('image_url_'+str(shop_question_index+1))
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -400,8 +380,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -421,8 +400,7 @@ def send(request):
                         data = request.POST.get('video_url_'+str(shop_question_index+1))
                     user_question_item = UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -455,8 +433,7 @@ def send(request):
                 else:
                     UserQuestionItem.objects.create(
                         id = str(uuid.uuid4()),
-                        user = user_question,
-                        question = shop_question_item,
+                        question = user_question,
                         number = shop_question_item.number,
                         type = shop_question_item.type,
                         title = shop_question_item.title,
@@ -470,8 +447,7 @@ def send(request):
             elif request.POST.get('type_'+str(shop_question_index+1)) == '99':
                 user_question_item = UserQuestionItem.objects.create(
                     id = str(uuid.uuid4()),
-                    user = user_question,
-                    question = shop_question_item,
+                    question = user_question,
                     number = shop_question_item.number,
                     type = shop_question_item.type,
                     title = shop_question_item.title,
@@ -480,13 +456,13 @@ def send(request):
                     choice_count = shop_question_item.choice_count,
                     required_flg = shop_question_item.required_flg,
                 )
+                UserQuestionItemChoice.objects.filter(question=user_question_item).all().delete()
                 if request.POST.get('choice_type_'+str(shop_question_index+1)) == '1':
                     for shop_question_choice_index, shop_question_choice_item in enumerate(ShopQuestionItemChoice.objects.filter(question_item=shop_question_item).order_by('number').all()):
                         if request.POST.get('text_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = urllib.parse.unquote(request.POST.get('text_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
@@ -494,8 +470,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = None,
@@ -505,8 +480,7 @@ def send(request):
                         if request.POST.get('choice_value_'+str(shop_question_index+1)) == str(shop_question_choice_item.number):
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 1,
@@ -514,8 +488,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 0,
@@ -526,8 +499,7 @@ def send(request):
                         if str(shop_question_choice_item.number) in choice_value:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 1,
@@ -535,8 +507,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 0,
@@ -546,8 +517,7 @@ def send(request):
                         if request.POST.get('choice_text_'+str(shop_question_index+1)) == shop_question_choice_item.text:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 1,
@@ -555,8 +525,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 text = 0,
@@ -566,8 +535,7 @@ def send(request):
                         if request.POST.get('date_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 date = urllib.parse.unquote(request.POST.get('date_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
@@ -575,8 +543,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 date = None,
@@ -586,8 +553,7 @@ def send(request):
                         if request.POST.get('time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 time = urllib.parse.unquote(request.POST.get('time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))),
@@ -595,8 +561,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 time = None,
@@ -606,8 +571,7 @@ def send(request):
                         if request.POST.get('date_time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1)):
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 date = urllib.parse.unquote(request.POST.get('date_time_'+str(shop_question_index+1)+'_'+str(shop_question_choice_index+1))).replace( '/', '-'),
@@ -615,8 +579,7 @@ def send(request):
                         else:
                             UserQuestionItemChoice.objects.create(
                                 id = str(uuid.uuid4()),
-                                user = user_question_item,
-                                question = shop_question_choice_item,
+                                question = user_question_item,
                                 number = shop_question_choice_item.number,
                                 title = shop_question_choice_item.text,
                                 date = None,

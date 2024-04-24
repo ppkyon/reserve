@@ -25,6 +25,7 @@ class LineUser(models.Model):
     status = models.IntegerField(choices=status_choice, default=0)
     member_flg = models.BooleanField(default=False)
     proxy_flg = models.BooleanField(default=False)
+    check_flg = models.BooleanField(default=False)
     delete_flg = models.BooleanField(default=False)
     updated_at = models.DateTimeField(blank=False, null=True)
     created_at = models.DateTimeField(default=timezone.now)

@@ -78,9 +78,9 @@ def handle_follow(line_user_id, shop):
     UserRichMenu.objects.filter(user=user).all().delete()
     UserRichMenuClick.objects.filter(user=user).all().delete()
     for user_question in UserQuestion.objects.filter(user=user).all():
-        for user_question_item in UserQuestionItem.objects.filter(user=user_question).all():
-            UserQuestionItemChoice.objects.filter(user=user_question_item).all().delete()
-        UserQuestionItem.objects.filter(user=user_question).all().delete()
+        for user_question_item in UserQuestionItem.objects.filter(question=user_question).all():
+            UserQuestionItemChoice.objects.filter(question=user_question_item).all().delete()
+        UserQuestionItem.objects.filter(question=user_question).all().delete()
     UserQuestion.objects.filter(user=user).all().delete()
         
     flow = None

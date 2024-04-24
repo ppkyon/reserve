@@ -59,7 +59,7 @@ def question(request):
     user.save()
 
     user_question = UserQuestion.objects.filter(display_id=request.POST.get('question_id')).first()
-    for user_question_index, user_question_item in enumerate(UserQuestionItem.objects.filter(user=user_question).order_by('number').all()):
+    for user_question_index, user_question_item in enumerate(UserQuestionItem.objects.filter(question=user_question).order_by('number').all()):
         if request.POST.get('type_'+str(user_question_index+1)) == '1':
             if request.POST.get('text_'+str(user_question_index+1)):
                 user_question_item.text = urllib.parse.unquote(request.POST.get('text_'+str(user_question_index+1)))
@@ -204,7 +204,7 @@ def question(request):
                 user_question_item.save()
         elif request.POST.get('type_'+str(user_question_index+1)) == '99':
             if request.POST.get('choice_type_'+str(user_question_index+1)) == '1':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('text_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)):
                         user_question_choice_item.text = urllib.parse.unquote(request.POST.get('text_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)))
                         user_question_choice_item.save()
@@ -212,7 +212,7 @@ def question(request):
                         user_question_choice_item.text = None
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '2':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('choice_value_'+str(user_question_index+1)) == str(user_question_choice_item.number):
                         user_question_choice_item.text = 1
                         user_question_choice_item.save()
@@ -221,7 +221,7 @@ def question(request):
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '3':
                 choice_value = request.POST.getlist('choice_value_'+str(user_question_index+1)+'%5B%5D')
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if str(user_question_choice_item.number) in choice_value:
                         user_question_choice_item.text = 1
                         user_question_choice_item.save()
@@ -229,7 +229,7 @@ def question(request):
                         user_question_choice_item.text = 0
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '4':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('choice_text_'+str(user_question_index+1)) == user_question_choice_item.text:
                         user_question_choice_item.text = 1
                         user_question_choice_item.save()
@@ -237,7 +237,7 @@ def question(request):
                         user_question_choice_item.text = 0
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '5':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('date_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)):
                         user_question_choice_item.date = urllib.parse.unquote(request.POST.get('date_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1))).replace( '/', '-')
                         user_question_choice_item.save()
@@ -245,7 +245,7 @@ def question(request):
                         user_question_choice_item.date = None
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '6':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('time_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)):
                         user_question_choice_item.time = urllib.parse.unquote(request.POST.get('time_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)))
                         user_question_choice_item.save()
@@ -253,7 +253,7 @@ def question(request):
                         user_question_choice_item.time = None
                         user_question_choice_item.save()
             elif request.POST.get('choice_type_'+str(user_question_index+1)) == '7':
-                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(user=user_question_item).order_by('number').all()):
+                for user_question_choice_index, user_question_choice_item in enumerate(UserQuestionItemChoice.objects.filter(question=user_question_item).order_by('number').all()):
                     if request.POST.get('date_time_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1)):
                         user_question_choice_item.date = urllib.parse.unquote(request.POST.get('date_time_'+str(user_question_index+1)+'_'+str(user_question_choice_index+1))).replace( '/', '-')
                         user_question_choice_item.save()
