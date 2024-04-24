@@ -41,7 +41,6 @@ def check(request):
         for user_question_item_index, user_question_item_item in enumerate(user_question[user_question_index]['item']):
             user_question[user_question_index]['item'][user_question_item_index]['choice'] = list(UserQuestionItemChoice.objects.filter(question__id=user_question_item_item['id']).values(*get_model_field(UserQuestionItemChoice)).all())
 
-    print(user_question)
     data = {
         'user': user,
         'history': user_flow,

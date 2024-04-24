@@ -612,12 +612,9 @@ def send(request):
                 break
             if flow_item.type == 54:
                 target_flg = True
-    
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(target_flow_tab)
-        if UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).exists():
-            user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+
+        if UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).exists():
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, flow_tab=target_flow_tab).first()
             user_flow.flow = target_flow_tab.flow
             user_flow.flow_tab = target_flow_tab
             user_flow.flow_item = target_flow_item
@@ -732,7 +729,7 @@ def send(request):
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOnlineFlowMenu.objects.filter(shop=shop, online=setting).all():
-            flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
+            flow_tab = ShopFlowTab.objects.filter(flow__shop=shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
         
