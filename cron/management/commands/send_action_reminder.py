@@ -21,11 +21,13 @@ class Command(BaseCommand):
             shop_line = ShopLine.objects.filter(shop=reminder_item.user.shop).first()
             line_bot_api = LineBotApi(shop_line.channel_access_token)
 
+            import logging
+            logger = logging.getLogger('development')
+            logger.info(reminder_item)
+
             if reminder_item.template_text:
-                self.stdout.write(self.style.SUCCESS('send_action_reminder successfully!!'))
                 for template_text_item in ShopTemplateTextItem.objects.filter(template__shop=reminder_item.user.shop, template=reminder_item.template_text).all():
                     if template_text_item.message_type == 0 or template_text_item.message_type == 1:
-                        self.stdout.write(self.style.SUCCESS('send_action_reminder successfully!!'))
                         if template_text_item.text:
                             text = send_textarea_replace(template_text_item.text, line_info(shop_line), reminder_item.user)
                             if text:
