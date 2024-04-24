@@ -86,6 +86,7 @@
                                             <button type="button" value="{{ today_reserve_item.display_id }}" class="btn dropdown-item dropdown-preview-button fw-bold text-center">プレビュー</button>
                                             <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>
                                             <a href="{% url 'user:detail' %}?id={{ today_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
+                                            <a href="{% url 'talk:index' %}?id={{ today_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1対1トーク</a>
                                         </div>
                                     </div>
                                 </td>
