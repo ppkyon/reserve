@@ -1,3 +1,5 @@
+var week = ['日', '月', '火', '水', '木', '金', '土'];
+
 $( function() {
     $( document ).on( 'click', '.input-select-dropdown .dropdown-item', function () {
         $( this ).parents( '.dropdown' ).find( 'input[type=text]' ).val( $( this ).text() );

@@ -15,7 +15,6 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            console.log(response);
             if ( response.update ) {
                 $( '.user-item-area' ).each( function( index, element ){
                     if ( $( this ).prev().val() == $( '#send_id' ).val() ) {
@@ -218,7 +217,6 @@ function create_message( response, value, last_date ) {
                         }
                     });
                     html += '</div>';
-                    console.log(value);
                     html += '<div class="card-type-footer-area text-center">';
                     $.each( template_value.action, function( action_index, action_value ) {
                         if ( action_value.flg ) {
