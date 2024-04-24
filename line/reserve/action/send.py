@@ -613,6 +613,7 @@ def send(request):
             if flow_item.type == 54:
                 target_flg = True
     
+        print(target_flow_tab)
         if UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).exists():
             user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
             user_flow.flow = target_flow_tab.flow
