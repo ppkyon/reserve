@@ -753,8 +753,8 @@ def send(request):
             if flow_item.type == 54:
                 target_flg = True
         
-        if UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).exists():
-            user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+        if UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).exists():
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
             user_flow.flow = target_flow_tab.flow
             user_flow.flow_tab = target_flow_tab
             user_flow.flow_item = target_flow_item
