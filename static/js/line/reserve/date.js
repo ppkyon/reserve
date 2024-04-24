@@ -523,6 +523,31 @@ $( function(){
                         $( '#question_form' ).append(html);
                     });
 
+                    var now = new Date();
+                    var today = now.getFullYear() + '/' +  ( now.getMonth() + 1 ) + '/' + now.getDate() + ' 12:00'
+                    flatpickr( '.input-date', {
+                        "locale": "ja",
+                        dateFormat : 'Y/m/d',
+                    });
+                    flatpickr( '.input-time', {
+                        "locale": "ja",
+                        enableTime : true,
+                        noCalendar : true,
+                        minuteIncrement : 15,
+                        defaultDate : '12:00'
+                    });
+                    flatpickr( '.input-date-time', {
+                        "locale": "ja",
+                        enableTime : true,
+                        minuteIncrement : 15,
+                        defaultDate : today
+                    });
+                    flatpickr( '.input-birth-date', {
+                        "locale": "ja",
+                        dateFormat : 'Y/m/d',
+                        defaultDate : '1992/01/01',
+                    });
+
                     setTimeout( function() {
                         $( '.loader-area' ).css( 'opacity', '0' );
                         $( '.loader-area' ).addClass( 'd-none' );
@@ -545,43 +570,6 @@ $( function(){
                 $( '.check-area' ).removeClass( 'd-none' );
             }, 750 );
         }
-    });
-
-    $( document ).on( 'click', '.input-date', function () {
-        var time_pickr = flatpickr( this, {
-            "locale": "ja",
-            dateFormat : 'Y/m/d',
-        });
-        time_pickr.open();
-    });
-    $( document ).on( 'click', '.input-time', function () {
-        var time_pickr = flatpickr( this, {
-            "locale": "ja",
-            enableTime : true,
-            noCalendar : true,
-            minuteIncrement : 15,
-            defaultDate : '12:00'
-        });
-        time_pickr.open();
-    });
-    $( document ).on( 'click', '.input-date-time', function () {
-        var now = new Date();
-        var today = now.getFullYear() + '/' +  ( now.getMonth() + 1 ) + '/' + now.getDate() + ' 12:00'
-        var data_time_pickr = flatpickr( this, {
-            "locale": "ja",
-            enableTime : true,
-            minuteIncrement : 15,
-            defaultDate : today
-        });
-        data_time_pickr.open();
-    });
-    $( document ).on( 'click', '.input-birth-date', function () {
-        var data_pickr = flatpickr( this, {
-            "locale": "ja",
-            dateFormat : 'Y/m/d',
-            defaultDate : '1992/01/01',
-        });
-        data_pickr.open();
     });
 });
 
