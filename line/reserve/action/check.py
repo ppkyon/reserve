@@ -89,28 +89,24 @@ def check(request):
                                 if not setting_item['id'] in end_online_setting:
                                     setting_list.append(setting_item)
 
-    if place_flg:
-        if len(setting_list) > 0:
-            data = {
-                'offline_place': ReserveOfflinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOfflinePlace)).first(),
-                'online_place': ReserveOnlinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOnlinePlace)).first(),
-                'online_offline_list': online_offline_list,
-                'offline_list': offline_list,
-                'online_list': online_list,
-                'place_flg': place_flg,
-                'course_flg': course_flg,
-                'question_flg': question_flg,
-                'error_flg': False,
-            }
-        else:
-            data = {
-                'error_flg': True,
-            }
-        return JsonResponse( data, safe=False )
+    if len(setting_list) > 0:
+        data = {
+            'error_flg': True,
+        }
 
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(setting_list)
+    if place_flg:
+        data = {
+            'offline_place': ReserveOfflinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOfflinePlace)).first(),
+            'online_place': ReserveOnlinePlace.objects.filter(shop=shop).values(*get_model_field(ReserveOnlinePlace)).first(),
+            'online_offline_list': online_offline_list,
+            'offline_list': offline_list,
+            'online_list': online_list,
+            'place_flg': place_flg,
+            'course_flg': course_flg,
+            'question_flg': question_flg,
+            'error_flg': False,
+        }
+        return JsonResponse( data, safe=False )
 
     online_offline = None
     for online_offline_item in online_offline_list:
@@ -121,25 +117,20 @@ def check(request):
             setting = setting_item
 
     if course_flg:
-        if len(setting_list) > 0:
-            course_list = list()
-            if online_offline['type'] == 1:
-                course_list = list(ReserveOfflineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOfflineCourse)).all())
-            if online_offline['type'] == 2:
-                course_list = list(ReserveOnlineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOnlineCourse)).all())
+        course_list = list()
+        if online_offline['type'] == 1:
+            course_list = list(ReserveOfflineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOfflineCourse)).all())
+        if online_offline['type'] == 2:
+            course_list = list(ReserveOnlineCourse.objects.filter(shop=shop).values(*get_model_field(ReserveOnlineCourse)).all())
 
-            data = {
-                'online_offline': online_offline,
-                'setting': setting,
-                'course_list': course_list,
-                'place_flg': place_flg,
-                'course_flg': course_flg,
-                'question_flg': question_flg,
-            }       
-        else:
-            data = {
-                'error_flg': True,
-            }                     
+        data = {
+            'online_offline': online_offline,
+            'setting': setting,
+            'course_list': course_list,
+            'place_flg': place_flg,
+            'course_flg': course_flg,
+            'question_flg': question_flg,
+        }                         
         return JsonResponse( data, safe=False )
     
     current = datetime.datetime.now()
