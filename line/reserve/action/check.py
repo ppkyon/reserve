@@ -59,6 +59,10 @@ def check(request):
     else:
         member_query.add(Q(member=0), Q.OR)
 
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(end_offline_setting)
+
     course_flg = False
     question_flg = False
     setting_list = list()
