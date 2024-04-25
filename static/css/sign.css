@@ -81,11 +81,21 @@ body {
     border-radius: 0.8rem;
     transition: all .4s ease-in-out;
 }
-.input-area .login-button:hover {
-    box-shadow: 0 6px 12px rgb(0 0 0 / 0.16);
-}
-.simple-login-button {
+.input-area .simple-login-button {
+    margin-top: 1.65rem;
+    margin-bottom: 1.65rem;
+    width: 100%;
+    height: 4rem;
+    color: #fff;
+    font-size: 1.4rem;
     background-color: #007aff;
+    border: none;
+    border-radius: 0.8rem;
+    transition: all .4s ease-in-out;
+}
+.input-area .login-button:hover,
+.input-area .simple-login-button:hover {
+    box-shadow: 0 6px 12px rgb(0 0 0 / 0.16);
 }
 
 .message-area .mdi {
