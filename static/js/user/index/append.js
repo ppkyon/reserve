@@ -1,3 +1,89 @@
 function append_table_area(data) {
-    return '';
+    var image = '';
+    if ( check_empty( data.profile_image ) ) {
+        image = data.profile_image;
+    } else if ( check_empty( data.user.display_image ) ) {
+        image = data.user.display_image;
+    } else {
+        image = $( '#env_static_url' ).val() + 'img/user-none.png';
+    }
+
+    var name = '';
+    if ( check_empty( data.name ) ) {
+        if ( check_empty( data.age ) ) {
+            name = data.name + ' (' + data.age + ')';
+        } else {
+            name = data.name;
+        }
+    } else {
+        if ( check_empty( data.age ) ) {
+            name = data.user.display_name + ' (' + data.age + ')';
+        } else {
+            name = data.user.display_name;
+        }
+    }
+
+    var atelle_id = '-';
+    if ( check_empty( data.atelle_id ) ) {
+        atelle_id = '#' + data.atelle_id;
+    }
+
+    var status = '';
+    if ( data.user.status == 2 ) {
+        status = '<p class="content-title mb-0">ブロック</p>';
+    } else {
+        if ( check_empty( data.active_flow ) ) {
+            status = '<p class="content-title mb-0">' + data.active_flow.flow_tab.data.name + '</p>'
+        } else {
+            status = '<p class="content-title mb-0">-</p>';
+        }
+    }
+
+    var tag = '';
+    $.each( data.tag, function( index, value ) {
+        tag += '<label class="content-tag text-center p-1 mt-1 mb-1">' + value.tag.data.name + '</label> ';
+    });
+
+    var created_date = new Date( data.user.created_at );
+    created_date = created_date.getFullYear() + '年' + ( '00' + ( created_date.getMonth() + 1 ) ).slice(-2) + '月' + ( '00' + created_date.getDate() ).slice(-2) + '日 ' + ( '00' + created_date.getHours() ).slice(-2) + ':' + ( '00' + created_date.getMinutes() ).slice(-2);
+
+    var html = '<tr class="position-relative">';
+    html += '<td class="p-1">' + alert + '</td>';
+    html += '<td class="position-relative p-1">';
+    html += '<div class="d-flex justify-content-start align-items-center">';
+    html += '<img src="' + image + '" class="user-image me-2">';
+    html += '<p class="content-title mb-0">' + name + '</p>';
+    html += '</div>';
+    html += '<p class="content-date mb-0">' + created_date + '</p>';
+    html += '</td>';
+    html += '<td class="p-1">';
+    html += '<p class="content-title mb-0">' + atelle_id + '</p>';
+    html += '</td>';
+    html += '<td class="p-1">' + status + '</td>';
+    html += '<td class="p-1">' + tag + '</td>';
+    html += '<td class="text-center p-1">';
+    html += '<div class="d-flex justify-content-start align-items-center">';
+    html += '<button type="button" value="' + data.display_id + '" class="btn preview-icon-button p-0 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="プレビュー">';
+    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/preview.png" class="pt-1 pb-1">';
+    html += '</button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_user_profile"></button>';
+    html += '<a href="/user/detail?id=' + data.display_id + '" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">';
+    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/detail.png">';
+    html += '</a>';
+    html += '<div class="dropdown button-area text-center d-inline-block p-0 me-3">';
+    html += '<button type="button" id="dropdown_menu" class="btn p-0" data-bs-toggle="dropdown">';
+    html += '<i class="bx bx-dots-vertical-rounded menu-icon"></i>';
+    html += '</button>';
+    html += '<div class="dropdown-menu" aria-labelledby="dropdown_menu">';
+    html += '<a href="/talk?id=' + data.display_id + '" class="btn edit-button dropdown-item fw-bold text-center">1対1トーク</a>';
+    if ( data.member_flg ) {
+        html += '<button type="button" value="' + data.display_id + '" class="btn member-button dropdown-item fw-bold text-center border-top p-1 ps-2 pe-2 pt-2">会員登録</a>';
+        html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>';
+    }
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</td>';
+    html += '</tr>';
+    return html;
 }
