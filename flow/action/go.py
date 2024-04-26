@@ -60,9 +60,6 @@ def go(user, flow, flow_tab, flow_item):
                 )
                 create_rich_menu(user)
             
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(flow_tab)
             if UserFlow.objects.filter(flow_tab=flow_tab, user=user).exists():
                 user_flow = UserFlow.objects.filter(flow_tab=flow_tab, user=user).first()
                 user_flow.flow_item = flow_item
@@ -83,6 +80,9 @@ def go(user, flow, flow_tab, flow_item):
                     richmenu = flow_rich_menu.rich_menu,
                     end_flg = False,
                 )
+            import logging
+            logger = logging.getLogger('development')
+            logger.info(UserFlow.objects.filter(flow_tab=flow_tab, user=user).first())
         elif flow_item.type == 8:
             print()
         elif flow_item.type == 9:
