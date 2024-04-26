@@ -9,27 +9,27 @@ function append_table_area(data) {
     }
 
     var name = '';
-    if ( check_empty( data.name ) ) {
-        if ( check_empty( data.age ) ) {
-            name = data.name + ' (' + data.age + ')';
+    if ( check_empty( data.profile.name ) ) {
+        if ( check_empty( data.profile.age ) ) {
+            name = data.profile.name + ' (' + data.profile.age + ')';
         } else {
-            name = data.name;
+            name = data.profile.name;
         }
     } else {
-        if ( check_empty( data.age ) ) {
-            name = data.user.display_name + ' (' + data.age + ')';
+        if ( check_empty( data.profile.age ) ) {
+            name = data.display_name + ' (' + data.profile.age + ')';
         } else {
-            name = data.user.display_name;
+            name = data.display_name;
         }
     }
 
     var atelle_id = '-';
-    if ( check_empty( data.atelle_id ) ) {
-        atelle_id = '#' + data.atelle_id;
+    if ( check_empty( data.profile.atelle_id ) ) {
+        atelle_id = '#' + data.profile.atelle_id;
     }
 
     var status = '';
-    if ( data.user.status == 2 ) {
+    if ( data.status == 2 ) {
         status = '<p class="content-title mb-0">ブロック</p>';
     } else {
         if ( check_empty( data.active_flow ) ) {
@@ -44,7 +44,7 @@ function append_table_area(data) {
         tag += '<label class="content-tag text-center p-1 mt-1 mb-1">' + value.tag.data.name + '</label> ';
     });
 
-    var created_date = new Date( data.user.created_at );
+    var created_date = new Date( data.created_at );
     created_date = created_date.getFullYear() + '年' + ( '00' + ( created_date.getMonth() + 1 ) ).slice(-2) + '月' + ( '00' + created_date.getDate() ).slice(-2) + '日 ' + ( '00' + created_date.getHours() ).slice(-2) + ':' + ( '00' + created_date.getMinutes() ).slice(-2);
 
     var html = '<tr class="position-relative">';
