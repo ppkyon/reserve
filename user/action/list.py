@@ -30,7 +30,7 @@ def get_list(request, page):
         user_list[user_index]['profile'] = UserProfile.objects.filter(user__id=user_item['id']).values(*get_model_field(UserProfile)).first()
         user_list[user_index]['active_flow'] = UserFlow.objects.filter(user__id=user_item['id'], end_flg=False).order_by('flow_tab__number').values(*get_model_field(UserFlow)).first()
         if user_list[user_index]['active_flow']:
-            user_list[user_index]['active_flow']['flow_tab']['data'] = ShopFlowTab.objects.filter(id=user_list[user_index]['active_flow']['id']).values(*get_model_field(ShopFlowTab)).first()
+            user_list[user_index]['active_flow']['flow_tab']['data'] = ShopFlowTab.objects.filter(id=user_list[user_index]['active_flow']['flow_tab']).values(*get_model_field(ShopFlowTab)).first()
         user_list[user_index]['tag'] = list(UserHashTag.objects.filter(user__id=user_item['id']).order_by('number').values(*get_model_field(UserHashTag)).all())
         for tag_index, tag_item in user_list[user_index]['tag']:
             user_list[user_index]['tag'][tag_index]['tag']['data'] = ShopTag.objects.filter(id=tag_item['tag']['id']).values(*get_model_field(ShopTag)).first()
