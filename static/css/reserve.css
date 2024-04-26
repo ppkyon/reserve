@@ -112,6 +112,35 @@
     .mini-table-status-tablet {
         width: 14% !important;
     }
+}
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .setting-sp {
+        width: 70% !important;
+    }
+
+    .setting-area-tablet {
+        width: 25% !important;
+    }
+    .setting-area-sp {
+        width: 30% !important;
+    }
+
+    .meeting-table-area-sp {
+        overflow-x: auto;
+    }
+    .reserve-meeting-table-sp {
+        min-width: 40rem;
+        border-collapse: collapse;
+    }
+
+    .facility-area .label-sp {
+        width: 20% !important;
+    }
+    .facility-area .label-right-sp {
+        width: 28% !important;
+    }
 
 
 }

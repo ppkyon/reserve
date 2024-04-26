@@ -11,11 +11,11 @@ function append_facility_area() {
     html += '<input type="hidden" value="' + random + '"></input>';
     html += '<div style="width: 75%;">';
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
-    html += '<label class="mb-0" style="width: 15%;">設備名</label>';
+    html += '<label class="label-sp mb-0" style="width: 15%;">設備名</label>';
     html += '<input type="text" name="name_' + random + '" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
     html += '</div>';
     html += '<div class="d-flex justify-content-start align-items-center mb-1">';
-    html += '<label class="mb-0" style="width: 15%;">受付可能数</label>';
+    html += '<label class="label-sp mb-0" style="width: 15%;">受付可能数</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
     html += '<input type="text" name="count_' + random + '" class="input-text input-select input-count display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<div class="dropdown-menu w-100">';
@@ -52,7 +52,7 @@ function append_facility_area() {
     html += '</div>';
     html += '</div>';
     html += '<label class="ps-2 mb-0" style="width: 5%;">人</label>';
-    html += '<label class="ps-4 mb-0" style="width: 20%;">振り分け順</label>';
+    html += '<label class="label-right-sp ps-4 mb-0" style="width: 20%;">振り分け順</label>';
     html += '<div class="dropdown input-select-dropdown input-order-dropdown d-inline-block p-0" style="width: 22.5%;">';
     html += '<input type="text" name="order_' + random + '" value="' + ( count + 1 ) + '" class="input-text input-select input-order display-result-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<div class="dropdown-menu w-100">';

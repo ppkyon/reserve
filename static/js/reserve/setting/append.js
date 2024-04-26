@@ -8,7 +8,7 @@ function append_setting_area(type) {
     html += '<div class="d-flex justify-content-start align-items-stretch p-2">';
     html += '<p class="count-text mt-1 mb-0" style="width: 5%;">' + count + '.</p>';
     html += '<input type="hidden" value="' + random + '">';
-    html += '<div style="width: 75%;">';
+    html += '<div class="setting-sp" style="width: 75%;">';
     html += '<div class="d-flex justify-content-start align-items-center mb-1">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>';
     html += '<input type="text" name="title_' + random + '" class="input-text ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
@@ -101,7 +101,7 @@ function append_setting_area(type) {
     html += '</div>';
     html += '</div>';
     html += '<label class="ps-2 mb-0" style="width: 5%;">人</label>';
-    html += '<label class="ps-4 mb-0" style="width: 20%;">同時施設数</label>';
+    html += '<label class="setting-area-sp ps-4 mb-0" style="width: 20%;">同時施設数</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
     html += '<input type="text" name="facility_' + random + '" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<input type="hidden">';
@@ -175,8 +175,8 @@ function append_setting_area(type) {
         html += '</div>';
         html += '<div class="row">';
         html += '<div class="col-12">';
-        html += '<div class="mini-table-area meeting-table-area ms-3 mb-2" style="width: 95%;">';
-        html += '<table class="table mb-0">';
+        html += '<div class="mini-table-area meeting-table-area meeting-table-area-sp ms-3 mb-2" style="width: 95%;">';
+        html += '<table class="table reserve-meeting-table reserve-meeting-table-sp mb-0">';
         html += '<thead>';
         html += '<tr>';
         html += '<th style="width: 20%;">ミーティング名</th>';

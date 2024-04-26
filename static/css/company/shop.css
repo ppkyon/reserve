@@ -229,7 +229,7 @@
     .company .table-area .table th {
         padding: 0.75rem 0.25rem !important;
     }
-    .company-tag-tablet {
+    .company .table-area .table .tag-tablet {
         width: 180px !important;
     }
 
@@ -245,5 +245,27 @@
     .setting-area .button-area .login-button {
         font-size: 0.65rem;
     }
+}
 
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .company .table-area .table .tag-tablet {
+        width: 140px !important;
+    }
+    .company .table-area .table .blank-sp {
+        width: 10px !important;
+    }
+
+    .setting-area .title {
+        font-size: 0.7rem;
+        width: 53% !important;
+    }
+    .setting-area .input-area input[type=text] {
+        width: 90%;
+    }
+    .setting-area .button-area .login-button {
+        width: 90%;
+        font-size: 0.55rem;
+        margin-right: 0.25rem;
+    }
 }

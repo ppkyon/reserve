@@ -300,7 +300,8 @@
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
-    .thead-flow-tablet {
+    .head .table-area .table .thead-flow-tablet,
+    .company .table-area .table .thead-flow-tablet {
         width: 420px !important;
     }
 
@@ -309,6 +310,9 @@
         padding-right: 2rem !important;
     }
 
+    .title-area .select-button {
+        width: 6rem; 
+    }
     .title-area .save-area .save-button {
         width: 5rem !important;
         height: 27px ;
@@ -316,7 +320,7 @@
     }
 
     .flow-area {
-        height: 110vh;
+        height: 60vh;
     }
 
 

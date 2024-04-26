@@ -209,13 +209,14 @@
         font-size: 0.7rem !important;
     }
 
-    .side-area {
-        min-height: 200vh !important;
+    .head-side,
+    .company-side {
+        min-height: 100vh !important;
     }
+
     .side-area-text-sp{
         font-size: 0.7rem;
     }
-
     .side-area .logo-area p {
         line-height: 1.4 !important;
     }
