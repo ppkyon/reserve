@@ -33,7 +33,7 @@ def get_list(request, page):
             user_list[user_index]['active_flow']['flow_tab'] = ShopFlowTab.objects.filter(id=user_list[user_index]['active_flow']['flow_tab']).values(*get_model_field(ShopFlowTab)).first()
         user_list[user_index]['tag'] = list(UserHashTag.objects.filter(user__id=user_item['id']).order_by('number').values(*get_model_field(UserHashTag)).all())
         for tag_index, tag_item in user_list[user_index]['tag']:
-            user_list[user_index]['tag'][tag_index]['tag']['data'] = ShopTag.objects.filter(id=tag_item['tag']['id']).values(*get_model_field(ShopTag)).first()
+            user_list[user_index]['tag'][tag_index]['tag'] = ShopTag.objects.filter(id=tag_item['tag']['id']).values(*get_model_field(ShopTag)).first()
         user_list[user_index]['total'] = total
     
     return user_list

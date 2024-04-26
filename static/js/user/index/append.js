@@ -33,7 +33,7 @@ function append_table_area(data) {
         status = '<p class="content-title mb-0">ブロック</p>';
     } else {
         if ( check_empty( data.active_flow ) ) {
-            status = '<p class="content-title mb-0">' + data.active_flow.flow_tab.data.name + '</p>'
+            status = '<p class="content-title mb-0">' + data.active_flow.flow_tab.name + '</p>'
         } else {
             status = '<p class="content-title mb-0">-</p>';
         }
@@ -41,7 +41,7 @@ function append_table_area(data) {
 
     var tag = '';
     $.each( data.tag, function( index, value ) {
-        tag += '<label class="content-tag text-center p-1 mt-1 mb-1">' + value.tag.data.name + '</label> ';
+        tag += '<label class="content-tag text-center p-1 mt-1 mb-1">' + value.tag.name + '</label> ';
     });
 
     var created_date = new Date( data.created_at );
