@@ -22,6 +22,7 @@ def get_list(request, page):
     end = number * page
 
     query = Q(shop=auth_login.shop)
+    query.add(Q(proxy_flg=False), Q.AND)
 
     user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).distinct().all()[start:end]
     total = LineUser.objects.filter(query).distinct().count()
