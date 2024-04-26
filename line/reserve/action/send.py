@@ -612,12 +612,6 @@ def send(request):
                 break
             if flow_item.type == 54:
                 target_flg = True
-        
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(user.shop)
-        logger.info(user)
-        logger.info(target_flow_tab)
 
         if UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).exists():
             user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
