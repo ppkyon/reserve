@@ -53,6 +53,11 @@ function append_table_area(data) {
     html += '<div class="d-flex justify-content-start align-items-center">';
     html += '<img src="' + image + '" class="user-image me-2">';
     html += '<p class="content-title mb-0">' + name + '</p>';
+    if ( data.member_flg ) {
+        html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-yes.png" class="ms-1" width="12" height="12"></img>';
+    } else {
+        html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-no.png" class="ms-1" width="12" height="12"></img>';
+    }
     html += '</div>';
     html += '<p class="content-date mb-0">' + created_date + '</p>';
     html += '</td>';
@@ -66,7 +71,7 @@ function append_table_area(data) {
     html += '<button type="button" value="' + data.display_id + '" class="btn preview-icon-button p-0 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="プレビュー">';
     html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/preview.png" class="pt-1 pb-1">';
     html += '</button>';
-    html += '<button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_user_profile"></button>';
+    html += '<button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>';
     html += '<a href="/user/detail?id=' + data.display_id + '" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">';
     html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/detail.png">';
     html += '</a>';
