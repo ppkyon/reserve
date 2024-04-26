@@ -16,6 +16,15 @@
         <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
         <div class="row">
             <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="table-area mb-3">
                     <table class="table mb-0">
                         <thead>
