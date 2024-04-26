@@ -585,9 +585,6 @@ def send(request):
                             )
 
     target_flow_tab = None
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(request.POST.get('setting_id'))
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=shop, offline=setting).all():
@@ -595,6 +592,9 @@ def send(request):
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
 
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(target_flow_tab)
         manager_list = list()
         facility_list = list()
         if setting:
