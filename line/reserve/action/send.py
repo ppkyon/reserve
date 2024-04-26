@@ -32,9 +32,6 @@ env = environ.Env()
 env.read_env('.env')
 
 def send(request):
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(request.POST.get('shop_id'))
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
     user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
 
@@ -587,6 +584,9 @@ def send(request):
                                 date = None,
                             )
 
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(request.POST.get(shop))
     target_flow_tab = None
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
