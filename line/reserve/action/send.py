@@ -591,10 +591,6 @@ def send(request):
             flow_tab = ShopFlowTab.objects.filter(flow__shop=shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
-        
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(target_flow_tab)
 
         manager_list = list()
         facility_list = list()
@@ -860,6 +856,10 @@ def send(request):
         )
 
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
+        
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(user_flow.flow_tab)
     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
         if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
             break
