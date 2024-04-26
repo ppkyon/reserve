@@ -1,9 +1,9 @@
 function append_table_area(data) {
     var image = '';
-    if ( check_empty( data.profile_image ) ) {
-        image = data.profile_image;
-    } else if ( check_empty( data.user.display_image ) ) {
-        image = data.user.display_image;
+    if ( check_empty( data.profile.image ) ) {
+        image = data.profile.image;
+    } else if ( check_empty( data.display_image ) ) {
+        image = data.display_image;
     } else {
         image = $( '#env_static_url' ).val() + 'img/user-none.png';
     }
