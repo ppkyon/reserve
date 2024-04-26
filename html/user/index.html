@@ -156,6 +156,8 @@
                 {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'user:paging' %}">
+        {% include 'table/paging.html' %}
         {% include 'modal.html' %}
         {% include 'user/modal/user.html' %}
         {% include 'user/offcanvas.html' %}
@@ -165,6 +167,7 @@
 
 {% block js %}
     <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/user/index/append.js' %}"></script>
     <script src="{% static 'js/user/index/action.js' %}"></script>
     <script src="{% static 'js/user/index/data.js' %}"></script>
 {% endblock %}
