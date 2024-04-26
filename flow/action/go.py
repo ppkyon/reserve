@@ -80,9 +80,6 @@ def go(user, flow, flow_tab, flow_item):
                     richmenu = flow_rich_menu.rich_menu,
                     end_flg = False,
                 )
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(UserFlow.objects.filter(flow_tab=flow_tab, user=user).first())
         elif flow_item.type == 8:
             print()
         elif flow_item.type == 9:
