@@ -99,9 +99,6 @@ def send_textarea_replace( text, line_data, user ):
     place_address = None
     if UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).exists():
         for reminder_item in UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).order_by('flow__number').all():
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(reminder_item.flow)
             for schedule in UserFlowSchedule.objects.filter(flow=reminder_item.flow, cancel_flg=False).order_by('number').all():
                 manager = schedule.manager
                 date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
