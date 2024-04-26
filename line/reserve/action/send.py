@@ -586,12 +586,10 @@ def send(request):
 
     target_flow_tab = None
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+        user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=shop, offline=setting).all():
-            flow_tab = ShopFlowTab.objects.filter(flow__shop=shop, name=menu.flow).first()
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(flow_tab)
+            flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
 
@@ -729,9 +727,10 @@ def send(request):
         )
 
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+        user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOnlineFlowMenu.objects.filter(shop=shop, online=setting).all():
-            flow_tab = ShopFlowTab.objects.filter(flow__shop=shop, name=menu.flow).first()
+            flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
         
