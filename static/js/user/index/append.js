@@ -83,7 +83,7 @@ function append_table_area(data) {
     html += '</button>';
     html += '<div class="dropdown-menu" aria-labelledby="dropdown_menu">';
     html += '<a href="/talk?id=' + data.display_id + '" class="btn edit-button dropdown-item fw-bold text-center">1対1トーク</a>';
-    if ( data.member_flg ) {
+    if ( !data.member_flg ) {
         html += '<button type="button" value="' + data.display_id + '" class="btn member-button dropdown-item fw-bold text-center border-top p-1 ps-2 pe-2 pt-2">会員登録</a>';
         html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>';
     }
