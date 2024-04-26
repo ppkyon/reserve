@@ -98,6 +98,9 @@ def send_textarea_replace( text, line_data, user ):
     reserve_date = None
     place_address = None
     if UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).exists():
+        import logging
+        logger = logging.getLogger('development')
+        logger.info('aaa')
         for reminder_item in UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).order_by('flow__number').all():
             for schedule in UserFlowSchedule.objects.filter(flow=reminder_item.flow, cancel_flg=False).order_by('number').all():
                 manager = schedule.manager
@@ -124,9 +127,6 @@ def send_textarea_replace( text, line_data, user ):
                 reserve_date = str(date.year) + '年' + str(date.month) + '月' + str(date.day) + '日' + week + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
                 break
 
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(manager)
     if manager:
         manager_profile = ManagerProfile.objects.filter(manager=manager).first()
         if manager_profile:
