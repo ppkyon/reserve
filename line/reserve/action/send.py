@@ -583,7 +583,8 @@ def send(request):
                                 title = shop_question_choice_item.text,
                                 date = None,
                             )
-                            
+
+    target_flow_tab = None
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=shop, offline=setting).all():
@@ -592,6 +593,8 @@ def send(request):
                 target_flow_tab = flow_tab
                 import logging
                 logger = logging.getLogger('development')
+                logger.info(shop)
+                logger.info(menu.flow)
                 logger.info(flow_tab)
 
         manager_list = list()
