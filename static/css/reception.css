@@ -178,6 +178,13 @@
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
+    .calendar-table-area-sp {
+        overflow-x: auto;
+    }
+    .calendar-table-sp {
+        min-width: 1080px;
+        height: 70vh;
+    }
     
 
 }
