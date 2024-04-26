@@ -98,3 +98,13 @@
 .table-area table tbody tr td .dropdown-menu {
     right: -100% !important;
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .blank-sp {
+        width: 10px !important;
+    }
+    .tag-sp {
+        width: 130px !important;
+    }
+}

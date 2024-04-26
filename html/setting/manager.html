@@ -4,8 +4,8 @@
 {% if request.user.authority > 2 or request.user.head_flg or request.user.company_flg %}
     <div class="mini-table-area manager-list-table mb-3">
         <div class="row">
-            <div class="col-12">
-                <table class="table mb-0">
+            <div class="col-12 mini-table-area-sp">
+                <table class="table table-sp mb-0">
                     <thead>
                         <tr>
                             <th class="ps-4" style="vertical-align: middle;">担当者</th>
@@ -75,7 +75,7 @@
                                             {% variable '' as last_week %}
                                             {% for manager_setting_item in manager_item.setting %}
                                                 {% if last_week != manager_setting_item.week %}
-                                                    <div class="text-center" style="margin-right: 1.25rem!important;">
+                                                    <div class="week-tablet text-center" style="margin-right: 1.25rem">
                                                         <p class="mb-0">{{ manager_setting_item.get_week_display}}</p>
                                                         {% if manager_setting_item.flg or manager_setting_item.holiday_flg %}
                                                             <p class="mb-0" style="color: #FF0000;">休</p>

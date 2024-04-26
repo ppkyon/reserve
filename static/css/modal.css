@@ -63,7 +63,10 @@
 
 #head_question_modal .modal-body .table-area .table tbody tr td,
 #company_question_modal .modal-body .table-area .table tbody tr td,
-#question_modal .modal-body .table-area .table tbody tr td {
+#question_modal .modal-body .table-area .table tbody tr td,
+#head_template_video_modal .modal-body .table-area .table tbody tr td,
+#company_template_video_modal .modal-body .table-area .table tbody tr td,
+#template_video_modal .modal-body .table-area .table tbody tr td {
     padding: 1.5rem 0.75rem !important;
 }
 
@@ -73,7 +76,7 @@
         margin: 0.25rem auto;
     }
 
-    #head_template_video_modal .modal-dialog
+    #head_template_video_modal .modal-dialog,
     #company_template_video_modal .modal-dialog,
     #template_video_modal .modal-dialog{
         max-width: 750px !important;
@@ -86,5 +89,8 @@
 
     }
 
+    #edit_step_modal .modal-dialog {
+        max-width: 750px;
+    }
 
 }

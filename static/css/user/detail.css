@@ -239,7 +239,13 @@
     .question-area .table-area .table .memo-tablet {
         width: 420px !important;
     }
+}
 
 
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .question-area .table-area .table .memo-tablet{
+        width: 230px !important;
+    }
 
 }

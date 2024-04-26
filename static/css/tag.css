@@ -27,3 +27,10 @@
 .table-area tbody tr {
     cursor: pointer;
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .table-area .ganre-sp {
+        width: 130px !important;
+    }
+}

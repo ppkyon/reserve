@@ -127,7 +127,7 @@
     .head .table-area .table th{
         padding: 0.75rem 0.25rem !important;
     }
-    .company-tag-tablet {
+    .head .table-area .table .tag-tablet {
         width: 180px !important;
     }
 

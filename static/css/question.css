@@ -219,5 +219,8 @@
         width: 8rem !important;
     } 
 
+    .shop .table-area .table .content-sp {
+        width: 120px !important;
+    }
 
 }
