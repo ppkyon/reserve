@@ -26,9 +26,6 @@ class Command(BaseCommand):
                     if template_text_item.message_type == 0 or template_text_item.message_type == 1:
                         if template_text_item.text:
                             text = send_textarea_replace(template_text_item.text, line_info(shop_line), reminder_item.user)
-                            import logging
-                            logger = logging.getLogger('development')
-                            logger.info(text)
                             if text:
                                 push_text_message(reminder_item.user, remove.sub( '', text ), None)
                         else:

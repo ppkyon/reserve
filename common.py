@@ -124,6 +124,9 @@ def send_textarea_replace( text, line_data, user ):
                 reserve_date = str(date.year) + '年' + str(date.month) + '月' + str(date.day) + '日' + week + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
                 break
 
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(manager)
     if manager:
         manager_profile = ManagerProfile.objects.filter(manager=manager).first()
         if manager_profile:
