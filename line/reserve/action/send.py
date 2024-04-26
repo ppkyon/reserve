@@ -856,10 +856,6 @@ def send(request):
         )
 
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
-        
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(user_flow.flow_tab)
     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():
         if go(user, user_flow.flow, user_flow.flow_tab, flow_item):
             break
