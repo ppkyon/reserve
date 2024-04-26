@@ -52,12 +52,14 @@ function append_table_area(data) {
     html += '<td class="position-relative p-1">';
     html += '<div class="d-flex justify-content-start align-items-center">';
     html += '<img src="' + image + '" class="user-image me-2">';
-    html += '<p class="content-title mb-0">' + name + '</p>';
+    html += '<p class="d-flex align-items-center content-title mb-0">';
+    html += '<span>' + name + '</span>';
     if ( data.member_flg ) {
         html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-yes.png" class="ms-1" width="12" height="12"></img>';
     } else {
         html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/member-no.png" class="ms-1" width="12" height="12"></img>';
     }
+    html += '</p>';
     html += '</div>';
     html += '<p class="content-date mb-0">' + created_date + '</p>';
     html += '</td>';
