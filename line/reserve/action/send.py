@@ -592,9 +592,6 @@ def send(request):
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
 
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(target_flow_tab)
         manager_list = list()
         facility_list = list()
         if setting:
@@ -615,6 +612,12 @@ def send(request):
                 break
             if flow_item.type == 54:
                 target_flg = True
+
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(user.shop)
+        logger.info(user)
+        logger.info(target_flow_tab)
 
         if UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).exists():
             user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
