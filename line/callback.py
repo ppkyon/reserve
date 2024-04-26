@@ -91,12 +91,12 @@ def handle_follow(line_user_id, shop):
     elif ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__gte=datetime.datetime.now(), delete_flg=False).exists():
         flow = ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__gte=datetime.datetime.now(), delete_flg=False).first()
     
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(flow)
     if flow:
         action_flg = False
         for flow_tab in ShopFlowTab.objects.filter(flow=flow).order_by('number').all():
+            import logging
+            logger = logging.getLogger('development')
+            logger.info(flow)
             if UserFlow.objects.filter(flow_tab=flow_tab, user=user).exists():
                 flow_flg = False
                 for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).order_by('x','y').all():
