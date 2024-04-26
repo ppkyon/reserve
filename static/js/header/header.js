@@ -1,5 +1,5 @@
 $(function() {
     $('.toggle').on( 'click', function() {
-      $('.side-sp').toggleClass('open');
+      $('.header .side-sp').toggleClass('open');
      });
     });
