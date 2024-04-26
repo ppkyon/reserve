@@ -13,10 +13,6 @@ class IndexView(View):
         shop = AuthShop.objects.filter(display_id=kwargs.get("login")).first()
         shop_line = ShopLine.objects.filter(shop=shop).first()
 
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(kwargs.get("login"))
-
         data = {
             'static_url': settings.STATIC_URL,
             'title': self.title,
