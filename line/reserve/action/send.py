@@ -593,7 +593,7 @@ def send(request):
                 target_flow_tab = flow_tab
                 import logging
                 logger = logging.getLogger('development')
-                logger.info(setting)
+                logger.info(menu)
 
         manager_list = list()
         facility_list = list()
