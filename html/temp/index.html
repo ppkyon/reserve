@@ -16,6 +16,15 @@
         <input type="hidden" id="get_user_url" value="{% url 'temp:get' %}">
         <div class="row">
             <div class="col-12">
+                <div class="table-control-area mb-2">
+                    <div class="d-flex align-items-center">
+                        {% include 'table/number.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="table-area mb-3">
                     <table class="table mb-0">
                         <thead>
@@ -146,6 +155,8 @@
                 {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'user:paging' %}">
+        {% include 'table/paging.html' %}
         {% include 'modal.html' %}
         {% include 'temp/modal/user.html' %}
         {% include 'temp/offcanvas.html' %}
@@ -155,6 +166,7 @@
 
 {% block js %}
     <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/temp/index/append.js' %}"></script>
     <script src="{% static 'js/temp/index/action.js' %}"></script>
     <script src="{% static 'js/temp/index/data.js' %}"></script>
 {% endblock %}

@@ -1,14 +1,13 @@
 from django.db.models import Q
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow
-from richmenu.models import UserRichMenu
+from flow.models import ShopFlowTab, UserFlow
 from sign.models import AuthLogin
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile
 
 from common import create_code, get_model_field
-from line.action.richmenu import create_rich_menu, delete_rich_menu
+from temp.action.list import get_list
 
 import phonenumbers
 import uuid
@@ -65,6 +64,9 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def paging(request):
+    return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )
 
 def get(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
