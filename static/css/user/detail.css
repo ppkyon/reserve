@@ -244,7 +244,10 @@
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
-    .question-area .table-area .table .memo-tablet{
+    .question-area .table-area .table thead tr .blank-sp {
+        width: 40px !important;
+    }
+    .question-area .table-area .table thead tr .memo-tablet{
         width: 230px !important;
     }
 

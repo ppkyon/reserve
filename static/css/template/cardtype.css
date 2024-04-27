@@ -398,4 +398,12 @@
     .content-area .input-check-wrap {
         width: 30% !important;
     }
+
+    .shop .table-area .table thead tr .image-sp,
+    .shop .table-area .table thead tr .count {
+        width: 100px !important;
+    }
+    .shop .table-area .table thead tr .type {
+        width: 130px !important;
+    }
 }
