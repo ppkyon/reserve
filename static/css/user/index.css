@@ -101,10 +101,16 @@
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
-    .blank-sp {
+    .shop .table-area .table thead tr .blank-sp {
         width: 10px !important;
     }
-    .tag-sp {
+    .shop .table-area .table thead tr .display_id {
+        width: 110px !important;
+    }
+    .shop .table-area .table thead tr .status {
+        width: 110px !important;
+    }
+    .shop .table-area .table thead tr .tag-sp {
         width: 130px !important;
     }
 }

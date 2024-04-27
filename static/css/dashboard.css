@@ -138,5 +138,10 @@
     .table-sp {
         min-width: 55rem;
     }
-
+    
+    .today-area .mini-table-area .table thead tr .date,
+    .new-area .mini-table-area .table thead tr .date,
+    .after-area .mini-table-area .table thead tr .date {
+        width: 180px !important;
+    }
 }

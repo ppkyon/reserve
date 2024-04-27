@@ -323,5 +323,7 @@
         height: 60vh;
     }
 
-
+    .shop .table-area .table thead tr .period_from {
+        width: 400px !important;
+    }
 }

@@ -219,8 +219,14 @@
         width: 8rem !important;
     } 
 
-    .shop .table-area .table .content-sp {
-        width: 120px !important;
+    .shop .table-area .table thead tr .name {
+        width: 130px !important;
+    }
+    .shop .table-area .table thead tr .content-sp {
+        width: 100px !important;
+    }
+    .shop .table-area .table thead tr .count {
+        width: 90px !important;
     }
 
 }

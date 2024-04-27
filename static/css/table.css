@@ -361,11 +361,3 @@
 .table > :not(caption) > * > * {
     border-bottom-width: 0px !important;
 }
-
-
-/* スマホ用レスポンシブ */
-@media screen and (max-width: 932px) {
-    .shop .table-area .table .image-sp {
-        width: 60px !important;
-    }
-}

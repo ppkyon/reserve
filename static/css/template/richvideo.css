@@ -130,3 +130,12 @@
     background-color: red;
     border-radius: 5px;
 }
+
+/* スマホ用レスポンシブ */
+@media screen and (max-width: 932px) {
+    .shop .table-area .table thead tr .video_time,
+    .shop .table-area .table thead tr .video_size {
+        width: 100px !important;
+    }
+
+}
