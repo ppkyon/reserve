@@ -1,8 +1,8 @@
-from django.db.models import Q
+from django.db.models import Q, OuterRef, Subquery
 
 from flow.models import ShopFlowTab, UserFlow
 from sign.models import AuthLogin
-from table.models import TableNumber
+from table.models import TableNumber, TableSort
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile
 
@@ -23,8 +23,26 @@ def get_list(request, page):
 
     query = Q(shop=auth_login.shop)
     query.add(Q(proxy_flg=False), Q.AND)
-
-    user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).distinct().all()[start:end]
+    sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
+    if sort:
+        if sort.target == 'user_flow__number':
+            if sort.sort == 1:
+                sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                user_list = LineUser.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+            elif sort.sort == 2:
+                sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                user_list = LineUser.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+            else:
+                user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
+        else:
+            if sort.sort == 1:
+                user_list = LineUser.objects.filter(query).order_by(sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+            elif sort.sort == 2:
+                user_list = LineUser.objects.filter(query).order_by('-'+sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+            else:
+                user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
+    else:
+        user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
     total = LineUser.objects.filter(query).distinct().count()
 
     for user_index, user_item in enumerate(user_list):

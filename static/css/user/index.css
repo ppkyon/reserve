@@ -104,10 +104,10 @@
     .shop .table-area .table thead tr .blank-sp {
         width: 10px !important;
     }
-    .shop .table-area .table thead tr .display_id {
+    .shop .table-area .table thead tr .user_profile__atelle_id {
         width: 110px !important;
     }
-    .shop .table-area .table thead tr .status {
+    .shop .table-area .table thead tr .user_flow__number {
         width: 110px !important;
     }
     .shop .table-area .table thead tr .tag-sp {

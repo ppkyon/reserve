@@ -30,14 +30,14 @@ def get_text_list(request, page):
     sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
     if sort:
         if sort.sort == 1:
-            template = ShopTemplateText.objects.filter(query).order_by('-favorite_flg', sort.target, '-created_at').distinct().values(*get_model_field(ShopTemplateText)).all()[start:end]
+            template = ShopTemplateText.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', sort.target, '-created_at').values(*get_model_field(ShopTemplateText)).all()[start:end]
         elif sort.sort == 2:
-            template = ShopTemplateText.objects.filter(query).order_by('-favorite_flg', '-'+sort.target, '-created_at').distinct().values(*get_model_field(ShopTemplateText)).all()[start:end]
+            template = ShopTemplateText.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', '-'+sort.target, '-created_at').values(*get_model_field(ShopTemplateText)).all()[start:end]
         else:
-            template = ShopTemplateText.objects.filter(query).order_by('-favorite_flg', '-created_at').distinct().values(*get_model_field(ShopTemplateText)).all()[start:end]
+            template = ShopTemplateText.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', '-created_at').values(*get_model_field(ShopTemplateText)).all()[start:end]
     else:
-        template = ShopTemplateText.objects.filter(query).order_by('-favorite_flg', '-created_at').distinct().values(*get_model_field(ShopTemplateText)).all()[start:end]
-    total = ShopTemplateText.objects.filter(query).distinct().count()
+        template = ShopTemplateText.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', '-created_at').values(*get_model_field(ShopTemplateText)).all()[start:end]
+    total = ShopTemplateText.objects.filter(query, Q(shop_template_text_item__number=1)).count()
 
     remove = re.compile(r"<[^>]*?>")
     for template_index, template_item in enumerate(template):

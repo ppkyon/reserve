@@ -30,9 +30,9 @@
                         <thead>
                             <tr>
                                 <th class="blank-sp" style="width: 30px;"></th>
-                                {% include 'table/sort.html' with text='お客様氏名' target='name' %}
-                                {% include 'table/sort.html' with text='お客様ID' target='display_id' width='120' %}
-                                {% include 'table/sort.html' with text='ステータス' target='status' width='140' %}
+                                {% include 'table/sort.html' with text='お客様氏名' target='user_profile__name_kana' %}
+                                {% include 'table/sort.html' with text='お客様ID' target='user_profile__atelle_id' width='120' %}
+                                {% include 'table/sort.html' with text='ステータス' target='user_flow__number' width='140' %}
                                 <th class="tag-sp" style="width: 230px;">#タグ</th>
                                 <th style="width: 155px;"></th>
                             </tr>

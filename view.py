@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Subquery, OuterRef
 from django.views.generic import TemplateView
 from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplateResponseMixin, BaseListView
 
@@ -151,13 +151,13 @@ class HeadBaseLisView(MultipleObjectMixin, HeadBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=None, shop=None, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
-            if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).all()
+            elif sort.sort == 2:
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).all()
             else:
-                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by(self.default_sort).all()
         else:
-            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+            return self.model.objects.filter(query).order_by(self.default_sort).all()
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -218,13 +218,13 @@ class CompanyBaseLisView(MultipleObjectMixin, CompanyBaseView):
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=None, manager=self.request.user).first()
         if sort:
             if sort.sort == 1:
-                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).distinct().all()
-            if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by(sort.target, self.default_sort).all()
+            elif sort.sort == 2:
+                return self.model.objects.filter(query).order_by('-'+sort.target, self.default_sort).all()
             else:
-                return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+                return self.model.objects.filter(query).order_by(self.default_sort).all()
         else:
-            return self.model.objects.filter(query).order_by(self.default_sort).distinct().all()
+            return self.model.objects.filter(query).order_by(self.default_sort).all()
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
@@ -285,14 +285,22 @@ class ShopBaseLisView(MultipleObjectMixin, ShopBaseView):
             
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
-            if sort.sort == 1:
-                return self.model.objects.filter(query).order_by('-favorite_flg', sort.target, self.default_sort).distinct().all()
-            if sort.sort == 2:
-                return self.model.objects.filter(query).order_by('-favorite_flg', '-'+sort.target, self.default_sort).distinct().all()
+            if sort.target == 'shop_template_text_item__text':
+                if sort.sort == 1:
+                    return self.model.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', sort.target, self.default_sort).all()
+                elif sort.sort == 2:
+                    return self.model.objects.filter(query, Q(shop_template_text_item__number=1)).order_by('-favorite_flg', '-'+sort.target, self.default_sort).all()
+                else:
+                    return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).all()
             else:
-                return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).distinct().all()
+                if sort.sort == 1:
+                    return self.model.objects.filter(query).order_by('-favorite_flg', sort.target, self.default_sort).all()
+                elif sort.sort == 2:
+                    return self.model.objects.filter(query).order_by('-favorite_flg', '-'+sort.target, self.default_sort).all()
+                else:
+                    return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).all()
         else:
-            return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).distinct().all()
+            return self.model.objects.filter(query).order_by('-favorite_flg', self.default_sort).all()
     
     def get_context_data(self, *args, **kwargs):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
@@ -345,14 +353,24 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
-            if sort.sort == 1:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(sort.target, self.default_sort).distinct().all()
-            if sort.sort == 2:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by('-'+sort.target, self.default_sort).distinct().all()
+            if sort.target == 'user_flow__number':
+                if sort.sort == 1:
+                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('active_flow', self.default_sort).all()
+                elif sort.sort == 2:
+                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('-active_flow', self.default_sort).all()
+                else:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
             else:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).distinct().all()
+                if sort.sort == 1:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(sort.target, self.default_sort).all()
+                elif sort.sort == 2:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by('-'+sort.target, self.default_sort).all()
+                else:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
         else:
-            query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).distinct().all()
+            query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
@@ -410,14 +428,24 @@ class TempBaseLisView(MultipleObjectMixin, ShopBaseView):
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
         if sort:
-            if sort.sort == 1:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(sort.target, self.default_sort).distinct().all()
-            if sort.sort == 2:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by('-'+sort.target, self.default_sort).distinct().all()
+            if sort.target == 'user_flow__number':
+                if sort.sort == 1:
+                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('active_flow', self.default_sort).all()
+                elif sort.sort == 2:
+                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
+                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('-active_flow', self.default_sort).all()
+                else:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
             else:
-                query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).distinct().all()
+                if sort.sort == 1:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(sort.target, self.default_sort).all()
+                elif sort.sort == 2:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by('-'+sort.target, self.default_sort).all()
+                else:
+                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
         else:
-            query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).distinct().all()
+            query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
