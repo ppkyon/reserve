@@ -1,7 +1,7 @@
 {% load static %}
 
 {% if width %}
-    <th class="sort-area " style="width: {{ width }}px;">
+    <th class="sort-area {{ target }}" style="width: {{ width }}px;">
         <button type="button" class="btn p-0" value="{{ target }}">
             <span class="me-2">{{ text }}</span>
             {% if table.sort.target == target %}
@@ -18,7 +18,7 @@
         </button>
     </th>
 {% else %}
-    <th class="sort-area">
+    <th class="sort-area {{ target }}">
         <button type="button" class="btn p-0" value="{{ target }}">
             <span class="me-2">{{ text }}</span>
             {% if table.sort.target == target %}
