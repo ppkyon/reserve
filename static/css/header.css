@@ -104,10 +104,7 @@
     .logo-area-sp {
         display: block !important;
     }
-    .header .logo-area-sp {
-        margin-left:calc(128.09px - 60.8px) !important;
-    }
-    .header .logo-area-sp img {
+    .logo-area-sp img {
         width: 6rem !important;
         height: auto !important;
     }

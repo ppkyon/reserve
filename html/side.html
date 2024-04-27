@@ -39,38 +39,46 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if '/user/' in request.path %}
-                            <li class="active position-relative">
-                               <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                            <li type="button" class="slide position-relative">
+                                <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
-                                    <span>お客様管理</span>
-                                </a>
+                                    <span>予約管理</span>
+                                </div>
                             </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
-                                    <span>お客様管理</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if side.temp_flg %}
-                            {% if '/temp/' in request.path %}
-                                <li class="active position-relative">
-                                <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                        <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
-                                        <span>代理予約管理</span>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li class="position-relative">
-                                    <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                        <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
-                                        <span>代理予約管理</span>
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endif %}
+                                <ul class="slide-menu ps-3">
+                                    {% if '/user/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                                <span>お客様管理</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                                <span>お客様管理</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if side.temp_flg %}
+                                    {% if '/temp/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                                <span>代理予約管理</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
+                                                <span>代理予約管理</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% endif %}
+                                </ul>
                         {% if '/talk/' in request.path %}
                             <li class="active position-relative">
                                <a href="{% url 'talk:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
@@ -101,51 +109,59 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if '/template/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                            <li type="button" class="slide position-relative">
+                                <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
                                     <span>テンプレート</span>
-                                </a>
+                                </div>
                             </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
-                                    <span>テンプレート</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if '/richmenu/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
-                                    <span>リッチメニュー</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
-                                    <span>リッチメニュー</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if '/question/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
-                                    <span>回答フォーム</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
-                                    <span>回答フォーム</span>
-                                </a>
-                            </li>
-                        {% endif %}
+                                <ul class="slide-menu ps-3">
+                                    {% if '/template/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                                <span>メッセージ</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
+                                                <span>メッセージ</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if '/richmenu/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
+                                                <span>リッチメニュー</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'richmenu:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-richmenu.svg' %}" class="me-2">
+                                                <span>リッチメニュー</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if '/question/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
+                                                <span>回答フォーム</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'question:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-form.svg' %}" class="me-2">
+                                                <span>回答フォーム</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
                         {% if '/flow/' in request.path %}
                             <li class="active position-relative">
                                 <a href="{% url 'flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
@@ -161,51 +177,59 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if '/setting/' in request.path and not '/reserve/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                            <li type="button" class="slide position-relative">
+                                <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
                                     <span>設定</span>
-                                </a>
+                                </div>
                             </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
-                                    <span>設定</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if '/reserve/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
-                                    <span>予約設定</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
-                                    <span>予約設定</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if '/reception/' in request.path %}
-                            <li class="active position-relative">
-                                <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
-                                    <span>毎月受付設定</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="position-relative">
-                                <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                    <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
-                                    <span>毎月受付設定</span>
-                                </a>
-                            </li>
-                        {% endif %}
+                                <ul class="slide-menu ps-3">
+                                    {% if '/setting/' in request.path and not '/reserve/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>基本設定</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>基本設定</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if '/reserve/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>予約設定</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'reserve:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>予約設定</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if '/reception/' in request.path %}
+                                        <li class="active position-relative">
+                                            <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>毎月受付設定</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="position-relative">
+                                            <a href="{% url 'reception:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
+                                                <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
+                                                <span>毎月受付設定</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
                         {% if request.user.company_flg or request.user.head_flg %}
                             <li class="position-relative">
                                 <a href="{% url 'company:shop:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
