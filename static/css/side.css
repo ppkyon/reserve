@@ -63,10 +63,21 @@
     background-color: #00b074;
     border-radius: 1rem;
 }
+.side-area .menu-area .slide-menu li:before {
+    content: none;
+    position: absolute;
+    top: 0;
+    left: -1.3rem;
+    width: 0.6rem;
+    height: 1.9rem;
+    background-color: #00b074;
+    border-radius: 1rem;
+}
 .side-area .menu-area ul li.active:before {
     content: " ";
 }
-.side-area .menu-area ul li a {
+.side-area .menu-area ul li a,
+.side-area .menu-area ul li .slide-button {
     margin: 0 auto;
     width: 82%;
     height: 100%;
@@ -83,7 +94,8 @@
     background-color: rgba(0,176,116,0.15);
     border-radius: 0.2rem;
 }
-.side-area .menu-area ul li a img {
+.side-area .menu-area ul li a img,
+.side-area .menu-area ul li .slide-button img {
     width: 0.75rem;
     height: 0.75rem;
 }
@@ -94,7 +106,8 @@
 .side-area .menu-area ul li.active a img {
     filter: invert(0.66) sepia(0.52) saturate(4.55) hue-rotate(108deg) brightness(0.88) contrast(0.94);
 }
-.side-area .menu-area ul li a span {
+.side-area .menu-area ul li a span,
+.side-area .menu-area ul li .slide-button span {
     color: #000;
     font-size: 0.75rem;
     line-height: 1.4rem;
@@ -102,6 +115,25 @@
 .side-area .menu-area ul li.active a span {
     color: #3dc394;
 }
+.side-area .menu-area .slide::after {
+    border-right: solid 1px #495057;
+    border-top: solid 1px #495057;
+    content: "";
+    display: block;
+    height: 8px;
+    position: absolute;
+    right: 5px;
+    top: 35%;
+    transform: rotate(-45deg);
+    transition: transform .3s ease-in-out, top .3s ease-in-out;
+    width: 8px;
+    margin-right: 0.5rem;
+}
+.side-area .menu-area .slide-open::after {
+    transition: transform .3s ease-in-out, top .3s ease-in-out;
+    transform: rotate(135deg) !important;
+}
+
 
 .side-area .com-area {
     margin: 0 auto;
@@ -128,7 +160,6 @@
     overflow: hidden scroll !important;
 }
 
-
 /* iPad用レスポンシブ */
 @media screen and (max-width: 1180px) {
     .side {
@@ -138,51 +169,59 @@
         overflow: hidden scroll !important;
     }
 
-    .logo-area p {
-        font-size: 0.6rem !important;
-    }
-    .logo-img {
+    .side-area .logo-area .logo-img {
         width: 4rem !important;
         height: 2rem !important;
         margin-bottom: 0.4rem !important;
     }
-
-    .side-area .logo-area span {
-        font-size: 0.6rem !important;
-    }
     .side-area .logo-area p {
+        font-size: 0.6rem !important;
         margin-top: 0 !important;
         line-height: 1 !important;
     }
+    .side-area .logo-area span {
+        font-size: 0.6rem !important;
+    }
 
-    .side-area .com-area {
-        margin-top: 1rem !important;
-    }
-        
-    .side-area .com-area p {
-        font-size: 0.6rem  !important;
-    }
+    /* .side-area .menu-area .slide .border-bottom {
+        border: none !important;
+    } */
 
     .side-area .menu-area ul li a,
-    .menu-area img,
-    .menu-area span {
-        display:block !important;
+    .side-area .menu-area ul li .slide-button,
+    .side-area .menu-area ul li .slide-menu li a {
+        display: block !important;
+        text-align: center;
+        width: 100%;
+        padding-left: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }  
+
+    .side-area .menu-area .slide-menu {
+        padding-left: 0 !important;
+    }
+    .side-area .menu-area img,
+    .side-area .menu-area span {
+        display: block !important;
         text-align: center;
         width: 100%;
         margin: 0 auto !important;
     }
-
-    .side-area .menu-area ul li a {
-        margin: 0.4rem auto !important;
-    }    
-
-    .side-area .menu-area ul li:before{
+    .side-area .menu-area ul li:before,
+    .side-area .menu-area .slide-menu li:before {
         height: 2.8rem;
+        left: -0.3rem;
     }
-
-    .menu-area li a .bx {
+    .side-area .menu-area ul li a .bx {
         display: block;
         margin: 0 auto !important;
+    }
+    
+    .side-area .com-area {
+        margin-top: 1rem !important;
+    }
+    .side-area .com-area p {
+        font-size: 0.6rem  !important;
     }
 }
 
@@ -192,7 +231,16 @@
         display: none !important;
         width: 0 ;
     }
+    .head-side,
+    .company-side {
+        min-height: 100vh !important;
+    }
 
+    .side-area .logo-area p {
+        line-height: 1.4 !important;
+    }
+
+    /* header */
     .side-sp {
         display: block !important;
         position: fixed;
@@ -207,17 +255,5 @@
     }
     .side-sp span {
         font-size: 0.7rem !important;
-    }
-
-    .head-side,
-    .company-side {
-        min-height: 100vh !important;
-    }
-
-    .side-area-text-sp{
-        font-size: 0.7rem;
-    }
-    .side-area .logo-area p {
-        line-height: 1.4 !important;
     }
 }
