@@ -281,13 +281,17 @@ def check(request):
                                                     if count_flg:
                                                         if reception['facility'] and reception['facility'].count < people_count:
                                                             same_count = same_count - 1
-                                                            if same_count > 0:
+                                                            if same_count == 0:
+                                                                people_count = reception['facility'].count
+                                                            while same_count > 0:
                                                                 people_number = people_number + 1
                                                                 facility_count = facility_count - 1
-                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count < people_count:
+                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count <= people_count:
                                                                     people_count = reception['facility'].count + facility_list[people_number].count
-                                                            else:
-                                                                people_count = reception['facility'].count
+                                                                else:
+                                                                    people_number = people_number - 1
+                                                                    facility_count = facility_count + 1
+                                                                same_count = same_count - 1
                                                         count_flg = False
                                                     people_count = people_count - 1
                                                     if people_count <= 0:
