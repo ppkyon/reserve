@@ -351,7 +351,177 @@ $( function() {
             
         });
     });
+
     $( document ).on( 'click', '#member_user_check_modal .yes-button', function () {
+        $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+        $( '#member_user_message_check_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+    });
+
+    $( document ).on( 'change', '#member_user_message_check_modal [name=type]', function () {
+        if ( $( this ).val() == '0' ) {
+            $( '#member_user_message_check_modal #member_user_message_area' ).addClass( 'd-none' );
+            $( '#member_user_message_check_modal #member_user_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '1' ) {
+            $( '#member_user_message_check_modal #member_user_message_area' ).removeClass( 'd-none' );
+            $( '#member_user_message_check_modal #member_user_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '2' ) {
+            $( '#member_user_message_check_modal #member_user_message_area' ).addClass( 'd-none' );
+            $( '#member_user_message_check_modal #member_user_template_area' ).removeClass( 'd-none' );
+        }
+    });
+    $( document ).on( 'click', '#member_user_message_check_modal #member_user_template_area .dropdown-menu button', function () {
+        $( '#member_user_message_check_modal' ).removeClass( 'up-modal' );
+        if ( $( this ).val() == '0' ) {
+            open_template_text_modal( $( this).next(), null );
+        } else if ( $( this ).val() == '1' ) {
+            open_template_video_modal( $( this).next(), null );
+        } else if ( $( this ).val() == '2' ) {
+            open_template_richmessage_modal( $( this).next(), null );
+        } else if ( $( this ).val() == '3' ) {
+            open_template_richvideo_modal( $( this).next(), null );
+        } else if ( $( this ).val() == '4' ) {
+            open_template_cardtype_modal( $( this).next(), null );
+        }
+        up_modal();
+    });
+    $( document ).on( 'click', '#template_text_modal .table-area tbody button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_template_text_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        }).fail( function(){
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        });
+    });
+    $( document ).on( 'click', '#template_text_modal .btn-close', function () {
+        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#template_video_modal .table-area tbody button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_template_video_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        }).fail( function(){
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        });
+    });
+    $( document ).on( 'click', '#template_video_modal .btn-close', function () {
+        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#template_richmessage_modal .table-area tbody button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_template_richmessage_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        }).fail( function(){
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        });
+    });
+    $( document ).on( 'click', '#template_richmessage_modal .btn-close', function () {
+        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#template_richvideo_modal .table-area tbody button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_template_richvideo_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        }).fail( function(){
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        });
+    });
+    $( document ).on( 'click', '#template_richvideo_modal .btn-close', function () {
+        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        up_modal();
+    });
+    $( document ).on( 'click', '#template_cardtype_modal .table-area tbody button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_template_cardtype_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        }).fail( function(){
+            $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            up_modal();
+        });
+    });
+    $( document ).on( 'click', '#template_cardtype_modal .btn-close', function () {
+        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        up_modal();
+    });
+
+    $( document ).on( 'click', '#member_user_message_check_modal .yes-button', function () {
         $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
         $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
         $( this ).prop( 'disabled', true );
@@ -366,6 +536,13 @@ $( function() {
         form_data.append( 'sex', $( '#member_user_check_modal [name=sex]' ).next().val() );
         form_data.append( 'phone_number', $( '#member_user_check_modal [name=phone_number]' ).val() );
         form_data.append( 'email', $( '#member_user_check_modal [name=email]' ).val() );
+        form_data.append( 'message_type', $( '#member_user_message_check_modal [name=type]:checked' ).val() );
+        if ( $( '#member_user_message_check_modal [name=type]:checked' ).val() == '1' ) {
+            form_data.append( 'message', $( '#member_user_message_check_modal [name=message]' ).val() );
+        } else if ( $( '#member_user_message_check_modal [name=type]:checked' ).val() == '2' ) {
+            form_data.append( 'message_template_type', $( '#member_user_message_check_modal [name=template_type]' ).next().val() );
+            form_data.append( 'message_template', $( '#member_user_message_check_modal [name=template]' ).next().val() );
+        }
         $.ajax({
             'data': form_data,
             'url': $( '#save_member_form' ).attr( 'action' ),
@@ -375,13 +552,13 @@ $( function() {
             'contentType': false,
         }).done( function( response ){
             setTimeout( function() {
-                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( '#member_user_message_check_modal .no-button' ).trigger( 'click' );
                 $( target ).next().trigger( 'click' );
                 up_modal();
             }, 750 );
         }).fail( function(){
             setTimeout( function() {
-                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( '#member_user_message_check_modal .no-button' ).trigger( 'click' );
                 $( target ).next().next().trigger( 'click' );
                 up_modal();
             }, 750 );
