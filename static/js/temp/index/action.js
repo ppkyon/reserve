@@ -41,8 +41,8 @@ $( function() {
                 $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( response.active_flow.tab.name );
                 $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( response.active_flow.tab.name );
             } else {
-                $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( '募集期間外' );
-                $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( '募集期間外' );
+                $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( '-' );
+                $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( '-' );
             }
 
             if ( check_empty( response.profile ) && check_empty( response.profile.email ) ) {
