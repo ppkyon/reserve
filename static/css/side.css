@@ -67,7 +67,7 @@
     content: none;
     position: absolute;
     top: 0;
-    left: -1.3rem;
+    left: -1.8rem;
     width: 0.6rem;
     height: 1.9rem;
     background-color: #00b074;
@@ -76,6 +76,10 @@
 .side-area .menu-area ul li.active:before {
     content: " ";
 }
+.side-area .menu-area .slide-menu a img {
+    display: none;
+}
+
 .side-area .menu-area ul li a,
 .side-area .menu-area ul li .slide-button {
     margin: 0 auto;
@@ -115,6 +119,16 @@
 .side-area .menu-area ul li.active a span {
     color: #3dc394;
 }
+
+.side-area .menu-area .slide-menu {
+    display: none;
+}
+.side-area .menu-area .slide-open {
+    display: block;
+}
+.side-area .menu-area .slide-menu {
+    overflow: hidden;
+}
 .side-area .menu-area .slide::after {
     border-right: solid 1px #495057;
     border-top: solid 1px #495057;
@@ -124,14 +138,14 @@
     position: absolute;
     right: 5px;
     top: 35%;
-    transform: rotate(-45deg);
+    transform: rotate(135deg);
     transition: transform .3s ease-in-out, top .3s ease-in-out;
     width: 8px;
     margin-right: 0.5rem;
 }
 .side-area .menu-area .slide-open::after {
     transition: transform .3s ease-in-out, top .3s ease-in-out;
-    transform: rotate(135deg) !important;
+    transform: rotate(-45deg) !important;
 }
 
 
@@ -183,10 +197,6 @@
         font-size: 0.6rem !important;
     }
 
-    /* .side-area .menu-area .slide .border-bottom {
-        border: none !important;
-    } */
-
     .side-area .menu-area ul li a,
     .side-area .menu-area ul li .slide-button,
     .side-area .menu-area ul li .slide-menu li a {
@@ -200,9 +210,12 @@
     .side-area .menu-area .slide-menu {
         padding-left: 0 !important;
     }
+    .side-area .menu-area .slide-menu a img {
+        display: none;
+    }
     .side-area .menu-area img,
     .side-area .menu-area span {
-        display: block !important;
+        display: block ;
         text-align: center;
         width: 100%;
         margin: 0 auto !important;
