@@ -39,13 +39,13 @@
                                 </a>
                             </li>
                         {% endif %}
-                            <li type="button" class="slide position-relative">
+                            <li type="button" class="slide slide-user-area position-relative">
                                 <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-user.svg' %}" class="me-2">
                                     <span>予約管理</span>
                                 </div>
                             </li>
-                                <ul class="slide-menu ps-4">
+                                <ul class="slide-menu slide-user ps-4">
                                     {% if '/user/' in request.path %}
                                         <li class="active position-relative">
                                             <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
@@ -109,13 +109,13 @@
                                 </a>
                             </li>
                         {% endif %}
-                            <li type="button" class="slide position-relative">
+                            <li type="button" class="slide slide-template-area position-relative">
                                 <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-template.svg' %}" class="me-2">
                                     <span>テンプレート</span>
                                 </div>
                             </li>
-                                <ul class="slide-menu ps-4">
+                                <ul class="slide-menu slide-template ps-4">
                                     {% if '/template/' in request.path %}
                                         <li class="active position-relative">
                                             <a href="{% url 'template:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
@@ -177,13 +177,13 @@
                                 </a>
                             </li>
                         {% endif %}
-                            <li type="button" class="slide position-relative">
+                            <li type="button" class="slide slide-setting-area position-relative">
                                 <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-setting.svg' %}" class="me-2">
                                     <span>設定</span>
                                 </div>
                             </li>
-                                <ul class="slide-menu ps-4">
+                                <ul class="slide-menu slide-setting ps-4">
                                     {% if '/setting/' in request.path and not '/reserve/' in request.path %}
                                         <li class="active position-relative">
                                             <a href="{% url 'setting:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
