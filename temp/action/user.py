@@ -93,10 +93,43 @@ def get(request):
 
 
 def member(request):
+    birth = None
+    if request.POST.get('birth'):
+        birth = request.POST.get('birth')
+    age = 0
+    if request.POST.get('age'):
+        age = request.POST.get('age')
+    sex = 0
+    if request.POST.get('sex'):
+        sex = request.POST.get('sex')
+
     auth_login = AuthLogin.objects.filter(user=request.user).first()
     user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('id')).first()
     user.member_flg = True
     user.save()
+
+    if UserProfile.objects.filter(user=user).exists():
+        user_profile = UserProfile.objects.filter(user=user).first()
+        user_profile.email = request.POST.get('email')
+        user_profile.name = request.POST.get('name')
+        user_profile.name_kana = request.POST.get('name_kana')
+        user_profile.birth = birth
+        user_profile.age = age
+        user_profile.sex = sex
+        user_profile.phone_number = request.POST.get('phone_number').replace('-', '')
+        user_profile.save()
+    else:
+        UserProfile.objects.create(
+            id = str(uuid.uuid4()),
+            user = user,
+            email = request.POST.get('email'),
+            name = request.POST.get('name'),
+            name_kana = request.POST.get('name_kana'),
+            birth = birth,
+            age = age,
+            sex = sex,
+            phone_number = request.POST.get('phone_number').replace('-', ''),
+        )
 
     for user_flow in UserFlow.objects.filter(user=user, flow_tab__member=0).order_by('number').all():
         user_flow.end_flg = True
