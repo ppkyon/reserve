@@ -8,8 +8,18 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12">
+        <div class="col-4">
             <p class="main-title mb-3">{{ title }}</p>
+        </div>
+        <div class="col-7 d-flex justify-content-end align-items-center">
+            {% if not user.member_flg %}
+                <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
+                <button type="button" value="{{ user.display_id }}" class="btn d-flex align-items-center main-button member-button p-0 me-3 mb-3">
+                    <i class='bx bx-check-square me-1'></i>
+                    <span>会員登録</span>
+                </button>
+                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>
+            {% endif %}
         </div>
     </div>
     <div class="shop">
