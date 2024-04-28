@@ -77,8 +77,8 @@ $( function() {
                 $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( response.active_flow.tab.name );
                 $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( response.active_flow.tab.name );
             } else {
-                $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( '募集期間外' );
-                $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( '募集期間外' );
+                $( '#user_profile_offcanvas .offcanvas-header' ).find( '.sub' ).text( '-' );
+                $( '#edit_user_modal .modal-header' ).find( '.sub' ).text( '-' );
             }
 
             if ( check_empty( response.profile ) && check_empty( response.profile.email ) ) {
@@ -275,4 +275,117 @@ $( function() {
         $( '#edit_user_modal #save_user_form .tag-area .add-tag-area' ).append( html );
         $( this ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
     });
+
+    $( document ).on( 'click', '.table tbody .dropdown-menu .member-button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_user_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            if ( check_empty( response.profile ) && check_empty( response.profile.email ) ) {
+                $( '#member_user_check_modal .modal-body' ).find( 'input[type=email]' ).eq(0).val( response.profile.email );
+            } else {
+                $( '#member_user_check_modal .modal-body' ).find( 'input[type=email]' ).eq(0).val( '' );
+            }
+            $( '#member_user_check_modal .modal-body' ).find( 'input[type=text]' ).each( function( index, value ) {
+                if ( index == 0 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.name ) ) {
+                        $( this ).val( response.profile.name );
+                    } else {
+                        $( this ).val( response.display_name );
+                    }
+                } else if ( index == 1 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.name_kana ) ) {
+                        $( this ).val( response.profile.name_kana );
+                    } else {
+                        $( this ).val( '' );
+                    }
+                } else if ( index == 2 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.birth ) ) {
+                        $( this ).val( response.profile.display_birth );
+                    } else {
+                        $( this ).val( '' );
+                    }
+                } else if ( index == 3 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.age ) && response.profile.age != 0 ) {
+                        $( this ).val( response.profile.age + '歳' );
+                        $( this ).next().val( response.profile.age );
+                    } else {
+                        $( this ).val( '' );
+                        $( this ).next().val( '' );
+                    }
+                } else if ( index == 4 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.sex ) ) {
+                        if ( response.profile.sex == '1' ) {
+                            $( this ).val( '男性' );
+                            $( this ).next().val( response.profile.sex );
+                        } else if ( response.profile.sex == '2' ) {
+                            $( this ).val( '女性' );
+                            $( this ).next().val( response.profile.sex );
+                        } else {
+                            $( this ).val( '' );
+                            $( this ).next().val( '' );
+                        }
+                    } else {
+                        $( this ).val( '' );
+                        $( this ).next().val( '' );
+                    }
+                } else if ( index == 5 ) {
+                    if ( check_empty( response.profile ) && check_empty( response.profile.phone_number ) ) {
+                        $( this ).val( response.profile.phone_number );
+                    } else {
+                        $( this ).val( '' );
+                    }
+                }
+            });
+
+            $( '#member_user_check_modal .yes-button' ).val( $( target ).val() );
+            $( target ).next().trigger( 'click' );
+        }).fail( function(){
+            
+        });
+    });
+    $( document ).on( 'click', '#member_user_check_modal .yes-button', function () {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        form_data.append( 'name', $( '#member_user_check_modal [name=name]' ).val() );
+        form_data.append( 'name_kana', $( '#member_user_check_modal [name=name_kana]' ).val() );
+        form_data.append( 'birth', $( '#member_user_check_modal [name=birth]' ).val().replace( '年', '-' ).replace( '月', '-' ).replace( '日', '' ) );
+        form_data.append( 'age', $( '#member_user_check_modal [name=age]' ).next().val() );
+        form_data.append( 'sex', $( '#member_user_check_modal [name=sex]' ).next().val() );
+        form_data.append( 'phone_number', $( '#member_user_check_modal [name=phone_number]' ).val() );
+        form_data.append( 'email', $( '#member_user_check_modal [name=email]' ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#save_member_form' ).attr( 'action' ),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'member_user' );
 });
