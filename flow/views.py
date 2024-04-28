@@ -21,9 +21,9 @@ class EditView(ShopView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['company_flow'] = CompanyFlow.objects.filter(valid=True).order_by('created_at').all()
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+        context['company_flow'] = CompanyFlow.objects.filter(company=auth_login.shop.company, valid=True).order_by('created_at').all()
         context['flow'] = ShopFlow.objects.filter(display_id=self.request.GET.get("id")).first()
         
-        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         context['template_greeting'] = ShopTemplateGreeting.objects.filter(company=auth_login.shop.company, shop=auth_login.shop).order_by('number').first()
         return context
