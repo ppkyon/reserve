@@ -159,6 +159,11 @@
         <input type="hidden" id="table_paging_url" value="{% url 'user:paging' %}">
         {% include 'table/paging.html' %}
         {% include 'modal.html' %}
+        {% include 'template/text/modal/text.html' %}
+        {% include 'template/video/modal/video.html' %}
+        {% include 'template/richmessage/modal/richmessage.html' %}
+        {% include 'template/richvideo/modal/richvideo.html' %}
+        {% include 'template/cardtype/modal/cardtype.html' %}
         {% include 'user/modal/user.html' %}
         {% include 'user/offcanvas.html' %}
         {% include 'tag/modal/tag.html' %}
@@ -166,6 +171,11 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
     <script src="{% static 'js/tag/modal.js' %}"></script>
     <script src="{% static 'js/user/index/append.js' %}"></script>
     <script src="{% static 'js/user/index/action.js' %}"></script>

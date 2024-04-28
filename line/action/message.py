@@ -14,6 +14,7 @@ from talk.models import TalkMessage, TalkMessageCardType, TalkMessageCardTypeAnn
 from template.models import ShopTemplateCardTypeAnnounce, ShopTemplateCardTypeAnnounceText, ShopTemplateCardTypeAnnounceAction, ShopTemplateCardTypeMore
 
 from common import create_code, send_action_replace
+from line.action.common import line_info
 
 import cv2
 import environ
@@ -678,10 +679,3 @@ def push_button_message(user):
         )
     )
     return None
-
-
-
-def line_info(shop):
-    global line_bot_api
-    line_bot_api = LineBotApi(shop.channel_access_token)
-    return line_bot_api.get_bot_info()

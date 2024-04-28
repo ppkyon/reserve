@@ -8,6 +8,7 @@ from template.models import ShopTemplateTextItem
 
 from common import send_textarea_replace
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message, push_button_message
+from line.action.common import line_info
 
 import datetime
 import re
@@ -47,8 +48,3 @@ class Command(BaseCommand):
                 push_button_message(reminder_item.user)
                 UserFlowActionReminder.objects.filter(id=reminder_item.id).all().delete()
         self.stdout.write(self.style.SUCCESS('send_action_reminder successfully!!'))
-
-def line_info(shop):
-    global line_bot_api
-    line_bot_api = LineBotApi(shop.channel_access_token)
-    return line_bot_api.get_bot_info()

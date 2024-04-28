@@ -14,6 +14,7 @@ from common import create_code, send_textarea_replace
 from dateutil.relativedelta import relativedelta
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 from line.action.richmenu import create_rich_menu, delete_rich_menu
+from line.action.common import line_info
 
 import datetime
 import re
@@ -214,8 +215,3 @@ def go(user, flow, flow_tab, flow_item):
             print()
 
     return False
-
-def line_info(shop):
-    global line_bot_api
-    line_bot_api = LineBotApi(shop.channel_access_token)
-    return line_bot_api.get_bot_info()

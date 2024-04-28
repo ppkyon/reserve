@@ -8,6 +8,7 @@ from template.models import ShopTemplateText, ShopTemplateTextItem, ShopTemplate
 from user.models import LineUser
 
 from common import send_textarea_replace
+from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 
 import base64
@@ -72,8 +73,3 @@ def template(request):
         template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('id')).first()
         push_card_type_message(user, template_cardtype, request.user.id)
     return JsonResponse( {}, safe=False )
-
-def line_info(shop):
-    global line_bot_api
-    line_bot_api = LineBotApi(shop.channel_access_token)
-    return line_bot_api.get_bot_info()

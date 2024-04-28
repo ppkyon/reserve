@@ -9,6 +9,7 @@ from user.models import LineUser
 
 from common import send_textarea_replace
 from flow.action.go import go
+from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 
 import re
@@ -72,10 +73,3 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
-
-
-
-def line_info(shop):
-    global line_bot_api
-    line_bot_api = LineBotApi(shop.channel_access_token)
-    return line_bot_api.get_bot_info()

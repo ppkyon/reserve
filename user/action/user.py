@@ -1,17 +1,23 @@
 from django.db.models import Q
 from django.http import JsonResponse
 
+from linebot import LineBotApi
+
 from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow
 from richmenu.models import UserRichMenu
-from sign.models import AuthLogin
+from sign.models import AuthLogin, ShopLine
 from tag.models import ShopTag, UserHashTag
+from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
 from user.models import LineUser, UserProfile
 
-from common import create_code, get_model_field
+from common import create_code, send_textarea_replace, get_model_field
+from line.action.common import line_info
+from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 from line.action.richmenu import create_rich_menu, delete_rich_menu
 from user.action.list import get_list
 
 import phonenumbers
+import re
 import uuid
 
 def save(request):
@@ -174,4 +180,35 @@ def member(request):
                 end_flg = False,
             )
             break
+    
+    remove = re.compile(r"<[^>]*?>")
+    if request.POST.get('message_type') == '1':
+        push_text_message(user, remove.sub( '', request.POST.get('message') ), None)
+    elif request.POST.get('message_type') == '2':
+        if request.POST.get('message_template_type') == '0':
+            global line_bot_api
+            shop_line = ShopLine.objects.filter(shop=auth_login.shop).first()
+            line_bot_api = LineBotApi(shop_line.channel_access_token)
+
+            for template_text_item in ShopTemplateTextItem.objects.filter(template__display_id=request.POST.get('message_template')).all():
+                if template_text_item.message_type == 0 or template_text_item.message_type == 1:
+                    if template_text_item.text:
+                        text = send_textarea_replace(template_text_item.text, line_info(shop_line), user)
+                        if text:
+                            push_text_message(user, remove.sub( '', text ), None)
+                elif template_text_item.message_type == 2:
+                    push_image_message(user, template_text_item.image, None)
+                elif template_text_item.message_type == 3:
+                    push_video_message(user, template_text_item.video, None)
+        elif request.POST.get('message_template_type') == '1':
+            template_video = ShopTemplateVideo.objects.filter(display_id=request.POST.get('message_template')).first()
+            push_video_message(user, template_video.video, None)
+        elif request.POST.get('message_template_type') == '2':
+            print()
+        elif request.POST.get('message_template_type') == '3':
+            print()
+        elif request.POST.get('message_template_type') == '4':
+            template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('message_template')).first()
+            push_card_type_message(user, template_cardtype, None)
+
     return JsonResponse( {}, safe=False )
