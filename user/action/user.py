@@ -84,7 +84,8 @@ def get(request):
         user['profile']['updated_at'] = user['profile']['updated_at'].strftime('%Y/%m/%d')
 
     user['active_flow'] = UserFlow.objects.filter(user__id=user['id'], end_flg=False).order_by('flow_tab__number').values(*get_model_field(UserFlow)).first()
-    user['active_flow']['tab'] = ShopFlowTab.objects.filter(id=user['active_flow']['flow_tab']).values(*get_model_field(ShopFlowTab)).first()
+    if user['active_flow']:
+        user['active_flow']['tab'] = ShopFlowTab.objects.filter(id=user['active_flow']['flow_tab']).values(*get_model_field(ShopFlowTab)).first()
     
     user['tag'] = list(UserHashTag.objects.filter(user__id=user['id']).values(*get_model_field(UserHashTag)).all())
     for user_tag_index, user_tag_item in enumerate(user['tag']):
