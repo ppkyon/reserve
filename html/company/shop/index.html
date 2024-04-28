@@ -97,6 +97,7 @@
                 {% include 'loader.html' %}
             </div>
         </div>
+        <input type="hidden" id="table_paging_url" value="{% url 'company:shop:paging' %}">
         {% include 'modal.html' %}
         {% include 'company/shop/modal/shop.html' %}
         {% include 'company/shop/offcanvas.html' %}
