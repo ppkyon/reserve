@@ -167,7 +167,7 @@
                                                             {% endif %}
                                                         {% else %}
                                                             <div class="dropdown input-manager-select-dropdown d-inline-block w-100 p-0">
-                                                                <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }} {{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }} {{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select readonly ps-2 pe-2" readonly>
                                                                 <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
                                                                 <div class="dropdown-menu" style="min-width: 150%; max-height: 55px;">
                                                                     {% for manager_item in user_flow_schedule.manager_list %}
@@ -234,13 +234,13 @@
                                                         {% else %}
                                                             <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
                                                                 {% if user_flow_schedule.online_facility %}
-                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.online_facility.name }}" class="input-text input-select readonly ps-2 pe-2" readonly>
                                                                     <input type="hidden" value="{{ user_flow_schedule.online_facility.display_id }}">
                                                                 {% elif user_flow_schedule.offline_facility %}
-                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.offline_facility.name }}" class="input-text input-select readonly ps-2 pe-2" readonly>
                                                                     <input type="hidden" value="{{ user_flow_schedule.offline_facility.display_id }}">
                                                                 {% else %}
-                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select readonly ps-2 pe-2" readonly>
                                                                     <input type="hidden" value="">
                                                                 {% endif %}
                                                                 <div class="dropdown-menu w-100" style="min-width: auto; max-height: 55px;">

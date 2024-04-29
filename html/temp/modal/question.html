@@ -2,7 +2,7 @@
 
 <input type="hidden" id="get_question_url" value="{% url 'temp:get_question' %}">
 <div id="edit_question_modal" class="modal question-modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4 pb-4">
                 <div class="d-flex justify-content-end">
@@ -20,7 +20,7 @@
             </div>
             <div class="modal-footer d-block">
                 <div class="row border-bottom mt-1 mb-3">
-                    <div class="col-10 offset-1">
+                    <div class="col-12">
                         <form id="save_question_form" action="{% url 'temp:save_question' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                             <input type="hidden" name="id">
                             <div class="d-flex justify-content-start align-items-start mb-3">
