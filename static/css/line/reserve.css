@@ -25,19 +25,20 @@
     font-size: 3.7vw;
     font-weight: bold;
 }
-.content-area .content-title {
+.content-area .content-title,
+.title-area .content-title {
     color: #FFF;
     font-size: 18px;
     font-weight: bold;
     background-color: rgb(241,93,107);
+    margin-bottom: 0.9rem;
 }
 .content-area .content-description {
     font-size: 14px;
 }
-.content-area .content-item-area {
-    border-left: 1px solid #707070;
-    border-bottom: 1px solid #707070;
-    border-right: 1px solid #707070;
+.course-area .content-area .content-item-area {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.1rem 0.2rem 0.1rem rgb(0,0,0,0.16);
 }
 .content-area .content-item-area .content-item-title {
     font-size: 16px;

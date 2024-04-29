@@ -107,7 +107,12 @@
             </div>
         </div>
         <input type="hidden" id="get_course_url" value="{% url 'line:reserve:get_course' %}">
-        <div class="content-area mb-4"></div>
+            <div class="title-area row">
+                <div class="col-12 text-center p-0">
+                    <p class="content-title pt-2 pb-2">コース選択</p>
+                </div>
+            </div>
+        <div class="content-area mb-3"></div>
         <div class="footer-area d-none mb-3">
             <div class="row">
                 <div class="col-12 footer-bar text-center p-0">
@@ -310,7 +315,7 @@
                 </div>
             </div>
         </div>
-        <div class="content-area mb-4">
+        <div class="content-area content-item-area mb-4">
             <div class="row">
                 <div class="col-12 text-center p-0">
                     <input type="hidden" id="question_id">
@@ -383,23 +388,25 @@
             </div>
             <div class="row">
                 <div class="col-12 p-0">
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">会場</p>
+                    <div class="content-item-area">
+                        <div class="p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">会場</p>
+                            </div>
+                            <p class="content-item-description check-place-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-place-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">コース</p>
+                        <div class="p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">コース</p>
+                            </div>
+                            <p class="content-item-description check-course-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-course-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">日時</p>
+                        <div class="p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">日時</p>
+                            </div>
+                            <p class="content-item-description check-date-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-date-text me-5 mb-0"></p>
                     </div>
                 </div>
             </div>
