@@ -1,12 +1,4 @@
 $( function(){
-    $( document ).on( 'click', '.course-area .content-area .content-item-area .content-item-title-area', function () {
-        $( this ).parent().find( '.content-course-area' ).toggle('fast');
-        if ( $( this ).find( 'img' ).css( 'transform' ) == 'none' ) {
-            $( this ).find( 'img' ).css( 'transform', 'rotate(180deg)' );
-        } else {
-            $( this ).find( 'img' ).css( 'transform', '' );
-        }
-    });
     $( document ).on( 'change', '.course-area .content-area .content-item-area .content-course-area [name=course]', function () {
         $( '.footer-area .footer-course-text' ).text( $( this ).prev().text() );
         $( '.check-area .check-course-text' ).text( $( this ).prev().text() );
