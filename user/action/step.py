@@ -4,7 +4,7 @@ from linebot import LineBotApi
 
 from flow.models import ShopFlowItem, ShopFlowActionMessage, UserFlow, UserFlowSchedule
 from sign.models import AuthLogin, ShopLine
-from template.models import ShopTemplateTextItem
+from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
 from user.models import LineUser
 
 from common import send_textarea_replace
@@ -51,8 +51,6 @@ def save(request):
                                                 text = send_textarea_replace(template_text_item.text, line_info(shop_line), user)
                                                 if text:
                                                     push_text_message(user, remove.sub( '', text ), None)
-                                            else:
-                                                send_flg = False
                                         elif template_text_item.message_type == 2:
                                             push_image_message(user, template_text_item.image, None)
                                         elif template_text_item.message_type == 3:
@@ -67,7 +65,32 @@ def save(request):
                                     push_card_type_message(user, action_message.template_cardtype, None)
                             flow_flg = True
                 elif join == 2:
-                    print()
+                    remove = re.compile(r"<[^>]*?>")
+                    print(request.POST.get('message_type'))
+                    if request.POST.get('message_type') == '1':
+                        push_text_message(user, remove.sub( '', request.POST.get('message') ), None)
+                    elif request.POST.get('message_type') == '2':
+                        if request.POST.get('message_template_type') == '0':
+                            for template_text_item in ShopTemplateTextItem.objects.filter(template__display_id=request.POST.get('message_template')).all():
+                                if template_text_item.message_type == 0 or template_text_item.message_type == 1:
+                                    if template_text_item.text:
+                                        text = send_textarea_replace(template_text_item.text, line_info(shop_line), user)
+                                        if text:
+                                            push_text_message(user, remove.sub( '', text ), None)
+                                elif template_text_item.message_type == 2:
+                                    push_image_message(user, template_text_item.image, None)
+                                elif template_text_item.message_type == 3:
+                                    push_video_message(user, template_text_item.video, None)
+                        elif request.POST.get('message_template_type') == '1':
+                            template_video = ShopTemplateVideo.objects.filter(display_id=request.POST.get('message_template')).first()
+                            push_video_message(user, template_video.video, None)
+                        elif request.POST.get('message_template_type') == '2':
+                            print()
+                        elif request.POST.get('message_template_type') == '3':
+                            print()
+                        elif request.POST.get('message_template_type') == '4':
+                            template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('message_template')).first()
+                            push_card_type_message(user, template_cardtype, None)
                     
     return JsonResponse( {}, safe=False )
 

@@ -97,15 +97,15 @@ $( function() {
     $( document ).on( 'click', '#member_user_message_check_modal #member_user_template_area .dropdown-menu button', function () {
         $( '#member_user_message_check_modal' ).removeClass( 'up-modal' );
         if ( $( this ).val() == '0' ) {
-            open_template_text_modal( $( this).next(), null );
+            open_template_text_modal( $( this).next(), 'member' );
         } else if ( $( this ).val() == '1' ) {
-            open_template_video_modal( $( this).next(), null );
+            open_template_video_modal( $( this).next(), 'member' );
         } else if ( $( this ).val() == '2' ) {
-            open_template_richmessage_modal( $( this).next(), null );
+            open_template_richmessage_modal( $( this).next(), 'member' );
         } else if ( $( this ).val() == '3' ) {
-            open_template_richvideo_modal( $( this).next(), null );
+            open_template_richvideo_modal( $( this).next(), 'member' );
         } else if ( $( this ).val() == '4' ) {
-            open_template_cardtype_modal( $( this).next(), null );
+            open_template_cardtype_modal( $( this).next(), 'member' );
         }
         up_modal();
     });
@@ -121,14 +121,30 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
-            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+                $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).val( response.name );
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal [name=no_template]' ).val( response.name );
+                $( '#edit_step_no_message_modal [name=no_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         }).fail( function(){
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         });
     });
@@ -148,14 +164,30 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
-            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+                $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).val( response.name );
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal [name=no_template]' ).val( response.name );
+                $( '#edit_step_no_message_modal [name=no_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         }).fail( function(){
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         });
     });
@@ -175,14 +207,30 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
-            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+                $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).val( response.name );
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal [name=no_template]' ).val( response.name );
+                $( '#edit_step_no_message_modal [name=no_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         }).fail( function(){
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         });
     });
@@ -202,14 +250,30 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
-            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+                $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).val( response.name );
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal [name=no_template]' ).val( response.name );
+                $( '#edit_step_no_message_modal [name=no_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         }).fail( function(){
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         });
     });
@@ -229,14 +293,30 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#member_user_message_check_modal [name=template]' ).val( response.name );
-            $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal [name=template]' ).val( response.name );
+                $( '#member_user_message_check_modal [name=template]' ).next().val( $( target ).next().val() );
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).val( response.name );
+                $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal [name=no_template]' ).val( response.name );
+                $( '#edit_step_no_message_modal [name=no_template]' ).next().val( $( target ).next().val() );
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         }).fail( function(){
+            if ( $( target ).val() == 'member' ) {
+                $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'yes' ) {
+                $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+            } else if ( $( target ).val() == 'no' ) {
+                $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+            }
             $( target ).parents( '.modal-body' ).prev().find( 'button' ).trigger( 'click' );
-            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
             up_modal();
         });
     });
@@ -338,10 +418,87 @@ $( function() {
         $( this ).parents( '.step-area' ).next().trigger( 'click' );
     });
 
+    $( '#edit_step_modal .input-join-dropdown .dropdown-menu button' ).on( 'click', function() {
+        $( '#save_step_form [name=edit_type]' ).val( $( this ).val() );
+    });
+
     $( '#edit_step_modal .edit-button' ).on( 'click', function() {
+        if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+            $( this ).next().trigger( 'click' );
+        } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
+            $( this ).next().next().next().trigger( 'click' );
+        } else {
+            $( this ).next().trigger( 'click' );
+        }
+        up_modal();
+    });
+
+    $( document ).on( 'change', '#edit_step_yes_message_modal [name=yes_type]', function () {
+        if ( $( this ).val() == '0' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '1' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).removeClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '2' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).removeClass( 'd-none' );
+        }
+    });
+    $( document ).on( 'click', '#edit_step_yes_message_modal #step_yes_template_area .dropdown-menu button', function () {
+        $( '#edit_step_yes_message_modal' ).removeClass( 'up-modal' );
+        if ( $( this ).val() == '0' ) {
+            open_template_text_modal( $( this).next(), 'yes' );
+        } else if ( $( this ).val() == '1' ) {
+            open_template_video_modal( $( this).next(), 'yes' );
+        } else if ( $( this ).val() == '2' ) {
+            open_template_richmessage_modal( $( this).next(), 'yes' );
+        } else if ( $( this ).val() == '3' ) {
+            open_template_richvideo_modal( $( this).next(), 'yes' );
+        } else if ( $( this ).val() == '4' ) {
+            open_template_cardtype_modal( $( this).next(), 'yes' );
+        }
+        up_modal();
+    });
+    $( '#edit_step_yes_message_modal .yes-button' ).on( 'click', function() {
+        $( '#edit_step_yes_message_modal .no-button' ).trigger( 'click' );
         $( this ).next().trigger( 'click' );
         up_modal();
     });
+
+    $( document ).on( 'change', '#edit_step_no_message_modal [name=no_type]', function () {
+        if ( $( this ).val() == '0' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '1' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).removeClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '2' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).removeClass( 'd-none' );
+        }
+    });
+    $( document ).on( 'click', '#edit_step_no_message_modal #step_no_template_area .dropdown-menu button', function () {
+        $( '#edit_step_no_message_modal' ).removeClass( 'up-modal' );
+        if ( $( this ).val() == '0' ) {
+            open_template_text_modal( $( this).next(), 'no' );
+        } else if ( $( this ).val() == '1' ) {
+            open_template_video_modal( $( this).next(), 'no' );
+        } else if ( $( this ).val() == '2' ) {
+            open_template_richmessage_modal( $( this).next(), 'no' );
+        } else if ( $( this ).val() == '3' ) {
+            open_template_richvideo_modal( $( this).next(), 'no' );
+        } else if ( $( this ).val() == '4' ) {
+            open_template_cardtype_modal( $( this).next(), 'no' );
+        }
+        up_modal();
+    });
+    $( '#edit_step_no_message_modal .yes-button' ).on( 'click', function() {
+        $( '#edit_step_no_message_modal .no-button' ).trigger( 'click' );
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+
     $( '#edit_step_check_modal .yes-button' ).on( 'click', function() {
         $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
         $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
@@ -368,6 +525,23 @@ $( function() {
                     }
                 }
                 form_data.append( 'memo_' + id, $( '#save_step_form [name=memo_' + id + ']' ).val() );
+                if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+                    form_data.append( 'message_type', $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() );
+                    if ( $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() == '1' ) {
+                        form_data.append( 'message', $( '#edit_step_yes_message_modal [name=yes_message]' ).val() );
+                    } else if ( $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() == '2' ) {
+                        form_data.append( 'message_template_type', $( '#edit_step_yes_message_modal [name=yes_template_type]' ).next().val() );
+                        form_data.append( 'message_template', $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val() );
+                    }
+                } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
+                    form_data.append( 'message_type', $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() );
+                    if ( $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() == '1' ) {
+                        form_data.append( 'message', $( '#edit_step_no_message_modal [name=no_message]' ).val() );
+                    } else if ( $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() == '2' ) {
+                        form_data.append( 'message_template_type', $( '#edit_step_no_message_modal [name=no_template_type]' ).next().val() );
+                        form_data.append( 'message_template', $( '#edit_step_no_message_modal [name=no_template]' ).next().val() );
+                    }
+                }
             }
         });
         $.ajax({
