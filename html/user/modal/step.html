@@ -169,7 +169,7 @@
                                                             <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
                                                                 <input type="text" name="manager_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.manager.manager_profile.family_name }}{{ user_flow_schedule.manager.manager_profile.first_name }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                                                 <input type="hidden" value="{{ user_flow_schedule.manager.display_id }}">
-                                                                <div class="dropdown-menu" style="max-height: 55px;">
+                                                                <div class="dropdown-menu w-100" style="min-width: auto; max-height: 55px;">
                                                                     {% for manager_item in user_flow_schedule.manager_list %}
                                                                         {% if forloop.first %}
                                                                             <button type="button" value="{{ manager_item.manager.display_id }}" class="btn dropdown-item fw-bold text-center">{{ manager_item.manager.manager_profile.family_name }}{{ manager_item.manager.manager_profile.first_name }}</button>
@@ -213,7 +213,7 @@
                                                                     <input type="text" name="facility_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                                                     <input type="hidden" value="">
                                                                 {% endif %}
-                                                                <div class="dropdown-menu" style="max-height: 55px;">
+                                                                <div class="dropdown-menu w-100" style="min-width: auto; max-height: 55px;">
                                                                     {% for facility_item in user_flow_schedule.facility_list %}
                                                                         {% if forloop.first %}
                                                                             <button type="button" value="{{ facility_item.facility.display_id }}" class="btn dropdown-item fw-bold text-center">{{ facility_item.facility.name }}</button>
