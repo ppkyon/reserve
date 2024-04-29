@@ -46,7 +46,7 @@ $( function(){
         });
     });
 
-    $( '.menu-area .place-icon' ).on( 'click', function() {
+    $( '.menu-area .place-icon, .course-area .footer-area .back-button' ).on( 'click', function() {
         $( '.loader-area' ).css( 'opacity', '1' );
         $( '.loader-area' ).removeClass( 'd-none' );
         $( '.place-area' ).addClass( 'd-none' );
@@ -74,7 +74,7 @@ $( function(){
             $( '.course-area' ).removeClass( 'd-none' );
         }, 750 );
     });
-    $( '.menu-area .date-icon' ).on( 'click', function() {
+    $( '.menu-area .date-icon, .question-area .button-area .back-button' ).on( 'click', function() {
         $( '.loader-area' ).css( 'opacity', '1' );
         $( '.loader-area' ).removeClass( 'd-none' );
         $( '.place-area' ).addClass( 'd-none' );
@@ -101,6 +101,64 @@ $( function(){
             $( '.loader-area' ).addClass( 'd-none' );
             $( '.question-area' ).removeClass( 'd-none' );
         }, 750 );
+    });
+    $( document ).on( 'click', '.date-area .footer-area .back-button', function () {
+        if ( $( '[name=course_flg]' ).val() == 'true' ) {
+            $( '.loader-area' ).css( 'opacity', '1' );
+            $( '.loader-area' ).removeClass( 'd-none' );
+            $( '.place-area' ).addClass( 'd-none' );
+            $( '.course-area' ).addClass( 'd-none' );
+            $( '.date-area' ).addClass( 'd-none' );
+            $( '.question-area' ).addClass( 'd-none' );
+            $( '.check-area' ).addClass( 'd-none' );
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.course-area' ).removeClass( 'd-none' );
+            }, 750 );
+        } else if ( $( '[name=place_flg]' ).val() == 'true' ) {
+            $( '.loader-area' ).css( 'opacity', '1' );
+            $( '.loader-area' ).removeClass( 'd-none' );
+            $( '.place-area' ).addClass( 'd-none' );
+            $( '.course-area' ).addClass( 'd-none' );
+            $( '.date-area' ).addClass( 'd-none' );
+            $( '.question-area' ).addClass( 'd-none' );
+            $( '.check-area' ).addClass( 'd-none' );
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.place-area' ).removeClass( 'd-none' );
+            }, 750 );
+        }
+    });
+    $( document ).on( 'click', '.check-area .button-area .back-button', function () {
+        if ( $( '[name=question_flg]' ).val() == 'true' ) {
+            $( '.loader-area' ).css( 'opacity', '1' );
+            $( '.loader-area' ).removeClass( 'd-none' );
+            $( '.place-area' ).addClass( 'd-none' );
+            $( '.course-area' ).addClass( 'd-none' );
+            $( '.date-area' ).addClass( 'd-none' );
+            $( '.question-area' ).addClass( 'd-none' );
+            $( '.check-area' ).addClass( 'd-none' );
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.question-area' ).removeClass( 'd-none' );
+            }, 750 );
+        } else {
+            $( '.loader-area' ).css( 'opacity', '1' );
+            $( '.loader-area' ).removeClass( 'd-none' );
+            $( '.place-area' ).addClass( 'd-none' );
+            $( '.course-area' ).addClass( 'd-none' );
+            $( '.date-area' ).addClass( 'd-none' );
+            $( '.question-area' ).addClass( 'd-none' );
+            $( '.check-area' ).addClass( 'd-none' );
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.date-area' ).removeClass( 'd-none' );
+            }, 750 );
+        }
     });
 
     $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {

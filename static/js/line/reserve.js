@@ -215,6 +215,8 @@ function create_place(response) {
 
 function create_course(response) {
     $( '.course-area .content-area' ).empty();
+    $( '.course-area .footer-area .back-button' ).parent().remove();
+
     $( '.footer-area .footer-course-text' ).each( function() {
         $( this ).parent().remove();
     });
@@ -256,6 +258,8 @@ function create_course(response) {
 }
 
 function create_date(response) {
+    $( '.date-area .footer-area .back-button' ).parent().remove();
+
     $( '.date-area .content-area .date-year-text' ).text( response.year );
     $( '.date-area .content-area .date-year-text' ).next().val( response.year );
     $( '.date-area .content-area .date-week-text' ).text( response.start + '～' + response.end );

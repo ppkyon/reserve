@@ -242,7 +242,7 @@ def check(request):
                                 'meeting': None,
                                 'end_flg': schedule.flow.end_flg,
                             })
-            
+                            
             send_week = list()
             for schedule_week_value in week_day:
                 reception_flg = True
@@ -310,10 +310,10 @@ def check(request):
                                                     manager_count = manager_count - 1
                                                 if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                     facility_count = facility_count - 1
-                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                    reception_manager_list.append(reception['manager'])
-                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                    reception_facility_list.append(reception['facility'])
+                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                        reception_manager_list.append(reception['manager'])
+                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                        reception_facility_list.append(reception['facility'])
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
                                 break

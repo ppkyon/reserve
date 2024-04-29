@@ -137,6 +137,7 @@
     font-weight: bold;
     background-color: #00B074;
 }
+.button-area .back-button,
 .button-area .close-button,
 .error-area .close-button {
     width: 90%;
@@ -165,6 +166,12 @@
     color: #FFF;
     font-size: 16px;
     background-color: #00B074;
+}
+.footer-area .back-button {
+    width: 90%;
+    color: #FFF;
+    font-size: 16px;
+    background-color: #ABABAB;
 }
 
 .input-radio-wrap label {
