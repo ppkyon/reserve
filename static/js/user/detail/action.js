@@ -360,6 +360,12 @@ $( function() {
                     if ( check_empty($( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val()) ) {
                         form_data.append( 'join_' + id + '_' + i, $( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val() );
                     }
+                    if ( check_empty($( '#save_step_form [name=manager_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'manager_' + id + '_' + i, $( '#save_step_form [name=manager_' + id + '_' + i + ']' ).next().val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=facility_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'facility_' + id + '_' + i, $( '#save_step_form [name=facility_' + id + '_' + i + ']' ).next().val() );
+                    }
                 }
                 form_data.append( 'memo_' + id, $( '#save_step_form [name=memo_' + id + ']' ).val() );
             }
