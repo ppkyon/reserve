@@ -335,7 +335,7 @@ def save(request):
                     head_flow_action_reminder = HeadFlowActionReminder.objects.filter(flow=head_flow_item).first()
                     template_text = None
                     if head_flow_action_reminder.template_text:
-                        if CompanyTemplateText.objects.filter(parent=head_flow_action_reminder.template_text).exists():
+                        if CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_reminder.template_text).exists():
                             template_text = CompanyTemplateText.objects.filter(parent=head_flow_action_reminder.template_text).first()
                         else:
                             template_text = CompanyTemplateText.objects.create(
@@ -383,7 +383,7 @@ def save(request):
                     head_flow_action_message = HeadFlowActionMessage.objects.filter(flow=head_flow_item).first()
                     template_text = None
                     if head_flow_action_message.template_text:
-                        if CompanyTemplateText.objects.filter(parent=head_flow_action_message.template_text).exists():
+                        if CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_message.template_text).exists():
                             template_text = CompanyTemplateText.objects.filter(parent=head_flow_action_message.template_text).first()
                         else:
                             template_text = CompanyTemplateText.objects.create(
