@@ -161,6 +161,55 @@ $( function() {
         $( this ).parents( '.step-area' ).next().trigger( 'click' );
     });
 
+    $( '#edit_step_modal .edit-button' ).on( 'click', function() {
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+    $( '#edit_step_check_modal .yes-button' ).on( 'click', function() {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+        
+        var form_data = new FormData();
+        form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
+        $( '#save_step_form table tbody tr' ).each( function( index, value ) {
+            if ( index % 2 == 0 ) {
+                var id = $( this ).find( '.content-title' ).next().val();
+                var count = $( this ).find( '.content-title' ).next().next().val();
+                for ( var i = 1; i <= count; i++ ) {
+                    if ( check_empty($( '#save_step_form [name=date_' + id + '_' + i + ']' ).val()) ) {
+                        form_data.append( 'date_' + id + '_' + i, $( '#save_step_form [name=date_' + id + '_' + i + ']' ).val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'join_' + id + '_' + i, $( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val() );
+                    }
+                }
+                form_data.append( 'memo_' + id, $( '#save_step_form [name=memo_' + id + ']' ).val() );
+            }
+        });
+        $.ajax({
+            'data': form_data,
+            'url': $( '#save_step_form' ).attr( 'action' ),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                $( '#edit_step_success_button' ).trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                $( '#edit_step_error_button' ).trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'edit_step' );
+
     $( '.detail-area .question-area tbody tr' ).on( 'click', function() {
         var target = $( this );
         var form_data = new FormData();

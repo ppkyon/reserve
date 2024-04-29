@@ -211,7 +211,8 @@
 }
 
 .modal .modal-footer .yes-button,
-.modal .modal-footer .save-button {
+.modal .modal-footer .save-button,
+.modal .modal-footer .edit-button {
     padding: 5px;
     width: 100px;
     color: #FFF;
