@@ -54,6 +54,9 @@ def check(request):
     setting_list = list()
     if flow:
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=flow), Q(Q(member=0)|Q(member=2))).order_by('number').all():
+            import logging
+            logger = logging.getLogger('development')
+            logger.info(flow_tab)
             for online_offline_item in online_offline_list:
                 if online_offline_item['type'] == 1:
                     setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
@@ -73,10 +76,6 @@ def check(request):
                             if setting_item['question']:
                                 question_flg = True
                             setting_list.append(setting_item)
-    
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(setting_list)
     
     if place_flg:
         if len(setting_list) > 0:
