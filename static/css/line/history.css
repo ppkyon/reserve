@@ -78,10 +78,13 @@ body {
 .content-area .content-description {
     font-size: 14px;
 }
-.content-area .content-item-area {
-    border-left: 1px solid #707070;
-    border-bottom: 1px solid #707070;
-    border-right: 1px solid #707070;
+.history-check-area .content-area .content-item-area,
+.history-end-area .content-area .content-item-area,
+.question-area .content-area .content-item-area,
+.question-check-area .content-area .content-item-area,
+.question-end-area .content-area .content-item-area {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.1rem 0.2rem 0.1rem rgb(0,0,0,0.16);
 }
 .content-area .content-item-area .content-item-title {
     font-size: 16px;
