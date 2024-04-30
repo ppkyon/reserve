@@ -74,6 +74,10 @@ def check(request):
                                 question_flg = True
                             setting_list.append(setting_item)
     
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(setting_list)
+    
     if place_flg:
         if len(setting_list) > 0:
             data = {
