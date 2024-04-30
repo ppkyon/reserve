@@ -8,7 +8,7 @@ $( function() {
             for ( var i = 1; i <= $( '#question_form' ).children( 'div.row' ).length; i++ ) {
                 var type = Number($( '#question_form' ).find( '[name=type_' + i + ']' ).val());
                 var title = $( '#question_form' ).find( '[name=type_' + i + ']' ).prev().find( '.input-label' ).text();
-                var html = '<div class="content-item-area p-2">';
+                var html = '<div class="p-2">';
                 html += '<div class="content-item-title-area d-flex align-items-center mb-1">';
                 html += '<p class="content-item-title mb-0">' + title + '</p>';
                 html += '</div>';
@@ -99,8 +99,8 @@ $( function() {
                     html += '<p class="content-item-description check-question-text me-5 mb-0">' + text + '</p>';
                 }
                 html += '</div>';
-                $( '.check-area .content-area .content-item-area' ).parent().append(html);
-                $( '.end-area .content-area .content-item-area' ).parent().append(html);
+                $( '.check-area .content-area .check-content-item-area' ).parent().append(html);
+                $( '.end-area .content-area .end-content-item-area' ).parent().append(html);
             }
             setTimeout( function() {
                 $( '.loader-area' ).css( 'opacity', '0' );

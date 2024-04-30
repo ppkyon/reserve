@@ -48,7 +48,7 @@
         <div class="content-area mb-4">
             <div class="row">
                 <div class="col-12 text-center p-0">
-                    <p class="content-title pt-2 pb-2 mb-0">会場選択</p>
+                    <p class="content-title pt-2 pb-2 mb-2">会場選択</p>
                 </div>
             </div>
             <div class="row mb-2">
@@ -167,7 +167,7 @@
         <div class="content-area mb-4">
             <div class="row">
                 <div class="col-12 text-center p-0">
-                    <p class="content-title pt-2 pb-2 mb-0">希望日時選択</p>
+                    <p class="content-title pt-2 pb-2 mb-2">希望日時選択</p>
                     <input type="hidden" id="get_date_url" value="{% url 'proxy:get_date' %}">
                 </div>
             </div>
@@ -308,24 +308,24 @@
                 </div>
             </div>
         </div>
-        <div class="content-area mb-4">
+        <div class="content-area mb-3">
             <div class="row">
-                <div class="col-12 text-center p-0">
+                <div class="col-12 text-center p-0 mb-1">
                     <input type="hidden" id="question_id">
-                    <p class="content-title pt-2 pb-2 mb-0"></p>
+                    <p class="content-title pt-2 pb-2 mb-2"></p>
                     <input type="hidden" id="get_question_url" value="{% url 'proxy:get_question' %}">
+                    <p class="content-description text-start mb-2 ms-2"></p>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-12">
-                    <p class="content-description pt-2 pb-2 mb-0"></p>
+            <div class="row">
+                <div class="content-item-area pt-2 pb-2 ps-2 pe-2">
+                    <div class="content-question-area">
+                        <form id="question_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none"></form>
+                    </div>
                 </div>
-            </div>
-            <div class="content-question-area">
-                <form id="question_form" method="POST" enctype="multipart/form-data" data-parsley-focus="none"></form>
             </div>
         </div>
-        <div class="button-area mb-3">
+        <div class="button-area mt-2 mb-3">
             <div class="row">
                 <div class="col-12 text-center p-0 mb-2">
                     <button type="button" class="btn check-button">この内容で予約する</button>
@@ -367,32 +367,34 @@
                 </div>
             </div>
         </div>
-        <div class="content-area mb-4">
+        <div class="content-area mb-3">
             <div class="row">
                 <div class="col-12 text-center p-0">
-                    <p class="content-title pt-2 pb-2 mb-0">ご予約内容</p>
+                    <p class="content-title pt-2 pb-2 mb-3">ご予約内容</p>
                     <input type="hidden" id="send_reserve_url" value="{% url 'proxy:send' %}">
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 p-0">
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">会場</p>
+                    <div class="content-item-area pt-1 ps-1 pb-1">
+                        <div class="check-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">会場</p>
+                            </div>
+                            <p class="content-item-description check-place-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-place-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">コース</p>
+                        <div class="check-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">コース</p>
+                            </div>
+                            <p class="content-item-description check-course-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-course-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">日時</p>
+                        <div class="check-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">日時</p>
+                            </div>
+                            <p class="content-item-description check-date-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description check-date-text me-5 mb-0"></p>
                     </div>
                 </div>
             </div>
@@ -447,28 +449,30 @@
             </div>
             <div class="row">
                 <div class="col-12 text-center p-0">
-                    <p class="content-title pt-2 pb-2 mb-0">ご予約内容</p>
+                    <p class="content-title pt-2 pb-2 mb-3">ご予約内容</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 p-0">
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">会場</p>
+                    <div class="content-item-area pt-1 ps-1 pb-1">
+                        <div class="end-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">会場</p>
+                            </div>
+                            <p class="content-item-description end-place-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description end-place-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">コース</p>
+                        <div class="end-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">コース</p>
+                            </div>
+                            <p class="content-item-description end-course-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description end-course-text me-5 mb-0"></p>
-                    </div>
-                    <div class="content-item-area p-2">
-                        <div class="content-item-title-area d-flex align-items-center mb-1">
-                            <p class="content-item-title mb-0">日時</p>
+                        <div class="end-content-item-area p-2">
+                            <div class="content-item-title-area d-flex align-items-center mb-1">
+                                <p class="content-item-title mb-0">日時</p>
+                            </div>
+                            <p class="content-item-description end-date-text me-5 mb-0"></p>
                         </div>
-                        <p class="content-item-description end-date-text me-5 mb-0"></p>
                     </div>
                 </div>
             </div>
