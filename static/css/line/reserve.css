@@ -36,7 +36,10 @@
 .content-area .content-description {
     font-size: 14px;
 }
-.course-area .content-area .content-item-area {
+.course-area .content-area .content-item-area,
+.question-area .content-area .content-item-area,
+.check-area .content-area .content-item-area,
+.end-area .content-area .content-item-area {
     border-radius: 0.5rem;
     box-shadow: 0 0.1rem 0.2rem 0.1rem rgb(0,0,0,0.16);
 }
