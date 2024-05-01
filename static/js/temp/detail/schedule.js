@@ -137,6 +137,7 @@ $( function(){
                     $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).next().val(response.facility.display_id);
                 }
             });
+            $( '#select_schedule_modal .no-button' ).trigger( 'click' );
         }).fail( function(){
             
         });
