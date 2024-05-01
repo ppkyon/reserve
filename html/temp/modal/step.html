@@ -126,34 +126,42 @@
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
-                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text readonly w-100 ps-1" value="-" readonly>
+                                                <input type="text" name="date_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" class="input-text w-100 ps-1" value="-" readonly>
                                             {% endif %}
                                             <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#select_schedule_modal"></button>
                                         </td>
                                         <td>
                                             {% if user_flow.schedule|length %}
                                                 {% for user_flow_schedule in user_flow.schedule %}
-                                                    {% if user_flow.end_flg %}
-                                                        {% if user_flow_schedule.join %}
-                                                            <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                    {% if forloop.last %}
+                                                        {% if user_flow_schedule.date and user_flow_schedule.time %}
+                                                            {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
+                                                                {% if user_flow_schedule.join %}
+                                                                    <input type="text" class="input-text text-center readonly w-100" value="{{ user_flow_schedule.get_join_display }}" readonly>
+                                                                    <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                                {% else %}
+                                                                    <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                                    <input type="hidden">
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
+                                                                    <input type="text" name="join_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.get_join_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                                                    <input type="hidden" value="{{ user_flow_schedule.join }}">
+                                                                    <div class="dropdown-menu" style="max-height: 55px;">
+                                                                        <button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>
+                                                                        <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
                                                         {% else %}
                                                             <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
                                                             <input type="hidden">
                                                         {% endif %}
-                                                    {% else %}
-                                                        <div class="dropdown input-select-dropdown d-inline-block w-100 p-0">
-                                                            <input type="text" name="join_{{ user_flow.display_id }}_{{ user_flow_schedule.number }}" value="{{ user_flow_schedule.get_join_display }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                                            <input type="hidden" value="{{ user_flow_schedule.join }}">
-                                                            <div class="dropdown-menu" style="max-height: 55px;">
-                                                                <button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>
-                                                                <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>
-                                                            </div>
-                                                        </div>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
                                                 <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                                                <input type="hidden">
                                             {% endif %}
                                         </td>
                                         <td>

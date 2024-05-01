@@ -680,8 +680,8 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
-            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+        if UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('-number').first()
             user_flow_schedule.number = 1
             user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
             user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
@@ -803,8 +803,8 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-        if UserFlowSchedule.objects.filter(flow=user_flow).exists():
-            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+        if UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+            user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('-number').first()
             user_flow_schedule.number = 1
             user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
             user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')

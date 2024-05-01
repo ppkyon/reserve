@@ -6,6 +6,7 @@ from flow.models import (
     ShopFlowActionReminder, ShopFlowActionMessage,
     UserFlow, UserFlowSchedule, UserFlowTimer, UserFlowActionReminder, UserFlowActionMessage
 )
+from reserve.models import ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 from richmenu.models import UserRichMenu
 from sign.models import ShopLine
 from template.models import ShopTemplateGreeting
@@ -69,7 +70,7 @@ def go(user, flow, flow_tab, flow_item):
                 user_flow.end_flg = False
                 user_flow.save()
             else:
-                UserFlow.objects.create(
+                user_flow = UserFlow.objects.create(
                     id = str(uuid.uuid4()),
                     display_id = create_code(12, UserFlow),
                     user = user,
@@ -81,6 +82,41 @@ def go(user, flow, flow_tab, flow_item):
                     richmenu = flow_rich_menu.rich_menu,
                     end_flg = False,
                 )
+            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+                reserve_offline_flow = ReserveOfflineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('offline__number').first()
+                reserve_online_flow = ReserveOnlineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('online__number').first()
+                if reserve_offline_flow:
+                    if reserve_offline_flow.offline:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            offline = reserve_offline_flow.offline,
+                            offline_course = None,
+                            offline_facility = None,
+                            manager = None,
+                            question = None,
+                        )
+                elif reserve_online_flow:
+                    if reserve_online_flow.online:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            online = reserve_online_flow.online,
+                            online_course = None,
+                            online_facility = None,
+                            manager = None,
+                            question = None,
+                        )
         elif flow_item.type == 8:
             print()
         elif flow_item.type == 9:
@@ -100,7 +136,7 @@ def go(user, flow, flow_tab, flow_item):
 
             flow_step = ShopFlowStep.objects.filter(flow=flow_item).first()
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, value=flow_step.tab.value).first()
-            UserFlow.objects.create(
+            user_flow = UserFlow.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlow),
                 user = user,

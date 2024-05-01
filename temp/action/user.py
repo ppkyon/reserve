@@ -1,7 +1,8 @@
 from django.db.models import Q
 from django.http import JsonResponse
 
-from flow.models import ShopFlowTab, UserFlow
+from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
+from reserve.models import ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 from sign.models import AuthLogin
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile
@@ -139,7 +140,7 @@ def member(request):
     if not UserFlow.objects.filter(Q(user=user), Q(Q(flow_tab__member=1)|Q(flow_tab__member=2))).order_by('number').exists():
         user_flow = UserFlow.objects.filter(user=user).order_by('number').first()
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=user_flow.flow), Q(Q(member=1)|Q(member=2))).order_by('number').all():
-            UserFlow.objects.create(
+            user_flow = UserFlow.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlow),
                 user = user,
@@ -151,4 +152,39 @@ def member(request):
                 richmenu = None,
                 end_flg = False,
             )
+            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+                reserve_offline_flow = ReserveOfflineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('offline__number').first()
+                reserve_online_flow = ReserveOnlineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('online__number').first()
+                if reserve_offline_flow:
+                    if reserve_offline_flow.offline:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            offline = reserve_offline_flow.offline,
+                            offline_course = None,
+                            offline_facility = None,
+                            manager = None,
+                            question = None,
+                        )
+                elif reserve_online_flow:
+                    if reserve_online_flow.online:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            online = reserve_online_flow.online,
+                            online_course = None,
+                            online_facility = None,
+                            manager = None,
+                            question = None,
+                        )
     return JsonResponse( {}, safe=False )
