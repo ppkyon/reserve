@@ -1,0 +1,167 @@
+{% load static %}
+
+<input type="hidden" id="get_date_url" value="{% url 'temp:get_schedule' %}">
+<input type="hidden" id="send_date_url" value="{% url 'temp:send_schedule' %}">
+<div id="select_schedule_modal" class="modal up-modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row mb-2">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            {% if user.profile.image %}
+                                <img src="{{ user.profile.image.url }}" class="user-image me-2">
+                            {% elif user.display_image %}
+                                <img src="{{ user.display_image }}" class="user-image me-2">
+                            {% else %}
+                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                            {% endif %}
+                            <div>
+                                {% if user.profile.name %}
+                                    {% if user.profile.age %}
+                                        <p class="title mb-0">{{ user.profile.name }} ({{ user.profile.age }})</p>
+                                    {% else %}
+                                        <p class="title mb-0">{{ user.profile.name }}</p>
+                                    {% endif %}
+                                {% else %}
+                                    {% if user.profile.age %}
+                                        <p class="title mb-0">{{ user.display_name }} ({{ user.profile.age }})</p>
+                                    {% else %}
+                                        <p class="title mb-0">{{ user.display_name }}</p>
+                                    {% endif %}
+                                {% endif %}
+                                <p class="sub mb-0" style="color: #707070;">#{{ user.profile.atelle_id }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <p class="title fw-bold mb-0">ご希望の日時を選択してください</p>
+                    </div>
+                    <div class="col-4">
+                        <div class="dropdown input-select-dropdown input-schedule-setting-dropdown text-end d-inline-block w-100 p-0">
+                            <input type="text" name="schedule_setting" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                            <input type="hidden" value="">
+                            <div class="dropdown-menu text-end">
+                                {% for setting_item in setting_list %}
+                                    {% if forloop.first %}
+                                        <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold text-start p-1 pt-2 pb-2 ps-2">{{ setting_item.name }}</button>
+                                    {% else %}
+                                        <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold text-start border-top p-1 pt-2 ps-2">{{ setting_item.name }}</button>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <input type="hidden" name="schedule_course" value="">
+                    </div>
+                </div>
+                <div class="date-area">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-area">
+                                <table class="table schedule-table text-center mb-0" style="border: 1px solid #BEBEBE;">
+                                    <thead>
+                                        <tr>
+                                            <th class="prev-text text-center" rowspan="2" style="width: 75px; vertical-align: middle; cursor: pointer;">
+                                                <button type="button" id="prev_date_button" class="btn p-0">< 前へ</button>
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                            </th>
+                                            <th class="date-text text-center" colspan="14">
+                                                <span>2023年8月</span>
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                            </th>
+                                            <th class="next-text text-center" rowspan="2" style="width: 75px; vertical-align: middle; cursor: pointer;">
+                                                <button type="button" id="next_date_button" class="btn p-0" style="cursor: pointer;">次へ ></button>
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                                <input type="hidden">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">7</p>
+                                                <p class="mb-0">(月)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">8</p>
+                                                <p class="mb-0">(火)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">9</p>
+                                                <p class="mb-0">(水)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">10</p>
+                                                <p class="mb-0">(木)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">11</p>
+                                                <p class="mb-0">(金)</p>
+                                            </th>
+                                            <th class="day-text text-center" style="background-color: #D9E3EC;">
+                                                <p class="mb-0" style="color: #4466BB;">12</p>
+                                                <p class="mb-0" style="color: #4466BB;">(土)</p>
+                                            </th>
+                                            <th class="day-text text-center" style="background-color: #EEDDD9;">
+                                                <p class="mb-0" style="color: #FF0000;">13</p>
+                                                <p class="mb-0" style="color: #FF0000;">(日)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">14</p>
+                                                <p class="mb-0">(月)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">15</p>
+                                                <p class="mb-0">(火)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">16</p>
+                                                <p class="mb-0">(水)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">17</p>
+                                                <p class="mb-0">(木)</p>
+                                            </th>
+                                            <th class="day-text text-center">
+                                                <p class="mb-0">18</p>
+                                                <p class="mb-0">(金)</p>
+                                            </th>
+                                            <th class="day-text text-center" style="background-color: #D9E3EC;">
+                                                <p class="mb-0" style="color: #4466BB;">19</p>
+                                                <p class="mb-0" style="color: #4466BB;">(土)</p>
+                                            </th>
+                                            <th class="day-text text-center" style="background-color: #EEDDD9;">
+                                                <p class="mb-0" style="color: #FF0000;">20</p>
+                                                <p class="mb-0" style="color: #FF0000;">(日)</p>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="date-loader-area d-flex justify-content-center align-items-center text-center w-100 d-none" style="height: 50vh;">
+                    <div class="table-loader spinner-border">
+                        <span class="visually-hidden" style="font-size: 12px;">リアルタイムスケジュール取得中...</span>
+                    </div>
+                    <p class="h5 fw-bold ms-3 mb-0" style="font-size: 12px;">リアルタイムスケジュール取得中...</p>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center flex-nowrap">
+                <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -593,10 +593,12 @@ def send(request):
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
 
+        people_count = setting.people
         manager_list = list()
         facility_list = list()
         if setting:
             for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=setting).all():
+                manager_menu_item.manager.count = people_count
                 manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
@@ -654,13 +656,8 @@ def send(request):
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
 
-        people_number = 0
-        people_count = setting.people
-        same_count = setting.facility
-
         reception_manager_list = list()
         reception_facility_list = list()
-        count_flg = True
         for schedule_item in schedule_list:
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
             schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
@@ -668,26 +665,16 @@ def send(request):
             if add_date > schedule_date and schedule_add_date > date:
                 if schedule_item.offline == setting:
                     if schedule_date == date:
-                        if count_flg:
-                            if schedule_item.offline_facility.count < people_count:
-                                same_count = same_count - 1
-                                if same_count > 0:
-                                    people_number = people_number + 1
-                                    reception_facility_list.append(schedule_item.offline_facility)
-                                    if facility_list[people_number]:
-                                        people_count = people_count + facility_list[people_number].count
-                                else:
-                                    people_count = schedule_item.offline_facility.count
-                            count_flg = False
-                        people_count = people_count - 1
-                        if people_count <= 0:
-                            reception_manager_list.append(schedule_item.manager)
-                            reception_facility_list.append(schedule_item.offline_facility)
-
-                            people_number = people_number + 1
-                            people_count = setting.people
-                            if schedule_item.offline_facility.count < people_count:
-                                people_count = schedule_item.offline_facility.count
+                        for manager_item in manager_list:
+                            if manager_item == schedule_item.manager:
+                                manager_item.count = manager_item.count - 1
+                                if manager_item.count <= 0:
+                                    reception_manager_list.append(schedule_item.manager.id)
+                        for facility_item in facility_list:
+                            if facility_item == schedule_item.offline_facility:
+                                facility_item.count = facility_item.count - 1
+                                if facility_item.count <= 0:
+                                    reception_facility_list.append(facility_item.id)
                     else:
                         reception_manager_list.append(schedule_item.manager)
                         reception_facility_list.append(schedule_item.offline_facility)
@@ -696,13 +683,13 @@ def send(request):
                     reception_facility_list.append(schedule_item.offline_facility)
 
         manager = None
-        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).all():
-            if not manager_item.manager in reception_manager_list:
+        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).order_by('-manager__created_at').all():
+            if not manager_item.manager.id in reception_manager_list:
                 manager = manager_item.manager
                 break
         facility = None
-        for facility_item in ReserveOfflineFacilityMenu.objects.filter(shop=shop, offline=setting).all():
-            if not facility_item.facility in reception_facility_list:
+        for facility_item in ReserveOfflineFacilityMenu.objects.filter(shop=shop, offline=setting).order_by('facility__order').all():
+            if not facility_item.facility.id in reception_facility_list:
                 facility = facility_item.facility
                 break
             
@@ -734,10 +721,12 @@ def send(request):
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
         
+        people_count = setting.people
         manager_list = list()
         facility_list = list()
         if setting:
             for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=setting).all():
+                manager_menu_item.manager.count = people_count
                 manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
@@ -785,13 +774,8 @@ def send(request):
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
 
-        people_number = 0
-        people_count = setting.people
-        same_count = setting.facility
-
         reception_manager_list = list()
         reception_facility_list = list()
-        count_flg = True
         for schedule_item in schedule_list:
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
             schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.online.time)
@@ -799,26 +783,16 @@ def send(request):
             if add_date > schedule_date and schedule_add_date > date:
                 if schedule_item.online == setting:
                     if schedule_date == date:
-                        if count_flg:
-                            if schedule_item.online_facility.count < people_count:
-                                same_count = same_count - 1
-                                if same_count > 0:
-                                    people_number = people_number + 1
-                                    reception_facility_list.append(schedule_item.online_facility)
-                                    if facility_list[people_number]:
-                                        people_count = people_count + facility_list[people_number].count
-                                else:
-                                    people_count = schedule_item.online_facility.count
-                            count_flg = False
-                        people_count = people_count - 1
-                        if people_count <= 0:
-                            reception_manager_list.append(schedule_item.manager)
-                            reception_facility_list.append(schedule_item.online_facility)
-
-                            people_number = people_number + 1
-                            people_count = setting.people
-                            if schedule_item.online_facility.count < people_count:
-                                people_count = schedule_item.online_facility.count
+                        for manager_item in manager_list:
+                            if manager_item == schedule_item.manager:
+                                manager_item.count = manager_item.count - 1
+                                if manager_item.count <= 0:
+                                    reception_manager_list.append(schedule_item.manager.id)
+                        for facility_item in facility_list:
+                            if facility_item == schedule_item.online_facility:
+                                facility_item.count = facility_item.count - 1
+                                if facility_item.count <= 0:
+                                    reception_facility_list.append(facility_item.id)
                     else:
                         reception_manager_list.append(schedule_item.manager)
                         reception_facility_list.append(schedule_item.online_facility)

@@ -54,5 +54,15 @@ class DetailView(TempView):
         context['user'].tag = UserHashTag.objects.filter(user=context['user']).order_by('number').all()
 
         context['user'].question = UserQuestion.objects.filter(user=context['user']).order_by('-created_at').all()
+
+        context['setting_list'] = list()
+        for user_flow_index, user_flow_item in enumerate(context['user'].flow):
+            if not user_flow_item.end_flg:
+                for user_flow_schedule_item in UserFlowSchedule.objects.filter(flow=user_flow_item).order_by('number').all():
+                    if user_flow_schedule_item.join == 0:
+                        if user_flow_schedule_item.offline:
+                            context['setting_list'].append(user_flow_schedule_item.offline)
+                        elif user_flow_schedule_item.online:
+                            context['setting_list'].append(user_flow_schedule_item.online)
         
         return context

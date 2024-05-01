@@ -271,7 +271,7 @@ def check(request):
                             reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
-                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
+                                if schedule_add_date >= reception['from'] and reception['to'] >= schedule_date:
                                     if manager_count <= 0 or facility_count <= 0:
                                         break
                                     else:

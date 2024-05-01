@@ -3,7 +3,8 @@ from django.http import JsonResponse
 from linebot import LineBotApi
 
 from flow.models import UserFlow, UserFlowSchedule
-from sign.models import AuthLogin, ShopLine
+from reserve.models import ReserveOfflineFacility, ReserveOnlineFacility
+from sign.models import AuthLogin, ShopLine, AuthUser
 from user.models import LineUser
 
 def save(request):
@@ -16,11 +17,23 @@ def save(request):
 
     for user_flow in UserFlow.objects.filter(user=user).order_by('number').all():
         if not user_flow.end_flg:
-            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').all():
+            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('number').all():
+                if request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
+                    date = request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)).split(' ')
+                    user_flow_schedule.date = date[0].strip().replace('/','-')
+                    user_flow_schedule.time = date[1].strip()
                 join = 0
                 if request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     join = int(request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)))
-                user_flow_schedule.join = join
+                if request.POST.get('manager_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
+                    user_flow_schedule.manager = AuthUser.objects.filter(display_id=request.POST.get('manager_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                if request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
+                    if user_flow_schedule.offline:
+                        user_flow_schedule.offline_facility = ReserveOfflineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                    if user_flow_schedule.online:
+                        user_flow_schedule.online_facility = ReserveOnlineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                if user_flow_schedule.join == 0:
+                    user_flow_schedule.join = join
                 user_flow_schedule.save()
 
                 if join == 1:

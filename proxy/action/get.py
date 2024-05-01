@@ -254,7 +254,7 @@ def date(request):
                             reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
-                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
+                                if schedule_add_date >= reception['from'] and reception['to'] >= schedule_date:
                                     if manager_count <= 0 or facility_count <= 0:
                                         break
                                     else:
@@ -293,10 +293,10 @@ def date(request):
                                                     manager_count = manager_count - 1
                                                 if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                     facility_count = facility_count - 1
-                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                    reception_manager_list.append(reception['manager'])
-                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                    reception_facility_list.append(reception['facility'])
+                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                        reception_manager_list.append(reception['manager'])
+                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                        reception_facility_list.append(reception['facility'])
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
                                 break

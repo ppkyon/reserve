@@ -54,9 +54,6 @@ def check(request):
     setting_list = list()
     if flow:
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=flow), Q(Q(member=0)|Q(member=2))).order_by('number').all():
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(flow_tab)
             for online_offline_item in online_offline_list:
                 if online_offline_item['type'] == 1:
                     setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
@@ -262,7 +259,7 @@ def check(request):
                             reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
-                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
+                                if schedule_add_date >= reception['from'] and reception['to'] >= schedule_date:
                                     if manager_count <= 0 or facility_count <= 0:
                                         break
                                     else:
@@ -301,10 +298,10 @@ def check(request):
                                                     manager_count = manager_count - 1
                                                 if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                     facility_count = facility_count - 1
-                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                    reception_manager_list.append(reception['manager'])
-                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                    reception_facility_list.append(reception['facility'])
+                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                        reception_manager_list.append(reception['manager'])
+                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                        reception_facility_list.append(reception['facility'])
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
                                 break
