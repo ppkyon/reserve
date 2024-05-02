@@ -25,11 +25,13 @@
     font-size: 3.7vw;
     font-weight: bold;
 }
-.content-area .content-title {
+.content-area .content-title,
+.title-area .content-title {
     color: #FFF;
     font-size: 18px;
     font-weight: bold;
     background-color: rgb(241,93,107);
+    margin-bottom: 0.9rem;
 }
 .content-area .content-description {
     font-size: 14px;
