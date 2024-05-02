@@ -2,7 +2,7 @@ from django.http import JsonResponse
 
 from linebot import LineBotApi
 
-from flow.models import ShopFlowItem, ShopFlowActionMessage, UserFlow, UserFlowSchedule
+from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionMessage, UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineFacility, ReserveOnlineFacility
 from sign.models import AuthLogin, ShopLine, AuthUser
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
@@ -27,8 +27,11 @@ def save(request):
     for user_flow in UserFlow.objects.filter(user=user).order_by('number').all():
         if not user_flow.end_flg:
             for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('number').all():
+                change_flg = False
                 if request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     date = request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)).split(' ')
+                    if str(user_flow_schedule.date) != date[0].strip().replace('/','-') + ' 00:00:00' or str(user_flow_schedule.time) != date[1].strip() + ':00':
+                        change_flg = True
                     user_flow_schedule.date = date[0].strip().replace('/','-')
                     user_flow_schedule.time = date[1].strip()
                 join = 0
@@ -103,7 +106,18 @@ def save(request):
                         elif request.POST.get('message_template_type') == '4':
                             template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('message_template')).first()
                             push_card_type_message(user, template_cardtype, None)
-                    
+
+                if change_flg:
+                    flow_flg = False
+                    for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
+                        if flow_flg:
+                            if flow_item.type == 6:
+                                flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
+                                push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
+                            if flow_item.type == 51:
+                                break
+                        if flow_item.type == 54:
+                            flow_flg = True
     return JsonResponse( {}, safe=False )
 
 def save_check(request):
