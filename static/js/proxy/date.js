@@ -126,6 +126,7 @@ $( function(){
                     $( '.question-area .content-area .content-title' ).text( response.question.title );
                     $( '.question-area .content-area .content-description' ).html( response.question.description.replace(/\r?\n/g, '<br>') );
 
+                    $( '#question_form' ).empty();
                     $.each( response.question.item, function( index, value ) {
                         var html = '<div class="row">';
                         html += '<div class="col-12 mb-3">';
