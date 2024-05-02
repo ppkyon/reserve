@@ -53,8 +53,8 @@ $( function(){
                 $( '.history-check-area .check-course-text' ).text( response.course.title );
                 $( '.history-end-area .end-course-text' ).text( response.course.title );
             } else {
-                $( '.history-check-area .check-course-text' ).parents( '.content-item-area' ).remove();
-                $( '.history-end-area .end-course-text' ).parents( '.content-item-area' ).remove();
+                $( '.history-check-area .check-course-text' ).parents( '.check-content-item-area' ).remove();
+                $( '.history-end-area .end-course-text' ).parents( '.end-content-item-area' ).remove();
             }
 
             $( '.date-area .content-area .date-year-text' ).text( response.year );
