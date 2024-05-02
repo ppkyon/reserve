@@ -27,11 +27,12 @@ def send(request):
     user_flow = UserFlow.objects.filter(display_id=request.POST.get('flow_id')).first()
     user_flow_schedule = UserFlowSchedule.objects.filter(display_id=request.POST.get('schedule_id')).first()
     if user_flow_schedule:
-        user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
-        user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
+        user_flow_schedule.date = datetime.datetime.strptime(request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
+        user_flow_schedule.time = datetime.datetime.strptime(request.POST.get('hour') + ':' + request.POST.get('minute') + ':00', '%H:%M:%S') 
         user_flow_schedule.updated_at = datetime.datetime.now()
         user_flow_schedule.save()
 
+    target_flow_item = None
     action_flow_item = None
     flow_flg = False
     action_flg = False
@@ -44,31 +45,34 @@ def send(request):
                 flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
                 push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
             if flow_item.type == 51:
-                user_flow.flow_item = flow_item
+                target_flow_item = flow_item
                 action_flg = True
         if flow_item.type == 54:
             flow_flg = True
-        
-        shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=action_flow_item).first()
-        action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
-        action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
-        action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
-        if UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).exists():
-            user_flow_action_reminder = UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).first()
-            user_flow_action_reminder.action_date = action_date
-            user_flow_action_reminder.save()
-        else:
-            UserFlowActionReminder.objects.create(
-                id = str(uuid.uuid4()),
-                user = user_flow.user,
-                flow = user_flow,
-                template_text = shop_flow_action_reminder.template_text,
-                template_video = shop_flow_action_reminder.template_video,
-                template_richmessage = shop_flow_action_reminder.template_richmessage,
-                template_richvideo = shop_flow_action_reminder.template_richvideo,
-                template_cardtype = shop_flow_action_reminder.template_cardtype,
-                action_date = action_date,
-            )
+    
+    user_flow.flow_item = target_flow_item
+    user_flow.save()
+    
+    shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=action_flow_item).first()
+    action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+    action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
+    action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
+    if UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).exists():
+        user_flow_action_reminder = UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).first()
+        user_flow_action_reminder.action_date = action_date
+        user_flow_action_reminder.save()
+    else:
+        UserFlowActionReminder.objects.create(
+            id = str(uuid.uuid4()),
+            user = user_flow.user,
+            flow = user_flow,
+            template_text = shop_flow_action_reminder.template_text,
+            template_video = shop_flow_action_reminder.template_video,
+            template_richmessage = shop_flow_action_reminder.template_richmessage,
+            template_richvideo = shop_flow_action_reminder.template_richvideo,
+            template_cardtype = shop_flow_action_reminder.template_cardtype,
+            action_date = action_date,
+        )
     return JsonResponse( {}, safe=False )
 
 def question(request):
