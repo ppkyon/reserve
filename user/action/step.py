@@ -34,8 +34,8 @@ def save(request):
                     date = request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)).split(' ')
                     if str(user_flow_schedule.date) != date[0].strip().replace('/','-') + ' 00:00:00' or str(user_flow_schedule.time) != date[1].strip() + ':00':
                         change_flg = True
-                    user_flow_schedule.date = date[0].strip().replace('/','-')
-                    user_flow_schedule.time = date[1].strip()
+                    user_flow_schedule.date = datetime.datetime.strptime(date[0].strip().replace('/','-') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
+                    user_flow_schedule.time = datetime.datetime.strptime(date[1].strip() + ':00', '%H:%M:%S') 
                 join = 0
                 if request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     join = int(request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)))
@@ -116,15 +116,15 @@ def save(request):
                     action_flg = False
                     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
                         if flow_flg:
+                            if action_flg:
+                                action_flow_item = flow_item
+                                break
                             if flow_item.type == 6:
                                 flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
                                 push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
                             if flow_item.type == 51:
                                 target_flow_item = flow_item
                                 action_flg = True
-                            if action_flg:
-                                action_flow_item = flow_item
-                                break
                         if flow_item.type == 54:
                             flow_flg = True
                     
