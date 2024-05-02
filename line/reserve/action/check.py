@@ -27,7 +27,7 @@ def check(request):
     end_online_setting = list()
     for user_flow in UserFlow.objects.filter(user=user).all():
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow).count()).first()
-        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ):
+        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date:
             if user_flow_schedule.offline:
                 end_offline_setting.append(user_flow_schedule.offline.id)
             if user_flow_schedule.online:
@@ -243,6 +243,8 @@ def check(request):
                                 'end_flg': schedule.flow.end_flg,
                             })
                             
+        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
+            schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             send_week = list()
             for schedule_week_value in week_day:
                 reception_flg = True
@@ -271,7 +273,7 @@ def check(request):
                             reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
-                                if schedule_add_date >= reception['from'] and reception['to'] >= schedule_date:
+                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
                                     if manager_count <= 0 or facility_count <= 0:
                                         break
                                     else:

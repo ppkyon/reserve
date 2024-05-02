@@ -2,7 +2,7 @@ from django.http import JsonResponse
 
 from linebot import LineBotApi
 
-from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionMessage, UserFlow, UserFlowSchedule
+from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionReminder, ShopFlowActionMessage, UserFlow, UserFlowSchedule, UserFlowActionReminder
 from reserve.models import ReserveOfflineFacility, ReserveOnlineFacility
 from sign.models import AuthLogin, ShopLine, AuthUser
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
@@ -13,7 +13,9 @@ from flow.action.go import go
 from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 
+import datetime
 import re
+import uuid
 
 def save(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
@@ -108,16 +110,48 @@ def save(request):
                             push_card_type_message(user, template_cardtype, None)
 
                 if change_flg:
+                    target_flow_item = None
+                    action_flow_item = None
                     flow_flg = False
+                    action_flg = False
                     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
                         if flow_flg:
                             if flow_item.type == 6:
                                 flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
                                 push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
                             if flow_item.type == 51:
+                                target_flow_item = flow_item
+                                action_flg = True
+                            if action_flg:
+                                action_flow_item = flow_item
                                 break
                         if flow_item.type == 54:
                             flow_flg = True
+                    
+                    user_flow.flow_item = target_flow_item
+                    user_flow.save()
+
+                    shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=action_flow_item).first()
+                    action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+                    action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
+                    action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
+                    if UserFlowActionReminder.objects.filter(user=user, flow=user_flow).exists():
+                        user_flow_action_reminder = UserFlowActionReminder.objects.filter(user=user, flow=user_flow).first()
+                        user_flow_action_reminder.action_date = action_date
+                        user_flow_action_reminder.save()
+                    else:
+                        UserFlowActionReminder.objects.create(
+                            id = str(uuid.uuid4()),
+                            user = user,
+                            flow = user_flow,
+                            template_text = shop_flow_action_reminder.template_text,
+                            template_video = shop_flow_action_reminder.template_video,
+                            template_richmessage = shop_flow_action_reminder.template_richmessage,
+                            template_richvideo = shop_flow_action_reminder.template_richvideo,
+                            template_cardtype = shop_flow_action_reminder.template_cardtype,
+                            action_date = action_date,
+                        )
+
     return JsonResponse( {}, safe=False )
 
 def save_check(request):

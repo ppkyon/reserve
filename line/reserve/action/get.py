@@ -191,8 +191,8 @@ def date(request):
         elif reserve_data.unit == 15:
             unit_time = '15min'
     if time['from'] and time['to']:
-        for time in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
-            schedule_time = str(time.hour)+':'+str(time.minute).ljust(2, '0')
+        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
+            schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             week_time.append({
                 'time': schedule_time
             })
@@ -230,6 +230,8 @@ def date(request):
                                 'end_flg': schedule.flow.end_flg,
                             })
             
+        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
+            schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             send_week = list()
             for schedule_week_value in week_day:
                 reception_flg = True
@@ -258,7 +260,7 @@ def date(request):
                             reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
-                                if schedule_add_date >= reception['from'] and reception['to'] >= schedule_date:
+                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
                                     if manager_count <= 0 or facility_count <= 0:
                                         break
                                     else:

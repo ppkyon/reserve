@@ -645,7 +645,7 @@ def send(request):
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
             schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
 
-            if add_date >= schedule_date and schedule_add_date >= date:
+            if add_date > schedule_date and schedule_add_date > date:
                 if schedule_item.offline == setting:
                     if schedule_date == date:
                         for manager_item in manager_list:
@@ -768,7 +768,7 @@ def send(request):
             schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
             schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.online.time)
 
-            if add_date >= schedule_date and schedule_add_date >= date:
+            if add_date > schedule_date and schedule_add_date > date:
                 if schedule_item.online == setting:
                     if schedule_date == date:
                         for manager_item in manager_list:

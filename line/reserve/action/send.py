@@ -700,12 +700,12 @@ def send(request):
         if UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
             user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('-number').first()
             user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
-            user_flow_schedule.date = request.POST.get('hour') + ':' + request.POST.get('minute')
-            user_flow_schedule.offline = setting,
-            user_flow_schedule.offline_course = course,
-            user_flow_schedule.offline_facility = facility,
-            user_flow_schedule.manager = manager,
-            user_flow_schedule.question = question,
+            user_flow_schedule.time = request.POST.get('hour') + ':' + request.POST.get('minute')
+            user_flow_schedule.offline = setting
+            user_flow_schedule.offline_course = course
+            user_flow_schedule.offline_facility = facility
+            user_flow_schedule.manager = manager
+            user_flow_schedule.question = question
             user_flow_schedule.updated_at = datetime.datetime.now()
             user_flow_schedule.save()
         else:
@@ -831,11 +831,11 @@ def send(request):
             user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('-number').first()
             user_flow_schedule.date = request.POST.get('year') + '-' + request.POST.get('month') + '-' + request.POST.get('day')
             user_flow_schedule.date = request.POST.get('hour') + ':' + request.POST.get('minute')
-            user_flow_schedule.online = setting,
-            user_flow_schedule.online_course = course,
-            user_flow_schedule.online_facility = facility,
-            user_flow_schedule.manager = manager,
-            user_flow_schedule.question = question,
+            user_flow_schedule.online = setting
+            user_flow_schedule.online_course = course
+            user_flow_schedule.online_facility = facility
+            user_flow_schedule.manager = manager
+            user_flow_schedule.question = question
             user_flow_schedule.updated_at = datetime.datetime.now()
             user_flow_schedule.save()
         else:
