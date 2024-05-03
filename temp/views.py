@@ -7,7 +7,7 @@ from flow.models import UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
 from sign.models import AuthLogin
 from tag.models import UserHashTag
-from user.models import LineUser, UserProfile
+from user.models import LineUser, UserProfile, UserAlert
 
 import phonenumbers
 
@@ -50,6 +50,7 @@ class DetailView(TempView):
                 elif user_flow_schedule_item.online:
                     context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].manager_list = ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=user_flow_schedule_item.online).all()
                     context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].facility_list = ReserveOnlineFacilityMenu.objects.filter(shop=auth_login.shop, online=user_flow_schedule_item.online).all()
+            context['user'].flow[user_flow_index].alert = UserAlert.objects.filter(user=context['user'], number=user_flow_item.number).first()
 
         context['user'].tag = UserHashTag.objects.filter(user=context['user']).order_by('number').all()
 

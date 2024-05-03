@@ -98,6 +98,12 @@
     background-color: #FFF;
 }
 
+.table-area table tbody tr td .alert-image:hover ~ .alert-text,
+.table-area table tbody tr td .notice-image:hover ~ .notice-text,
+.mini-table-area table tbody tr td .alert-image:hover ~ .alert-text,
+.mini-table-area table tbody tr td .notice-image:hover ~ .notice-text {
+    opacity: 1;
+}
 .table-area table tbody tr td .alert-text,
 .mini-table-area table tbody tr td .alert-text {
     position: absolute;
@@ -112,6 +118,28 @@
 }
 .table-area table tbody tr td .alert-text:after,
 .mini-table-area table tbody tr td .alert-text:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-top-color: #f7d7da;
+}
+.table-area table tbody tr td .notice-text,
+.mini-table-area table tbody tr td .notice-text {
+    position: absolute;
+    top: 0;
+    width: auto;
+    color: #723036;
+    font-size: 0.8rem;
+    background-color: #f7d7da;
+    border-radius: 0.3rem;
+    opacity: 0;
+    z-index: 10;
+}
+.table-area table tbody tr td .notice-text:after,
+.mini-table-area table tbody tr td .notice-text:after {
     content: "";
     position: absolute;
     top: 100%;

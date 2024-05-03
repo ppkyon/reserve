@@ -4,7 +4,7 @@ from flow.models import ShopFlowTab, UserFlow
 from sign.models import AuthLogin
 from table.models import TableNumber, TableSort
 from tag.models import ShopTag, UserHashTag
-from user.models import LineUser, UserProfile
+from user.models import LineUser, UserProfile, UserAlert
 
 from common import get_model_field
 
@@ -53,6 +53,7 @@ def get_list(request, page):
         user_list[user_index]['tag'] = list(UserHashTag.objects.filter(user__id=user_item['id']).order_by('number').values(*get_model_field(UserHashTag)).all())
         for tag_index, tag_item in user_list[user_index]['tag']:
             user_list[user_index]['tag'][tag_index]['tag'] = ShopTag.objects.filter(id=tag_item['tag']['id']).values(*get_model_field(ShopTag)).first()
+        user_list[user_index]['alert'] = UserAlert.objects.filter(user__id=user_item['id']).order_by('number').values(*get_model_field(UserAlert)).first()
         user_list[user_index]['total'] = total
     
     return user_list

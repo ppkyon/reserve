@@ -138,7 +138,28 @@
     height: 80px;
 }
 
+.detail-area .step-area .table-area .alert-area,
+.step-modal .modal-body .table-area .alert-area {
+    position: absolute;
+    top: 40%;
+    right: 0;
+}
 
+.detail-area .step-area .table-area .alert-area {
+    text-align: start;
+}
+
+.detail-area .step-area .table-area .alert-text,
+.step-modal .modal-body .table-area .alert-text,
+.step-modal .modal-body .table-area .notice-text {
+    top: -150%;
+    left: 0;
+}
+.detail-area .step-area .table-area .alert-image:hover ~ .alert-text,
+.step-modal .modal-body .table-area .alert-image:hover ~ .alert-text,
+.step-modal .modal-body .table-area .notice-image:hover ~ .notice-text {
+    opacity: 1;
+}
 
 .modal .modal-body .input-label {
     color: #000;

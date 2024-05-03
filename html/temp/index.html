@@ -39,8 +39,18 @@
                         </thead>
                         <tbody>
                             {% for object_item in object_list %}
-                                <tr>
-                                    <td></td>
+                                <tr class="position-relative">
+                                    <td class="p-1">
+                                        {% if object_item.alert %}
+                                            {% if object_item.alert.status == 2 %}
+                                                <img src="{% static 'img/icon/notice.png' %}" class="ms-2 notice-image">
+                                                <label class="notice-text mb-0 p-1 ps-2 pe-2">{{ object_item.alert.text }}</label>
+                                            {% elif object_item.alert.status == 3 %}
+                                                <img src="{% static 'img/icon/warning.svg' %}" class="ms-2 alert-image">
+                                                <label class="alert-text mb-0 p-1 ps-2 pe-2">{{ object_item.alert.text }}</label>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
                                     <td class="position-relative p-1">
                                         <div class="d-flex justify-content-start align-items-center">
                                             {% for user_profile in object_item.user_profile.all %}

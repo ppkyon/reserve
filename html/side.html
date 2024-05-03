@@ -44,6 +44,15 @@
                                 <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-user.svg' %}" class="side-icon me-2">
                                     <span>予約管理</span>
+                                    {% if side.alert.reserve and side.alert.reserve != 0 %}
+                                        {% if side.alert.reserve >= 100 %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">+99</span>
+                                        {% else %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">{{ side.alert.reserve }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0"></span>
+                                    {% endif %}
                                 </div>
                             </li>
                             <ul class="slide-menu slide-user ps-4" style="display: block;">
@@ -52,6 +61,15 @@
                                         <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                             <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                             <span>お客様管理</span>
+                                            {% if side.alert.user and side.alert.user != 0 %}
+                                                {% if side.alert.user >= 100 %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                {% else %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.user }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                            {% endif %}
                                         </a>
                                     </li>
                                 {% else %}
@@ -59,6 +77,15 @@
                                         <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                             <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                             <span>お客様管理</span>
+                                            {% if side.alert.user and side.alert.user != 0 %}
+                                                {% if side.alert.user >= 100 %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                {% else %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.user }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                            {% endif %}
                                         </a>
                                     </li>
                                 {% endif %}
@@ -68,6 +95,15 @@
                                             <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                                 <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                                 <span>代理予約管理</span>
+                                                {% if side.alert.temp and side.alert.temp != 0 %}
+                                                    {% if side.alert.temp >= 100 %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                    {% else %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.temp }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                                {% endif %}
                                             </a>
                                         </li>
                                     {% else %}
@@ -75,6 +111,15 @@
                                             <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                                 <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                                 <span>代理予約管理</span>
+                                                {% if side.alert.temp and side.alert.temp != 0 %}
+                                                    {% if side.alert.temp >= 100 %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                    {% else %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.temp }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                                {% endif %}
                                             </a>
                                         </li>
                                     {% endif %}
@@ -100,6 +145,15 @@
                                 <div class="slide-button border-bottom d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-user.svg' %}" class="side-icon me-2">
                                     <span>予約管理</span>
+                                    {% if side.alert.reserve and side.alert.reserve != 0 %}
+                                        {% if side.alert.reserve >= 100 %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">+99</span>
+                                        {% else %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">{{ side.alert.reserve }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0"></span>
+                                    {% endif %}
                                 </div>
                             </li>
                             <ul class="slide-menu slide-user ps-4" style="display: none;">
@@ -108,6 +162,15 @@
                                         <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                             <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                             <span>お客様管理</span>
+                                            {% if side.alert.user and side.alert.user != 0 %}
+                                                {% if side.alert.user >= 100 %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                {% else %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.user }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                            {% endif %}
                                         </a>
                                     </li>
                                 {% else %}
@@ -115,6 +178,15 @@
                                         <a href="{% url 'user:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                             <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                             <span>お客様管理</span>
+                                            {% if side.alert.user and side.alert.user != 0 %}
+                                                {% if side.alert.user >= 100 %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                {% else %}
+                                                    <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.user }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                            {% endif %}
                                         </a>
                                     </li>
                                 {% endif %}
@@ -124,6 +196,15 @@
                                             <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                                 <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                                 <span>代理予約管理</span>
+                                                {% if side.alert.temp and side.alert.temp != 0 %}
+                                                    {% if side.alert.temp >= 100 %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                    {% else %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.temp }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                                {% endif %}
                                             </a>
                                         </li>
                                     {% else %}
@@ -131,6 +212,15 @@
                                             <a href="{% url 'temp:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                                 <img src="{% static 'img/side/side-user.svg' %}" class="side-sub-icon me-2">
                                                 <span>代理予約管理</span>
+                                                {% if side.alert.temp and side.alert.temp != 0 %}
+                                                    {% if side.alert.temp >= 100 %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                                    {% else %}
+                                                        <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.temp }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                                {% endif %}
                                             </a>
                                         </li>
                                     {% endif %}

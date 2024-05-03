@@ -58,3 +58,21 @@ class UserProfile(models.Model):
 
     class Meta:
         db_table = 'user_profile'
+
+class UserAlert(models.Model):
+    status_choice = (
+        (1, 'info'),
+        (2, 'notice'),
+        (3, 'error'),
+    )
+    
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, related_name="user_alert")
+    number = models.IntegerField(default=0)
+    text = models.TextField(max_length=1000, blank=True, null=True)
+    status = models.IntegerField(choices=status_choice, default=0)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = 'user_alert'

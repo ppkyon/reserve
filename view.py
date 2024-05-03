@@ -12,7 +12,7 @@ from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, A
 from table.models import TableNumber, TableSort, TableSearch
 from tag.models import UserHashTag
 from talk.models import TalkRead
-from user.models import LineUser
+from user.models import LineUser, UserAlert
 
 from dateutil.relativedelta import relativedelta
 
@@ -105,7 +105,12 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                 elif shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() + relativedelta(days=+10) and flow < 2:
                     flow = 2
                 talk_read = TalkRead.objects.filter(user__delete_flg=False, manager=self.request.user).aggregate(sum_read_count=models.Sum('read_count'))
+                user_count = UserAlert.objects.filter(user__shop=shop, user__proxy_flg=False).count()
+                temp_count = UserAlert.objects.filter(user__shop=shop, user__proxy_flg=True).count()
                 alert = {
+                    'reserve': user_count + temp_count,
+                    'user': user_count,
+                    'temp': temp_count,
                     'talk': talk_read['sum_read_count'],
                     'flow': flow,
                     'setting': SettingAlert.objects.filter(shop=shop).first()
@@ -396,6 +401,7 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
             query_list[query_index].tag = UserHashTag.objects.filter(user=query_item).order_by('number').all()
+            query_list[query_index].alert = UserAlert.objects.filter(user=query_item).order_by('number').first()
         return query_list
 
     
@@ -471,6 +477,7 @@ class TempBaseLisView(MultipleObjectMixin, ShopBaseView):
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
             query_list[query_index].tag = UserHashTag.objects.filter(user=query_item).order_by('number').all()
+            query_list[query_index].alert = UserAlert.objects.filter(user=query_item).order_by('number').first()
         return query_list
 
     

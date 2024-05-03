@@ -48,7 +48,17 @@ function append_table_area(data) {
     created_date = created_date.getFullYear() + '年' + ( '00' + ( created_date.getMonth() + 1 ) ).slice(-2) + '月' + ( '00' + created_date.getDate() ).slice(-2) + '日 ' + ( '00' + created_date.getHours() ).slice(-2) + ':' + ( '00' + created_date.getMinutes() ).slice(-2);
 
     var html = '<tr class="position-relative">';
-    html += '<td class="p-1"></td>';
+    html += '<td class="p-1">';
+    if ( data.alert ) {
+        if ( data.alert.status == 2 ) {
+            html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/notice.png" class="ms-2 notice-image">';
+            html += '<label class="notice-text mb-0 p-1 ps-2 pe-2">' + data.alert.text + '</label>';
+        } else if ( data.alert.status == 3 ) {
+            html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/warning.svg" class="ms-2 alert-image">';
+            html += '<label class="alert-text mb-0 p-1 ps-2 pe-2">' + data.alert.text + '</label>';
+        }
+    }
+    html += '</td>';
     html += '<td class="position-relative p-1">';
     html += '<div class="d-flex justify-content-start align-items-center">';
     html += '<img src="' + image + '" class="user-image me-2">';
