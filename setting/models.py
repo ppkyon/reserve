@@ -154,3 +154,22 @@ class ManagerOnlineTime(models.Model):
     
     class Meta:
         db_table = 'manager_online_time'
+
+
+
+class SettingAlert(models.Model):
+    status_choice = (
+        (1, 'info'),
+        (2, 'notice'),
+        (3, 'error'),
+    )
+
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="setting_alert")
+    text = models.TextField(max_length=1000, blank=True, null=True)
+    status = models.IntegerField(choices=status_choice, default=0)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = 'setting_alert'

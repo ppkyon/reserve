@@ -6,6 +6,7 @@ from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplat
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
 from flow.models import UserFlow
+from setting.models import SettingAlert
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
 from tag.models import UserHashTag
@@ -79,6 +80,7 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
+        alert = None
         image = None
         name = None
         temp_flg = False
@@ -90,11 +92,16 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                 if shop_profile:
                     image = shop_profile.shop_logo_image.url
                     name = shop_profile.shop_name
+                
+                alert = {
+                    'setting': SettingAlert.objects.filter(shop=shop).first()
+                }
 
             if LineUser.objects.filter(shop=shop, proxy_flg=True).exists():
                 temp_flg = True
         
         context['side'] = {
+            'alert': alert,
             'logo_image': image,
             'logo_name': name,
             'temp_flg': temp_flg,

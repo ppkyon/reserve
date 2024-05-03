@@ -76,9 +76,6 @@
 .side-area .menu-area ul li.active:before {
     content: " ";
 }
-.side-area .menu-area .slide-menu a img {
-    display: none;
-}
 
 .side-area .menu-area ul li a,
 .side-area .menu-area ul li .slide-button {
