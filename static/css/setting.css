@@ -82,6 +82,52 @@
     height: 100%;
     color: #000;
 }
+.line-area .line-info-area .message-area .alert-image:hover ~ .alert-text,
+.line-area .line-info-area .message-area .notice-image:hover ~ .notice-text {
+    opacity: 1;
+}
+.line-area .line-info-area .message-area .alert-text {
+    position: absolute;
+    top: -20%;
+    left: 0%;
+    width: 535px;
+    color: #723036;
+    font-size: 0.8rem;
+    background-color: #f7d7da;
+    border-radius: 0.3rem;
+    opacity: 0;
+    z-index: 10;
+}
+.line-area .line-info-area .message-area .alert-text:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-top-color: #f7d7da;
+}
+.line-area .line-info-area .message-area .notice-text {
+    position: absolute;
+    top: -20%;
+    left: 0%;
+    width: 535px;
+    color: #723036;
+    font-size: 0.8rem;
+    background-color: #fff200;
+    border-radius: 0.3rem;
+    opacity: 0;
+    z-index: 10;
+}
+.line-area .line-info-area .message-area .notice-text:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-top-color: #fff200;
+}
 .line-area .line-info-area .bar-area {
     width: calc(100% - 270px - 7.5rem);
 }
