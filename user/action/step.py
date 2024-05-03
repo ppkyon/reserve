@@ -6,7 +6,7 @@ from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionReminder, 
 from reserve.models import ReserveOfflineFacility, ReserveOnlineFacility
 from sign.models import AuthLogin, ShopLine, AuthUser
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
-from user.models import LineUser
+from user.models import LineUser, UserAlert
 
 from common import send_textarea_replace
 from flow.action.go import go
@@ -81,9 +81,9 @@ def save(request):
                                 elif action_message.template_cardtype:
                                     push_card_type_message(user, action_message.template_cardtype, None)
                             flow_flg = True
+                    UserAlert.objects.filter(user=user, number=user_flow.number).all().delete()
                 elif join == 2:
                     remove = re.compile(r"<[^>]*?>")
-                    print(request.POST.get('message_type'))
                     if request.POST.get('message_type') == '1':
                         push_text_message(user, remove.sub( '', request.POST.get('message') ), None)
                     elif request.POST.get('message_type') == '2':
@@ -108,6 +108,7 @@ def save(request):
                         elif request.POST.get('message_template_type') == '4':
                             template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('message_template')).first()
                             push_card_type_message(user, template_cardtype, None)
+                    UserAlert.objects.filter(user=user, number=user_flow.number).all().delete()
 
                 if change_flg:
                     target_flow_item = None
