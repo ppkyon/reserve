@@ -9,7 +9,18 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <p class="main-title mb-3">{{ title }}</p>
+            <div class="main-title-area d-flex align-items-center position-relative mb-3">
+                <p class="main-title mb-0">{{ title }}</p>
+                {% if alert.status > 0 %}
+                    {% if alert.status == 3 %}
+                        <img src="{% static 'img/icon/warning.svg' %}" class="ms-2 alert-image" width="15" height="15">
+                        <label class="alert-text mb-0 p-1 ps-2 pe-2">{{ alert.message }}</label>
+                    {% elif alert.status == 2 %}
+                        <img src="{% static 'img/icon/notice.png' %}" class="ms-2 notice-image" width="15" height="15">
+                        <label class="notice-text mb-0 p-1 ps-2 pe-2">{{ alert.message }}</label>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
     <div class="shop">

@@ -1,3 +1,50 @@
+.main-title-area .alert-image:hover ~ .alert-text,
+.main-title-area .notice-image:hover ~ .notice-text {
+    opacity: 1;
+}
+.main-title-area .alert-text {
+    position: absolute;
+    top: 100%;
+    left: 80px;
+    width: 350px;
+    color: #723036;
+    font-size: 0.8rem;
+    background-color: #f7d7da;
+    border-radius: 0.3rem;
+    opacity: 0;
+    z-index: 10;
+}
+.main-title-area .alert-text:after {
+    content: "";
+    position: absolute;
+    top: -33%;
+    left: 1rem;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-bottom-color: #f7d7da;
+}
+.main-title-area .notice-text {
+    position: absolute;
+    top: 100%;
+    left: 80px;
+    width: 350px;
+    color: #723036;
+    font-size: 0.8rem;
+    background-color: #fff200;
+    border-radius: 0.3rem;
+    opacity: 0;
+    z-index: 10;
+}
+.main-title-area .notice-text:after {
+    content: "";
+    position: absolute;
+    top: -33%;
+    left: 1rem;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-bottom-color: #fff200;
+}
+
 .table-area tbody tr {
     height: 6rem;
 }

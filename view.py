@@ -5,13 +5,16 @@ from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplat
 
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
-from flow.models import UserFlow
+from flow.models import ShopFlow, UserFlow
 from setting.models import SettingAlert
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
 from tag.models import UserHashTag
 from user.models import LineUser
 
+from dateutil.relativedelta import relativedelta
+
+import datetime
 import environ
 
 env = environ.Env()
@@ -93,7 +96,14 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                     image = shop_profile.shop_logo_image.url
                     name = shop_profile.shop_name
                 
+                flow = 0
+                shop_flow = ShopFlow.objects.filter(shop=shop).order_by('-period_to').first()
+                if shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() and flow < 3:
+                    flow = 3
+                elif shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() + relativedelta(days=+10) and flow < 2:
+                    flow = 2
                 alert = {
+                    'flow': flow,
                     'setting': SettingAlert.objects.filter(shop=shop).first()
                 }
 
