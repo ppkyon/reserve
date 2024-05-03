@@ -1,5 +1,6 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
+from django.db.models import Q
 
 from sign.models import AuthLogin, ManagerProfile
 from talk.models import TalkMessage, TalkPin, TalkRead, TalkManager, TalkStatus
@@ -13,7 +14,7 @@ def get_user_list(request):
     temp_line_user = list()
     line_user = list()
     if request.POST.get('text'):
-        line_user_message = TalkMessage.objects.filter(user__shop=auth_login.shop, user__display_name__icontains=request.POST.get('text')).order_by('send_date').reverse().all()
+        line_user_message = TalkMessage.objects.filter(Q(user__shop=auth_login.shop), Q(Q(user__display_name__icontains=request.POST.get('text'))|Q(user__user_profile__name__icontains=request.POST.get('text')))).order_by('send_date').reverse().all()
     else:
         line_user_message = TalkMessage.objects.filter(user__shop=auth_login.shop).order_by('send_date').reverse().all()
         

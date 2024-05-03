@@ -157,6 +157,27 @@
                                <a href="{% url 'talk:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-talk.svg' %}" class="side-icon me-2">
                                     <span>1対1トーク</span>
+                                    {% if all_talk_read or all_talk_read == 0 %}
+                                        {% if all_talk_read != 0 %}
+                                            {% if all_talk_read >= 100 %}
+                                                <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                            {% else %}
+                                                <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ all_talk_read }}</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if side.alert.talk and side.alert.talk != 0 %}
+                                            {% if side.alert.talk >= 100 %}
+                                                <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                            {% else %}
+                                                <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.talk }}</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                        {% endif %}
+                                    {% endif %}
                                 </a>
                             </li>
                         {% else %}
@@ -164,6 +185,15 @@
                                 <a href="{% url 'talk:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
                                     <img src="{% static 'img/side/side-talk.svg' %}" class="side-icon me-2">
                                     <span>1対1トーク</span>
+                                    {% if side.alert.talk and side.alert.talk != 0 %}
+                                        {% if side.alert.talk >= 100 %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">+99</span>
+                                        {% else %}
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto p-0">{{ side.alert.talk }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto p-0"></span>
+                                    {% endif %}
                                 </a>
                             </li>
                         {% endif %}

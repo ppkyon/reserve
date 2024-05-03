@@ -17,8 +17,8 @@
                 <div class="content-item d-flex align-items-center position-relative mt-3 mb-3">
                     {% if line_message_user.profile.image %}
                         <img id="line_message_user_image" src="{{ line_message_user.profile.image.url }}">
-                    {% elif line_message_user.user.display_image %}
-                        <img id="line_message_user_image" src="{{ line_message_user.user.display_image }}">
+                    {% elif line_message_user.display_image %}
+                        <img id="line_message_user_image" src="{{ line_message_user.display_image }}">
                     {% else %}
                         <img id="line_message_user_image" src="{% static 'img/user-none.png' %}">
                     {% endif %}

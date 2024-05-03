@@ -119,6 +119,22 @@
 .side-area .menu-area ul li.active a span {
     color: #3dc394;
 }
+.side-area .menu-area ul li a .alert-badge {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: #FFF !important;
+    font-size: 0.6rem;
+    background: red !important;
+    border-radius: 50%;
+}
+.side-area .menu-area ul li a .notice-badge {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: #723036 !important;
+    font-size: 0.6rem;
+    background: #fff200 !important;
+    border-radius: 50%;
+}
 
 .side-area .menu-area .slide-menu {
     display: none;

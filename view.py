@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db import models
 from django.db.models import Q, Subquery, OuterRef
 from django.views.generic import TemplateView
 from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplateResponseMixin, BaseListView
@@ -10,6 +11,7 @@ from setting.models import SettingAlert
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
 from tag.models import UserHashTag
+from talk.models import TalkRead
 from user.models import LineUser
 
 from dateutil.relativedelta import relativedelta
@@ -102,7 +104,9 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                     flow = 3
                 elif shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() + relativedelta(days=+10) and flow < 2:
                     flow = 2
+                talk_read = TalkRead.objects.filter(user__delete_flg=False, manager=self.request.user).aggregate(sum_read_count=models.Sum('read_count'))
                 alert = {
+                    'talk': talk_read['sum_read_count'],
                     'flow': flow,
                     'setting': SettingAlert.objects.filter(shop=shop).first()
                 }

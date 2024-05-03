@@ -44,14 +44,14 @@ $( function() {
                 }
             });
             if ( response.talk_read.all_read_count >= 100 ) {
-                $( '.side-area .menu-area .badge' ).text( '+99' );
-                $( '.side-area .menu-area .badge' ).removeClass( 'd-none' );
+                $( '.side-area .menu-area .alert-badge' ).text( '+99' );
+                $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
             } else if ( response.talk_read.all_read_count > 0 ) {
-                $( '.side-area .menu-area .badge' ).text( response.talk_read.all_read_count );
-                $( '.side-area .menu-area .badge' ).removeClass( 'd-none' );
+                $( '.side-area .menu-area .alert-badge' ).text( response.talk_read.all_read_count );
+                $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
             } else {
-                $( '.side-area .menu-area .badge' ).text( response.talk_read.all_read_count );
-                $( '.side-area .menu-area .badge' ).addClass( 'd-none' );
+                $( '.side-area .menu-area .alert-badge' ).text( response.talk_read.all_read_count );
+                $( '.side-area .menu-area .alert-badge' ).addClass( 'd-none' );
             }
 
             if ( response.line_user.profile == null || response.line_user.profile.name == null ) {
@@ -173,7 +173,7 @@ function create_user_list(response) {
         html += '<p class="time ms-auto mb-0">' + value.line_message.display_date + '</p>';
         html += '</div>';
         html += '<div class="message-area mb-1">';
-        html += '<p class="message mb-0">' + message + '</p>';
+        html += '<p class="message mb-0">' + message + 'aaa</p>';
         html += '</div>';
         html += '<div class="status-area d-flex align-items-center justify-content-end mt-1"></div>';
         html += '</div>';
@@ -219,20 +219,20 @@ function create_user_list(response) {
     });
     
     if ( response.all_read_count.all_read_count > 0 ) {
-        if ( $( '.side-area .menu-area .badge' ).length ) {
-            $( '.side-area .menu-area .badge' ).addClass( 'd-flex' );
-            $( '.side-area .menu-area .badge' ).removeClass( 'd-none' );
-            $( '.side-area .menu-area .badge' ).text( response.all_read_count.all_read_count );
+        if ( $( '.side-area .menu-area .alert-badge' ).length ) {
+            $( '.side-area .menu-area .alert-badge' ).addClass( 'd-flex' );
+            $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
+            $( '.side-area .menu-area .alert-badge' ).text( response.all_read_count.all_read_count );
         } else {
             $( '.side-area .menu-area li a' ).each( function( index, value ) {
                 if ( $( this ).attr( 'href' ) == '/talk/' ) {
-                    $( this ).append( '<span class="badge d-flex align-items-center justify-content-center ms-auto">1</span>' );
+                    $( this ).append( '<span class="alert-badge d-flex align-items-center justify-content-center ms-auto">1</span>' );
                 }
             });
         }
     } else {
-        $( '.side-area .menu-area .badge' ).addClass( 'd-none' );
-        $( '.side-area .menu-area .badge' ).removeClass( 'd-flex' );
-        $( '.side-area .menu-area .badge' ).text( '' );
+        $( '.side-area .menu-area .alert-badge' ).addClass( 'd-none' );
+        $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-flex' );
+        $( '.side-area .menu-area .alert-badge' ).text( '' );
     }
 }
