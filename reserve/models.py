@@ -275,3 +275,20 @@ class ReserveOnlineFlowMenu(models.Model):
 
     class Meta:
         db_table = 'reserve_online_flow_menu'
+
+
+
+class ReserveStartDate(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_start_date")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_start_date")
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_start_date")
+    offline_course = models.ForeignKey(ReserveOfflineCourse, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_start_date")
+    online_course = models.ForeignKey(ReserveOnlineCourse, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_start_date")
+    first_date = models.DateTimeField(blank=False, null=True)
+    second_date = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_start_date'
