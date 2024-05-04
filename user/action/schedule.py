@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
-    ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineFacility, ReserveOnlineFacility,
+    ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineFacility, ReserveOnlineFacility, ReserveStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from setting.models import ShopOffline, ShopOnline
@@ -26,11 +26,56 @@ def get(request):
     elif ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).values(*get_model_field(ReserveOnlineSetting)).first()
         setting['type'] = 2
+    
+    course = None
+    if request.POST.get('course_id'):
+        if setting['type'] == 1:
+            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
+        elif setting['type'] == 2:
+            course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
+    if course:
+        course_data = course
+    else:
+        course_data = ReserveBasic.objects.filter(shop=auth_login.shop).first()
         
     if request.POST.get("year") and request.POST.get("month") and request.POST.get("day"):
         current = datetime.datetime(int(request.POST.get("year")), int(request.POST.get("month")), int(request.POST.get("day")))
     else:
         current = datetime.datetime.now()
+        if setting['type'] == 1:
+            if course:
+                reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=course).first()
+                if reserve_start_date:
+                    now = datetime.datetime.now()
+                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                        current = reserve_start_date.first_date
+                    elif reserve_start_date.second_date:
+                        current = reserve_start_date.second_date
+            else:
+                reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=None).first()
+                if reserve_start_date:
+                    now = datetime.datetime.now()
+                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                        current = reserve_start_date.first_date
+                    elif reserve_start_date.second_date:
+                        current = reserve_start_date.second_date
+        elif setting['type'] == 2:
+            if course:
+                reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=course).first()
+                if reserve_start_date:
+                    now = datetime.datetime.now()
+                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                        current = reserve_start_date.first_date
+                    elif reserve_start_date.second_date:
+                        current = reserve_start_date.second_date
+            else:
+                reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=None).first()
+                if reserve_start_date:
+                    now = datetime.datetime.now()
+                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                        current = reserve_start_date.first_date
+                    elif reserve_start_date.second_date:
+                        current = reserve_start_date.second_date
     prev = current - datetime.timedelta(days=14)
     next = current + datetime.timedelta(days=14)
 
@@ -105,17 +150,6 @@ def get(request):
                 time['from'] = reception_from
             if not time['to'] or ( reception_to and time['to'] < reception_to ):
                 time['to'] = reception_to
-    
-    course = None
-    if request.POST.get('course_id'):
-        if setting['type'] == 1:
-            course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
-        elif setting['type'] == 2:
-            course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
-    if course:
-        course_data = course
-    else:
-        course_data = ReserveBasic.objects.filter(shop=auth_login.shop).first()
     
     reserve_data = ReserveBasic.objects.filter(shop=auth_login.shop).first()
     send_schedule = list()

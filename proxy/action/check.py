@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from flow.models import ShopFlow, ShopFlowTab, UserFlowSchedule
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
 from reserve.models import (
-    ReserveBasic, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveBasic, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
@@ -124,6 +124,22 @@ def check(request):
         return JsonResponse( data, safe=False )
     
     current = datetime.datetime.now()
+    if online_offline['type'] == 1:
+        reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=None).first()
+        if reserve_start_date:
+            now = datetime.datetime.now()
+            if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                current = reserve_start_date.first_date
+            elif reserve_start_date.second_date:
+                current = reserve_start_date.second_date
+    elif online_offline['type'] == 2:
+        reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=None).first()
+        if reserve_start_date:
+            now = datetime.datetime.now()
+            if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                current = reserve_start_date.first_date
+            elif reserve_start_date.second_date:
+                current = reserve_start_date.second_date
     prev = current - datetime.timedelta(days=7)
     next = current + datetime.timedelta(days=7)
 
