@@ -176,31 +176,32 @@ def date(request):
 
             for schedule_week_value in week_day:
                 for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
-                    date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
-                    if schedule.online:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.online.time),
-                            'setting': schedule.online,
-                            'course': schedule.online_course,
-                            'facility': schedule.online_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': schedule.meeting,
-                            'end_flg': schedule.flow.end_flg,
-                        })
-                    elif schedule.offline:
-                        reception_data.append({
-                            'from': date,
-                            'to': date + datetime.timedelta(minutes=schedule.offline.time),
-                            'setting': schedule.offline,
-                            'course': schedule.offline_course,
-                            'facility': schedule.offline_facility,
-                            'manager': schedule.manager,
-                            'question': schedule.question,
-                            'meeting': None,
-                            'end_flg': schedule.flow.end_flg,
-                        })
+                    if schedule.join == 0 or schedule.join == 1:
+                        date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                        if schedule.online:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.online.time),
+                                'setting': schedule.online,
+                                'course': schedule.online_course,
+                                'facility': schedule.online_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': schedule.meeting,
+                                'end_flg': schedule.flow.end_flg,
+                            })
+                        elif schedule.offline:
+                            reception_data.append({
+                                'from': date,
+                                'to': date + datetime.timedelta(minutes=schedule.offline.time),
+                                'setting': schedule.offline,
+                                'course': schedule.offline_course,
+                                'facility': schedule.offline_facility,
+                                'manager': schedule.manager,
+                                'question': schedule.question,
+                                'meeting': None,
+                                'end_flg': schedule.flow.end_flg,
+                            })
             
         for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
