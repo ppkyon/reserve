@@ -8,7 +8,7 @@ from sign.models import AuthLogin, ShopLine, AuthUser
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
 from user.models import LineUser, UserAlert
 
-from common import send_textarea_replace
+from common import create_code, send_textarea_replace
 from flow.action.go import go
 from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
@@ -30,25 +30,61 @@ def save(request):
         if not user_flow.end_flg:
             for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('number').all():
                 change_flg = False
+
+                user_flow_schedule_date = None
+                user_flow_schedule_time = None
+                user_flow_schedule_manager = None
+                user_flow_schedule_offline_facility = None
+                user_flow_schedule_online_facility = None
+                user_flow_schedule_online_join = 0
                 if request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     date = request.POST.get('date_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)).split(' ')
                     if str(user_flow_schedule.date) != date[0].strip().replace('/','-') + ' 00:00:00' or str(user_flow_schedule.time) != date[1].strip() + ':00':
                         change_flg = True
-                    user_flow_schedule.date = datetime.datetime.strptime(date[0].strip().replace('/','-') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
-                    user_flow_schedule.time = datetime.datetime.strptime(date[1].strip() + ':00', '%H:%M:%S') 
+                    user_flow_schedule_date = datetime.datetime.strptime(date[0].strip().replace('/','-') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
+                    user_flow_schedule_time = datetime.datetime.strptime(date[1].strip() + ':00', '%H:%M:%S') 
                 join = 0
                 if request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     join = int(request.POST.get('join_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)))
                 if request.POST.get('manager_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
-                    user_flow_schedule.manager = AuthUser.objects.filter(display_id=request.POST.get('manager_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                    user_flow_schedule_manager = AuthUser.objects.filter(display_id=request.POST.get('manager_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
                 if request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number)):
                     if user_flow_schedule.offline:
-                        user_flow_schedule.offline_facility = ReserveOfflineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                        user_flow_schedule_offline_facility = ReserveOfflineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
                     if user_flow_schedule.online:
-                        user_flow_schedule.online_facility = ReserveOnlineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
+                        user_flow_schedule_online_facility = ReserveOnlineFacility.objects.filter(display_id=request.POST.get('facility_'+str(user_flow.display_id)+'_'+str(user_flow_schedule.number))).first()
                 if user_flow_schedule.join == 0:
-                    user_flow_schedule.join = join
-                user_flow_schedule.save()
+                    user_flow_schedule_online_join = join
+
+                if change_flg and user_flow_schedule.date:
+                    user_flow_schedule.join = 2
+                    user_flow_schedule.save()
+                    user_flow_schedule = UserFlowSchedule.objects.create(
+                        id = str(uuid.uuid4()),
+                        display_id = create_code(12, UserFlowSchedule),
+                        flow = user_flow,
+                        number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                        date = user_flow_schedule_date,
+                        time = user_flow_schedule_time,
+                        join = user_flow_schedule_online_join,
+                        offline = user_flow_schedule.offline,
+                        online = user_flow_schedule.online,
+                        offline_course = user_flow_schedule.offline_course,
+                        online_course = user_flow_schedule.online_course,
+                        offline_facility = user_flow_schedule_offline_facility,
+                        online_facility = user_flow_schedule_online_facility,
+                        manager = user_flow_schedule_manager,
+                        question = user_flow_schedule.question,
+                        check_flg = False
+                    )
+                else:
+                    user_flow_schedule.date = user_flow_schedule_date
+                    user_flow_schedule.time = user_flow_schedule_time
+                    user_flow_schedule.manager = user_flow_schedule_manager
+                    user_flow_schedule.offline_facility = user_flow_schedule_offline_facility
+                    user_flow_schedule.online_facility = user_flow_schedule_online_facility
+                    user_flow_schedule.join = user_flow_schedule_online_join
+                    user_flow_schedule.save()
 
                 if join == 1:
                     flow_flg = False

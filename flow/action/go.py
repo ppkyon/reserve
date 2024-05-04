@@ -89,7 +89,7 @@ def go(user, flow, flow_tab, flow_item):
                     if reserve_offline_flow.offline:
                         UserFlowSchedule.objects.create(
                             id = str(uuid.uuid4()),
-                            display_id = create_code(12, UserFlow),
+                            display_id = create_code(12, UserFlowSchedule),
                             flow = user_flow,
                             number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
                             date = None,
@@ -105,7 +105,7 @@ def go(user, flow, flow_tab, flow_item):
                     if reserve_online_flow.online:
                         UserFlowSchedule.objects.create(
                             id = str(uuid.uuid4()),
-                            display_id = create_code(12, UserFlow),
+                            display_id = create_code(12, UserFlowSchedule),
                             flow = user_flow,
                             number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
                             date = None,

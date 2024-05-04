@@ -46,7 +46,9 @@ class DashboardView(ShopView):
                 schedule.flow.user.reserve = get_reserve_date(schedule)
 
                 if schedule.number > 1:
-                    schedule.flow.user.reserve = schedule.flow.user.reserve + ' → ' + get_reserve_date(UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1).first())
+                    prev_schedule = UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1).first()
+                    if prev_schedule and prev_schedule.date:
+                        schedule.flow.user.reserve = get_reserve_date(prev_schedule) + ' → ' + schedule.flow.user.reserve
 
                 context['new_reserve_list'].append(schedule.flow.user)
 
