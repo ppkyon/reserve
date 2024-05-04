@@ -6,23 +6,23 @@
             <div class="d-flex justify-content-between align-items-center p-2 ps-5 pe-5">
                 <a href="#" class="text-center">
                     <p class="fw-bold mb-0">本日の予約</p>
-                    <p class="fw-bold mb-0">{{ today_reserve_count }}</p>
+                    <p class="fw-bold mb-0">{{ today_reserve_count|default:'0' }}</p>
                 </a>
                 <a href="#" class="text-center">
                     <p class="fw-bold mb-0">本日の友だち追加数</p>
-                    <p class="fw-bold mb-0">{{ today_user_count }}</p>
+                    <p class="fw-bold mb-0">{{ today_user_count|default:'0' }}</p>
                 </a>
                 <a href="#" class="text-center">
                     <p class="fw-bold mb-0">未読のメッセージ</p>
-                    <p class="fw-bold mb-0">{{ side.alert.talk }}</p>
+                    <p class="fw-bold mb-0">{{ side.alert.talk|default:'0' }}</p>
                 </a>
                 <a href="#" class="text-center">
                     <p class="fw-bold mb-0">要対応のメッセージ</p>
-                    <p class="fw-bold mb-0">{{ message_required_count }}</p>
+                    <p class="fw-bold mb-0">{{ message_required_count|default:'0' }}</p>
                 </a>
                 <a href="#" class="text-center">
                     <p class="fw-bold mb-0">新規予約/変更確認入力待ち</p>
-                    <p class="fw-bold mb-0">{{ new_reserve_count }}</p>
+                    <p class="fw-bold mb-0">{{ new_reserve_count|default:'0' }}</p>
                 </a>
             </div>
         </div>
