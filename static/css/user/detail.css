@@ -158,6 +158,7 @@
 .detail-area .step-area .table-area .alert-image:hover ~ .alert-text,
 .step-modal .modal-body .table-area .alert-image:hover ~ .alert-text,
 .step-modal .modal-body .table-area .notice-image:hover ~ .notice-text {
+    display: inline-block;
     opacity: 1;
 }
 

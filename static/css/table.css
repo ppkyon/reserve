@@ -102,11 +102,13 @@
 .table-area table tbody tr td .notice-image:hover ~ .notice-text,
 .mini-table-area table tbody tr td .alert-image:hover ~ .alert-text,
 .mini-table-area table tbody tr td .notice-image:hover ~ .notice-text {
+    display: inline-block;
     opacity: 1;
 }
 .table-area table tbody tr td .alert-text,
 .mini-table-area table tbody tr td .alert-text {
     position: absolute;
+    display: none;
     top: 0;
     width: auto;
     color: #723036;
@@ -129,6 +131,7 @@
 .table-area table tbody tr td .notice-text,
 .mini-table-area table tbody tr td .notice-text {
     position: absolute;
+    display: none;
     top: 0;
     width: auto;
     color: #723036;
