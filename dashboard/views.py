@@ -28,7 +28,7 @@ class DashboardView(ShopView):
 
         context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).count()
         context['today_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).order_by('date', 'time').all():
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -38,7 +38,7 @@ class DashboardView(ShopView):
 
         context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).count()
         context['new_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).order_by('date', 'time').all():
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -53,7 +53,7 @@ class DashboardView(ShopView):
                 context['new_reserve_list'].append(schedule.flow.user)
 
         context['after_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).order_by('date', 'time').all():
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -62,7 +62,7 @@ class DashboardView(ShopView):
                 context['after_reserve_list'].append(schedule.flow.user)
 
         context['new_line_list'] = list()
-        for user in LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).all():
+        for user in LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all():
             user.profile = UserProfile.objects.filter(user=user).first()
             context['new_line_list'].append(user)
 
