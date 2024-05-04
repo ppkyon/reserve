@@ -219,10 +219,10 @@ function create_user_list(response) {
     });
     
     if ( response.all_read_count.all_read_count > 0 ) {
-        if ( $( '.side-area .menu-area .alert-badge' ).length ) {
-            $( '.side-area .menu-area .alert-badge' ).addClass( 'd-flex' );
-            $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
-            $( '.side-area .menu-area .alert-badge' ).text( response.all_read_count.all_read_count );
+        if ( $( '.side-area .menu-area .active .alert-badge' ).length ) {
+            $( '.side-area .menu-area .active .alert-badge' ).addClass( 'd-flex' );
+            $( '.side-area .menu-area .active .alert-badge' ).removeClass( 'd-none' );
+            $( '.side-area .menu-area .active .alert-badge' ).text( response.all_read_count.all_read_count );
         } else {
             $( '.side-area .menu-area li a' ).each( function( index, value ) {
                 if ( $( this ).attr( 'href' ) == '/talk/' ) {
@@ -231,8 +231,8 @@ function create_user_list(response) {
             });
         }
     } else {
-        $( '.side-area .menu-area .alert-badge' ).addClass( 'd-none' );
-        $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-flex' );
-        $( '.side-area .menu-area .alert-badge' ).text( '' );
+        $( '.side-area .menu-area .active .alert-badge' ).addClass( 'd-none' );
+        $( '.side-area .menu-area .active .alert-badge' ).removeClass( 'd-flex' );
+        $( '.side-area .menu-area .active .alert-badge' ).text( '' );
     }
 }
