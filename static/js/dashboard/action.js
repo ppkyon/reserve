@@ -4,6 +4,11 @@ $( function() {
         $( this ).next().trigger( 'click' );
         up_modal();
     });
+    $( document ).on( 'click', '.line-area .check-button', function () {
+        $( '#check_user_modal .yes-button' ).val( $( this ).val() );
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
     $( document ).on( 'click', '#check_check_modal .yes-button', function () {
         $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
         $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
@@ -28,6 +33,35 @@ $( function() {
         }).fail( function(){
             setTimeout( function() {
                 $( '#check_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    $( document ).on( 'click', '#check_user_modal .yes-button', function () {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#check_user_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#check_user_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#check_user_modal .no-button' ).trigger( 'click' );
                 $( target ).next().next().trigger( 'click' );
                 up_modal();
             }, 750 );

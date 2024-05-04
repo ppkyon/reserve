@@ -66,6 +66,8 @@ def callback(request, login):
 
 def handle_follow(line_user_id, shop):
     user = update_user(line_user_id, shop)
+    user.proxy_flg = False
+    user.check_flg = False
     user.member_flg = False
     user.save()
 
