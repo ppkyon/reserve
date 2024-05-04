@@ -9,7 +9,7 @@ import uuid
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        for shop in AuthShop.objects.filter(delete_flg=False).all():
+        for shop in AuthShop.objects.filter(status__gte=2, delete_flg=False).all():
             SettingAlert.objects.filter(shop=shop).all().delete()
 
             line_info = get_info(shop)
