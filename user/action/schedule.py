@@ -18,6 +18,7 @@ import pandas
 
 def get(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
+    user = LineUser.objects.filter(display_id=request.POST.get('user_id'), shop=auth_login.shop).first()
 
     setting = None
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
@@ -344,6 +345,20 @@ def get(request):
                     else:
                         start_date = start_date + datetime.timedelta(days=course_data.any_day)
                         start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
+
+    if setting and setting['advance']:
+        if setting['type'] == 1:
+            advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+            if advance_schedule.date and advance_schedule.time:
+                advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
+                start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
+        elif setting['type'] == 2:
+            advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+            if advance_schedule.date and advance_schedule.time:
+                advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
+                start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
     
     start_date = {
         'year': start_date.year,
