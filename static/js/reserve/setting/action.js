@@ -51,6 +51,33 @@ $( function() {
         $( '.setting-table tr.active td' ).children( 'input[type=hidden]' ).val( 'true' );
     });
 
+    $( document ).on( 'change', '#save_setting_form .input-name', function () {
+        var target = $( this );
+        $( '#save_setting_form .setting-list-area' ).each( function( index, value ) {
+            if ( !$( this ).hasClass( 'd-none' ) ) {
+                var advance_list = [];
+                $( this ).find( '.input-name' ).each( function( index, value ) {
+                    advance_list.push({
+                        'name': $( this ).val(),
+                        'value': $( this ).attr( 'name').replace( 'name_', '' ),
+                    });
+                    if ( $( target ).attr( 'name' ).replace( 'name_', '' ) == $( this ).parents( '.setting-area' ).find( '.input-advance' ).next().val() ) {
+                        $( this ).parents( '.setting-area' ).find( '.input-advance' ).val( $( target ).val() );
+                    }
+                });
+                var target_area = $( this );
+                $( this ).find( '.input-advance' ).next().next().empty();
+                $.each( advance_list, function( index, value ) {
+                    if ( index == 0 ) {
+                        $( target_area ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold ps-2">' + value.name + '</button>' );
+                    } else {
+                        $( target_area ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">' + value.name + '</button>' );
+                    }
+                });
+            }
+        });
+    });
+
     var delete_item_area = '';
     $( document ).on( 'click', '.delete-item-button', function () {
         delete_item_area = $( this ).parents( 'tr' );
@@ -58,12 +85,38 @@ $( function() {
         $( this ).next().trigger( 'click' );
     });
     $( '#delete_item_check_modal .yes-button' ).on( 'click', function() {
+        var delete_value = $( delete_item_area ).find( '.count-text' ).next().val();
         $( delete_item_area ).remove();
         $( '#' + $( '.save-button' ).next().val() ).find( '.reserve-setting-table' ).children( 'tbody' ).children( 'tr' ).each( function( index, value ) {
             $( this ).find( '.count-text' ).text( ( index + 1 ) + '.' );
         });
         $( '.setting-table tr.active td' ).children( 'input[type=hidden]' ).val( 'true' );
         $( '#delete_item_check_modal .no-button' ).trigger( 'click' );
+
+        $( '#save_setting_form .setting-list-area' ).each( function( index, value ) {
+            if ( !$( this ).hasClass( 'd-none' ) ) {
+                var advance_list = [];
+                $( this ).find( '.input-name' ).each( function( index, value ) {
+                    advance_list.push({
+                        'name': $( this ).val(),
+                        'value': $( this ).attr( 'name').replace( 'name_', '' ),
+                    });
+                    if ( delete_value == $( this ).parents( '.setting-area' ).find( '.input-advance' ).next().val() ) {
+                        $( this ).parents( '.setting-area' ).find( '.input-advance' ).val( '' );
+                        $( this ).parents( '.setting-area' ).find( '.input-advance' ).next().val( '' );
+                    }
+                });
+                var target_area = $( this );
+                $( this ).find( '.input-advance' ).next().next().empty();
+                $.each( advance_list, function( index, value ) {
+                    if ( index == 0 ) {
+                        $( target_area ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold ps-2">' + value.name + '</button>' );
+                    } else {
+                        $( target_area ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">' + value.name + '</button>' );
+                    }
+                });
+            }
+        });
     });
 
     $( document ).on( 'click', '.input-question', function () {
@@ -268,3 +321,29 @@ $( function() {
         $( this ).next().trigger( 'click' );
     });
 });
+
+function create_advance_area() {
+    $( '#save_setting_form .setting-list-area' ).each( function( index, value ) {
+        if ( !$( this ).hasClass( 'd-none' ) ) {
+            var target = $( this );
+            var advance_list = [];
+            $( this ).find( '.input-name' ).each( function( index, value ) {
+                advance_list.push({
+                    'name': $( this ).val(),
+                    'value': $( this ).attr( 'name').replace( 'name_', '' ),
+                });
+                if ( $( this ).attr( 'name' ).replace( 'name_', '' ) == $( target ).find( '.input-advance' ).eq(index).next().val() ) {
+                    $( target ).find( '.input-advance' ).eq(index).val( $( this ).val() );
+                }
+            });
+            $( this ).find( '.input-advance' ).next().next().empty();
+            $.each( advance_list, function( index, value ) {
+                if ( index == 0 ) {
+                    $( target ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold ps-2">' + value.name + '</button>' );
+                } else {
+                    $( target ).find( '.input-advance' ).next().next().append( '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">' + value.name + '</button>' );
+                }
+            });
+        }
+    });
+}

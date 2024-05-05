@@ -19,6 +19,7 @@ def save(request):
     ReserveOnlineSetting.objects.filter(online=ShopOnline.objects.filter(display_id=request.POST.get('id')).first()).exclude(display_id__in=random_list).all().delete()
     ReserveOfflineSetting.objects.filter(offline=ShopOffline.objects.filter(display_id=request.POST.get('id')).first()).exclude(display_id__in=random_list).all().delete()
     
+    change_list = list()
     for i in range(int(request.POST.get('count'))):
         if request.POST.get('course_flg_'+str(i+1)) == '1':
             course_flg = True
@@ -44,6 +45,7 @@ def save(request):
             offline.people = request.POST.get('people_'+str( i + 1 ))
             offline.facility = request.POST.get('facility_'+str( i + 1 ))
             offline.question = question
+            offline.advance = request.POST.get('advance_'+str( i + 1 ))
             offline.course_flg = course_flg
             offline.display_flg = display_flg
             offline.save()
@@ -58,6 +60,7 @@ def save(request):
             online.people = request.POST.get('people_'+str( i + 1 ))
             online.facility = request.POST.get('facility_'+str( i + 1 ))
             online.question = question
+            online.advance = request.POST.get('advance_'+str( i + 1 ))
             online.course_flg = course_flg
             online.display_flg = display_flg
             online.save()
@@ -90,7 +93,7 @@ def save(request):
                 )
         else:
             if ShopOffline.objects.filter(display_id=request.POST.get('id')).exists():
-                ReserveOfflineSetting.objects.create(
+                offline = ReserveOfflineSetting.objects.create(
                     id = str(uuid.uuid4()),
                     display_id = create_code(12, ReserveOfflineSetting),
                     offline = ShopOffline.objects.filter(display_id=request.POST.get('id')).first(),
@@ -103,9 +106,14 @@ def save(request):
                     people = request.POST.get('people_'+str( i + 1 )),
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
+                    advance = request.POST.get('advance_'+str( i + 1 )),
                     course_flg = course_flg,
                     display_flg = display_flg,
                 )
+                change_list.append({
+                    'random': request.POST.get('random_'+str(i+1)),
+                    'id': offline.display_id,
+                })
             if ShopOnline.objects.filter(display_id=request.POST.get('id')).exists():
                 online = ReserveOnlineSetting.objects.create(
                     id = str(uuid.uuid4()),
@@ -120,9 +128,14 @@ def save(request):
                     people = request.POST.get('people_'+str( i + 1 )),
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
+                    advance = request.POST.get('advance_'+str( i + 1 )),
                     course_flg = course_flg,
                     display_flg = display_flg,
                 )
+                change_list.append({
+                    'random': request.POST.get('random_'+str(i+1)),
+                    'id': online.display_id,
+                })
                 for j in range(int(request.POST.get('meeting_count_'+str( i + 1 )))):
                     platform_text = None
                     if request.POST.get('meeting_platform_text_'+str( i + 1 )+'_'+str( j + 1 )):
@@ -148,6 +161,14 @@ def save(request):
                         status = request.POST.get('meeting_status_'+str( i + 1 )+'_'+str( j + 1 )),
                         author = request.user.display_id,
                     )
+    
+    for change_item in change_list:
+        for offline in ReserveOfflineSetting.objects.filter(advance=change_item['random']).all():
+            offline.advance = change_item['id']
+            offline.save()
+        for online in ReserveOnlineSetting.objects.filter(advance=change_item['random']).all():
+            online.advance = change_item['id']
+            online.save()
 
     return JsonResponse( {}, safe=False )
 

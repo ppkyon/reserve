@@ -1,5 +1,17 @@
 
 function append_setting_area(type) {
+    var advance_list = [];
+    $( '#save_setting_form .setting-list-area' ).each( function( index, value ) {
+        if ( !$( this ).hasClass( 'd-none' ) ) {
+            $( this ).find( '.input-name' ).each( function( index, value ) {
+                advance_list.push({
+                    'name': $( this ).val(),
+                    'value': $( this ).attr( 'name').replace( 'name_', '' ),
+                });
+            });
+        }
+    });
+
     var count = $( '#' + $( '.save-button' ).next().val() ).find( '.reserve-setting-table' ).children( 'tbody' ).children( 'tr' ).length + 1;
     var random = Math.floor( Math.random() * ( ( 99999999 + 1 ) - 10000000 ) ) + 2;
     var html = '<tr style="background-color: #FFF;">';
@@ -11,7 +23,7 @@ function append_setting_area(type) {
     html += '<div class="setting-sp" style="width: 75%;">';
     html += '<div class="d-flex justify-content-start align-items-center mb-1">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">登録名</label>';
-    html += '<input type="text" name="title_' + random + '" class="input-text ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
+    html += '<input type="text" name="name_' + random + '" class="input-text input-name ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
     html += '</div>';
     html += '<div class="d-flex align-items-center justify-content-start mb-2">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">&nbsp;</label>';
@@ -19,11 +31,11 @@ function append_setting_area(type) {
     html += '</div>';
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">タイトル</label>';
-    html += '<input type="text" name="name_' + random + '" class="input-text ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
+    html += '<input type="text" name="title_' + random + '" class="input-text input-title ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled required>';
     html += '</div>';
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">概要</label>';
-    html += '<input type="text" name="outline_' + random + '" class="input-text ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>';
+    html += '<input type="text" name="outline_' + random + '" class="input-text input-outline ps-2 pe-2" style="width: 75%;" data-parsley-errors-messages-disabled>';
     html += '</div>';
     html += '<div class="d-flex justify-content-start align-items-start mb-1">';
     html += '<label class="setting-area-tablet mt-2 mb-0" style="width: 15%;">補足</label>';
@@ -36,7 +48,7 @@ function append_setting_area(type) {
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">時間</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
-    html += '<input type="text" name="time_' + random + '" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="text" name="time_' + random + '" class="input-text input-time input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<input type="hidden">';
     html += '<div class="dropdown-menu w-100">';
     html += '<button type="button" value="15" class="btn dropdown-item fw-bold text-center">15</button>';
@@ -65,7 +77,7 @@ function append_setting_area(type) {
     html += '<div class="d-flex justify-content-start align-items-center mb-2">';
     html += '<label class="setting-area-tablet mb-0" style="width: 15%;">同時対応数</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
-    html += '<input type="text" name="people_' + random + '" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="text" name="people_' + random + '" value="" class="input-text input-people input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<input type="hidden">';
     html += '<div class="dropdown-menu w-100">';
     html += '<button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>';
@@ -103,7 +115,7 @@ function append_setting_area(type) {
     html += '<label class="ps-2 mb-0" style="width: 5%;">人</label>';
     html += '<label class="setting-area-sp ps-4 mb-0" style="width: 20%;">同時施設数</label>';
     html += '<div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 22.5%;">';
-    html += '<input type="text" name="facility_' + random + '" value="" class="input-text input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
+    html += '<input type="text" name="facility_' + random + '" value="" class="input-text input-facility input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly required>';
     html += '<input type="hidden">';
     html += '<div class="dropdown-menu w-100">';
     html += '<button type="button" value="1" class="btn dropdown-item fw-bold text-center">1</button>';
@@ -147,6 +159,22 @@ function append_setting_area(type) {
     html += '</div>';
     html += '<button type="button" value="' + random + '" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>';
     html += '<button type="button" value="' + random + '" class="d-none" data-bs-toggle="modal" data-bs-target="#question_modal"></button>';
+    html += '</div>';
+    html += '<div class="d-flex justify-content-start align-items-center mb-2">';
+    html += '<label class="setting-area-tablet mb-0" style="width: 15%;">事前予約</label>';
+    html += '<div class="dropdown input-select-dropdown input-advance-dropdown d-inline-block p-0" style="width: 45%;">';
+    html += '<input type="text" name="advance_' + random + '" value="" class="input-text input-advance input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>';
+    html += '<input type="hidden" value="">';
+    html += '<div class="dropdown-menu w-100">';
+    $.each( advance_list, function( index, value ) {
+        if ( index == 0 ) {
+            html += '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold ps-2">' + value.name + '</button>';
+        } else {
+            html += '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">' + value.name + '</button>';
+        }
+    });
+    html += '</div>';
+    html += '</div>';
     html += '</div>';
     html += '</div>';
     html += '<div style="width: 20%;">';

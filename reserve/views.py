@@ -64,12 +64,17 @@ class SettingView(ShopView):
             if ShopOffline.objects.filter(id=online_offline_item.id).exists():
                 context['online_offline_list'][online_offline_index].setting = ReserveOfflineSetting.objects.filter(offline=online_offline_item).order_by('number').all()
                 context['online_offline_list'][online_offline_index].setting_count = ReserveOfflineSetting.objects.filter(offline=online_offline_item).count()
+                for setting_index, setting_item in enumerate(context['online_offline_list'][online_offline_index].setting):
+                    if setting_item.advance:
+                        context['online_offline_list'][online_offline_index].setting[setting_index].advance = ReserveOfflineSetting.objects.filter(display_id=setting_item.advance).first()
             if ShopOnline.objects.filter(id=online_offline_item.id).exists():
                 context['online_offline_list'][online_offline_index].setting = ReserveOnlineSetting.objects.filter(online=online_offline_item).order_by('number').all()
                 context['online_offline_list'][online_offline_index].setting_count = ReserveOnlineSetting.objects.filter(online=online_offline_item).count()
                 for setting_index, setting_item in enumerate(context['online_offline_list'][online_offline_index].setting):
                     context['online_offline_list'][online_offline_index].setting[setting_index].random = random.randint(10000000,99999999)
                     context['online_offline_list'][online_offline_index].setting[setting_index].meeting = ReserveOnlineMeeting.objects.filter(online=setting_item).order_by('number').all()
+                    if setting_item.advance:
+                        context['online_offline_list'][online_offline_index].setting[setting_index].advance = ReserveOnlineSetting.objects.filter(display_id=setting_item.advance).first()
         return context
 
 class FacilityView(ShopView):
