@@ -56,23 +56,31 @@ def check(request):
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=flow), Q(Q(member=0)|Q(member=2))).order_by('number').all():
             for online_offline_item in online_offline_list:
                 if online_offline_item['type'] == 1:
-                    setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
+                    setting = list(ReserveOfflineSetting.objects.filter(offline__id=online_offline_item['id'], display_flg=True).values(*get_model_field(ReserveOfflineSetting)).all())
                     for setting_item in setting:
                         if ReserveOfflineFlowMenu.objects.filter(offline__id=setting_item['id'], flow=flow_tab.name).exists():
                             if setting_item['course_flg']:
                                 course_flg = True
                             if setting_item['question']:
                                 question_flg = True
-                            setting_list.append(setting_item)
+                            if setting_item['advance']:
+                                if not ReserveOfflineSetting.objects.filter(display_id=setting_item['advance']).exists():
+                                    setting_list.append(setting_item)
+                            else:
+                                setting_list.append(setting_item)
                 elif online_offline_item['type'] == 2:
-                    setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOfflineSetting)).all())
+                    setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id'], display_flg=True).values(*get_model_field(ReserveOfflineSetting)).all())
                     for setting_item in setting:
                         if ReserveOnlineFlowMenu.objects.filter(online__id=setting_item['id'], flow=flow_tab.name).exists():
                             if setting_item['course_flg']:
                                 course_flg = True
                             if setting_item['question']:
                                 question_flg = True
-                            setting_list.append(setting_item)
+                            if setting_item['advance']:
+                                if not ReserveOnlineSetting.objects.filter(display_id=setting_item['advance']).exists():
+                                    setting_list.append(setting_item)
+                            else:
+                                setting_list.append(setting_item)
     
     if place_flg:
         if len(setting_list) > 0:

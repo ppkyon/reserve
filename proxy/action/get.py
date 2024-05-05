@@ -74,14 +74,22 @@ def date(request):
                         if ReserveOfflineFlowMenu.objects.filter(offline__id=setting_item['id'], flow=flow_tab.name).exists():
                             if setting_item['question']:
                                 question_flg = True
-                            setting_list.append(setting_item)
+                            if setting_item['advance']:
+                                if not ReserveOfflineSetting.objects.filter(display_id=setting_item['advance']).exists():
+                                    setting_list.append(setting_item)
+                            else:
+                                setting_list.append(setting_item)
                 elif online_offline_item['type'] == 2:
                     setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOnlineSetting)).all())
                     for setting_item in setting:
                         if ReserveOnlineFlowMenu.objects.filter(online__id=setting_item['id'], flow=flow_tab.name).exists():
                             if setting_item['question']:
                                 question_flg = True
-                            setting_list.append(setting_item)
+                            if setting_item['advance']:
+                                if not ReserveOnlineSetting.objects.filter(display_id=setting_item['advance']).exists():
+                                    setting_list.append(setting_item)
+                            else:
+                                setting_list.append(setting_item)
     
     online_offline = None
     for online_offline_item in online_offline_list:
