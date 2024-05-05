@@ -65,7 +65,7 @@ $( function(){
                         var date = new Date(week_value.year, week_value.month, week_value.day, Number(schedule_value.time.substr( 0, schedule_value.time.indexOf( ':' ) )), Number(schedule_value.time.substr( schedule_value.time.indexOf( ':' ) + 1 )), 0);
                         var start_date = new Date(Number(response.start_date.year), Number(response.start_date.month), Number(response.start_date.day), Number(response.start_date.hour), Number(response.start_date.minute), 0);
                         if ( check_empty( response.end_date ) ) {
-                            var end_date = new Date(response.end_date.year, response.end_date.month, response.end_date.day, 0, 0, 0);
+                            var end_date = new Date(response.end_date.year, response.end_date.month, response.end_date.day, response.end_date.hour, response.end_date.minute, 0);
                             if ( date < start_date || date >= end_date ) {
                                 html += '<td class="no p-1">';
                                 html += '<span style="color: #000;">-</span>';

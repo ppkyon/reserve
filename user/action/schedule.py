@@ -350,13 +350,13 @@ def get(request):
         if setting['type'] == 1:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
-            if advance_schedule.date and advance_schedule.time:
+            if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
         elif setting['type'] == 2:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
-            if advance_schedule.date and advance_schedule.time:
+            if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
     
@@ -367,6 +367,7 @@ def get(request):
         'hour': start_date.hour,
         'minute': start_date.minute,
     }
+
     end_date = None
     if course_data and course_data.start != 0:
         end_date = datetime.datetime.now() +  datetime.timedelta(days=(course_data.start*7)+1)
@@ -374,7 +375,33 @@ def get(request):
             'year': end_date.year,
             'month': end_date.month,
             'day': end_date.day,
+            'hour': 0,
+            'minute': 0,
         }
+    if setting['type'] == 1:
+        advance_setting = ReserveOfflineSetting.objects.filter(advance=setting['display_id']).first()
+        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+        if advance_schedule and advance_schedule.date and advance_schedule.time:
+            advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
+            end_date = {
+                'year': advance_date.year,
+                'month': advance_date.month,
+                'day': advance_date.day,
+                'hour': advance_date.hour,
+                'minute': advance_date.minute,
+            }
+    elif setting['type'] == 2:
+        advance_setting = ReserveOnlineSetting.objects.filter(advance=setting['display_id']).first()
+        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+        if advance_schedule and advance_schedule.date and advance_schedule.time:
+            advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
+            end_date = {
+                'year': advance_date.year,
+                'month': advance_date.month,
+                'day': advance_date.day,
+                'hour': advance_date.hour,
+                'minute': advance_date.minute,
+            }
     
     course = None
     if request.POST.get('course_id'):
