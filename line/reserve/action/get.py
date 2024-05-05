@@ -33,6 +33,16 @@ def date(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
     user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
 
+    end_offline_setting = list()
+    end_online_setting = list()
+    for user_flow in UserFlow.objects.filter(user=user).all():
+        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow).count()).first()
+        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date:
+            if user_flow_schedule.offline:
+                end_offline_setting.append(user_flow_schedule.offline.id)
+            if user_flow_schedule.online:
+                end_online_setting.append(user_flow_schedule.online.id)
+
     if request.POST.get('id'):
         if ShopOffline.objects.filter(display_id=request.POST.get('id')).exists():
             offline_list = list(ShopOffline.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(ShopOffline)).all())
@@ -77,14 +87,32 @@ def date(request):
                             if ReserveOfflineFlowMenu.objects.filter(offline__id=setting_item['id'], flow=flow_tab.name).exists():
                                 if setting_item['question']:
                                     question_flg = True
-                                setting_list.append(setting_item)
+                                if not setting_item['id'] in end_offline_setting:
+                                    if setting_item['advance']:
+                                        advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting_item['advance']).first()
+                                        if advance_setting:
+                                            if UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).exists():
+                                                setting_list.append(setting_item)
+                                        else:
+                                            setting_list.append(setting_item)
+                                    else:
+                                        setting_list.append(setting_item)
                     elif online_offline_item['type'] == 2:
                         setting = list(ReserveOnlineSetting.objects.filter(online__id=online_offline_item['id']).values(*get_model_field(ReserveOnlineSetting)).all())
                         for setting_item in setting:
                             if ReserveOnlineFlowMenu.objects.filter(online__id=setting_item['id'], flow=flow_tab.name).exists():
                                 if setting_item['question']:
                                     question_flg = True
-                                setting_list.append(setting_item)
+                                if not setting_item['id'] in end_online_setting:
+                                    if setting_item['advance']:
+                                        advance_setting = ReserveOnlineSetting.objects.filter(display_id=setting_item['advance']).first()
+                                        if advance_setting:
+                                            if UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).exists():
+                                                setting_list.append(setting_item)
+                                        else:
+                                            setting_list.append(setting_item)
+                                    else:
+                                        setting_list.append(setting_item)
     
     online_offline = None
     for online_offline_item in online_offline_list:
