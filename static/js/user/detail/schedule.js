@@ -31,7 +31,7 @@ $( function(){
 
         var form_data = new FormData();
         form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
-        form_data.append( 'setting_id', $( '#select_schedule_modal [name=schedule_setting]' ).next().val() );
+        form_data.append( 'setting_id', $( this ).val() );
         form_data.append( 'course_id', $( '#select_schedule_modal [name=schedule_course]' ).val() );
         form_data.append( 'year', $( '#select_schedule_modal .date-area .date-text' ).find( 'input[type=hidden]' ).eq(0).val() );
         form_data.append( 'month', $( '#select_schedule_modal .date-area .date-text' ).find( 'input[type=hidden]' ).eq(1).val() );
