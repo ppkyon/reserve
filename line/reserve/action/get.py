@@ -91,7 +91,8 @@ def date(request):
                                     if setting_item['advance']:
                                         advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting_item['advance']).first()
                                         if advance_setting:
-                                            if UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).exists():
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
                                                 setting_list.append(setting_item)
                                         else:
                                             setting_list.append(setting_item)
@@ -107,7 +108,8 @@ def date(request):
                                     if setting_item['advance']:
                                         advance_setting = ReserveOnlineSetting.objects.filter(display_id=setting_item['advance']).first()
                                         if advance_setting:
-                                            if UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).exists():
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
                                                 setting_list.append(setting_item)
                                         else:
                                             setting_list.append(setting_item)
@@ -455,7 +457,7 @@ def date(request):
         'hour': start_date.hour,
         'minute': start_date.minute,
     }
-    
+
     end_date = None
     if course_data and course_data.start != 0:
         end_date = datetime.datetime.now() +  datetime.timedelta(days=(course_data.start*7)+1)

@@ -80,7 +80,8 @@ def check(request):
                                     if setting_item['advance']:
                                         advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting_item['advance']).first()
                                         if advance_setting:
-                                            if UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).exists():
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
                                                 setting_list.append(setting_item)
                                         else:
                                             setting_list.append(setting_item)
@@ -98,13 +99,13 @@ def check(request):
                                     if setting_item['advance']:
                                         advance_setting = ReserveOnlineSetting.objects.filter(display_id=setting_item['advance']).first()
                                         if advance_setting:
-                                            if UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).exists():
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
                                                 setting_list.append(setting_item)
                                         else:
                                             setting_list.append(setting_item)
                                     else:
                                         setting_list.append(setting_item)
-
     if len(setting_list) == 0:
         data = {
             'error_flg': True,
