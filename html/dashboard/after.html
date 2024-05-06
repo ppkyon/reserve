@@ -1,20 +1,25 @@
 {% load static %}
 
-<div class="after-area">
+<div class="after-area mini-table-area-wrap mb-2">
     <div class="row mb-2">
         <div class="col-12">
-            <div class="main-area">
-                <p class="title me-4 mb-2">明日以降の予約</p>
+            <div class="main-area table-control-area">
+                <div class="d-flex align-items-center">
+                    <p class="title me-4 mb-2">明日以降の予約</p>
+                    {% include 'table/mini/number.html' with table_number=after_reserve_table.number %}
+                    <input type="hidden" value="dashboard">
+                    <input type="hidden" value="after">
+                </div>
             </div>
         </div>
     </div>
-    <div class="row mb-4">
+    <div class="row mb-2">
         <div class="col-12">
             <div class="mini-table-area mini-table-area-sp">
                 <table class="table table-sp mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 30px;">#</th>
+                            <th style="width: 50px;">#</th>
                             {% include 'table/sort.html' with text='予約者氏名' target='name' %}
                             {% include 'table/sort.html' with text='予約日時' target='date' width='300' %}
                             {% include 'table/sort.html' with text='メニュー' target='setting' width='150' %}
@@ -93,6 +98,8 @@
                     </tbody>
                 </table>
             </div>
+            {% include 'loader.html' %}
         </div>
     </div>
+    {% include 'table/mini/paging.html' with table=after_reserve_table page='dashboard' item='after' %}
 </div>

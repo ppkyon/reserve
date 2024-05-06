@@ -1,20 +1,25 @@
 {% load static %}
 
-<div class="line-area">
+<div class="line-area mini-table-area-wrap mb-2">
     <div class="row mb-2">
         <div class="col-12">
-            <div class="main-area">
-                <p class="title me-4 mb-2">新規友だち登録</p>
+            <div class="main-area table-control-area">
+                <div class="d-flex align-items-center">
+                    <p class="title me-4 mb-2">新規友だち登録</p>
+                    {% include 'table/mini/number.html' with table_number=new_line_table.number %}
+                    <input type="hidden" value="dashboard">
+                    <input type="hidden" value="line">
+                </div>
             </div>
         </div>
     </div>
-    <div class="row mb-4">
+    <div class="row mb-2">
         <div class="col-12">
             <div class="mini-table-area mini-table-area-sp">
                 <table class="table table-sp mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 30px;">#</th>
+                            <th style="width: 50px;">#</th>
                             {% include 'table/sort.html' with text='登録者氏名' target='name' %}
                             <th style="width: 120px;">確認</th>
                             <th style="width: 100px;">予約者詳細</th>
@@ -76,6 +81,8 @@
                     </tbody>
                 </table>
             </div>
+            {% include 'loader.html' %}
         </div>
     </div>
+    {% include 'table/mini/paging.html' with table=new_line_table page='dashboard' item='line' %}
 </div>

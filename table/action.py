@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from sign.models import AuthLogin
-from table.models import TableSearch, TableNumber, TableSort
+from table.models import TableSearch, TableNumber, TableSort, MiniTableNumber
 
 import uuid
 
@@ -65,6 +65,39 @@ def sort(request):
             target = request.POST.get('target'),
             sort = 1,
         )
+    return JsonResponse( {}, safe=False )
+
+
+
+def mini_number(request):
+    if '/head/' in request.POST.get('url'):
+        company = None
+        shop = None
+    elif '/company/' in request.POST.get('url'):
+        company = AuthLogin.objects.filter(user=request.user).first().company
+        shop = None
+    else:
+        company = AuthLogin.objects.filter(user=request.user).first().company
+        shop = AuthLogin.objects.filter(user=request.user).first().shop
+    
+    if MiniTableNumber.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, page=request.POST.get('page'), item=request.POST.get('item')).exists():
+        number = MiniTableNumber.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, page=request.POST.get('page'), item=request.POST.get('item')).first()
+        number.page = request.POST.get('page')
+        number.item = request.POST.get('item')
+        number.number = request.POST.get('number')
+        number.save()
+    else:
+        MiniTableNumber.objects.create(
+            id = str(uuid.uuid4()),
+            url = request.POST.get('url'),
+            company = company,
+            shop = shop,
+            manager = request.user,
+            page = request.POST.get('page'),
+            item = request.POST.get('item'),
+            number = request.POST.get('number'),
+        )
+
     return JsonResponse( {}, safe=False )
 
 

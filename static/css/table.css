@@ -349,10 +349,12 @@
     box-shadow: 0 4px 8px rgb(0 0 0 / 0.04);
     list-style: none;
 }
-.table-paging-area ul li {
+.table-paging-area ul li,
+.mini-table-paging-area ul li {
     cursor: pointer;
 }
-.table-paging-area ul li button {
+.table-paging-area ul li button,
+.mini-table-paging-area ul li button {
     width: 1.8rem;
     height: 1.8rem;
     color: #464255;
@@ -362,11 +364,13 @@
     line-height: 1rem;
     cursor: pointer;
 }
-.table-paging-area ul li.active button {
+.table-paging-area ul li.active button,
+.mini-table-paging-area ul li.active button {
     background-color: rgba(70,66,85,0.15);
     cursor: default;
 }
-.table-paging-area ul li img {
+.table-paging-area ul li img,
+.mini-table-paging-area ul li img {
     width: 0.75rem;
     height: 0.75rem;
     vertical-align: middle;

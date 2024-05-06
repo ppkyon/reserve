@@ -14,6 +14,7 @@
     </div>
     <div class="shop">
         <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
+        <input type="hidden" id="mini_table_paging_url" value="{% url 'dashboard:paging' %}">
         {% include 'dashboard/top.html' %}
         {% include 'dashboard/today.html' %}
         {% include 'dashboard/new.html' %}
@@ -39,6 +40,7 @@
     <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
     <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
     <script src="{% static 'js/tag/modal.js' %}"></script>
+    <script src="{% static 'js/dashboard/append.js' %}"></script>
     <script src="{% static 'js/dashboard/action.js' %}"></script>
     <script src="{% static 'js/dashboard/data.js' %}"></script>
 {% endblock %}

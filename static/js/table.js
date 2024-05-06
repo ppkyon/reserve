@@ -41,6 +41,25 @@ $( function() {
             window.location.reload();
         });
     });
+    $( '.table-control-area .input-select-mini-table-number-dropdown .dropdown-menu button' ).on( 'click', function() {
+        var form_data = new FormData();
+        form_data.append( 'number', $( this ).val() );
+        form_data.append( 'url', location.pathname );
+        form_data.append( 'page', $( this ).parents( '.dropdown' ).next().val() );
+        form_data.append( 'item', $( this ).parents( '.dropdown' ).next().next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#mini_table_number_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            window.location.reload();
+        }).fail( function(){
+            window.location.reload();
+        });
+    });
 
     $( '.table-area .table .sort-area' ).on( 'click', function() {
         var form_data = new FormData();
@@ -179,6 +198,42 @@ $( function() {
             }, 750 );
         });
     });
+    $( document ).on( 'click', '.mini-table-paging-area ul li button', function () {
+        $( this ).parents( '.mini-table-area-wrap' ).find( '.table tbody' ).css( 'opacity', '0' );
+        $( this ).parents( '.mini-table-area-wrap' ).find( '.table-loader-area' ).css( 'opacity', '1' );
+        
+        var wrap = $( this ).parents( '.mini-table-area-wrap' );
+        var target = $( this );
+        var target_number = Number($( this ).val());
+        var form_data = new FormData();
+        form_data.append( 'shop_id', $( '#login_shop_id' ).val() );
+        form_data.append( 'number', target_number );
+        form_data.append( 'page', $( this ).parents( '.mini-table-paging-area' ).next().val() );
+        form_data.append( 'item', $( this ).parents( '.mini-table-paging-area' ).next().next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#mini_table_paging_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( wrap ).find( '.table tbody' ).empty();
+                $.each( response, function( index, value ) {
+                    $( wrap ).find( '.table tbody' ).append( append_mini_table_area(target, value) );
+                });
+                append_mini_paging_area(target, Number(target_number), Number($( target ).parents( '.mini-table-paging-area' ).next().next().next().val()));
+                $( wrap ).find( '.table tbody' ).css( 'opacity', '1' );
+                $( wrap ).find( '.table-loader-area' ).css( 'opacity', '0' );
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( wrap ).find( '.table tbody' ).css( 'opacity', '1' );
+                $( wrap ).find( '.table-loader-area' ).css( 'opacity', '0' );
+            }, 750 );
+        });
+    });
 });
 
 function append_paging_area( target, total ) {
@@ -302,5 +357,130 @@ function append_paging_area( target, total ) {
         var html = '<p class="me-3 mb-0">ALL DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 - 0 / 0</p>';
         html += '<ul class="pagination d-flex m-0 p-0"></ul>';
         $( '.table-paging-area div' ).append(html);
+    }
+}
+
+function append_mini_paging_area( target, target_number, total ) {
+    var number = Number($( target ).parents( '.mini-table-paging-area' ).next().next().next().next().val());
+    var page = Math.ceil( total / number );
+
+    var start = number * ( target_number - 1 ) + 1;
+    var end = number * target_number;
+    if ( end > total ) {
+        end = total;
+    }
+    
+    var area = $( target ).parents( '.mini-table-paging-area' )
+    $( area ).find( 'div' ).empty();
+    if ( total != 0 ) {
+        var html = '<p class="me-3 mb-0">ALL DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + start + ' - ' + end + ' / ' + total + '</p>';
+        html += '<ul class="pagination d-flex m-0 p-0"></ul>';
+        $( area ).find( 'div' ).append(html);
+    
+        html = '';
+        if ( page != 1 || end < total ) {
+            if ( target_number == 1 ) {
+                html += '<li class="page-item d-inline active">';
+                html += '<button type="button" value="1" class="btn d-flex justify-content-center align-items-center position-relative" disabled>';
+                html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/paging-left.svg">';
+                html += '</button>';
+                html += '</li>';
+            } else {
+                html += '<li class="page-item d-inline">';
+                html += '<button type="button" value="' + ( target_number - 1 ) + '" class="btn d-flex justify-content-center align-items-center position-relative">';
+                html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/paging-left.svg">';
+                html += '</button>';
+                html += '</li>';
+            }
+    
+            if ( page > 5 && target_number > 3 ) {
+                if ( ( page - 2 ) < target_number ) {
+                    for ( var i = ( page - 4 ); i <= page; i++ ) {
+                        if ( target_number == i ) {
+                            html += '<li class="page-item d-inline active">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative" disabled>';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        } else {
+                            html += '<li class="page-item d-inline">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative">';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        }
+                    }
+                } else {
+                    for ( var i = ( target_number - 2 ); i <= ( target_number + 2 ); i++ ) {
+                        if ( target_number == i ) {
+                            html += '<li class="page-item d-inline active">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative" disabled>';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        } else {
+                            html += '<li class="page-item d-inline">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative">';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        }
+                    }
+                }
+            } else {
+                if ( target_number == 1 ) {
+                    html += '<li class="page-item d-inline active">';
+                    html += '<button type="button" value="1" class="btn d-flex justify-content-center align-items-center position-relative" disabled>1</button>';
+                    html += '</li>';
+                } else {
+                    html += '<li class="page-item d-inline">';
+                    html += '<button type="button" value="1" class="btn d-flex justify-content-center align-items-center position-relative">1</button>';
+                    html += '</li>';
+                }
+                if ( target_number == 2 ) {
+                    html += '<li class="page-item d-inline active">';
+                    html += '<button type="button" value="2" class="btn d-flex justify-content-center align-items-center position-relative" disabled>2</button>';
+                    html += '</li>';
+                } else {
+                    html += '<li class="page-item d-inline">';
+                    html += '<button type="button" value="2" class="btn d-flex justify-content-center align-items-center position-relative">2</button>';
+                    html += '</li>';
+                }
+                for ( var i = 3; i <= 5; i++ ) {
+                    if ( page >= i ) {
+                        if ( target_number == i ) {
+                            html += '<li class="page-item d-inline active">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative" disabled>';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        } else {
+                            html += '<li class="page-item d-inline">';
+                            html += '<button type="button" value="' + i + '" class="btn d-flex justify-content-center align-items-center position-relative">';
+                            html += i;
+                            html += '</button>';
+                            html += '</li>';
+                        }
+                    }
+                }
+            }
+    
+            if ( page == target_number ) {
+                html += '<li class="page-item d-inline active">';
+                html += '<button type="button" value="' + ( target_number + 1 ) + '" class="btn d-flex justify-content-center align-items-center position-relative" disabled>';
+                html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/paging-right.svg">';
+                html += '</li>';
+            } else {
+                html += '<li class="page-item d-inline">';
+                html += '<button type="button" value="' + ( target_number + 1 ) + '" class="btn d-flex justify-content-center align-items-center position-relative">';
+                html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/paging-right.svg">';
+                html += '</li>';
+            }
+        }
+        $( area ).find( 'div ul' ).append(html);
+    } else {
+        var html = '<p class="me-3 mb-0">ALL DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 - 0 / 0</p>';
+        html += '<ul class="pagination d-flex m-0 p-0"></ul>';
+        $( area ).find( 'div' ).append(html);
     }
 }

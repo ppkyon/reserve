@@ -5,6 +5,7 @@ from view import ShopView
 
 from flow.models import UserFlowSchedule
 from sign.models import AuthLogin
+from table.models import MiniTableNumber
 from talk.models import TalkRead
 from user.models import LineUser, UserProfile
 
@@ -26,9 +27,10 @@ class DashboardView(ShopView):
         after = now + datetime.timedelta(days=1)
         context['today_user_count'] = LineUser.objects.filter(shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), delete_flg=False).count()
 
-        context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).count()
+        context['today_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'today', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time').count())
+        context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).count()
         context['today_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).order_by('date', 'time').all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -36,9 +38,10 @@ class DashboardView(ShopView):
                 schedule.flow.user.reserve = get_reserve_date(schedule)
                 context['today_reserve_list'].append(schedule.flow.user)
 
-        context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).count()
+        context['new_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'new', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).count())
+        context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).count()
         context['new_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False).exclude(join=2).order_by('date', 'time').all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -52,8 +55,9 @@ class DashboardView(ShopView):
 
                 context['new_reserve_list'].append(schedule.flow.user)
 
+        context['after_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'after', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).count())
         context['after_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).order_by('date', 'time').all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -61,8 +65,9 @@ class DashboardView(ShopView):
                 schedule.flow.user.reserve = get_reserve_date(schedule)
                 context['after_reserve_list'].append(schedule.flow.user)
 
+        context['new_line_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'line', LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').count())
         context['new_line_list'] = list()
-        for user in LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all():
+        for user in LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all()[:context['new_line_table']['number']]:
             user.profile = UserProfile.objects.filter(user=user).first()
             context['new_line_list'].append(user)
 
@@ -71,6 +76,27 @@ class DashboardView(ShopView):
         if talk_read and talk_read['sum_read_count']:
             context['message_required_count'] = talk_read['sum_read_count']
         return context
+
+
+
+def get_table_data(self, shop, page, item, count):
+    number = 5
+    if MiniTableNumber.objects.filter(url=self.request.path, shop=shop, manager=self.request.user, page=page, item=item).exists():
+        number = MiniTableNumber.objects.filter(url=self.request.path, shop=shop, manager=self.request.user, page=page, item=item).first().number
+    count = count
+    count_start = 1
+    if number > count:
+        count_end = count
+    else:
+        count_end = number
+    if count_end == 0:
+        count_start = 0
+    return {
+        'number': number,
+        'count': count,
+        'count_start': count_start,
+        'count_end': count_end,
+    }
 
 
 
