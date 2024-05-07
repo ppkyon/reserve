@@ -436,12 +436,9 @@
                                                                                 <input type="text" name="advance_{{ setting_item.display_id }}" value="{{ setting_item.advance.name }}" class="input-text input-advance input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
                                                                                 <input type="hidden" value="{{ setting_item.advance.display_id }}">
                                                                                 <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="" class="btn dropdown-item fw-bold ps-2">&nbsp;</button>
                                                                                     {% for setting_item in online_offline_item.setting %}
-                                                                                        {% if forloop.first %}
-                                                                                            <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold ps-2">{{ setting_item.name }}</button>
-                                                                                        {% else %}
-                                                                                            <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
-                                                                                        {% endif %}
+                                                                                        <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </div>
@@ -950,12 +947,9 @@
                                                                                 <input type="text" name="advance_{{ setting_item.display_id }}" value="{{ setting_item.advance.name }}" class="input-text input-advance input-select w-100 ps-2 pe-2" data-bs-toggle="dropdown" data-parsley-errors-messages-disabled readonly>
                                                                                 <input type="hidden" value="{{ setting_item.advance.display_id }}">
                                                                                 <div class="dropdown-menu w-100">
+                                                                                    <button type="button" value="" class="btn dropdown-item fw-bold ps-2">&nbsp;</button>
                                                                                     {% for setting_item in online_offline_item.setting %}
-                                                                                        {% if forloop.first %}
-                                                                                            <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold ps-2">{{ setting_item.name }}</button>
-                                                                                        {% else %}
-                                                                                            <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
-                                                                                        {% endif %}
+                                                                                        <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </div>
