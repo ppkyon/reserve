@@ -124,7 +124,7 @@
     width: 1.1rem;
     height: 1.1rem;
     color: #FFF !important;
-    font-size: 0.6rem;
+    font-size: 0.6rem !important;
     background: red !important;
     border-radius: 50%;
 }
@@ -133,9 +133,15 @@
     width: 1.1rem;
     height: 1.1rem;
     color: #723036 !important;
-    font-size: 0.6rem;
+    font-size: 0.6rem !important;
     background: #fff200 !important;
     border-radius: 50%;
+}
+
+.side-area .menu-area ul li .notice-image,
+.side-area .menu-area ul li a .notice-image {
+    width: 1.1rem;
+    height: 1.1rem;
 }
 
 .side-area .menu-area .slide-menu {

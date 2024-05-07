@@ -147,12 +147,12 @@
                                     <span>予約管理</span>
                                     {% if side.alert.reserve and side.alert.reserve != 0 %}
                                         {% if side.alert.reserve >= 100 %}
-                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">+99</span>
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem">+99</span>
                                         {% else %}
-                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">{{ side.alert.reserve }}</span>
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem">{{ side.alert.reserve }}</span>
                                         {% endif %}
                                     {% else %}
-                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0"></span>
+                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem"></span>
                                     {% endif %}
                                 </div>
                             </li>
