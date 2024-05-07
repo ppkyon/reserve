@@ -87,7 +87,7 @@
 .table-area table tbody tr td .dropdown-menu,
 .mini-table-area table tbody tr td .dropdown-menu {
     left: -100% !important;
-    min-width: 85px;
+    min-width: 0px;
     inset: auto !important;
     transform: none !important;
     z-index: 10001;
