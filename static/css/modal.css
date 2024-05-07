@@ -93,4 +93,9 @@
         max-width: 750px;
     }
 
+    #select_schedule_modal .modal-dialog {
+        max-width: 800px;
+
+    }
+
 }
