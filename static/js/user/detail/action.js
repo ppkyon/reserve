@@ -190,6 +190,12 @@ $( function() {
 
     $( '#edit_step_modal .input-join-dropdown .dropdown-menu button' ).on( 'click', function() {
         $( '#save_step_form [name=edit_type]' ).val( $( this ).val() );
+        $( '#edit_step_modal .input-join-dropdown input[type=text]' ).each( function( index, value ) {
+            $( this ).addClass( 'readonly' );
+            $( this ).prop( 'disabled', true  );
+        });
+        $( this ).parents( '.input-join-dropdown' ).find( 'input[type=text]' ).removeClass( 'readonly' );
+        $( this ).parents( '.input-join-dropdown' ).find( 'input[type=text]' ).prop( 'disabled', false  );
     });
 
     $( '#edit_step_modal .edit-button' ).on( 'click', function() {
