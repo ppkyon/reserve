@@ -3,12 +3,15 @@ from django.http import JsonResponse
 from linebot import LineBotApi
 
 from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionReminder, ShopFlowActionMessage, UserFlow, UserFlowSchedule, UserFlowActionReminder
-from reserve.models import ReserveOfflineFacility, ReserveOnlineFacility
-from sign.models import AuthLogin, ShopLine, AuthUser
+from reserve.models import (
+    ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFacility, ReserveOnlineFacility, ReserveOfflineCourse, ReserveOnlineCourse,
+    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
+)
+from sign.models import AuthLogin, ShopLine, AuthUser, ManagerProfile
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
-from user.models import LineUser, UserAlert
+from user.models import LineUser, UserAlert, UserProfile
 
-from common import create_code, send_textarea_replace
+from common import create_code, send_textarea_replace, get_model_field
 from flow.action.go import go
 from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
@@ -193,3 +196,46 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+
+
+def get(request):
+    user = LineUser.objects.filter(display_id=request.POST.get('id')).values(*get_model_field(LineUser)).first()
+    user['profile'] = UserProfile.objects.filter(user__id=user['id']).values(*get_model_field(UserProfile)).first()
+    user['flow'] = list(UserFlow.objects.filter(user__id=user['id']).order_by('number').values(*get_model_field(UserFlow)).all())
+    for user_flow_index, user_flow_item in enumerate(user['flow']):
+        user['flow'][user_flow_index]['schedule'] = list(UserFlowSchedule.objects.filter(flow__id=user_flow_item['id']).order_by('number').values(*get_model_field(UserFlowSchedule)).all())
+        for user_flow_schedule_index, user_flow_schedule_item in enumerate(user['flow'][user_flow_index]['schedule']):
+            if user_flow_schedule_item['offline']:
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline'] = ReserveOfflineSetting.objects.filter(id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineSetting)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_course'] = ReserveOfflineCourse.objects.filter(id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineCourse)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_facility'] = ReserveOfflineFacility.objects.filter(id=user_flow_schedule_item['offline_facility']).values(*get_model_field(ReserveOfflineFacility)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'] = list(ReserveOfflineManagerMenu.objects.filter(shop__id=user['shop'], offline__id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineManagerMenu)).all())
+                for manager_index, manager_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list']):
+                    user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'][manager_index] = AuthUser.objects.filter(id=manager_item['id']).values(*get_model_field(AuthUser)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list'] = list(ReserveOfflineFacilityMenu.objects.filter(shop__id=user['shop'], offline__id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineFacilityMenu)).all())
+                for facility_index, facility_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list']):
+                    user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list'][facility_index] = ReserveOfflineFacility.objects.filter(id=facility_item['id']).values(*get_model_field(ReserveOfflineFacility)).first()
+            elif user_flow_schedule_item['online']:
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['online'] = ReserveOnlineSetting.objects.filter(id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineSetting)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['online_course'] = ReserveOnlineCourse.objects.filter(id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineCourse)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_facility'] = ReserveOnlineFacility.objects.filter(id=user_flow_schedule_item['online_facility']).values(*get_model_field(ReserveOnlineFacility)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'] = list(ReserveOnlineManagerMenu.objects.filter(shop__id=user['shop'], online__id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineManagerMenu)).all())
+                for manager_index, manager_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list']):
+                    user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'][manager_index] = AuthUser.objects.filter(id=manager_item['id']).values(*get_model_field(AuthUser)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list'] = list(ReserveOnlineFacilityMenu.objects.filter(shop__id=user['shop'], online__id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineFacilityMenu)).all())
+                for facility_index, facility_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list']):
+                    user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list'][facility_index] = ReserveOnlineFacility.objects.filter(id=facility_item['id']).values(*get_model_field(ReserveOnlineFacility)).first()            
+            if user_flow_schedule_item['date']:
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['date'] = user_flow_schedule_item['date'].strftime('%Y/%m/%d')
+            if user_flow_schedule_item['time']:
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['time'] = user_flow_schedule_item['time'].strftime('%H:%M')
+            if user_flow_schedule_item['manager']:
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager'] = AuthUser.objects.filter(id=user_flow_schedule_item['manager']).values(*get_model_field(AuthUser)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager']['profile'] = ManagerProfile.objects.filter(manager__id=user_flow_schedule_item['manager']['id']).values(*get_model_field(ManagerProfile)).first()
+        user['flow'][user_flow_index]['alert'] = UserAlert.objects.filter(user__id=user['id'], number=user_flow_item['number']).values(*get_model_field(UserAlert)).first()
+        if user_flow_item['updated_at']:
+            user['flow'][user_flow_index]['updated_at'] = user_flow_item['updated_at'].strftime('%Y年%m月%d日 %H:%M')
+        if user_flow_item['created_at']:
+            user['flow'][user_flow_index]['created_at'] = user_flow_item['created_at'].strftime('%Y年%m月%d日 %H:%M')
+    return JsonResponse( user, safe=False )

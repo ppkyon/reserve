@@ -1,4 +1,297 @@
 $( function() {
+    $( document ).on( 'click', '.today-area .action-button', function () {
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( this ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#get_step_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            if ( check_empty(response.profile) && check_empty(response.profile.image) ) {
+                $( '#edit_step_modal .user-image' ).attr( 'src', $( '#env_media_url' ).val() + response.profile.image );
+                $( '#select_schedule_modal .user-image' ).attr( 'src', $( '#env_media_url' ).val() + response.profile.image );
+            } else if ( check_empty(response.display_image) ) {
+                $( '#edit_step_modal .user-image' ).attr( 'src', response.display_image );
+                $( '#select_schedule_modal .user-image' ).attr( 'src', response.display_image );
+            } else {
+                $( '#edit_step_modal .user-image' ).attr( 'src', $( '#env_static_url' ).val() + 'img/user-none.png' );
+                $( '#select_schedule_modal .user-image' ).attr( 'src', $( '#env_static_url' ).val() + 'img/user-none.png' );
+            }
+            if ( check_empty(response.profile) && check_empty(response.profile.name) ) {
+                if ( check_empty(response.profile) && check_empty(response.profile.age) ) {
+                    $( '#edit_step_modal .modal-header .title' ).text( response.profile.name + ' (' + response.profile.age + ')' );
+                    $( '#select_schedule_modal .modal-header .title' ).text( response.profile.name + ' (' + response.profile.age + ')' );
+                } else {
+                    $( '#edit_step_modal .modal-header .title' ).text( response.profile.name );
+                    $( '#select_schedule_modal .modal-header .title' ).text( response.profile.name );
+                }
+            } else {
+                if ( check_empty(response.profile) && check_empty(response.profile.age) ) {
+                    $( '#edit_step_modal .modal-header .title' ).text( response.display_name + ' (' + response.profile.age + ')' );
+                    $( '#select_schedule_modal .modal-header .title' ).text( response.display_name + ' (' + response.profile.age + ')' );
+                } else {
+                    $( '#edit_step_modal .modal-header .title' ).text( response.display_name );
+                    $( '#select_schedule_modal .modal-header .title' ).text( response.display_name );
+                }
+            }
+            if ( check_empty(response.profile) && check_empty(response.profile.atelle_id) ) {
+                $( '#edit_step_modal .modal-header .sub' ).text( '#' + response.profile.atelle_id );
+                $( '#select_schedule_modal .modal-header .sub' ).text( '#' + response.profile.atelle_id );
+            } else {
+                $( '#edit_step_modal .modal-header .sub' ).text( '' );
+                $( '#select_schedule_modal .modal-header .sub' ).text( '' );
+            }
+            $( '#save_step_form [name=user_id]' ).val( response.display_id );
+
+            $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).empty();
+            $( '#save_step_form table tbody' ).empty();
+            $.each( response.flow, function( index ,value ) {
+                if ( !value.end_flg ) {
+                    var setting_count = 0;
+                    $.each( value.schedule, function( schedule_index, schedule_value ) {
+                        if ( schedule_value.join == 0 ) {
+                            if ( setting_count == 0 ) {
+                                if ( check_empty( schedule_value.online ) ) {
+                                    $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).append( '<button type="button" value="' + schedule_value.online.display_id + '" class="btn dropdown-item fw-bold text-start p-1 pt-2 pb-2 ps-2">' + schedule_value.online.name + '</button>' );
+                                } else if ( check_empty( schedule_value.offline ) ) {
+                                    $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).append( '<button type="button" value="' + schedule_value.offline.display_id + '" class="btn dropdown-item fw-bold text-start p-1 pt-2 pb-2 ps-2">' + schedule_value.offline.name + '</button>' );
+                                }
+                            } else {
+                                if ( check_empty( schedule_value.online ) ) {
+                                    $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).append( '<button type="button" value="' + schedule_value.online.display_id + '" class="btn dropdown-item fw-bold text-start border-top p-1 pt-2 ps-2">' + schedule_value.online.name + '</button>' );
+                                } else if ( check_empty( schedule_value.offline ) ) {
+                                    $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).append( '<button type="button" value="' + schedule_value.offline.display_id + '" class="btn dropdown-item fw-bold text-start border-top p-1 pt-2 ps-2">' + schedule_value.offline.name + '</button>' );
+                                }
+                            }
+                            setting_count++;
+                        }
+                    });
+                }
+
+                var html = '<tr>';
+                html += '<td class="position-relative ps-3 pe-1" rowspan="2">';
+                if ( index == 0 ) {
+                    if ( value.end_flg ) {
+                        html += '<label class="process pass mb-0"></label>';
+                    } else {
+                        html += '<label class="process mb-0"></label>';
+                    }
+                } else {
+                    if ( value.end_flg ) {
+                        html += '<label class="process any pass mb-0"></label>';
+                    } else {
+                        html += '<label class="process any mb-0"></label>';
+                    }
+                }
+                html += '</td>';
+                html += '<td class="position-relative" rowspan="2">';
+                $.each( value.schedule, function( schedule_index, schedule_value ) {
+                    if ( schedule_index == value.schedule.length - 1 ) {
+                        if ( check_empty( schedule_value.online ) ) {
+                            html += '<label class="online-offline-mark ps-2 pe-2 mb-0">オンライン</label>';
+                            if ( check_empty(schedule_value.online_course) ) {
+                                html += '<p class="content-course mb-0">' + schedule_value.online_course.title + '</p>';
+                            } else {
+                                html += '<p class="content-course mb-0">-</p>';
+                            }
+                            html += '<input type="hidden" value="' + schedule_value.online.display_id + '">';
+                            html += '<input type="hidden" value="' + schedule_value.online.name + '">';
+                            if ( check_empty(schedule_value.online_course) ) {
+                                html += '<input type="hidden" value="' + schedule_value.online_course.display_id + '">';
+                            } else {
+                                html += '<input type="hidden" value="">';
+                            }
+                        } else if ( check_empty( schedule_value.offline ) ) {
+                            html += '<label class="online-offline-mark ps-2 pe-2 mb-0">対面</label>';
+                            if ( check_empty(schedule_value.offline_course) ) {
+                                html += '<p class="content-course mb-0">' + schedule_value.offline_course.title + '</p>';
+                            } else {
+                                html += '<p class="content-course mb-0">-</p>';
+                            }
+                            html += '<input type="hidden" value="' + schedule_value.offline.display_id + '">';
+                            html += '<input type="hidden" value="' + schedule_value.offline.name + '">';
+                            if ( check_empty(schedule_value.offline_course) ) {
+                                html += '<input type="hidden" value="' + schedule_value.offline_course.display_id + '">';
+                            } else {
+                                html += '<input type="hidden" value="">';
+                            } 
+                        }
+                    }
+                });
+                html += '<div class="d-flex justify-content-start align-items-center">';
+                html += '<p class="content-title mb-0">' + value.name + '</p>';
+                html += '<input type="hidden" value="' + value.display_id + '">';
+                html += '<input type="hidden" value="' + value.schedule.length + '">';
+                html += '</div>';
+                if ( check_empty(value.updated_at) ) {
+                    html += '<p class="content-date mb-0">' + value.updated_at + '</p>';
+                } else {
+                    html += '<p class="content-date mb-0">' + value.created_at + '</p>';
+                }
+                if ( check_empty(value.alert) ) {
+                    html += '<div class="alert-area">';
+                    html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/warning.svg" class="ms-2 alert-image">';
+                    html += '<label class="alert-text mb-0 p-1 ps-2 pe-2">' + value.alert.text + '</label>';
+                    html += '</div>';
+                }
+                html += '</td>';
+                html += '<td>';
+                if ( value.schedule.length > 0 ) {
+                    $.each( value.schedule, function( schedule_index, schedule_value ) {
+                        if ( schedule_index == value.schedule.length - 1 ) {
+                            if ( check_empty(schedule_value.date) && check_empty(schedule_value.time) ) {
+                                if ( value.end_flg || schedule_value.join == 2 ) {
+                                    html += '<input type="text" name="date_' + value.display_id +'_' + schedule_value.number + '" class="input-text readonly w-100 ps-1" value="' + schedule_value.date + ' ' + schedule_value.time + '" readonly>';
+                                } else {
+                                    html += '<input type="text" name="date_' + value.display_id +'_' + schedule_value.number + '" class="input-text input-schedule w-100 ps-1" value="' + schedule_value.date + ' ' + schedule_value.time + '" style="cursor: pointer;" readonly>';
+                                }
+                            } else {
+                                if ( value.end_flg || schedule_value.join == 2 ) {
+                                    html += '<input type="text" name="date_' + value.display_id +'_' + schedule_value.number + '" class="input-text readonly w-100 ps-1" value="-" readonly>';
+                                } else {
+                                    html += '<input type="text" name="date_' + value.display_id +'_' + schedule_value.number + '" class="input-text input-schedule readonly w-100 ps-1" value="" style="cursor: pointer;" readonly>';
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    html += '<input type="text" name="date_' + value.display_id + '_1" class="input-text w-100 ps-1" value="-" readonly>';
+                }
+                html += '<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#select_schedule_modal"></button>';
+                html += '</td>';
+                html += '<td>';
+                if ( value.schedule.length > 0 ) {
+                    $.each( value.schedule, function( schedule_index, schedule_value ) {
+                        if ( schedule_index == value.schedule.length - 1 ) {
+                            if ( check_empty(schedule_value.date) && check_empty(schedule_value.time) ) {
+                                if ( value.end_flg || schedule_value.join == 2 ) {
+                                    if ( check_empty(schedule_value.join) ) {
+                                        if ( schedule_value.join == 0 ) {
+                                            html += '<input type="text" class="input-text text-center readonly w-100" value="未定" readonly>';
+                                        } else if ( schedule_value.join == 1 ) {
+                                            html += '<input type="text" class="input-text text-center readonly w-100" value="参加" readonly>';
+                                        } else if ( schedule_value.join == 2 ) {
+                                            html += '<input type="text" class="input-text text-center readonly w-100" value="不参加" readonly>';
+                                        }
+                                        html += '<input type="hidden" value="' + schedule_value.join + '">';
+                                    } else {
+                                        html += '<input type="text" class="input-text text-center readonly w-100" value="-" readonly>';
+                                        html += '<input type="hidden">';
+                                    }
+                                } else {
+                                    html += '<div class="dropdown input-select-dropdown input-join-dropdown d-inline-block w-100 p-0">';
+                                    if ( schedule_value.join == 0 ) {
+                                        html += '<input type="text" name="join_' + value.display_id +'_' + schedule_value.number + '" value="未定" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>';
+                                    } else if ( schedule_value.join == 1 ) {
+                                        html += '<input type="text" name="join_' + value.display_id +'_' + schedule_value.number + '" value="参加" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>';
+                                    } else if ( schedule_value.join == 2 ) {
+                                        html += '<input type="text" name="join_' + value.display_id +'_' + schedule_value.number + '" value="不参加" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>';
+                                    }
+                                    html += '<input type="hidden" value="' + schedule_value.join + '">';
+                                    html += '<div class="dropdown-menu" style="max-height: 75px;">';
+                                    html += '<button type="button" value="1" class="btn dropdown-item fw-bold text-center">参加</button>';
+                                    html += '<button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">不参加</button>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                }
+                            } else {
+                                html += '<input type="text" class="input-text text-center readonly w-100" value="-" readonly>';
+                                html += '<input type="hidden">';
+                            }
+                        }
+                    });
+                } else {
+                    html += '<input type="text" class="input-text text-center readonly w-100" value="-" readonly>';
+                    html += '<input type="hidden">';
+                }
+                html += '</td>';
+                html += '<td>';
+                if ( value.schedule.length > 0 ) {
+                    $.each( value.schedule, function( schedule_index, schedule_value ) {
+                        if ( schedule_index == value.schedule.length - 1 ) {
+                            if ( value.end_flg || schedule_value.join == 2 ) {
+                                if ( check_empty(schedule_value.manager) ) {
+                                    html += '<input type="text" name="manager_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.manager.profile.family_name + ' ' + schedule_value.manager.profile.first_name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.manager.display_id + '">';
+                                } else {
+                                    html += '<input type="text" name="manager_' + value.display_id + '_' + schedule_value.number + '" class="input-text text-center readonly w-100" value="-" readonly>';
+                                    html += '<input type="hidden">';
+                                }
+                            } else {
+                                html += '<div class="dropdown input-manager-select-dropdown d-inline-block w-100 p-0">';
+                                if ( check_empty(schedule_value.manager) ) {
+                                    html += '<input type="text" name="manager_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.manager.profile.family_name + ' ' + schedule_value.manager.profile.first_name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.manager.display_id + '">';
+                                } else {
+                                    html += '<input type="text" name="manager_' + value.display_id + '_' + schedule_value.number + '" class="input-text text-center readonly w-100" value="-" readonly>';
+                                    html += '<input type="hidden">';
+                                }
+                                html += '</div>';
+                            }
+                        }
+                    });
+                } else {
+                    html += '<input type="text" class="input-text text-center readonly w-100" value="-" readonly>';
+                }
+                html += '</td>';
+                html += '<td>';
+                if ( value.schedule.length > 0 ) {
+                    $.each( value.schedule, function( schedule_index, schedule_value ) {
+                        if ( schedule_index == value.schedule.length - 1 ) {
+                            if ( value.end_flg || schedule_value.join == 2 ) {
+                                if ( check_empty(schedule_value.online_facility) ) {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.online_facility.name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.online_facility.display_id + '">';
+                                } else if ( check_empty(schedule_value.offline_facility) ) {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.offline_facility.name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.offline_facility.display_id + '">';
+                                } else {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="-" class="input-text input-select w-100 readonly ps-2 pe-2"  readonly>';
+                                    html += '<input type="hidden" value="">';
+                                }
+                            } else {
+                                html += '<div class="dropdown input-select-dropdown d-inline-block w-100 p-0">';
+                                if ( check_empty(schedule_value.online_facility) ) {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.online_facility.name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.online_facility.display_id + '">';
+                                } else if ( check_empty(schedule_value.offline_facility) ) {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="' + schedule_value.offline_facility.name + '" class="input-text text-center readonly w-100" readonly>';
+                                    html += '<input type="hidden" value="' + schedule_value.offline_facility.display_id + '">';
+                                } else {
+                                    html += '<input type="text" name="facility_' + value.display_id + '_' + schedule_value.number + '" value="-" class="input-text input-select w-100 readonly ps-2 pe-2"  readonly>';
+                                    html += '<input type="hidden" value="">';
+                                }
+                                html += '</div>';
+                            }
+                        }
+                    });
+                } else {
+                    html += '<input type="text" class="input-text text-center readonly w-100" value="-" readonly>';
+                }
+                html += '</td>';
+                html += '</tr>';
+                html += '<tr>';
+                html += '<td class="pt-0" colspan="4">';
+                if ( value.end_flg ) {
+                    html += '<input type="text" name="memo_' + value.display_id + '" class="input-text text-center readonly w-100" value="-" readonly>';
+                } else {
+                    html += '<input type="text" name="memo_' + value.display_id + '" class="input-text w-100" value="">';
+                }
+                html += '</td>';
+                html += '</tr>';
+                $( '#save_step_form table tbody' ).append( html );
+            });
+
+            $( target ).next().trigger( 'click' );
+        }).fail( function(){
+
+        });
+    });
+
     $( document ).on( 'click', '.new-area .check-button', function () {
         $( '#check_check_modal .yes-button' ).val( $( this ).val() );
         $( this ).next().trigger( 'click' );
@@ -599,4 +892,131 @@ $( function() {
         });
     });
     action_reload( 'member_user' );
+
+    $( document ).on( 'click', '#edit_step_modal .input-join-dropdown .dropdown-menu button', function () {
+        $( '#save_step_form [name=edit_type]' ).val( $( this ).val() );
+        $( '#edit_step_modal .input-join-dropdown input[type=text]' ).each( function( index, value ) {
+            $( this ).addClass( 'readonly' );
+            $( this ).prop( 'disabled', true  );
+        });
+        $( this ).parents( '.input-join-dropdown' ).find( 'input[type=text]' ).removeClass( 'readonly' );
+        $( this ).parents( '.input-join-dropdown' ).find( 'input[type=text]' ).prop( 'disabled', false  );
+    });
+
+    $( document ).on( 'click', '#edit_step_modal .edit-button', function () {
+        if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+            $( this ).next().trigger( 'click' );
+        } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
+            $( this ).next().next().next().trigger( 'click' );
+        } else {
+            $( this ).next().trigger( 'click' );
+        }
+        up_modal();
+    });
+
+    $( document ).on( 'change', '#edit_step_yes_message_modal [name=yes_type]', function () {
+        if ( $( this ).val() == '0' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '1' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).removeClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '2' ) {
+            $( '#edit_step_yes_message_modal #step_yes_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_yes_message_modal #step_yes_template_area' ).removeClass( 'd-none' );
+        }
+    });
+    
+    $( document ).on( 'change', '#edit_step_yes_message_modal .yes-button', function () {
+        $( '#edit_step_yes_message_modal .no-button' ).trigger( 'click' );
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+
+    $( document ).on( 'change', '#edit_step_no_message_modal [name=no_type]', function () {
+        if ( $( this ).val() == '0' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '1' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).removeClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).addClass( 'd-none' );
+        } else if ( $( this ).val() == '2' ) {
+            $( '#edit_step_no_message_modal #step_no_message_area' ).addClass( 'd-none' );
+            $( '#edit_step_no_message_modal #step_no_template_area' ).removeClass( 'd-none' );
+        }
+    });
+    
+    $( document ).on( 'change', '#edit_step_no_message_modal .yes-button', function () {
+        $( '#edit_step_no_message_modal .no-button' ).trigger( 'click' );
+        $( this ).next().trigger( 'click' );
+        up_modal();
+    });
+
+    $( document ).on( 'change', '#edit_step_check_modal .yes-button', function () {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+        
+        var form_data = new FormData();
+        form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
+        $( '#save_step_form table tbody tr' ).each( function( index, value ) {
+            if ( index % 2 == 0 ) {
+                var id = $( this ).find( '.content-title' ).next().val();
+                var count = $( this ).find( '.content-title' ).next().next().val();
+                for ( var i = 1; i <= count; i++ ) {
+                    if ( check_empty($( '#save_step_form [name=date_' + id + '_' + i + ']' ).val()) ) {
+                        form_data.append( 'date_' + id + '_' + i, $( '#save_step_form [name=date_' + id + '_' + i + ']' ).val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'join_' + id + '_' + i, $( '#save_step_form [name=join_' + id + '_' + i + ']' ).next().val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=manager_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'manager_' + id + '_' + i, $( '#save_step_form [name=manager_' + id + '_' + i + ']' ).next().val() );
+                    }
+                    if ( check_empty($( '#save_step_form [name=facility_' + id + '_' + i + ']' ).next().val()) ) {
+                        form_data.append( 'facility_' + id + '_' + i, $( '#save_step_form [name=facility_' + id + '_' + i + ']' ).next().val() );
+                    }
+                }
+                form_data.append( 'memo_' + id, $( '#save_step_form [name=memo_' + id + ']' ).val() );
+                if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+                    form_data.append( 'message_type', $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() );
+                    if ( $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() == '1' ) {
+                        form_data.append( 'message', $( '#edit_step_yes_message_modal [name=yes_message]' ).val() );
+                    } else if ( $( '#edit_step_yes_message_modal [name=yes_type]:checked' ).val() == '2' ) {
+                        form_data.append( 'message_template_type', $( '#edit_step_yes_message_modal [name=yes_template_type]' ).next().val() );
+                        form_data.append( 'message_template', $( '#edit_step_yes_message_modal [name=yes_template]' ).next().val() );
+                    }
+                } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
+                    form_data.append( 'message_type', $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() );
+                    if ( $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() == '1' ) {
+                        form_data.append( 'message', $( '#edit_step_no_message_modal [name=no_message]' ).val() );
+                    } else if ( $( '#edit_step_no_message_modal [name=no_type]:checked' ).val() == '2' ) {
+                        form_data.append( 'message_template_type', $( '#edit_step_no_message_modal [name=no_template_type]' ).next().val() );
+                        form_data.append( 'message_template', $( '#edit_step_no_message_modal [name=no_template]' ).next().val() );
+                    }
+                }
+            }
+        });
+        $.ajax({
+            'data': form_data,
+            'url': $( '#save_step_form' ).attr( 'action' ),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                $( '#edit_step_success_button' ).trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                $( '#edit_step_error_button' ).trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'edit_step' );
 });
