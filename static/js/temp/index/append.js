@@ -84,7 +84,7 @@ function append_table_area(data) {
     html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/preview.png" class="pt-1 pb-1">';
     html += '</button>';
     html += '<button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>';
-    html += '<a href="/user/detail?id=' + data.display_id + '" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">';
+    html += '<a href="/temp/detail?id=' + data.display_id + '" class="btn detail-icon-button p-1 me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="詳細">';
     html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/detail.png">';
     html += '</a>';
     html += '<div class="dropdown button-area text-center d-inline-block p-0 me-3">';
