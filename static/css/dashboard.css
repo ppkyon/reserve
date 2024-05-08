@@ -195,6 +195,7 @@
     line-height: 0.8rem;
 }
 
+.modal .modal-footer .yes-button,
 .modal .modal-footer .edit-button {
     padding: 5px;
     width: 100px;

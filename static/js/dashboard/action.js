@@ -952,7 +952,7 @@ $( function() {
         up_modal();
     });
 
-    $( document ).on( 'change', '#edit_step_check_modal .yes-button', function () {
+    $( document ).on( 'click', '#edit_step_check_modal .yes-button', function () {
         $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
         $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
         $( this ).prop( 'disabled', true );

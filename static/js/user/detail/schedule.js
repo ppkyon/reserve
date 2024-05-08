@@ -110,16 +110,43 @@ $( function(){
         });
     });
     $( document ).on( 'click', '#select_schedule_modal .date-area table td.yes', function () {
-        var target = $( this );
+        $( '#select_schedule_modal .date-area table td.yes' ).each( function( index, value ) {
+            $( this ).removeClass( 'active' );
+            $( this ).find( 'span' ).text( '◎' );
+            $( this ).css( 'color', '#00B074' );
+        });
+        $( this ).addClass( 'active' );
+        $( this ).find( 'span' ).text( '●' );
+        $( this ).css( 'color', '#FF0000' );
+    });
+    $( document ).on( 'click', '#select_schedule_modal .yes-button', function () {
         var form_data = new FormData();
         form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
         form_data.append( 'setting_id', $( '#select_schedule_modal [name=schedule_setting]' ).next().val() );
         form_data.append( 'course_id', $( '#select_schedule_modal [name=schedule_course]' ).val() );
-        form_data.append( 'year', $( this ).find( 'input[type=hidden]' ).eq(0).val() );
-        form_data.append( 'month', $( this ).find( 'input[type=hidden]' ).eq(1).val() );
-        form_data.append( 'day', $( this ).find( 'input[type=hidden]' ).eq(2).val() );
-        form_data.append( 'hour', $( this ).find( 'input[type=hidden]' ).eq(3).val().substring( 0, $( this ).find( 'input[type=hidden]' ).eq(3).val().indexOf(':') ) );
-        form_data.append( 'minute', $( this ).find( 'input[type=hidden]' ).eq(3).val().substring( $( this ).find( 'input[type=hidden]' ).eq(3).val().indexOf(':')+1, $( this ).find( 'input[type=hidden]' ).eq(3).val().length ) );
+
+        var year = null;
+        var month = null;
+        var day = null;
+        var hour = null;
+        var minute = null;
+        $( '#select_schedule_modal .date-area table td.active' ).find( 'input[type=hidden]' ).each( function( index, value ) {
+            if ( index == 0 ) {
+                year = $( this ).val();
+            } else if ( index == 1 ) {
+                month = $( this ).val();
+            } else if ( index == 2 ) {
+                day = $( this ).val();
+            } else if ( index == 3 ) {
+                hour = $( this ).val().substring( 0, $( this ).val().indexOf(':') );
+                minute = $( this ).val().substring( $( this ).val().indexOf(':')+1, $( this ).val().length );
+            }
+        });
+        form_data.append( 'year', year );
+        form_data.append( 'month', month );
+        form_data.append( 'day', day );
+        form_data.append( 'hour', hour );
+        form_data.append( 'minute', minute );
         $.ajax({
             'data': form_data,
             'url': $( '#send_date_url' ).val(),
@@ -130,7 +157,7 @@ $( function(){
         }).done( function( response ){
             $( '#save_step_form .table-area .content-course' ).each( function( index, value ) {
                 if ( $( this ).next().val() == $( '#select_schedule_modal [name=schedule_setting]' ).next().val() ) {
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(2).find( 'input[type=text]' ).val($( target ).find( 'input[type=hidden]' ).eq(0).val() + '/' + ('00' + $( target ).find( 'input[type=hidden]' ).eq(1).val()).slice(-2) + '/' + ('00' + $( target ).find( 'input[type=hidden]' ).eq(2).val()).slice(-2) + ' ' + $( target ).find( 'input[type=hidden]' ).eq(3).val());
+                    $( this ).parents( 'tr' ).find( 'td' ).eq(2).find( 'input[type=text]' ).val(year + '/' + ('00' + month).slice(-2) + '/' + ('00' + day).slice(-2) + ' ' + hour + ':' + minute);
                     $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).val(response.manager.profile.family_name + ' ' + response.manager.profile.first_name);
                     $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).next().val(response.manager.display_id);
                     $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).val(response.facility.name);
