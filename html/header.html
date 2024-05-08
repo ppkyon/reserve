@@ -56,12 +56,12 @@
                                     <span>予約管理</span>
                                     {% if side.alert.reserve and side.alert.reserve != 0 %}
                                         {% if side.alert.reserve >= 100 %}
-                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">+99</span>
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem">+99</span>
                                         {% else %}
-                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0">{{ side.alert.reserve }}</span>
+                                            <span class="alert-badge d-flex align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem">{{ side.alert.reserve }}</span>
                                         {% endif %}
                                     {% else %}
-                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0"></span>
+                                        <span class="alert-badge d-none align-items-center justify-content-center ms-auto me-3 p-0" style="font-size: 0.6rem"></span>
                                     {% endif %}
                                 </div>
                             </li>
@@ -409,29 +409,37 @@
                     {% if '/flow/' in request.path %}
                         <li class="active position-relative">
                             <a href="{% url 'flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                <img src="{% static 'img/side/side-flow.svg' %}" class="side-icon me-2">
-                                <span>フロー設計</span>
-                                {% if side.alert.flow and not side.alert.flow == 0 %}
+                                <div>
+                                    <img src="{% static 'img/side/side-flow.svg' %}" class="side-icon me-2">
+                                    <span>フロー設計</span>
+                                </div>
+                                <div>
+                                    {% if side.alert.flow and not side.alert.flow == 0 %}
                                     {% if side.alert.flow == 2 %}
                                         <img src="{% static 'img/icon/notice.png' %}" class="ms-auto me-3 notice-image" width="18" height="18">
                                     {% elif side.alert.flow == 3 %}
                                         <img src="{% static 'img/icon/warning.svg' %}" class="ms-auto me-3 alert-image" width="18" height="18">
                                     {% endif %}
                                 {% endif %}
+                                </div>
                             </a>
                         </li>
                     {% else %}
                         <li class="position-relative">
                             <a href="{% url 'flow:index' %}" class="d-flex position-relative mt-1 mb-1 ps-1">
-                                <img src="{% static 'img/side/side-flow.svg' %}" class="side-icon me-2">
-                                <span>フロー設計</span>
-                                {% if side.alert.flow and not side.alert.flow == 0 %}
+                                <div>
+                                    <img src="{% static 'img/side/side-flow.svg' %}" class="side-icon me-2">
+                                    <span>フロー設計</span>
+                                </div>
+                                <div>
+                                    {% if side.alert.flow and not side.alert.flow == 0 %}
                                     {% if side.alert.flow == 2 %}
                                         <img src="{% static 'img/icon/notice.png' %}" class="ms-auto me-3 notice-image" width="18" height="18">
                                     {% elif side.alert.flow == 3 %}
                                         <img src="{% static 'img/icon/warning.svg' %}" class="ms-auto me-3 alert-image" width="18" height="18">
                                     {% endif %}
                                 {% endif %}
+                                </div>
                             </a>
                         </li>
                     {% endif %}

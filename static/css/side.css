@@ -138,10 +138,12 @@
     border-radius: 50%;
 }
 
+.side-area .menu-area ul li .alert-image,
+.side-area .menu-area ul li a .alert-image,
 .side-area .menu-area ul li .notice-image,
 .side-area .menu-area ul li a .notice-image {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.1rem !important;
+    height: 1.1rem !important;
 }
 
 .side-area .menu-area .slide-menu {
