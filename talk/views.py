@@ -41,7 +41,7 @@ class IndexView(ShopView):
             context['line_user'][line_user_index].profile = UserProfile.objects.filter(user=line_user_item.user).first()
             context['line_user'][line_user_index].message = TalkMessage.objects.filter(user=line_user_item.user).order_by('send_date').reverse().first()
             if context['line_user'][line_user_index].message and context['line_user'][line_user_index].message.text:
-                context['line_user'][line_user_index].message.text = context['line_user'][line_user_index].message.text.replace('\\n',' ')
+                context['line_user'][line_user_index].message.text = context['line_user'][line_user_index].message.text.replace('\\n',' ').replace('\\r','')
 
         context['line_message'] = None
         context['line_message_user'] = None
@@ -53,7 +53,7 @@ class IndexView(ShopView):
             context['line_message'] = TalkMessage.objects.filter(user=user).order_by('send_date').all()
             for line_message_index, line_message_item in enumerate(context['line_message']):
                 if context['line_message'][line_message_index].text:
-                    context['line_message'][line_message_index].text = context['line_message'][line_message_index].text.replace('\\n','\n')
+                    context['line_message'][line_message_index].text = context['line_message'][line_message_index].text.replace('\\n','\n').replace('\\r','')
                     context['line_message'][line_message_index].profile = ManagerProfile.objects.filter(manager__id=line_message_item.author).first()
                 if line_message_item.message_type == 7:
                     if TalkMessageCardType.objects.filter(message=line_message_item).exists():
