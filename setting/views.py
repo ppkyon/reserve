@@ -1,7 +1,7 @@
 from view import ShopView
 
 from setting.models import ShopOffline, ShopOfflineTime, ShopOnline, ShopOnlineTime, ManagerOffline, ManagerOfflineTime, ManagerOnline, ManagerOnlineTime
-from sign.models import AuthUser, ShopLine, ManagerProfile
+from sign.models import AuthLogin, AuthUser, ShopLine, ManagerProfile
 from table.models import TableSearch
 
 from itertools import chain
@@ -15,6 +15,7 @@ class IndexView(ShopView):
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         
         context['offline_list'] = ShopOffline.objects.filter(shop=self.request.shop).order_by('created_at').all()
         for offline_index, offline_item in enumerate(context['offline_list']):
@@ -25,8 +26,8 @@ class IndexView(ShopView):
         context['online_offline_list'] = list(chain(context['offline_list'], context['online_list']))
 
         context['search_setting'] = None
-        if TableSearch.objects.filter(url=self.request.path, manager=self.request.user).exists():
-            search = TableSearch.objects.filter(url=self.request.path, manager=self.request.user).first().text
+        if TableSearch.objects.filter(url=self.request.path, shop=auth_login.shop, manager=self.request.user).exists():
+            search = TableSearch.objects.filter(url=self.request.path, shop=auth_login.shop, manager=self.request.user).first().text
             if ShopOffline.objects.filter(display_id=search).exists():
                 context['search_setting'] = ShopOffline.objects.filter(display_id=search).first()
             if ShopOnline.objects.filter(display_id=search).exists():
