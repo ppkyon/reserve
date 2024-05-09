@@ -44,7 +44,7 @@ $( function(){
         if ( check_empty($( '.question-area .content-area #question_id' ).val()) ) {
             $.each( $( '#question_form' ).serialize().split( '&' ), function( index, value ) {
                 var question_answer = value.split( '=' );
-                form_data.append( question_answer[0], question_answer[1] );
+                form_data.append( question_answer[0], question_answer[1].replace('歳', '') );
             });
         }
         form_data.append( 'csrfmiddlewaretoken', $( '#csrf_token' ).val() );

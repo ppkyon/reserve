@@ -66,4 +66,5 @@ class DetailView(UserView):
                         elif user_flow_schedule_item.online:
                             context['setting_list'].append(user_flow_schedule_item.online)
 
+        context['age_list'] = [i for i in range(101)]
         return context

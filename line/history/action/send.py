@@ -255,7 +255,7 @@ def question(request):
                 user_question_item.save()
         elif request.POST.get('type_'+str(user_question_index+1)) == '3':
             if request.POST.get('value_'+str(user_question_index+1)):
-                user_question_item.value = urllib.parse.unquote(request.POST.get('value_'+str(user_question_index+1))).replace('歳', ''),
+                user_question_item.value = urllib.parse.unquote(request.POST.get('value_'+str(user_question_index+1))).replace('歳', '')
                 user_question_item.save()
                 user_profile.age = urllib.parse.unquote(request.POST.get('value_'+str(user_question_index+1))).replace('歳', '')
                 user_profile.save()

@@ -437,4 +437,5 @@ def question(request):
     for question_item_index, question_item in enumerate(question['item']):
         if question_item['type'] == 99:
             question['item'][question_item_index]['choice'] = list(UserQuestionItemChoice.objects.filter(question=question_item['id']).order_by('number').values(*get_model_field(UserQuestionItemChoice)).all())
+    question['age_list'] = [i for i in range(101)]
     return JsonResponse( question, safe=False )

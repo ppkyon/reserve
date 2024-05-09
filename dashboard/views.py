@@ -75,6 +75,8 @@ class DashboardView(ShopView):
         talk_read = TalkRead.objects.filter(user__delete_flg=False, manager=self.request.user, user__talk_manager__manager=self.request.user, user__talk_status__status=1).aggregate(sum_read_count=models.Sum('read_count'))
         if talk_read and talk_read['sum_read_count']:
             context['message_required_count'] = talk_read['sum_read_count']
+
+        context['age_list'] = [i for i in range(101)]
         return context
 
 

@@ -81,6 +81,12 @@ $( function(){
                     if ( item_index == value.item.length - 1 ) {
                         if ( check_empty(item_value.text) ) {
                             html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.text + '</p>';
+                        } else if ( check_empty(item_value.value) ) {
+                            if ( item_value.type == 3 ) {
+                                html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.value + '歳</p>';
+                            } else {
+                                html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.value + '</p>';
+                            }
                         } else if ( check_empty(item_value.email) ) {
                             html += '<p class="pb-3 ps-3 pe-3 mb-0">' + item_value.email + '</p>';
                         } else if ( check_empty(item_value.date) ) {
@@ -106,6 +112,12 @@ $( function(){
                     } else {
                         if ( check_empty(item_value.text) ) {
                             html += '<p class="ps-3 pe-3 mb-0">' + item_value.text + '</p>';
+                        } else if ( check_empty(item_value.value) ) {
+                            if ( item_value.type == 3 ) {
+                                html += '<p class="ps-3 pe-3 mb-0">' + item_value.value + '歳</p>';
+                            } else {
+                                html += '<p class="ps-3 pe-3 mb-0">' + item_value.value + '</p>';
+                            }
                         } else if ( check_empty(item_value.email) ) {
                             html += '<p class="ps-3 pe-3 mb-0">' + item_value.email + '</p>';
                         } else if ( check_empty(item_value.date) ) {
