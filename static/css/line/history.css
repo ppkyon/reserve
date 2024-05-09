@@ -163,7 +163,8 @@ body {
     background-color: #00B074;
 }
 .button-area .close-button,
-.error-area .close-button {
+.error-area .close-button,
+.fail-area .reload-button {
     width: 90%;
     color: #FFF;
     font-size: 16px;

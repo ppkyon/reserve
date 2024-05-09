@@ -12,7 +12,7 @@ from flow.models import (
 from richmenu.models import UserRichMenu, UserRichMenuClick
 from sign.models import AuthShop, ShopLine, AuthUser
 from talk.models import TalkMessage, TalkRead, TalkUpdate
-from user.models import LineUser, UserProfile
+from user.models import LineUser, UserProfile, UserAlert
 
 from common import create_code
 from flow.action.go import go
@@ -84,6 +84,7 @@ def handle_follow(line_user_id, shop):
             UserQuestionItemChoice.objects.filter(question=user_question_item).all().delete()
         UserQuestionItem.objects.filter(question=user_question).all().delete()
     UserQuestion.objects.filter(user=user).all().delete()
+    UserAlert.objects.filter(user=user).all().delete()
         
     flow = None
     if ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).exists():

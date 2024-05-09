@@ -196,17 +196,23 @@ def check(request):
     }
     for day in days:
         if online_offline['type'] == 1:
-            reception = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).first()
+            reception = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).all()
         elif online_offline['type'] == 2:
-            reception = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).first()
-        if reception:
-            reception_from = reception.reception_from
-            reception_to = reception.reception_to
-            reception_flg = reception.reception_flg
-        else:
+            reception = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=day.year, reception_date__month=day.month, reception_date__day=day.day).all()
+        if len(reception) == 0:
             reception_from = None
             reception_to = None
             reception_flg = True
+        else:
+            for reception_item in reception:
+                if not reception_item.reception_flg:
+                    if not time['from'] or ( reception_item.reception_from and time['from'] > reception_item.reception_from ):
+                        time['from'] = reception_item.reception_from
+                    if not time['to'] or ( reception_item.reception_to and time['to'] < reception_item.reception_to ):
+                        time['to'] = reception_item.reception_to
+                reception_from = time['from']
+                reception_to = time['to']
+                reception_flg = reception_item.reception_flg
         
         week_day.append({
             'year': day.year,

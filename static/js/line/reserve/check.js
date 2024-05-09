@@ -36,11 +36,19 @@ $( function(){
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            setTimeout( function() {
-                $( '.loader-area' ).css( 'opacity', '0' );
-                $( '.loader-area' ).addClass( 'd-none' );
-                $( '.end-area' ).removeClass( 'd-none' );
-            }, 750 );
+            if ( response.error ) {
+                setTimeout( function() {
+                    $( '.loader-area' ).css( 'opacity', '0' );
+                    $( '.loader-area' ).addClass( 'd-none' );
+                    $( '.fail-area' ).removeClass( 'd-none' );
+                }, 750 );
+            } else {
+                setTimeout( function() {
+                    $( '.loader-area' ).css( 'opacity', '0' );
+                    $( '.loader-area' ).addClass( 'd-none' );
+                    $( '.end-area' ).removeClass( 'd-none' );
+                }, 750 );
+            }
         }).fail( function(){
         
         });
@@ -163,5 +171,8 @@ $( function(){
 
     $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {
         liff.closeWindow();
+    });
+    $( '.fail-area .reload-button' ).on( 'click', function() {
+        location.reload();
     });
 });

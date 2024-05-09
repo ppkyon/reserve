@@ -32,6 +32,149 @@ def send(request):
     user_flow = UserFlow.objects.filter(display_id=request.POST.get('flow_id')).first()
     user_flow_schedule = UserFlowSchedule.objects.filter(display_id=request.POST.get('schedule_id')).first()
     if user_flow_schedule:
+        if user_flow_schedule.offline:
+            manager_list = list()
+            facility_list = list()
+            for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=user_flow_schedule.offline).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=user_flow_schedule.offline).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
+                    
+            schedule_list = list()
+            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+                schedule_list.append(schedule)
+
+            date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+            add_date = date + datetime.timedelta(minutes=user_flow_schedule.offline.time)
+
+            manager_count = len(manager_list)
+            facility_count = len(facility_list)
+            reception_manager_list = list()
+            reception_facility_list = list()
+            count_flg = True
+            for schedule_item in schedule_list:
+                schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
+                schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+
+                people_number = 0
+                people_count = user_flow_schedule.offline.people
+                same_count = user_flow_schedule.offline.facility
+                if add_date > schedule_date and schedule_add_date > date:
+                    if manager_count <= 0 or facility_count <= 0:
+                        break
+                    else:
+                        if schedule_item.offline:
+                            if schedule_item.offline == user_flow_schedule.offline:
+                                if schedule_date == date:
+                                    if count_flg:
+                                        if schedule_item.offline_facility and schedule_item.offline_facility.count < people_count:
+                                            same_count = same_count - 1
+                                            if same_count == 0:
+                                                people_count = schedule_item.offline_facility.count
+                                            while same_count > 0:
+                                                people_number = people_number + 1
+                                                facility_count = facility_count - 1
+                                                if facility_list[people_number] and schedule_item.offline_facility.count + facility_list[people_number].count <= people_count:
+                                                    people_count = schedule_item.offline_facility.count + facility_list[people_number].count
+                                                else:
+                                                    people_number = people_number - 1
+                                                    facility_count = facility_count + 1
+                                                same_count = same_count - 1
+                                        count_flg = False
+                                    people_count = people_count - 1
+                                    if people_count <= 0:
+                                        manager_count = manager_count - 1
+                                        facility_count = facility_count - 1
+
+                                        people_number = people_number + 1
+                                        people_count = user_flow_schedule.offline.people
+                                        if facility_count > 0 and facility_list[people_number].count < people_count:
+                                            people_count = facility_list[people_number].count
+                                else:
+                                    manager_count = manager_count - 1
+                                    facility_count = facility_count - 1
+                            else:
+                                if schedule_item.manager in manager_list and not schedule_item.manager in reception_manager_list:
+                                    manager_count = manager_count - 1
+                                if schedule_item.offline_facility in facility_list and not schedule_item.offline_facility in reception_facility_list:
+                                    facility_count = facility_count - 1
+                    if schedule_item.manager and not schedule_item.manager in reception_manager_list:
+                        reception_manager_list.append(schedule_item.manager)
+                    if schedule_item.offline_facility and not schedule_item.offline_facility in reception_facility_list:
+                        reception_facility_list.append(schedule_item.offline_facility)
+        if user_flow_schedule.online:
+            manager_list = list()
+            facility_list = list()
+            for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=user_flow_schedule.online).all():
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=user_flow_schedule.online).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
+
+            schedule_list = list()
+            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+                schedule_list.append(schedule)
+
+            date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+            add_date = date + datetime.timedelta(minutes=user_flow_schedule.online.time)
+
+            manager_count = len(manager_list)
+            facility_count = len(facility_list)
+            reception_manager_list = list()
+            reception_facility_list = list()
+            for schedule_item in schedule_list:
+                schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
+                schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+
+                people_number = 0
+                people_count = user_flow_schedule.online.people
+                same_count = user_flow_schedule.online.facility
+                if add_date > schedule_date and schedule_add_date > date:
+                    if manager_count <= 0 or facility_count <= 0:
+                        break
+                    else:
+                        if schedule_item.online:
+                            if schedule_item.online == user_flow_schedule.online:
+                                if schedule_date == date:
+                                    if count_flg:
+                                        if schedule_item.online_facility and schedule_item.online_facility.count < people_count:
+                                            same_count = same_count - 1
+                                            if same_count == 0:
+                                                people_count = schedule_item.online_facility.count
+                                            while same_count > 0:
+                                                people_number = people_number + 1
+                                                facility_count = facility_count - 1
+                                                if facility_list[people_number] and schedule_item.online_facility.count + facility_list[people_number].count <= people_count:
+                                                    people_count = schedule_item.online_facility.count + facility_list[people_number].count
+                                                else:
+                                                    people_number = people_number - 1
+                                                    facility_count = facility_count + 1
+                                                same_count = same_count - 1
+                                        count_flg = False
+                                    people_count = people_count - 1
+                                    if people_count <= 0:
+                                        manager_count = manager_count - 1
+                                        facility_count = facility_count - 1
+
+                                        people_number = people_number + 1
+                                        people_count = user_flow_schedule.online.people
+                                        if facility_count > 0 and facility_list[people_number].count < people_count:
+                                            people_count = facility_list[people_number].count
+                                else:
+                                    manager_count = manager_count - 1
+                                    facility_count = facility_count - 1
+                            else:
+                                if schedule_item.manager in manager_list and not schedule_item.manager in reception_manager_list:
+                                    manager_count = manager_count - 1
+                                if schedule_item.online_facility in facility_list and not schedule_item.online_facility in reception_facility_list:
+                                    facility_count = facility_count - 1
+                    if schedule_item.manager and not schedule_item.manager in reception_manager_list:
+                        reception_manager_list.append(schedule_item.manager)
+                    if schedule_item.online_facility and not schedule_item.online_facility in reception_facility_list:
+                        reception_facility_list.append(schedule_item.online_facility)
+        
+        if manager_count <= 0 or facility_count <= 0:
+            return JsonResponse( {'error': True}, safe=False )
+        
         user_flow_schedule.join = 2
         user_flow_schedule.save()
 
@@ -39,12 +182,11 @@ def send(request):
             people_count = user_flow_schedule.offline.people
             manager_list = list()
             facility_list = list()
-            if user_flow_schedule.offline:
-                for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=user_flow_schedule.offline).all():
-                    manager_menu_item.manager.count = people_count
-                    manager_list.append(manager_menu_item.manager)
-                for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=user_flow_schedule.offline).order_by('facility__order').all():
-                    facility_list.append(facility_menu_item.facility)
+            for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=user_flow_schedule.offline).all():
+                manager_menu_item.manager.count = people_count
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=user_flow_schedule.offline).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
 
             schedule_list = list()
             for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
@@ -109,12 +251,11 @@ def send(request):
             people_count = user_flow_schedule.online.people
             manager_list = list()
             facility_list = list()
-            if user_flow_schedule.online:
-                for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=user_flow_schedule.online).all():
-                    manager_menu_item.manager.count = people_count
-                    manager_list.append(manager_menu_item.manager)
-                for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=user_flow_schedule.online).order_by('facility__order').all():
-                    facility_list.append(facility_menu_item.facility)
+            for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=user_flow_schedule.online).all():
+                manager_menu_item.manager.count = people_count
+                manager_list.append(manager_menu_item.manager)
+            for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=user_flow_schedule.online).order_by('facility__order').all():
+                facility_list.append(facility_menu_item.facility)
 
             schedule_list = list()
             for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
@@ -176,48 +317,48 @@ def send(request):
                 check_flg = False
             )
             
-    target_flow_item = None
-    action_flow_item = None
-    flow_flg = False
-    action_flg = False
-    for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
-        if flow_flg:
-            if action_flg:
-                action_flow_item = flow_item
-                break
-            if flow_item.type == 6:
-                flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
-                push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
-            if flow_item.type == 51:
-                target_flow_item = flow_item
-                action_flg = True
-        if flow_item.type == 54:
-            flow_flg = True
-    
-    user_flow.flow_item = target_flow_item
-    user_flow.save()
-    
-    shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=action_flow_item).first()
-    action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
-    action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
-    action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
-    if UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).exists():
-        user_flow_action_reminder = UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).first()
-        user_flow_action_reminder.action_date = action_date
-        user_flow_action_reminder.save()
-    else:
-        UserFlowActionReminder.objects.create(
-            id = str(uuid.uuid4()),
-            user = user_flow.user,
-            flow = user_flow,
-            template_text = shop_flow_action_reminder.template_text,
-            template_video = shop_flow_action_reminder.template_video,
-            template_richmessage = shop_flow_action_reminder.template_richmessage,
-            template_richvideo = shop_flow_action_reminder.template_richvideo,
-            template_cardtype = shop_flow_action_reminder.template_cardtype,
-            action_date = action_date,
-        )
-    return JsonResponse( {}, safe=False )
+        target_flow_item = None
+        action_flow_item = None
+        flow_flg = False
+        action_flg = False
+        for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab).order_by('y', 'x').all():
+            if flow_flg:
+                if action_flg:
+                    action_flow_item = flow_item
+                    break
+                if flow_item.type == 6:
+                    flow_template = ShopFlowTemplate.objects.filter(flow=flow_item).first()
+                    push_card_type_message(user_flow.user, flow_template.template_cardtype, None)
+                if flow_item.type == 51:
+                    target_flow_item = flow_item
+                    action_flg = True
+            if flow_item.type == 54:
+                flow_flg = True
+        
+        user_flow.flow_item = target_flow_item
+        user_flow.save()
+        
+        shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=action_flow_item).first()
+        action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
+        action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
+        action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)
+        if UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).exists():
+            user_flow_action_reminder = UserFlowActionReminder.objects.filter(user=user_flow.user, flow=user_flow).first()
+            user_flow_action_reminder.action_date = action_date
+            user_flow_action_reminder.save()
+        else:
+            UserFlowActionReminder.objects.create(
+                id = str(uuid.uuid4()),
+                user = user_flow.user,
+                flow = user_flow,
+                template_text = shop_flow_action_reminder.template_text,
+                template_video = shop_flow_action_reminder.template_video,
+                template_richmessage = shop_flow_action_reminder.template_richmessage,
+                template_richvideo = shop_flow_action_reminder.template_richvideo,
+                template_cardtype = shop_flow_action_reminder.template_cardtype,
+                action_date = action_date,
+            )
+    return JsonResponse( {'error': False}, safe=False )
 
 def question(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()

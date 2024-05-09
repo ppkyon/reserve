@@ -120,6 +120,7 @@ $( function(){
         $( this ).css( 'color', '#FF0000' );
     });
     $( document ).on( 'click', '#select_schedule_modal .yes-button', function () {
+        var target = $( this );
         var form_data = new FormData();
         form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
         form_data.append( 'setting_id', $( '#select_schedule_modal [name=schedule_setting]' ).next().val() );
@@ -155,16 +156,22 @@ $( function(){
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            $( '#save_step_form .table-area .content-course' ).each( function( index, value ) {
-                if ( $( this ).next().val() == $( '#select_schedule_modal [name=schedule_setting]' ).next().val() ) {
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(2).find( 'input[type=text]' ).val(year + '/' + ('00' + month).slice(-2) + '/' + ('00' + day).slice(-2) + ' ' + hour + ':' + minute);
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).val(response.manager.profile.family_name + ' ' + response.manager.profile.first_name);
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).next().val(response.manager.display_id);
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).val(response.facility.name);
-                    $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).next().val(response.facility.display_id);
-                }
-            });
-            $( '#select_schedule_modal .no-button' ).trigger( 'click' );
+            if ( response.error ) {
+                $( '#select_schedule_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            } else {
+                $( '#save_step_form .table-area .content-course' ).each( function( index, value ) {
+                    if ( $( this ).next().val() == $( '#select_schedule_modal [name=schedule_setting]' ).next().val() ) {
+                        $( this ).parents( 'tr' ).find( 'td' ).eq(2).find( 'input[type=text]' ).val(year + '/' + ('00' + month).slice(-2) + '/' + ('00' + day).slice(-2) + ' ' + hour + ':' + minute);
+                        $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).val(response.manager.profile.family_name + ' ' + response.manager.profile.first_name);
+                        $( this ).parents( 'tr' ).find( 'td' ).eq(4).find( 'input[type=text]' ).next().val(response.manager.display_id);
+                        $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).val(response.facility.name);
+                        $( this ).parents( 'tr' ).find( 'td' ).eq(5).find( 'input[type=text]' ).next().val(response.facility.display_id);
+                    }
+                });
+                $( '#select_schedule_modal .no-button' ).trigger( 'click' );
+            }
         }).fail( function(){
             
         });
