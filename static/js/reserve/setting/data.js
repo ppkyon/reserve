@@ -30,6 +30,7 @@ $( function() {
             form_data.append( 'facility_' + ( index + 1 ), $( this ).find( 'input[name=facility_' + random + ']' ).next().val() );
             form_data.append( 'question_' + ( index + 1 ), $( this ).find( 'input[name=question_' + random + ']' ).next().val() );
             form_data.append( 'advance_' + ( index + 1 ), $( this ).find( 'input[name=advance_' + random + ']' ).next().val() );
+            form_data.append( 'unit_' + ( index + 1 ), $( this ).find( 'input[name=unit_' + random + ']:checked' ).val() );
             if ( $( this ).find( 'input[name=display_flg_' + random + ']' ).prop( 'checked' ) ) {
                 form_data.append( 'display_flg_' + ( index + 1 ), 1 );
             } else {

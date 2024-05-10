@@ -225,6 +225,38 @@
                                                                             <div class="dropdown-menu w-100"></div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">予約単位</label>
+                                                                        <div class="d-flex align-items-center mb-0">
+                                                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_60" class="ps-4 mb-0">1時間毎</label>
+                                                                                {% if not basic_data.unit or basic_data.unit == 60 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_60" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_30" class="ps-4 mb-0">30分毎</label>
+                                                                                {% if basic_data.unit == 30 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_30" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                            <div class="input-radio-wrap position-relative mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_15" class="ps-4 mb-0">15分毎</label>
+                                                                                {% if basic_data.unit == 15 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_15" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div style="width: 20%;">
                                                                     <div class="d-flex justify-content-end align-items-start flex-column h-100">
@@ -440,6 +472,62 @@
                                                                                     {% for setting_item in online_offline_item.setting %}
                                                                                         <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
                                                                                     {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">予約単位</label>
+                                                                            <div class="d-flex align-items-center mb-0">
+                                                                                <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_60" class="ps-4 mb-0">1時間毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 60 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if not basic_data.unit or basic_data.unit == 60 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_60" class="input-radio-mark mb-0"></label>
+                                                                                </div>
+                                                                                <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_30" class="ps-4 mb-0">30分毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 30 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if basic_data.unit == 30 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_30" class="input-radio-mark mb-0"></label>
+                                                                                </div>
+                                                                                <div class="input-radio-wrap position-relative mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_15" class="ps-4 mb-0">15分毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 15 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if basic_data.unit == 15 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_15" class="input-radio-mark mb-0"></label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -736,6 +824,38 @@
                                                                             <div class="dropdown-menu w-100"></div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                        <label class="setting-area-tablet mb-0" style="width: 15%;">予約単位</label>
+                                                                        <div class="d-flex align-items-center mb-0">
+                                                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_60" class="ps-4 mb-0">1時間毎</label>
+                                                                                {% if not basic_data.unit or basic_data.unit == 60 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_60" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                            <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_30" class="ps-4 mb-0">30分毎</label>
+                                                                                {% if basic_data.unit == 30 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_30" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                            <div class="input-radio-wrap position-relative mb-1">
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_15" class="ps-4 mb-0">15分毎</label>
+                                                                                {% if basic_data.unit == 15 %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                {% else %}
+                                                                                    <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                {% endif %}
+                                                                                <label for="reserve_unit_{{ setting_item.display_id }}_15" class="input-radio-mark mb-0"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div style="width: 20%;">
                                                                     <div class="d-flex justify-content-end align-items-start flex-column h-100">
@@ -951,6 +1071,62 @@
                                                                                     {% for setting_item in online_offline_item.setting %}
                                                                                         <button type="button" value="{{ setting_item.display_id }}" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">{{ setting_item.name }}</button>
                                                                                     {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-start align-items-center mb-2">
+                                                                            <label class="setting-area-tablet mb-0" style="width: 15%;">予約単位</label>
+                                                                            <div class="d-flex align-items-center mb-0">
+                                                                                <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_60" class="ps-4 mb-0">1時間毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 60 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if not basic_data.unit or basic_data.unit == 60 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_60" name="unit_{{ setting_item.display_id }}" value="60" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_60" class="input-radio-mark mb-0"></label>
+                                                                                </div>
+                                                                                <div class="input-radio-wrap position-relative me-3 mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_30" class="ps-4 mb-0">30分毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 30 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if basic_data.unit == 30 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_30" name="unit_{{ setting_item.display_id }}" value="30" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_30" class="input-radio-mark mb-0"></label>
+                                                                                </div>
+                                                                                <div class="input-radio-wrap position-relative mb-1">
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_15" class="ps-4 mb-0">15分毎</label>
+                                                                                    {% if setting_item.unit %}
+                                                                                        {% if setting_item.unit == 15 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        {% if basic_data.unit == 15 %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action" checked>
+                                                                                        {% else %}
+                                                                                            <input type="radio" id="reserve_unit_{{ setting_item.display_id }}_15" name="unit_{{ setting_item.display_id }}" value="15" class="input-radio" data-parsley-multiple="action">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                    <label for="reserve_unit_{{ setting_item.display_id }}_15" class="input-radio-mark mb-0"></label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

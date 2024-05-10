@@ -50,6 +50,8 @@ class SettingView(ShopView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
+
+        context['basic_data'] = ReserveBasic.objects.filter(shop=auth_login.shop).first()
         context['offline_list'] = ShopOffline.objects.filter(shop=auth_login.shop).order_by('created_at').all()
         for offline_index, offline_item in enumerate(context['offline_list']):
             context['offline_list'][offline_index].type = 1

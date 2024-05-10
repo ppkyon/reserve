@@ -46,6 +46,7 @@ def save(request):
             offline.facility = request.POST.get('facility_'+str( i + 1 ))
             offline.question = question
             offline.advance = request.POST.get('advance_'+str( i + 1 ))
+            offline.unit = request.POST.get('unit_'+str( i + 1 ))
             offline.course_flg = course_flg
             offline.display_flg = display_flg
             offline.save()
@@ -61,6 +62,7 @@ def save(request):
             online.facility = request.POST.get('facility_'+str( i + 1 ))
             online.question = question
             online.advance = request.POST.get('advance_'+str( i + 1 ))
+            online.unit = request.POST.get('unit_'+str( i + 1 ))
             online.course_flg = course_flg
             online.display_flg = display_flg
             online.save()
