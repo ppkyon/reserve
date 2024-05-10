@@ -93,6 +93,7 @@ class SimpleLoginView(LoginView):
     template_name = 'sign/simple.html'
 
     def get(self, request, **kwargs):
+        request.session.set_expiry(43200)
         if request.user.is_authenticated:
             return redirect('/proxy/')
         else:
