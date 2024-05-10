@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q, Subquery, OuterRef
+from django.db.models.functions import Coalesce
 from django.views.generic import TemplateView
 from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplateResponseMixin, BaseListView
 
@@ -382,21 +383,28 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             if sort.target == 'user_flow__number':
                 if sort.sort == 1:
                     sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('active_flow', self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', 'active_flow', self.default_sort).all()
                 elif sort.sort == 2:
                     sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('-active_flow', self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-active_flow', self.default_sort).all()
                 else:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
             else:
                 if sort.sort == 1:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(sort.target, self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', sort.target, self.default_sort).all()
                 elif sort.sort == 2:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by('-'+sort.target, self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-'+sort.target, self.default_sort).all()
                 else:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
         else:
-            query_list = self.model.objects.filter(query, Q(proxy_flg=False)).order_by(self.default_sort).all()
+            alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+            query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
@@ -458,21 +466,28 @@ class TempBaseLisView(MultipleObjectMixin, ShopBaseView):
             if sort.target == 'user_flow__number':
                 if sort.sort == 1:
                     sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('active_flow', self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', 'active_flow', self.default_sort).all()
                 elif sort.sort == 2:
                     sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    query_list = self.model.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('-active_flow', self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', '-active_flow', self.default_sort).all()
                 else:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', self.default_sort).all()
             else:
                 if sort.sort == 1:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(sort.target, self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', sort.target, self.default_sort).all()
                 elif sort.sort == 2:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by('-'+sort.target, self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', '-'+sort.target, self.default_sort).all()
                 else:
-                    query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
+                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', self.default_sort).all()
         else:
-            query_list = self.model.objects.filter(query, Q(proxy_flg=True)).order_by(self.default_sort).all()
+            alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+            query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=True)).order_by('alert', self.default_sort).all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
