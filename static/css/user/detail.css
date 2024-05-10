@@ -48,6 +48,16 @@
     width: calc(100% - 18rem);
 }
 
+.detail-area .step-area .table-area {
+    overflow-x: auto;
+}
+
+.detail-area .step-area .table-area .table,
+.detail-area .question-area .table-area .table
+{
+    table-layout: auto;
+}
+
 .detail-area .step-area .table-area tbody,
 .step-modal .table-area tbody {
     cursor: pointer;
@@ -276,19 +286,14 @@
 
 /* iPad用レスポンシブ */
 @media screen and (max-width: 1180px) {
-    .table-area-tablet {
-        overflow-x: auto;
-    }
     .table-tablet {
         min-width: 45rem;
         border-collapse: collapse;
     }
-
     .question-area .table-area .table .memo-tablet {
         width: 420px !important;
     }
 }
-
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 932px) {
