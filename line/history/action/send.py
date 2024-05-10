@@ -232,6 +232,8 @@ def send(request):
                     facility = facility_item.facility
                     break
 
+            user_flow.updated_at = datetime.datetime.now()
+            user_flow.save()
             user_flow_schedule = UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlowSchedule),
@@ -245,7 +247,8 @@ def send(request):
                 offline_facility = facility,
                 manager = manager,
                 question = user_flow_schedule.question,
-                check_flg = False
+                check_flg = False,
+                updated_at = datetime.datetime.now(),
             )
         if user_flow_schedule.online:
             people_count = user_flow_schedule.online.people
@@ -301,6 +304,8 @@ def send(request):
                     facility = facility_item.facility
                     break
 
+            user_flow.updated_at = datetime.datetime.now()
+            user_flow.save()
             user_flow_schedule = UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlowSchedule),
@@ -314,7 +319,8 @@ def send(request):
                 online_facility = facility,
                 manager = manager,
                 question = user_flow_schedule.question,
-                check_flg = False
+                check_flg = False,
+                updated_at = datetime.datetime.now(),
             )
             
         target_flow_item = None

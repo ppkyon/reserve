@@ -774,6 +774,7 @@ def send(request):
             user_flow.name = target_flow_tab.name
             user_flow.richmenu = target_rich_menu
             user_flow.end_flg = False
+            user_flow.updated_at = datetime.datetime.now()
             user_flow.save()
         else:
             delete_rich_menu(user)
@@ -797,6 +798,7 @@ def send(request):
                 name = target_flow_tab.name,
                 richmenu = target_rich_menu,
                 end_flg = False,
+                updated_at = datetime.datetime.now(),
             )
 
         schedule_list = list()
@@ -914,6 +916,7 @@ def send(request):
             user_flow.name = target_flow_tab.name
             user_flow.richmenu = target_rich_menu
             user_flow.end_flg = False
+            user_flow.updated_at = datetime.datetime.now()
             user_flow.save()
         else:
             user_flow = UserFlow.objects.create(
@@ -927,6 +930,7 @@ def send(request):
                 name = target_flow_tab.name,
                 richmenu = target_rich_menu,
                 end_flg = False,
+                updated_at = datetime.datetime.now(),
             )
 
         schedule_list = list()

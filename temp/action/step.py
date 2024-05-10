@@ -50,6 +50,8 @@ def save(request):
                 if user_flow_schedule.join == 0:
                     user_flow_schedule_online_join = join
 
+                user_flow.updated_at = datetime.datetime.now()
+                user_flow.save()
                 if change_flg and user_flow_schedule.date:
                     user_flow_schedule.join = 2
                     user_flow_schedule.save()
@@ -69,7 +71,8 @@ def save(request):
                         online_facility = user_flow_schedule_online_facility,
                         manager = user_flow_schedule_manager,
                         question = user_flow_schedule.question,
-                        check_flg = False
+                        check_flg = False,
+                        updated_at = datetime.datetime.now(),
                     )
                 else:
                     user_flow_schedule.date = user_flow_schedule_date
@@ -78,6 +81,7 @@ def save(request):
                     user_flow_schedule.offline_facility = user_flow_schedule_offline_facility
                     user_flow_schedule.online_facility = user_flow_schedule_online_facility
                     user_flow_schedule.join = user_flow_schedule_online_join
+                    user_flow_schedule.updated_at = datetime.datetime.now()
                     user_flow_schedule.save()
 
                 if join == 1:

@@ -151,7 +151,14 @@ def date(request):
 
     reserve_data = ReserveBasic.objects.filter(shop=shop).first()
     unit_time = '60min'
-    if reserve_data:
+    if setting['unit']:
+        if setting['unit'] == 60:
+            unit_time = '60min'
+        elif setting['unit'] == 30:
+            unit_time = '30min'
+        elif setting['unit'] == 15:
+            unit_time = '15min'
+    elif reserve_data:
         if reserve_data.unit == 60:
             unit_time = '60min'
         elif reserve_data.unit == 30:
@@ -164,7 +171,7 @@ def date(request):
     week_schedule = list()
     week_time = list()
     if time['from'] and time['to']:
-        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
+        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq='15min'):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             week_time.append({
                 'time': schedule_time
@@ -344,13 +351,13 @@ def date(request):
     if setting and setting['advance']:
         if online_offline['type'] == 1:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
-            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
         elif online_offline['type'] == 2:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
-            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
