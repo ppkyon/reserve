@@ -1,7 +1,7 @@
 {% load static %}
 
 <div id="manager_all_input_modal" class="modal fade">
-    <div class="modal-dialog"  style="top: 5%; max-width: 575px">
+    <div class="modal-dialog" style="top: 5%; max-width: 575px">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
@@ -424,7 +424,7 @@
 </div>
 
 <div id="manager_input_modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 575px">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
@@ -444,7 +444,7 @@
                         <form id="manager_input_form" action="#" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
                             <p class="mb-2">対応可能時間を入力</p>
                             <hr class="m-0 mb-2">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center mb-1">
                                 <div class="input-radio-wrap position-relative me-3 mb-1">
                                     <label for="flg_on" class="ps-4 mb-0">対応可能時間</label>
                                     <input type="radio" id="flg_on" name="flg" value="1" class="input-radio" checked>
@@ -453,6 +453,23 @@
                                 <input type="text" name="time_from_1" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly required>
                                 <p class="ms-1 me-1 mb-0">～</p>
                                 <input type="text" name="time_to_1" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly required>
+                            </div>
+                            <div class="d-flex align-items-center align-items-center mb-2">
+                                <div class="row">
+                                    <div class="col-9" style="margin-left: 20%;">
+                                        <div class="row">
+                                            {% for setting_item in setting_list %}
+                                                <div class="col-4">
+                                                    <div class="input-check-wrap ps-4 me-3 mb-0">
+                                                        <label for="setting_{{ setting_item.display_id }}_1" class="mb-0">{{ setting_item.name }}</label>
+                                                        <input type="checkbox" id="setting_{{ setting_item.display_id }}_1" name="setting_{{ setting_item.display_id }}_1" class="input-check" data-parsley-multiple="setting_{{ setting_item.display_id }}" checked>
+                                                        <label for="setting_{{ setting_item.display_id }}_1" class="input-check-mark mb-0"></label>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-start align-items-center mb-2">
                                 <div style="width: 110px;"></div>

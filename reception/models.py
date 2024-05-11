@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting
 from setting.models import ShopOffline, ShopOnline
 from sign.models import AuthUser, AuthShop
 
@@ -78,3 +79,25 @@ class ReceptionOnlineManager(models.Model):
     
     class Meta:
         db_table = 'reception_online_manager'
+
+class ReceptionOfflineManagerSetting(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reception_offline_manager_setting")
+    manager = models.ForeignKey(ReceptionOfflineManager, on_delete=models.CASCADE, blank=True, null=True, related_name="reception_offline_manager_setting")
+    flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reception_offline_manager_setting'
+
+class ReceptionOnlineManagerSetting(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reception_online_manager_setting")
+    manager = models.ForeignKey(ReceptionOnlineManager, on_delete=models.CASCADE, blank=True, null=True, related_name="reception_online_manager_setting")
+    flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reception_online_manager_setting'

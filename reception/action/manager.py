@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 
-from reception.models import ReceptionOfflineManager, ReceptionOnlineManager
+from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
+from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime, ManagerOffline, ManagerOnline, ManagerOfflineTime, ManagerOnlineTime
 from sign.models import AuthLogin, AuthUser
 
@@ -41,7 +42,7 @@ def save(request):
                         )
                     elif request.POST.get('flg_' + str(offline.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 )) == '1':
                         for j in range(int(request.POST.get('count_' + str(offline.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 )))):
-                            ReceptionOfflineManager.objects.create(
+                            reception_offline_manager = ReceptionOfflineManager.objects.create(
                                 id = str(uuid.uuid4()),
                                 display_id = create_code(12, ReceptionOfflineManager),
                                 offline = offline,
@@ -52,6 +53,22 @@ def save(request):
                                 reception_to = request.POST.get('to_' + str(offline.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 ) + '_' + str( j + 1 )),
                                 reception_flg = True,
                             )
+                            for offline_item in ShopOffline.objects.filter(shop=auth_login.shop).order_by('created_at').all():
+                                for reserve_offline_setting in ReserveOfflineSetting.objects.filter(offline=offline_item).order_by('created_at').all():
+                                    if request.POST.get('setting_' + str(reserve_offline_setting.display_id) + '_' + str(offline.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 ) + '_' + str( j + 1 )) == 'false':
+                                        ReceptionOfflineManagerSetting.objects.create(
+                                            id = str(uuid.uuid4()),
+                                            offline = reserve_offline_setting,
+                                            manager = reception_offline_manager,
+                                            flg = False,
+                                        )
+                                    else:
+                                        ReceptionOfflineManagerSetting.objects.create(
+                                            id = str(uuid.uuid4()),
+                                            offline = reserve_offline_setting,
+                                            manager = reception_offline_manager,
+                                            flg = True,
+                                        )
     
     for online in ShopOnline.objects.filter(shop=auth_login.shop).order_by('created_at').all():
         for manager in AuthUser.objects.filter(shop=auth_login.shop, authority__gte=2, status__gte=3, head_flg=False, delete_flg=False).order_by('created_at').all():
@@ -74,7 +91,7 @@ def save(request):
                         )
                     elif request.POST.get('flg_' + str(online.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 )) == '1':
                         for j in range(int(request.POST.get('count_' + str(online.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 )))):
-                            ReceptionOnlineManager.objects.create(
+                            reception_online_manager = ReceptionOnlineManager.objects.create(
                                 id = str(uuid.uuid4()),
                                 display_id = create_code(12, ReceptionOnlineManager),
                                 online = online,
@@ -85,6 +102,22 @@ def save(request):
                                 reception_to = request.POST.get('to_' + str(online.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 ) + '_' + str( j + 1 )),
                                 reception_flg = True,
                             )
+                            for online_item in ShopOnline.objects.filter(shop=auth_login.shop).order_by('created_at').all():
+                                for reserve_online_setting in ReserveOnlineSetting.objects.filter(online=online_item).order_by('created_at').all():
+                                    if request.POST.get('setting_' + str(reserve_online_setting.display_id) + '_' + str(online.display_id) + '_' + str(manager.display_id) + '_' + str( i + 1 ) + '_' + str( j + 1 )) == 'false':
+                                        ReceptionOnlineManagerSetting.objects.create(
+                                            id = str(uuid.uuid4()),
+                                            online = reserve_online_setting,
+                                            manager = reception_online_manager,
+                                            flg = False,
+                                        )
+                                    else:
+                                        ReceptionOnlineManagerSetting.objects.create(
+                                            id = str(uuid.uuid4()),
+                                            online = reserve_online_setting,
+                                            manager = reception_online_manager,
+                                            flg = True,
+                                        )
                             
     return JsonResponse( {}, safe=False )
 

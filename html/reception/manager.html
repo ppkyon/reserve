@@ -144,6 +144,21 @@
                                                                                     {% for time in day.time %}
                                                                                         <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
                                                                                         <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                        {% for setting_item in time.setting %}
+                                                                                            {% if setting_item.offline %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% elif setting_item.online %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </td>
@@ -160,6 +175,21 @@
                                                                                     {% for time in day.time %}
                                                                                         <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
                                                                                         <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                        {% for setting_item in time.setting %}
+                                                                                            {% if setting_item.offline %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% elif setting_item.online %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </td>
@@ -246,6 +276,21 @@
                                                                                     {% for time in day.time %}
                                                                                         <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
                                                                                         <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                        {% for setting_item in time.setting %}
+                                                                                            {% if setting_item.offline %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% elif setting_item.online %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </td>
@@ -262,6 +307,21 @@
                                                                                     {% for time in day.time %}
                                                                                         <input type="hidden" name="from_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.from }}">
                                                                                         <input type="hidden" name="to_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="{{ time.to }}">
+                                                                                        {% for setting_item in time.setting %}
+                                                                                            {% if setting_item.offline %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.offline.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% elif setting_item.online %}
+                                                                                                {% if setting_item.flg %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="true">
+                                                                                                {% else %}
+                                                                                                    <input type="hidden" name="setting_{{ setting_item.online.display_id }}_{{ online_offline_item.display_id }}_{{ manager_item.display_id }}_{{ day.day }}_{{ time.number }}" value="false">
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
                                                                                     {% endfor %}
                                                                                 </div>
                                                                             </td>

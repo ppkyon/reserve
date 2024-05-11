@@ -20,7 +20,7 @@ $( function() {
         var setting_name = '【' + $( '.setting-name-' + $( this ).parent().children( 'input[type=hidden]' ).eq(0).val() ).eq(0).text() + '】';
         $( '#manager_input_modal .modal-title' ).text( date + manager_name + setting_name );
 
-        for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 3; i-- ) {
+        for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 4; i-- ) {
             $( '#manager_input_modal #manager_input_form .d-flex' ).eq( i - 3 ).remove();
         }
 
@@ -50,25 +50,64 @@ $( function() {
                         $( this ).prop( 'checked', true );
                     }
                 });
-                for ( var i = 1; i <= ( $( this ).parent().find( '.data-area input[type=hidden]' ).length - 1 ) / 2; i++ ) {
-                    if ( i >= 2 ) {
-                        var html = '<div class="d-flex align-items-center mt-1">';
-                        html += '<div style="width: 107.5px;"></div>';
-                        html += '<input type="text" name="time_from_' + i + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
-                        html += '<p class="ms-1 me-1 mb-0">～</p>';
-                        html += '<input type="text" name="time_to_' + i + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
-                        html += '</div>';
-                        $( '#manager_input_modal .add-time-button' ).parent().before( html );
+
+                var data_count = 1;
+                $( this ).parent().find( '.data-area input[type=hidden]' ).each( function( index, value ) {
+                    if ( $( this ).attr( 'name' ).indexOf( 'from' ) !== -1 ) {
+                        if ( data_count >= 2 ) {
+                            var html = '<div class="d-flex align-items-center mt-1">';
+                            html += '<div style="width: 107.5px;"></div>';
+                            html += '<input type="text" name="time_from_' + data_count + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
+                            html += '<p class="ms-1 me-1 mb-0">～</p>';
+                            html += '<input type="text" name="time_to_' + data_count + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
+                            html += '</div>';
+                            html += '<div class="d-flex align-items-center align-items-center mb-2">';
+                            html += '<div class="row">';
+                            html += '<div class="col-9" style="margin-left: 20%;">';
+                            html += '<div class="row">';
+                            $( '#manager_input_form .input-check-wrap' ).each( function( index, value ) {
+                                var name = $( this ).find( 'input[type=checkbox]' ).attr( 'name' );
+                                var text = $( this ).find( 'input[type=checkbox]' ).prev().text();
+                                if ( name.substring( name.lastIndexOf('_')+1 ) == '1' ) {
+                                    name = name.substring( 0, name.lastIndexOf('_') );
+                                    html += '<div class="col-4">';
+                                    html += '<div class="input-check-wrap ps-4 me-3 mb-0">';
+                                    html += '<label for="' + name + '_' + data_count + '" class="mb-0">' + text + '</label>';
+                                    html += '<input type="checkbox" id="' + name + '_' + data_count + '" name="' + name + '_' + data_count + '" class="input-check" data-parsley-multiple="' + name + '_' + data_count + '" checked>';
+                                    html += '<label for="' + name + '_' + data_count + '" class="input-check-mark mb-0"></label>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                }
+                            });
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            $( '#manager_input_modal .add-time-button' ).parent().before( html );
+                        }
+                        $( '#manager_input_modal [name=time_from_' + data_count + ']' ).prop( 'disabled', false );
+                        $( '#manager_input_modal [name=time_from_' + data_count + ']' ).prop( 'required', true );
+                        $( '#manager_input_modal [name=time_from_' + data_count + ']' ).removeClass( 'readonly' );
+                        $( '#manager_input_modal [name=time_from_' + data_count + ']' ).val( $( this ).parent().find( '[name="from_' + target + '_' + data_count + '"]' ).val() );
+                        $( '#manager_input_modal [name=time_to_' + data_count + ']' ).prop( 'disabled', false );
+                        $( '#manager_input_modal [name=time_to_' + data_count + ']' ).prop( 'required', true );
+                        $( '#manager_input_modal [name=time_to_' + data_count + ']' ).removeClass( 'readonly' );
+                        $( '#manager_input_modal [name=time_to_' + data_count + ']' ).val( $( this ).parent().find( '[name="to_' + target + '_' + data_count + '"]' ).val() );
+                        var tmp = $( this );
+                        $( '#manager_input_form .input-check-wrap' ).each( function( index, value ) {
+                            var name = $( this ).find( 'input[type=checkbox]' ).attr( 'name' );
+                            if ( name.substring( name.lastIndexOf('_')+1 ) == '1' ) {
+                                name = name.substring( 0, name.lastIndexOf('_') );
+                                if ( $( tmp ).parent().find( '[name="' + name + '_' + target + '_' + data_count + '"]' ).val() == 'false' ) {
+                                    $( '#manager_input_modal [name=' + name + '_' + data_count + ']' ).prop( 'checked', false );
+                                } else {
+                                    $( '#manager_input_modal [name=' + name + '_' + data_count + ']' ).prop( 'checked', true );
+                                }
+                            }
+                        });
+                        data_count++;
                     }
-                    $( '#manager_input_modal [name=time_from_' + i + ']' ).prop( 'disabled', false );
-                    $( '#manager_input_modal [name=time_from_' + i + ']' ).prop( 'required', true );
-                    $( '#manager_input_modal [name=time_from_' + i + ']' ).removeClass( 'readonly' );
-                    $( '#manager_input_modal [name=time_from_' + i + ']' ).val( $( this ).parent().find( '.data-area [name="from_' + target + '_' + i + '"]' ).val() );
-                    $( '#manager_input_modal [name=time_to_' + i + ']' ).prop( 'disabled', false );
-                    $( '#manager_input_modal [name=time_to_' + i + ']' ).prop( 'required', true );
-                    $( '#manager_input_modal [name=time_to_' + i + ']' ).removeClass( 'readonly' );
-                    $( '#manager_input_modal [name=time_to_' + i + ']' ).val( $( this ).parent().find( '.data-area [name="to_' + target + '_' + i + '"]' ).val() );
-                }
+                });
             }
         } else {
             $( '#manager_input_modal [name=flg]' ).each( function( index, value ) {
@@ -613,7 +652,7 @@ $( function() {
 
     $( document ).on( 'change', '#manager_input_modal [name=flg]', function () {
         if ( $( this ).val() == '0' ) {
-            for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 3; i-- ) {
+            for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 4; i-- ) {
                 $( '#manager_input_modal #manager_input_form .d-flex' ).eq( i - 3 ).remove();
             }
             $( '#manager_input_modal [name=time_from_1]' ).prop( 'disabled', true );
@@ -624,6 +663,10 @@ $( function() {
             $( '#manager_input_modal [name=time_to_1]' ).prop( 'required', false );
             $( '#manager_input_modal [name=time_to_1]' ).addClass( 'readonly' );
             $( '#manager_input_modal [name=time_to_1]' ).val( '' );
+            $( '#manager_input_modal #manager_input_form input[type=checkbox]' ).each( function( index ,value ) {
+                $( this ).prop( 'checked', true );
+                $( this ).prop( 'disabled', true );
+            });
         } else if ( $( this ).val() == '1' ) {
             $( '#manager_input_modal [name=time_from_1]' ).prop( 'disabled', false );
             $( '#manager_input_modal [name=time_from_1]' ).prop( 'required', true );
@@ -631,18 +674,44 @@ $( function() {
             $( '#manager_input_modal [name=time_to_1]' ).prop( 'disabled', false );
             $( '#manager_input_modal [name=time_to_1]' ).prop( 'required', true );
             $( '#manager_input_modal [name=time_to_1]' ).removeClass( 'readonly' );
+            $( '#manager_input_modal #manager_input_form input[type=checkbox]' ).each( function( index ,value ) {
+                $( this ).prop( 'checked', true );
+                $( this ).prop( 'disabled', false );
+            });
         }
     });
 
     $( document ).on( 'click', '#manager_input_modal .add-time-button', function () {
         if ( $( '#manager_input_modal [name=flg]:checked' ).val() == '1' ) {
-            var number = $( this ).parents( '#manager_input_form' ).find( '.d-flex' ).length - 1;
+            var number = $( this ).parents( '#manager_input_form' ).find( '.d-flex .input-time' ).length / 2 + 1;
             
             var html = '<div class="d-flex align-items-center mt-1">';
             html += '<div style="width: 107.5px;"></div>';
             html += '<input type="text" name="time_from_' + number + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
             html += '<p class="ms-1 me-1 mb-0">～</p>';
             html += '<input type="text" name="time_to_' + number + '" class="input-text input-time ps-2 pe-2" style="width: 120px;" data-parsley-errors-messages-disabled readonly>';
+            html += '</div>';
+            html += '<div class="d-flex align-items-center align-items-center mb-2">';
+            html += '<div class="row">';
+            html += '<div class="col-9" style="margin-left: 20%;">';
+            html += '<div class="row">';
+            $( '#manager_input_form .input-check-wrap' ).each( function( index, value ) {
+                var name = $( this ).find( 'input[type=checkbox]' ).attr( 'name' );
+                var text = $( this ).find( 'input[type=checkbox]' ).prev().text();
+                if ( name.substring( name.lastIndexOf('_')+1 ) == '1' ) {
+                    name = name.substring( 0, name.lastIndexOf('_') );
+                    html += '<div class="col-4">';
+                    html += '<div class="input-check-wrap ps-4 me-3 mb-0">';
+                    html += '<label for="' + name + '_' + number + '" class="mb-0">' + text + '</label>';
+                    html += '<input type="checkbox" id="' + name + '_' + number + '" name="' + name + '_' + number + '" class="input-check" data-parsley-multiple="' + name + '_' + number + '" checked>';
+                    html += '<label for="' + name + '_' + number + '" class="input-check-mark mb-0"></label>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+            });
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
             html += '</div>';
             $( this ).parent().before( html );
     
@@ -684,6 +753,15 @@ $( function() {
                             if ( check_empty($( '#manager_input_modal [name=time_from_' + i + ']' ).val()) && check_empty($( '#manager_input_modal [name=time_to_' + i + ']' ).val()) ) {
                                 $( this ).find( '.data-area' ).append( '<input type="hidden" name="from_' + target + '_' + i + '" value="' + $( '#manager_input_modal [name=time_from_' + i + ']' ).val() + '">' );
                                 $( this ).find( '.data-area' ).append( '<input type="hidden" name="to_' + target + '_' + i + '" value="' + $( '#manager_input_modal [name=time_to_' + i + ']' ).val() + '">' );
+                                
+                                var tmp = $( this );
+                                $( '#manager_input_form .input-check-wrap' ).each( function( index, value ) {
+                                    var name = $( this ).find( 'input[type=checkbox]' ).attr( 'name' );
+                                    if ( name.substring( name.lastIndexOf('_')+1 ) == '1' ) {
+                                        var value = name.substring( name.indexOf('_')+1, name.lastIndexOf('_') );
+                                        $( tmp ).find( '.data-area' ).append( '<input type="hidden" name="setting_' + value + '_' + target + '_' + i + '" value="' + $( '#manager_input_modal [name=setting_' + value + '_' + i + ']' ).prop( 'checked' ) + '">' );
+                                    }
+                                });
                             }
                         }
                         $( this ).find( '.data-area' ).prev().prev().removeClass( 'no-icon' );
@@ -699,7 +777,7 @@ $( function() {
     });
 
     $( document ).on( 'click', '#manager_input_modal .no-button', function () {
-        for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 3; i-- ) {
+        for ( var i = $( '#manager_input_modal #manager_input_form .d-flex' ).length; i > 4; i-- ) {
             $( '#manager_input_modal #manager_input_form .d-flex' ).eq( i - 3 ).remove();
         }
         $( '#manager_input_modal [name=flg]' ).each( function( index, value ) {
@@ -733,7 +811,7 @@ function check_all_time() {
                 $( '#manager_all_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
                 flg = false;
             }
-            if ( check_empty(last_time) && last_time >= $( '#manager_all_input_modal [name=time_from_' + i + ']' ).val() ) {
+            if ( check_empty(last_time) && last_time > $( '#manager_all_input_modal [name=time_from_' + i + ']' ).val() ) {
                 $( '#manager_all_input_modal [name=time_from_' + i + ']' ).addClass( 'parsley-error' );
                 $( '#manager_all_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
                 flg = false;
@@ -747,16 +825,28 @@ function check_time() {
     var flg = true;
     if ( $( '#manager_input_modal [name=flg]:checked' ).val() == '1' ) {
         var last_time = null;
-        for ( var i = 1; i <= $( '#manager_input_modal #manager_input_form .d-flex' ).length - 2; i++ ) {
-            if ( $( '#manager_input_modal [name=time_from_' + i + ']' ).val() >= $( '#manager_input_modal [name=time_to_' + i + ']' ).val() ) {
-                $( '#manager_input_modal [name=time_from_' + i + ']' ).addClass( 'parsley-error' );
-                $( '#manager_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
-                flg = false;
-            }
-            if ( check_empty(last_time) && last_time >= $( '#manager_input_modal [name=time_from_' + i + ']' ).val() ) {
-                $( '#manager_input_modal [name=time_from_' + i + ']' ).addClass( 'parsley-error' );
-                $( '#manager_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
-                flg = false;
+        for ( var i = 1; i <= $( '#manager_input_modal #manager_input_form .input-time' ).length / 2; i++ ) {
+            if ( check_empty( $( '#manager_input_modal [name=time_from_' + i + ']' ).val() ) && check_empty( $( '#manager_input_modal [name=time_to_' + i + ']' ).val() ) ) {
+                if ( $( '#manager_input_modal [name=time_from_' + i + ']' ).val() >= $( '#manager_input_modal [name=time_to_' + i + ']' ).val() ) {
+                    $( '#manager_input_modal [name=time_from_' + i + ']' ).addClass( 'parsley-error' );
+                    $( '#manager_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
+                    flg = false;
+                }
+                if ( check_empty(last_time) && last_time > $( '#manager_input_modal [name=time_from_' + i + ']' ).val() ) {
+                    $( '#manager_input_modal [name=time_from_' + i + ']' ).addClass( 'parsley-error' );
+                    $( '#manager_input_modal [name=time_to_' + i + ']' ).addClass( 'parsley-error' );
+                    flg = false;
+                }
+            } else {
+                if ( check_empty( $( '#manager_input_modal [name=time_from_' + i + ']' ).val() ) ) {
+                    if ( !check_empty( $( '#manager_input_modal [name=time_to_' + i + ']' ).val() ) ) {
+                        flg = false;
+                    }
+                } else if ( check_empty( $( '#manager_input_modal [name=time_to_' + i + ']' ).val() ) ) {
+                    if ( !check_empty( $( '#manager_input_modal [name=time_from_' + i + ']' ).val() ) ) {
+                        flg = false;
+                    }
+                }
             }
             last_time = $( '#manager_input_modal [name=time_to_' + i + ']' ).val();
         }

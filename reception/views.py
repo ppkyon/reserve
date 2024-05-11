@@ -1,7 +1,10 @@
 
 from view import ShopView
 
-from reception.models import ReceptionData, ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
+from reception.models import (
+    ReceptionData, ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
+)
+from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
 from sign.models import AuthLogin, AuthUser, ManagerProfile
 
@@ -274,14 +277,20 @@ class ManagerView(ShopView):
             context['setting'] = ShopOffline.objects.filter(display_id=self.request.GET.get("id")).first()
         if ShopOnline.objects.filter(display_id=self.request.GET.get("id")).first():
             context['setting'] = ShopOnline.objects.filter(display_id=self.request.GET.get("id")).first()
+
+        context['setting_list'] = list()
         context['offline_list'] = ShopOffline.objects.filter(shop=auth_login.shop).order_by('created_at').all()
         for offline_index, offline_item in enumerate(context['offline_list']):
             context['offline_list'][offline_index].type = 1
             context['offline_list'][offline_index].time = ShopOfflineTime.objects.filter(offline=offline_item).order_by('week').all()
+            for reserve_offline_setting in ReserveOfflineSetting.objects.filter(offline=offline_item).order_by('created_at').all():
+                context['setting_list'].append(reserve_offline_setting)
         context['online_list'] = ShopOnline.objects.filter(shop=auth_login.shop).order_by('created_at').all()
         for online_index, online_item in enumerate(context['online_list']):
             context['online_list'][online_index].type = 2
             context['online_list'][online_index].time = ShopOnlineTime.objects.filter(online=online_item).order_by('week').all()
+            for reserve_online_setting in ReserveOnlineSetting.objects.filter(online=online_item).order_by('created_at').all():
+                context['setting_list'].append(reserve_online_setting)
         context['online_offline_list'] = list(chain(context['offline_list'], context['online_list']))
 
         for online_offline_index, online_offline_item in enumerate(context['online_offline_list']):
@@ -301,11 +310,20 @@ class ManagerView(ShopView):
                             if len(reception_list) > 0:
                                 time_list = list()
                                 for reception in reception_list:
-                                    time_list.append({
-                                        'number': reception.number,
-                                        'from': reception.reception_from,
-                                        'to': reception.reception_to,
-                                    })
+                                    if ShopOffline.objects.filter(id=online_offline_item.id).exists():
+                                        time_list.append({
+                                            'number': reception.number,
+                                            'from': reception.reception_from,
+                                            'to': reception.reception_to,
+                                            'setting': ReceptionOfflineManagerSetting.objects.filter(manager=reception).all(),
+                                        })
+                                    if ShopOnline.objects.filter(id=online_offline_item.id).exists():
+                                        time_list.append({
+                                            'number': reception.number,
+                                            'from': reception.reception_from,
+                                            'to': reception.reception_to,
+                                            'setting': ReceptionOnlineManagerSetting.objects.filter(manager=reception).all(),
+                                        })
                                 context['online_offline_list'][online_offline_index].manager[manager_index].reception_list.append({
                                     'year': day.year,
                                     'month': day.month,
