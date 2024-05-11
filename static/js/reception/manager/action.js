@@ -693,7 +693,7 @@ $( function() {
             html += '</div>';
             html += '<div class="d-flex align-items-center align-items-center mb-2">';
             html += '<div class="row">';
-            html += '<div class="col-9" style="margin-left: 20%;">';
+            html += '<div class="col-9" style="margin-left: 18%;">';
             html += '<div class="row">';
             $( '#manager_input_form .input-check-wrap' ).each( function( index, value ) {
                 var name = $( this ).find( 'input[type=checkbox]' ).attr( 'name' );
