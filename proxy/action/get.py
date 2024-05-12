@@ -221,7 +221,14 @@ def date(request):
     week_schedule = list()
     week_time = list()
     unit_time = '60min'
-    if reserve_data:
+    if setting['unit']:
+        if setting['unit'] == 60:
+            unit_time = '60min'
+        elif setting['unit'] == 30:
+            unit_time = '30min'
+        elif setting['unit'] == 15:
+            unit_time = '15min'
+    elif reserve_data:
         if reserve_data.unit == 60:
             unit_time = '60min'
         elif reserve_data.unit == 30:
@@ -229,7 +236,7 @@ def date(request):
         elif reserve_data.unit == 15:
             unit_time = '15min'
     if time['from'] and time['to']:
-        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
+        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq='15min'):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             week_time.append({
                 'time': schedule_time
@@ -273,6 +280,10 @@ def date(request):
             send_week = list()
             for schedule_week_value in week_day:
                 reception_flg = True
+                manager_count = len(manager_list)
+                facility_count = len(facility_list)
+                reception_manager_list = list()
+                reception_facility_list = list()
                 for manager in manager_list:
                     schedule_datetime = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=setting['time'])
@@ -283,9 +294,6 @@ def date(request):
                         reception_place = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
                         reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
                     if reception_place and reception_manager and reception_flg and schedule_week_value['day'] == schedule_datetime.day:
-                        manager_count = len(manager_list)
-                        facility_count = len(facility_list)
-
                         if len(reception_data) > 0 :
                             people_number = 0
                             people_count = setting['people']
@@ -294,8 +302,6 @@ def date(request):
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             schedule_add_date = schedule_date + datetime.timedelta(minutes=setting['time'])
 
-                            reception_manager_list = list()
-                            reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
                                 if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
@@ -322,33 +328,50 @@ def date(request):
                                                         count_flg = False
                                                     people_count = people_count - 1
                                                     if people_count <= 0:
-                                                        manager_count = manager_count - 1
-                                                        facility_count = facility_count - 1
+                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                            manager_count = manager_count - 1
+                                                            reception_manager_list.append(reception['manager'])
+                                                        if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                            facility_count = facility_count - 1
+                                                            reception_facility_list.append(reception['facility'])
 
                                                         people_number = people_number + 1
                                                         people_count = setting['people']
                                                         if facility_count > 0 and facility_list[people_number].count < people_count:
                                                             people_count = facility_list[people_number].count
                                                 else:
-                                                    manager_count = manager_count - 1
-                                                    facility_count = facility_count - 1
+                                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(reception['manager'])
+                                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(reception['facility'])
                                             else:
-                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                     manager_count = manager_count - 1
-                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                    reception_manager_list.append(reception['manager'])
+                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                     facility_count = facility_count - 1
+                                                    reception_facility_list.append(reception['facility'])
                                     if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                        manager_count = manager_count - 1
                                         reception_manager_list.append(reception['manager'])
                                     if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                        facility_count = facility_count - 1
                                         reception_facility_list.append(reception['facility'])
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
-                                break
                         else:
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
-                                break
+                    else:
+                        if not manager in reception_manager_list:
+                            manager_count = manager_count - 1
+                            reception_manager_list.append(manager)
+                
+                if manager_count <= 0 or facility_count <= 0:
+                    reception_flg = True
                 send_week.append({
                     'year': schedule_week_value['year'],
                     'month': schedule_week_value['month'],

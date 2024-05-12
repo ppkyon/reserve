@@ -392,9 +392,6 @@ def date(request):
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
                     else:
-                        # if schedule_week_value['day'] == 18 and int(schedule_time[:schedule_time.find(':')]) == 10:
-                        #     print(manager_count)
-                        #     print(reception_manager_list)
                         if not manager in reception_manager_list:
                             manager_count = manager_count - 1
                             reception_manager_list.append(manager)
