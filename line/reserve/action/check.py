@@ -307,7 +307,7 @@ def check(request):
                     if online_offline['type'] == 2:
                         reception_place = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
                         reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
-                    if reception_place and reception_manager and reception_flg and schedule_week_value['day'] == schedule_datetime.day:
+                    if reception_place and reception_manager and schedule_week_value['day'] == schedule_datetime.day:
 
                         if len(reception_data) > 0 :
                             people_number = 0
