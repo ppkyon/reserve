@@ -391,9 +391,13 @@ def date(request):
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
-                    if manager in reception_manager_list:
-                        manager_count = manager_count - 1
-                        reception_manager_list.append(manager)
+                    else:
+                        # if schedule_week_value['day'] == 18 and int(schedule_time[:schedule_time.find(':')]) == 10:
+                        #     print(manager_count)
+                        #     print(reception_manager_list)
+                        if not manager in reception_manager_list:
+                            manager_count = manager_count - 1
+                            reception_manager_list.append(manager)
                 
                 if manager_count <= 0 or facility_count <= 0:
                     reception_flg = True
