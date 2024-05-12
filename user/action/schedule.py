@@ -217,6 +217,10 @@ def get(request):
             send_week = list()
             for schedule_week_value in week_day:
                 reception_flg = True
+                manager_count = len(manager_list)
+                facility_count = len(facility_list)
+                reception_manager_list = list()
+                reception_facility_list = list()
                 for manager in manager_list:
                     schedule_datetime = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=setting['time'])
@@ -228,9 +232,6 @@ def get(request):
                         reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
                     
                     if reception_place and reception_manager and reception_flg and schedule_week_value['day'] == schedule_datetime.day:
-                        manager_count = len(manager_list)
-                        facility_count = len(facility_list)
-
                         if len(reception_data) > 0 :
                             people_number = 0
                             people_count = setting['people']
@@ -239,8 +240,6 @@ def get(request):
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             schedule_add_date = schedule_date + datetime.timedelta(minutes=setting['time'])
 
-                            reception_manager_list = list()
-                            reception_facility_list = list()
                             count_flg = True
                             for reception in reception_data:
                                 if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
@@ -267,31 +266,50 @@ def get(request):
                                                         count_flg = False
                                                     people_count = people_count - 1
                                                     if people_count <= 0:
-                                                        manager_count = manager_count - 1
-                                                        facility_count = facility_count - 1
+                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                            manager_count = manager_count - 1
+                                                            reception_manager_list.append(reception['manager'])
+                                                        if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                            facility_count = facility_count - 1
+                                                            reception_facility_list.append(reception['facility'])
 
                                                         people_number = people_number + 1
                                                         people_count = setting['people']
                                                         if facility_count > 0 and facility_list[people_number].count < people_count:
                                                             people_count = facility_list[people_number].count
                                                 else:
-                                                    manager_count = manager_count - 1
-                                                    facility_count = facility_count - 1
+                                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(reception['manager'])
+                                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(reception['facility'])
                                             else:
-                                                manager_count = manager_count - 1
-                                                facility_count = facility_count - 1
+                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                    manager_count = manager_count - 1
+                                                    reception_manager_list.append(reception['manager'])
+                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                    facility_count = facility_count - 1
+                                                    reception_facility_list.append(reception['facility'])
                                     if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                        manager_count = manager_count - 1
                                         reception_manager_list.append(reception['manager'])
                                     if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                        facility_count = facility_count - 1
                                         reception_facility_list.append(reception['facility'])
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
-                                break
                         else:
                             schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
-                                break
+                    else:
+                        if not manager in reception_manager_list:
+                            manager_count = manager_count - 1
+                            reception_manager_list.append(manager)
+
+                if manager_count <= 0 or facility_count <= 0:
+                    reception_flg = True
                 send_week.append({
                     'year': schedule_week_value['year'],
                     'month': schedule_week_value['month'],
@@ -452,9 +470,12 @@ def send(request):
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         manager_list = list()
         facility_list = list()
+        schedule_datetime = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+        schedule_add_datetime = schedule_datetime + datetime.timedelta(minutes=setting.time)
         if setting:
             for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=setting).all():
-                manager_list.append(manager_menu_item.manager)
+                if ReceptionOfflineManager.objects.filter(offline=setting.offline, manager=manager_menu_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                    manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
                 
@@ -525,9 +546,12 @@ def send(request):
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         manager_list = list()
         facility_list = list()
+        schedule_datetime = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+        schedule_add_datetime = schedule_datetime + datetime.timedelta(minutes=setting.time)
         if setting:
             for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=setting).all():
-                manager_list.append(manager_menu_item.manager)
+                if ReceptionOnlineManager.objects.filter(online=setting.online, manager=manager_menu_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                    manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
 
@@ -613,8 +637,9 @@ def send(request):
         facility_list = list()
         if setting:
             for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=setting).all():
-                manager_menu_item.manager.count = people_count
-                manager_list.append(manager_menu_item.manager)
+                if ReceptionOfflineManager.objects.filter(offline=setting.offline, manager=manager_menu_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                    manager_menu_item.manager.count = people_count
+                    manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOfflineFacilityMenu.objects.filter(offline=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
         
@@ -652,11 +677,12 @@ def send(request):
                     reception_manager_list.append(schedule_item.manager.id)
                     reception_facility_list.append(schedule_item.offline_facility.id)
 
-        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=setting).values(*get_model_field(ReserveOfflineManagerMenu)).all():
-            if not manager_item['manager'] in reception_manager_list:
-                manager = AuthUser.objects.filter(id=manager_item['manager']).values(*get_model_field(AuthUser)).first()
-                manager['profile'] = ManagerProfile.objects.filter(manager__id=manager['id']).values(*get_model_field(ManagerProfile)).first()
-                break
+        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=setting).order_by('-manager__created_at').values(*get_model_field(ReserveOfflineManagerMenu)).all():
+            if ReceptionOfflineManager.objects.filter(offline=setting.offline, manager__id=manager_item['manager'], reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                if not manager_item['manager'] in reception_manager_list:
+                    manager = AuthUser.objects.filter(id=manager_item['manager']).values(*get_model_field(AuthUser)).first()
+                    manager['profile'] = ManagerProfile.objects.filter(manager__id=manager['id']).values(*get_model_field(ManagerProfile)).first()
+                    break
         for facility_item in ReserveOfflineFacilityMenu.objects.filter(shop=auth_login.shop, offline=setting).values(*get_model_field(ReserveOfflineFacilityMenu)).all():
             if not facility_item['facility'] in reception_facility_list:
                 facility = ReserveOfflineFacility.objects.filter(id=facility_item['facility']).values(*get_model_field(ReserveOfflineFacility)).first()
@@ -673,10 +699,13 @@ def send(request):
         people_count = setting.people
         manager_list = list()
         facility_list = list()
+        schedule_datetime = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
+        schedule_add_datetime = schedule_datetime + datetime.timedelta(minutes=setting.time)
         if setting:
             for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=setting).all():
-                manager_menu_item.manager.count = people_count
-                manager_list.append(manager_menu_item.manager)
+                if ReceptionOnlineManager.objects.filter(online=setting.online, manager=manager_menu_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                    manager_menu_item.manager.count = people_count
+                    manager_list.append(manager_menu_item.manager)
             for facility_menu_item in ReserveOnlineFacilityMenu.objects.filter(online=setting).order_by('facility__order').all():
                 facility_list.append(facility_menu_item.facility)
         
@@ -714,11 +743,12 @@ def send(request):
                     reception_manager_list.append(schedule_item.manager.id)
                     reception_facility_list.append(schedule_item.online_facility.id)
 
-        for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=setting).values(*get_model_field(ReserveOnlineManagerMenu)).all():
-            if not manager_item['manager'] in reception_manager_list:
-                manager = AuthUser.objects.filter(id=manager_item['manager']).values(*get_model_field(AuthUser)).first()
-                manager['profile'] = ManagerProfile.objects.filter(manager__id=manager['id']).values(*get_model_field(ManagerProfile)).first()
-                break
+        for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=setting).order_by('manager__created_at').values(*get_model_field(ReserveOnlineManagerMenu)).all():
+            if ReceptionOnlineManager.objects.filter(online=setting.online, manager=manager_item['manager'], reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
+                if not manager_item['manager'] in reception_manager_list:
+                    manager = AuthUser.objects.filter(id=manager_item['manager']).values(*get_model_field(AuthUser)).first()
+                    manager['profile'] = ManagerProfile.objects.filter(manager__id=manager['id']).values(*get_model_field(ManagerProfile)).first()
+                    break
         for facility_item in ReserveOnlineFacilityMenu.objects.filter(shop=auth_login.shop, online=setting).values(*get_model_field(ReserveOnlineFacilityMenu)).all():
             if not facility_item['facility'] in reception_facility_list:
                 facility = ReserveOnlineFacility.objects.filter(id=facility_item['facility']).values(*get_model_field(ReserveOnlineFacility)).first()
