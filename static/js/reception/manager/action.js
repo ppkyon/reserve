@@ -124,6 +124,25 @@ $( function() {
                 $( '#manager_input_modal [name=time_to_1]' ).val( '' );
             });
         }
+
+        flatpickr( '.input-time', {
+            "locale": "ja",
+            enableTime: true,
+            noCalendar: true,
+            dateFormat : 'H:i',
+            minuteIncrement: 15,
+            onReady: function(dateObj, dateStr, instance) {
+                const clearButton = document.createElement("div");
+                clearButton.innerHTML = "クリア";
+                clearButton.classList.add("clear-button");
+                clearButton.style.cursor = "pointer";
+                clearButton.addEventListener("click", function() {
+                    instance.clear();
+                });
+                instance.calendarContainer.appendChild(clearButton);
+            }
+        });
+        
         $( this ).next().trigger( 'click' );
     });
 
