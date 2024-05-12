@@ -46,6 +46,7 @@ $( function() {
                 $( '#select_schedule_modal .modal-header .sub' ).text( '' );
             }
             $( '#save_step_form [name=user_id]' ).val( response.display_id );
+            $( '#save_step_form [name=proxy_flg]' ).val( response.proxy_flg );
 
             $( '#select_schedule_modal .input-schedule-setting-dropdown .dropdown-menu' ).empty();
             $( '#save_step_form table tbody' ).empty();
@@ -956,6 +957,11 @@ $( function() {
         $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
         $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
         $( this ).prop( 'disabled', true );
+
+        var url = $( '#save_step_form' ).attr( 'action' );
+        if ( $( '#save_step_form [name=proxy_flg]' ).val() == 'true' ) {
+            url = $( '#save_temp_step_form' ).val();
+        }
         
         var form_data = new FormData();
         form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
@@ -999,7 +1005,7 @@ $( function() {
         });
         $.ajax({
             'data': form_data,
-            'url': $( '#save_step_form' ).attr( 'action' ),
+            'url': url,
             'type': 'POST',
             'dataType': 'json',
             'processData': false,
