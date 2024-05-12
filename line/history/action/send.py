@@ -308,7 +308,7 @@ def send(request):
                         reception_facility_list.append(schedule_item.online_facility)
 
             manager = None
-            for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=shop, online=user_flow_schedule.online).order_by('-manager__created_at').all():
+            for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=shop, online=user_flow_schedule.online).order_by('manager__created_at').all():
                 if ReceptionOnlineManager.objects.filter(online=user_flow_schedule.online.online, manager=manager_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
                     if not manager_item.manager.id in reception_manager_list:
                         manager = manager_item.manager

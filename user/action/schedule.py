@@ -231,7 +231,7 @@ def get(request):
                         reception_place = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
                         reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
                     
-                    if reception_place and reception_manager and reception_flg and schedule_week_value['day'] == schedule_datetime.day:
+                    if reception_place and reception_manager and schedule_week_value['day'] == schedule_datetime.day:
                         if len(reception_data) > 0 :
                             people_number = 0
                             people_count = setting['people']
@@ -677,7 +677,7 @@ def send(request):
                     reception_manager_list.append(schedule_item.manager.id)
                     reception_facility_list.append(schedule_item.offline_facility.id)
 
-        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=setting).order_by('-manager__created_at').values(*get_model_field(ReserveOfflineManagerMenu)).all():
+        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=setting).order_by('manager__created_at').values(*get_model_field(ReserveOfflineManagerMenu)).all():
             if ReceptionOfflineManager.objects.filter(offline=setting.offline, manager__id=manager_item['manager'], reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
                 if not manager_item['manager'] in reception_manager_list:
                     manager = AuthUser.objects.filter(id=manager_item['manager']).values(*get_model_field(AuthUser)).first()

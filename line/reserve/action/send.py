@@ -845,7 +845,7 @@ def send(request):
                     reception_facility_list.append(schedule_item.offline_facility)
 
         manager = None
-        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).order_by('-manager__created_at').all():
+        for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).order_by('manager__created_at').all():
             if ReceptionOfflineManager.objects.filter(offline=setting.offline, manager=manager_item.manager, reception_date__year=request.POST.get('year'), reception_date__month=request.POST.get('month'), reception_date__day=request.POST.get('day'), reception_from__lte=schedule_datetime.time(), reception_to__gte=schedule_add_datetime.time(), reception_flg=True).exists():
                 if not manager_item.manager.id in reception_manager_list:
                     manager = manager_item.manager
