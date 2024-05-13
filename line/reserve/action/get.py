@@ -3,7 +3,9 @@ from django.http import JsonResponse
 
 from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice
-from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
+from reception.models import (
+    ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
+)
 from reserve.models import (
     ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
@@ -316,9 +318,19 @@ def date(request):
                     if online_offline['type'] == 1:
                         reception_place = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
                         reception_manager = ReceptionOfflineManager.objects.filter(offline__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
+                        if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
+                            if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline__id=setting['id']).exists():
+                                reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline__id=setting['id']).first()
+                                if not reception_offline_manager_setting.flg:
+                                    reception_manager = None
                     if online_offline['type'] == 2:
                         reception_place = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
                         reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
+                        if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager).exists():
+                            if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online__id=setting['id']).exists():
+                                reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online__id=setting['id']).first()
+                                if not reception_online_manager_setting.flg:
+                                    reception_manager = None
                     if reception_place and reception_manager and schedule_week_value['day'] == schedule_datetime.day:
                         if len(reception_data) > 0 :
                             people_number = 0
@@ -392,9 +404,6 @@ def date(request):
                             if manager_count > 0 and facility_count > 0:
                                 reception_flg = False
                     else:
-                        if schedule_week_value['day'] == 13 and int(schedule_time[:schedule_time.find(':')]) == 12:
-                            print(manager_count)
-                            print(manager)
                         if not manager in reception_manager_list:
                             manager_count = manager_count - 1
                             reception_manager_list.append(manager)
