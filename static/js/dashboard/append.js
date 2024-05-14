@@ -54,11 +54,8 @@ function append_mini_table_area(target, data) {
         }
         html += '</td>';
         html += '<td>';
-        if ( data.flow.user.proxy_flg ) {
-            html += '<a href="/temp/detail/?id=' + data.flow.user.display_id + '" class="btn action-button">対応</a>';
-        } else {
-            html += '<a href="/user/detail/?id=' + data.flow.user.display_id + '" class="btn action-button">対応</a>';
-        }
+        html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn action-button">対応</button>';
+        html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#edit_step_modal"></button>';
         html += '</td>';
         html += '<td class="text-center">';
         html += '<div class="dropdown d-inline-block p-0">';
