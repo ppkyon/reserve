@@ -84,7 +84,11 @@
                                         <div class="dropdown-menu">
                                             <button type="button" value="{{ after_reserve_item.display_id }}" class="btn dropdown-item dropdown-preview-button fw-bold text-center">プレビュー</button>
                                             <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>
-                                            <a href="{% url 'user:detail' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
+                                            {% if after_reserve_item.proxy_flg %}
+                                                <a href="{% url 'temp:detail' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
+                                            {% else %}
+                                                <a href="{% url 'user:detail' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
+                                            {% endif %}
                                             {% if not after_reserve_item.proxy_flg %}
                                                 <a href="{% url 'talk:index' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1対1トーク</a>
                                             {% endif %}
