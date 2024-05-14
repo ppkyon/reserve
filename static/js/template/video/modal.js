@@ -16,9 +16,11 @@ function open_template_video_modal(target, number){
                 }
             });
             $( '#template_video_modal .table-area tbody button' ).val( number );
+            $( '#template_video_modal .btn-close' ).val( number );
             $( '#template_video_modal .table-area' ).removeClass( 'd-none' );
             $( '#template_video_modal .notice-area' ).addClass( 'd-none' );
         } else {
+            $( '#template_video_modal .btn-close' ).val( number );
             $( '#template_video_modal .table-area' ).addClass( 'd-none' );
             $( '#template_video_modal .notice-area' ).removeClass( 'd-none' );
         }

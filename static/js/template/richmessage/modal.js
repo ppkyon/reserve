@@ -14,9 +14,11 @@ function open_template_richmessage_modal(target, number){
                 $( '#template_richmessage_modal .table-area tbody' ).append( append_template_richmessage_modal(value) );
             });
             $( '#template_richmessage_modal .table-area tbody button' ).val( number );
+            $( '#template_richmessage_modal .btn-close' ).val( number );
             $( '#template_richmessage_modal .table-area' ).removeClass( 'd-none' );
             $( '#template_richmessage_modal .notice-area' ).addClass( 'd-none' );
         } else {
+            $( '#template_richmessage_modal .btn-close' ).val( number );
             $( '#template_richmessage_modal .table-area' ).addClass( 'd-none' );
             $( '#template_richmessage_modal .notice-area' ).removeClass( 'd-none' );
         }

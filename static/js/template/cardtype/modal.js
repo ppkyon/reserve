@@ -14,9 +14,11 @@ function open_template_cardtype_modal(target, number){
                 $( '#template_cardtype_modal .table-area tbody' ).append( append_template_cardtype_modal(value) );
             });
             $( '#template_cardtype_modal .table-area tbody button' ).val( number );
+            $( '#template_cardtype_modal .btn-close' ).val( number );
             $( '#template_cardtype_modal .table-area' ).removeClass( 'd-none' );
             $( '#template_cardtype_modal .notice-area' ).addClass( 'd-none' );
         } else {
+            $( '#template_cardtype_modal .btn-close' ).val( number );
             $( '#template_cardtype_modal .table-area' ).addClass( 'd-none' );
             $( '#template_cardtype_modal .notice-area' ).removeClass( 'd-none' );
         }

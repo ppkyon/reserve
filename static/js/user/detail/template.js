@@ -85,7 +85,13 @@ $( function() {
         });
     });
     $( document ).on( 'click', '#template_text_modal .btn-close', function () {
-        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        if ( $( this ).val() == 'member' ) {
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'yes' ) {
+            $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'no' ) {
+            $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+        }
         up_modal();
     });
     $( document ).on( 'click', '#template_video_modal .table-area tbody button', function () {
@@ -128,7 +134,13 @@ $( function() {
         });
     });
     $( document ).on( 'click', '#template_video_modal .btn-close', function () {
-        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        if ( $( this ).val() == 'member' ) {
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'yes' ) {
+            $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'no' ) {
+            $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+        }
         up_modal();
     });
     $( document ).on( 'click', '#template_richmessage_modal .table-area tbody button', function () {
@@ -171,7 +183,13 @@ $( function() {
         });
     });
     $( document ).on( 'click', '#template_richmessage_modal .btn-close', function () {
-        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        if ( $( this ).val() == 'member' ) {
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'yes' ) {
+            $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'no' ) {
+            $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+        }
         up_modal();
     });
     $( document ).on( 'click', '#template_richvideo_modal .table-area tbody button', function () {
@@ -214,7 +232,13 @@ $( function() {
         });
     });
     $( document ).on( 'click', '#template_richvideo_modal .btn-close', function () {
-        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        if ( $( this ).val() == 'member' ) {
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'yes' ) {
+            $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'no' ) {
+            $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+        }
         up_modal();
     });
     $( document ).on( 'click', '#template_cardtype_modal .table-area tbody button', function () {
@@ -257,7 +281,13 @@ $( function() {
         });
     });
     $( document ).on( 'click', '#template_cardtype_modal .btn-close', function () {
-        $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        if ( $( this ).val() == 'member' ) {
+            $( '#member_user_message_check_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'yes' ) {
+            $( '#edit_step_yes_message_modal' ).addClass( 'up-modal' );
+        } else if ( $( this ).val() == 'no' ) {
+            $( '#edit_step_no_message_modal' ).addClass( 'up-modal' );
+        }
         up_modal();
     });
 });
