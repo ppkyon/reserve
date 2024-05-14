@@ -1,10 +1,15 @@
 $( function(){
     $( document ).on( 'click', '#edit_step_modal .input-schedule', function () {
+        $( '#select_schedule_modal .date-area' ).addClass( 'd-none' );
+        $( '#select_schedule_modal .date-loader-area' ).removeClass( 'd-none' );
+
+        $( this ).next().trigger( 'click' );
+        up_modal();
+
         $( '#select_schedule_modal [name=schedule_setting]' ).val( $( this ).parents( 'tr' ).find( '.content-course' ).next().next().val() );
         $( '#select_schedule_modal [name=schedule_setting]' ).next().val( $( this ).parents( 'tr' ).find( '.content-course' ).next().val() );
         $( '#select_schedule_modal [name=schedule_course]' ).val( $( this ).parents( 'tr' ).find( '.content-course' ).next().next().next().val() );
 
-        var target = $( this );
         var form_data = new FormData();
         form_data.append( 'user_id', $( '#save_step_form [name=user_id]' ).val() );
         form_data.append( 'setting_id', $( '#select_schedule_modal [name=schedule_setting]' ).next().val() );
@@ -18,8 +23,8 @@ $( function(){
             'contentType': false,
         }).done( function( response ){
             create_date(response);
-            $( target ).next().trigger( 'click' );
-            up_modal();
+            $( '#select_schedule_modal .date-loader-area' ).addClass( 'd-none' );
+            $( '#select_schedule_modal .date-area' ).removeClass( 'd-none' );
         }).fail( function(){
             
         });
