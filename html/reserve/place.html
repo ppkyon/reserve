@@ -60,6 +60,7 @@
                                                         <tr class="position-relative">
                                                             <td class="position-relative">
                                                                 <input type="text" value="{{ offline_course_item.title }}" class="input-text input-course-title readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                <input type="hidden" class="input-course-id" value="{{ offline_course_item.display_id }}">
                                                             </td>
                                                             <td class="position-relative">
                                                                 <input type="text" value="{{ offline_course_item.outline }}" class="input-text input-course-outline readonly ps-2 pe-2" style="width: 100%;" readonly>
@@ -154,7 +155,68 @@
                                                 </thead>
                                                 <tbody>
                                                     {% for online_course_item in online_course %}
-
+                                                        <tr class="position-relative">
+                                                            <td class="position-relative">
+                                                                <input type="text" value="{{ online_course_item.title }}" class="input-text input-course-title readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                                <input type="hidden" class="input-course-id" value="{{ online_course_item.display_id }}">
+                                                            </td>
+                                                            <td class="position-relative">
+                                                                <input type="text" value="{{ online_course_item.outline }}" class="input-text input-course-outline readonly ps-2 pe-2" style="width: 100%;" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <div class="dropdown d-inline-block p-0">
+                                                                    <button type="button" class="btn ps-0" data-bs-toggle="dropdown">
+                                                                        <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button type="button" value="offline_{{ online_course_item.number }}" class="btn dropdown-item detail-course-button fw-bold text-center">詳細</button>
+                                                                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#save_course_modal"></button>
+                                                                        <button type="button" value="offline_{{ online_course_item.number }}" class="btn dropdown-item delete-course-button fw-bold text-center border-top p-1 pt-2">削除</button>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="hidden" class="input-course-start" value="{{ online_course_item.start }}">
+                                                                <input type="hidden" class="input-course-deadline" value="{{ online_course_item.deadline }}">
+                                                                <input type="hidden" class="input-course-on-time" value="{{ online_course_item.on_time }}">
+                                                                <input type="hidden" class="input-course-any-day" value="{{ online_course_item.any_day }}">
+                                                                <input type="hidden" class="input-course-any-time" value="{{ online_course_item.any_time }}">
+                                                                <input type="hidden" class="input-course-method" value="{{ online_course_item.method }}">
+                                                                {% if online_course_item.business_mon_day %}
+                                                                    <input type="hidden" class="input-course-business-check-1" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-1" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_tue_day %}
+                                                                    <input type="hidden" class="input-course-business-check-2" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-2" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_wed_day %}
+                                                                    <input type="hidden" class="input-course-business-check-3" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-3" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_thu_day %}
+                                                                    <input type="hidden" class="input-course-business-check-4" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-4" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_fri_day %}
+                                                                    <input type="hidden" class="input-course-business-check-5" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-5" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_sat_day %}
+                                                                    <input type="hidden" class="input-course-business-check-6" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-6" value="0">
+                                                                {% endif %}
+                                                                {% if online_course_item.business_sun_day %}
+                                                                    <input type="hidden" class="input-course-business-check-7" value="1">
+                                                                {% else %}
+                                                                    <input type="hidden" class="input-course-business-check-7" value="0">
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
                                                     {% endfor %}
                                                 </tbody>
                                             </table>

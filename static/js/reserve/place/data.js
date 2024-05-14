@@ -21,6 +21,7 @@ $( function() {
 
         form_data.append( 'offline_course_count', $( '#save_place_form .course-table.offline tbody tr' ).length );
         $( '#save_place_form .course-table.offline tbody tr' ).each( function( index ,value ) {
+            form_data.append( 'offline_course_id_' + (index+1), $( this ).find( '.input-course-id' ).val() );
             form_data.append( 'offline_course_title_' + (index+1), $( this ).find( '.input-course-title' ).val() );
             form_data.append( 'offline_course_outline_' + (index+1), $( this ).find( '.input-course-outline' ).val() );
             form_data.append( 'offline_course_start_' + (index+1), $( this ).find( '.input-course-start' ).val() );
@@ -39,6 +40,7 @@ $( function() {
         });
         form_data.append( 'online_course_count', $( '#save_place_form .course-table.online tbody tr' ).length );
         $( '#save_place_form .course-table.online tbody tr' ).each( function( index ,value ) {
+            form_data.append( 'online_course_id_' + (index+1), $( this ).find( '.input-course-id' ).val() );
             form_data.append( 'online_course_title_' + (index+1), $( this ).find( '.input-course-title' ).val() );
             form_data.append( 'online_course_outline_' + (index+1), $( this ).find( '.input-course-outline' ).val() );
             form_data.append( 'online_course_start_' + (index+1), $( this ).find( '.input-course-start' ).val() );

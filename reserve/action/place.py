@@ -17,7 +17,13 @@ def save(request):
         name = request.POST.get('offline_name'),
         outline = request.POST.get('offline_outline'),
     )
-    ReserveOfflineCourse.objects.filter(shop=auth_login.shop).all().delete()
+
+    id_list = list()
+    for i in range(int(request.POST.get('offline_course_count'))):
+        if request.POST.get('offline_course_id_'+str(i+1)):
+            id_list.append(request.POST.get('offline_course_id_'+str(i+1)))
+
+    ReserveOfflineCourse.objects.filter(shop=auth_login.shop).exclude(display_id__in=id_list).all().delete()
     for i in range(int(request.POST.get('offline_course_count'))):
         start = 0
         if request.POST.get('offline_course_start_'+str(i+1)):
@@ -58,28 +64,47 @@ def save(request):
         business_check_7 = False
         if request.POST.get('offline_course_business_check_7_'+str(i+1)) == '1':
             business_check_7 = True
-
-        ReserveOfflineCourse.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, ReserveOfflineCourse),
-            shop = auth_login.shop,
-            number = (i+1),
-            title = request.POST.get('offline_course_title_'+str(i+1)),
-            outline = request.POST.get('offline_course_outline_'+str(i+1)),
-            start = start,
-            deadline = deadline,
-            on_time = on_time,
-            any_day = any_day,
-            any_time = any_time,
-            method = method,
-            business_mon_day = business_check_1,
-            business_tue_day = business_check_2,
-            business_wed_day = business_check_3,
-            business_thu_day = business_check_4,
-            business_fri_day = business_check_5,
-            business_sat_day = business_check_6,
-            business_sun_day = business_check_7,
-        )
+        
+        if request.POST.get('offline_course_id_'+str(i+1)) and ReserveOfflineCourse.objects.filter(display_id=request.POST.get('offline_course_id_'+str(i+1))).exists():
+            reserve_offline_course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('offline_course_id_'+str(i+1))).first()
+            reserve_offline_course.title = request.POST.get('offline_course_title_'+str(i+1))
+            reserve_offline_course.outline = request.POST.get('offline_course_outline_'+str(i+1))
+            reserve_offline_course.start = start
+            reserve_offline_course.deadline = deadline
+            reserve_offline_course.on_time = on_time
+            reserve_offline_course.any_day = any_day
+            reserve_offline_course.any_time = any_time
+            reserve_offline_course.method = method
+            reserve_offline_course.business_mon_day = business_check_1
+            reserve_offline_course.business_tue_day = business_check_2
+            reserve_offline_course.business_wed_day = business_check_3
+            reserve_offline_course.business_thu_day = business_check_4
+            reserve_offline_course.business_fri_day = business_check_5
+            reserve_offline_course.business_sat_day = business_check_6
+            reserve_offline_course.business_sun_day = business_check_7
+            reserve_offline_course.save()
+        else:
+            ReserveOfflineCourse.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, ReserveOfflineCourse),
+                shop = auth_login.shop,
+                number = (i+1),
+                title = request.POST.get('offline_course_title_'+str(i+1)),
+                outline = request.POST.get('offline_course_outline_'+str(i+1)),
+                start = start,
+                deadline = deadline,
+                on_time = on_time,
+                any_day = any_day,
+                any_time = any_time,
+                method = method,
+                business_mon_day = business_check_1,
+                business_tue_day = business_check_2,
+                business_wed_day = business_check_3,
+                business_thu_day = business_check_4,
+                business_fri_day = business_check_5,
+                business_sat_day = business_check_6,
+                business_sun_day = business_check_7,
+            )
     
     ReserveOnlinePlace.objects.filter(shop=auth_login.shop).all().delete()
     ReserveOnlinePlace.objects.create(
@@ -89,6 +114,12 @@ def save(request):
         name = request.POST.get('online_name'),
         outline = request.POST.get('online_outline'),
     )
+
+    id_list = list()
+    for i in range(int(request.POST.get('online_course_count'))):
+        if request.POST.get('online_course_id_'+str(i+1)):
+            id_list.append(request.POST.get('online_course_id_'+str(i+1)))
+
     ReserveOnlineCourse.objects.filter(shop=auth_login.shop).all().delete()
     for i in range(int(request.POST.get('online_course_count'))):
         start = 0
@@ -131,27 +162,46 @@ def save(request):
         if request.POST.get('online_course_business_check_7_'+str(i+1)) == '1':
             business_check_7 = True
 
-        ReserveOnlineCourse.objects.create(
-            id = str(uuid.uuid4()),
-            display_id = create_code(12, ReserveOnlineCourse),
-            shop = auth_login.shop,
-            number = (i+1),
-            title = request.POST.get('online_course_title_'+str(i+1)),
-            outline = request.POST.get('online_course_outline_'+str(i+1)),
-            start = start,
-            deadline = deadline,
-            on_time = on_time,
-            any_day = any_day,
-            any_time = any_time,
-            method = method,
-            business_mon_day = business_check_1,
-            business_tue_day = business_check_2,
-            business_wed_day = business_check_3,
-            business_thu_day = business_check_4,
-            business_fri_day = business_check_5,
-            business_sat_day = business_check_6,
-            business_sun_day = business_check_7,
-        )
+        if request.POST.get('online_course_id_'+str(i+1)) and ReserveOnlineCourse.objects.filter(display_id=request.POST.get('online_course_id_'+str(i+1))).exists():
+            reserve_online_course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('online_course_id_'+str(i+1))).first()
+            reserve_online_course.title = request.POST.get('online_course_title_'+str(i+1))
+            reserve_online_course.outline = request.POST.get('online_course_outline_'+str(i+1))
+            reserve_online_course.start = start
+            reserve_online_course.deadline = deadline
+            reserve_online_course.on_time = on_time
+            reserve_online_course.any_day = any_day
+            reserve_online_course.any_time = any_time
+            reserve_online_course.method = method
+            reserve_online_course.business_mon_day = business_check_1
+            reserve_online_course.business_tue_day = business_check_2
+            reserve_online_course.business_wed_day = business_check_3
+            reserve_online_course.business_thu_day = business_check_4
+            reserve_online_course.business_fri_day = business_check_5
+            reserve_online_course.business_sat_day = business_check_6
+            reserve_online_course.business_sun_day = business_check_7
+            reserve_online_course.save()
+        else:
+            ReserveOnlineCourse.objects.create(
+                id = str(uuid.uuid4()),
+                display_id = create_code(12, ReserveOnlineCourse),
+                shop = auth_login.shop,
+                number = (i+1),
+                title = request.POST.get('online_course_title_'+str(i+1)),
+                outline = request.POST.get('online_course_outline_'+str(i+1)),
+                start = start,
+                deadline = deadline,
+                on_time = on_time,
+                any_day = any_day,
+                any_time = any_time,
+                method = method,
+                business_mon_day = business_check_1,
+                business_tue_day = business_check_2,
+                business_wed_day = business_check_3,
+                business_thu_day = business_check_4,
+                business_fri_day = business_check_5,
+                business_sat_day = business_check_6,
+                business_sun_day = business_check_7,
+            )
     return JsonResponse( {}, safe=False )
 
 def save_check(request):

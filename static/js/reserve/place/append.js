@@ -3,6 +3,7 @@ function append_course_area(value) {
     var html = '<tr class="position-relative">';
     html += '<td class="position-relative">';
     html += '<input type="text" value="' + $( '#save_course_modal [name=title]' ).val() + '" class="input-text input-course-title readonly ps-2 pe-2" style="width: 100%;" readonly>';
+    html += '<input type="hidden" class="input-course-id" value=""></input>';
     html += '</td>';
     html += '<td class="position-relative">';
     html += '<input type="text" value="' + $( '#save_course_modal [name=outline]' ).val() + '" class="input-text input-course-outline readonly ps-2 pe-2" style="width: 100%;" readonly>';
