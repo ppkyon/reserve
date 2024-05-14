@@ -824,6 +824,7 @@ def send(request):
             name = target_flow_tab.name,
             richmenu = None,
             end_flg = False,
+            updated_at = datetime.datetime.now(),
         )
 
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=target_flow_tab.flow), Q(Q(member=0)|Q(member=2))).all():
@@ -976,6 +977,7 @@ def send(request):
             name = target_flow_tab.name,
             richmenu = None,
             end_flg = False,
+            updated_at = datetime.datetime.now(),
         )
 
         for flow_tab in ShopFlowTab.objects.filter(Q(flow=target_flow_tab.flow), Q(Q(member=0)|Q(member=2))).all():
