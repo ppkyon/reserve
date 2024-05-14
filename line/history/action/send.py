@@ -121,10 +121,6 @@ def send(request):
                                 if schedule_item.offline_facility in facility_list and not schedule_item.offline_facility in reception_facility_list:
                                     facility_count = facility_count - 1
                                     reception_facility_list.append(schedule_item.offline_facility)
-                    if schedule_item.manager and not schedule_item.manager in reception_manager_list:
-                        reception_manager_list.append(schedule_item.manager)
-                    if schedule_item.offline_facility and not schedule_item.offline_facility in reception_facility_list:
-                        reception_facility_list.append(schedule_item.offline_facility)
         if user_flow_schedule.online:
             manager_list = list()
             facility_list = list()
@@ -212,10 +208,6 @@ def send(request):
                                 if schedule_item.online_facility in facility_list and not schedule_item.online_facility in reception_facility_list:
                                     facility_count = facility_count - 1
                                     reception_facility_list.append(schedule_item.online_facility)
-                    if schedule_item.manager and not schedule_item.manager in reception_manager_list:
-                        reception_manager_list.append(schedule_item.manager)
-                    if schedule_item.online_facility and not schedule_item.online_facility in reception_facility_list:
-                        reception_facility_list.append(schedule_item.online_facility)
         
         if manager_count <= 0 or facility_count <= 0:
             return JsonResponse( {'error': True}, safe=False )
