@@ -12,7 +12,7 @@ from reserve.models import (
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from richmenu.models import UserRichMenu
-from sign.models import AuthShop, AuthUser
+from sign.models import AuthShop
 from user.models import LineUser, UserProfile
 
 from common import create_code
@@ -1001,7 +1001,7 @@ def send(request):
             )
 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
             schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)

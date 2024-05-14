@@ -170,4 +170,7 @@ $( function(){
     $( '.button-area .close-button' ).on( 'click', function() {
         location.reload();
     });
+    $( '.fail-area .reload-button' ).on( 'click', function() {
+        location.reload();
+    });
 });
