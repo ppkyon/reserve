@@ -160,6 +160,7 @@ def send_action_replace( text, line_data, user ):
     
     reserve_date = ''
     for user_flow in UserFlow.objects.filter(user=user, end_flg=False).order_by('-updated_at').all():
+        print(user_flow)
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('-number').first()
         if user_flow_schedule:
             date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
@@ -183,6 +184,7 @@ def send_action_replace( text, line_data, user ):
             elif user_flow_schedule.date.weekday() == 6:
                 week = '(日)'
             reserve_date = str(date.year) + '年' + str(date.month) + '月' + str(date.day) + '日' + week + str(date.hour) + ':' + str(date.minute).zfill(2) + '～' + str(add_date.hour) + ':' + str(add_date.minute).zfill(2)
+            break
     
     text = text.replace( '【予約日時】', reserve_date )
     return text
