@@ -244,7 +244,10 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="save_temp_member_form" value="{% url 'temp:member' %}">
                     <form id="save_member_form" action="{% url 'user:member' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                        <input type="hidden" name="user_id">
+                        <input type="hidden" name="proxy_flg">
                         <div class="row text-center mb-1">
                             <div class="col-10 offset-1">
                                 <div class="d-flex align-items-center justify-content-between mb-2">

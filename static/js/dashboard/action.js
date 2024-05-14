@@ -616,6 +616,8 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
+            $( '#member_user_check_modal [name=user_id]' ).val( response.display_id );
+            $( '#member_user_check_modal [name=proxy_flg]' ).val( response.proxy_flg );
             if ( check_empty( response.profile ) && check_empty( response.profile.email ) ) {
                 $( '#member_user_check_modal .modal-body' ).find( 'input[type=email]' ).eq(0).val( response.profile.email );
             } else {
@@ -871,9 +873,15 @@ $( function() {
             form_data.append( 'message_template_type', $( '#member_user_message_check_modal [name=template_type]' ).next().val() );
             form_data.append( 'message_template', $( '#member_user_message_check_modal [name=template]' ).next().val() );
         }
+
+        var url = $( '#save_member_form' ).attr( 'action' );
+        if ( $( '#save_member_form [name=proxy_flg]' ).val() == 'true' ) {
+            url = $( '#save_temp_member_form' ).val();
+        }
+
         $.ajax({
             'data': form_data,
-            'url': $( '#save_member_form' ).attr( 'action' ),
+            'url': url,
             'type': 'POST',
             'dataType': 'json',
             'processData': false,
