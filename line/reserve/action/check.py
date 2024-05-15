@@ -462,7 +462,7 @@ def check(request):
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
-                if advance_date < start_date:
+                if advance_date > start_date:
                     start_date = advance_date
         elif online_offline['type'] == 2:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
@@ -470,7 +470,7 @@ def check(request):
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
-                if advance_date < start_date:
+                if advance_date > start_date:
                     start_date = advance_date
     
     start_date = {
