@@ -353,16 +353,19 @@ def date(request):
                                                         if reception['facility'] and reception['facility'].count < people_count:
                                                             same_count = same_count - 1
                                                             if same_count == 0:
-                                                                people_count = reception['facility'].count
-                                                            while same_count > 0:
-                                                                people_number = people_number + 1
-                                                                facility_count = facility_count - 1
-                                                                if facility_list[people_number] and reception['facility'].count + facility_list[people_number].count <= people_count:
-                                                                    people_count = reception['facility'].count + facility_list[people_number].count
-                                                                else:
-                                                                    people_number = people_number - 1
-                                                                    facility_count = facility_count + 1
-                                                                same_count = same_count - 1
+                                                                if people_count > reception['facility'].count:
+                                                                    people_count = reception['facility'].count
+                                                            else:
+                                                                people_total_count = reception['facility'].count
+                                                                while same_count > 0:
+                                                                    people_number = people_number + 1
+                                                                    people_total_count = people_total_count + facility_list[people_number].count
+                                                                    if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                        facility_count = facility_count - 1
+                                                                        reception_facility_list.append(facility_list[people_number])
+                                                                    same_count = same_count - 1
+                                                                if people_count > people_total_count:
+                                                                    people_count = people_total_count
                                                         count_flg = False
                                                     people_count = people_count - 1
                                                     if people_count <= 0:
