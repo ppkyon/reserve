@@ -383,13 +383,17 @@ def get(request):
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
-                start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
+                advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
+                if advance_date < start_date:
+                    start_date = advance_date
         elif setting['type'] == 2:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
-                start_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
+                advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
+                if advance_date < start_date:
+                    start_date = advance_date
     
     start_date = {
         'year': start_date.year,
