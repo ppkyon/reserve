@@ -43,7 +43,12 @@ $( function(){
                         html += '<input type="hidden" name="course" value="' + value.course.display_id + '">';
                     }
                     html += '<input type="hidden" name="setting" value="' + value.setting.display_id + '">';
-                    html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0" style="font-size: 1rem;">' + value.reserve + '</p>';
+                    if ( value.schedule.join == 2 ) {
+                        html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0" style="font-size: 1rem;">キャンセルされました</p>';
+                        html += '<p class="fw-bold ps-3 pe-3 mb-0" style="font-size: 1rem;"><strike>' + value.reserve + '</strike></p>';
+                    } else {
+                        html += '<p class="fw-bold pt-3 ps-3 pe-3 mb-0" style="font-size: 1rem;">' + value.reserve + '</p>';
+                    }
                     html += '<p class="fw-bold ps-3 pe-3 mb-0" style="font-size: 0.8rem;">会場</p>';
                     html += '<p class="ps-3 pe-3 mb-1" style="font-size: 0.8rem;">' + value.place.title + '</p>';
                     html += '<p class="fw-bold ps-3 pe-3 mb-0" style="font-size: 0.8rem;">コース</p>';
