@@ -913,12 +913,16 @@ $( function() {
     });
 
     $( document ).on( 'click', '#edit_step_modal .edit-button', function () {
-        if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+        if ( $( '#save_step_form [name=proxy_flg]' ).val() == 'true' ) {
             $( this ).next().trigger( 'click' );
-        } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
-            $( this ).next().next().next().trigger( 'click' );
         } else {
-            $( this ).next().trigger( 'click' );
+            if ( $( '#save_step_form [name=edit_type]' ).val() == '1' ) {
+                $( this ).next().trigger( 'click' );
+            } else if ( $( '#save_step_form [name=edit_type]' ).val() == '2' ) {
+                $( this ).next().next().next().trigger( 'click' );
+            } else {
+                $( this ).next().trigger( 'click' );
+            }
         }
         up_modal();
     });
