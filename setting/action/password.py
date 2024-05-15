@@ -91,7 +91,6 @@ def reset(request):
         send_mail(subject, template.render(context), settings.EMAIL_HOST_USER, [user.email])
     else:
         user.password = make_password(password)
-        user.status = 1
         user.save()
 
         manager_profile = ManagerProfile.objects.filter(manager=user).first()
