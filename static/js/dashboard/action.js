@@ -685,7 +685,40 @@ $( function() {
     $( document ).on( 'click', '#member_user_check_modal .yes-button', function () {
         $( '#member_user_check_modal .no-button' ).trigger( 'click' );
         $( '#member_user_message_check_modal .yes-button' ).val( $( this ).val() );
-        $( this ).next().trigger( 'click' );
+        if ( $( '#member_user_check_modal [name=proxy_flg]' ).val() == 'true' ) {
+            var target = $( this );
+            var form_data = new FormData();
+            form_data.append( 'id', $( this ).val() );
+            form_data.append( 'name', $( '#member_user_check_modal [name=name]' ).val() );
+            form_data.append( 'name_kana', $( '#member_user_check_modal [name=name_kana]' ).val() );
+            form_data.append( 'birth', $( '#member_user_check_modal [name=birth]' ).val().replace( '年', '-' ).replace( '月', '-' ).replace( '日', '' ) );
+            form_data.append( 'age', $( '#member_user_check_modal [name=age]' ).next().val() );
+            form_data.append( 'sex', $( '#member_user_check_modal [name=sex]' ).next().val() );
+            form_data.append( 'phone_number', $( '#member_user_check_modal [name=phone_number]' ).val() );
+            form_data.append( 'email', $( '#member_user_check_modal [name=email]' ).val() );
+            $.ajax({
+                'data': form_data,
+                'url': $( '#save_temp_member_form' ).val(),
+                'type': 'POST',
+                'dataType': 'json',
+                'processData': false,
+                'contentType': false,
+            }).done( function( response ){
+                setTimeout( function() {
+                    $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                    $( target ).next().next().trigger( 'click' );
+                    up_modal();
+                }, 750 );
+            }).fail( function(){
+                setTimeout( function() {
+                    $( '#member_user_check_modal .no-button' ).trigger( 'click' );
+                    $( target ).next().next().next().trigger( 'click' );
+                    up_modal();
+                }, 750 );
+            });
+        } else {
+            $( this ).next().trigger( 'click' );
+        }
     });
 
     $( document ).on( 'change', '#member_user_message_check_modal [name=type]', function () {
