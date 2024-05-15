@@ -14,7 +14,7 @@ def get_list(request, page):
 
     page = int(page)
     number = 5
-    table_number = MiniTableNumber.objects.filter(url=url, shop=auth_login.shop, manager=request.user).first()
+    table_number = MiniTableNumber.objects.filter(url=url, shop=auth_login.shop, manager=request.user, page=request.POST.get('page'), item=request.POST.get('item')).first()
     if table_number:
         number = table_number.number
     
