@@ -1,7 +1,9 @@
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 
-from setting.models import ShopOffline, ShopOfflineTime, ShopOnline, ShopOnlineTime, ManagerOffline, ManagerOfflineTime, ManagerOnline, ManagerOnlineTime
+from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
+from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu
+from setting.models import ShopOffline, ShopOnline, ManagerOffline, ManagerOfflineTime, ManagerOnline, ManagerOnlineTime
 from sign.models import AuthUser, ManagerProfile, AuthLogin
 
 from common import create_code, create_password
@@ -192,6 +194,16 @@ def delete(request):
     manager = AuthUser.objects.filter(display_id=request.POST.get('id')).first()
     manager.delete_flg = True
     manager.save()
+
+    ReserveOfflineManagerMenu.objects.filter(manager=manager).all().delete()
+    ReserveOnlineManagerMenu.objects.filter(manager=manager).all().delete()
+    for reception_offline_manager in ReceptionOfflineManager.objects.filter(manager=manager).all():
+        ReceptionOfflineManagerSetting.objects.filter(manager=reception_offline_manager).all().delete()
+    ReceptionOfflineManager.objects.filter(manager=manager).all().delete()
+    for reception_online_manager in ReceptionOnlineManager.objects.filter(manager=manager).all():
+        ReceptionOnlineManagerSetting.objects.filter(manager=reception_online_manager).all().delete()
+    ReceptionOnlineManager.objects.filter(manager=manager).all().delete()
+
     return JsonResponse( {}, safe=False )
 
 
