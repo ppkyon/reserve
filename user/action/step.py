@@ -212,7 +212,7 @@ def get(request):
         for user_flow_schedule_index, user_flow_schedule_item in enumerate(user['flow'][user_flow_index]['schedule']):
             if user_flow_schedule_item['offline']:
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline'] = ReserveOfflineSetting.objects.filter(id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineSetting)).first()
-                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_course'] = ReserveOfflineCourse.objects.filter(id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineCourse)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_course'] = ReserveOfflineCourse.objects.filter(id=user_flow_schedule_item['offline_course']).values(*get_model_field(ReserveOfflineCourse)).first()
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_facility'] = ReserveOfflineFacility.objects.filter(id=user_flow_schedule_item['offline_facility']).values(*get_model_field(ReserveOfflineFacility)).first()
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'] = list(ReserveOfflineManagerMenu.objects.filter(shop__id=user['shop'], offline__id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineManagerMenu)).all())
                 for manager_index, manager_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list']):
@@ -222,7 +222,7 @@ def get(request):
                     user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['facility_list'][facility_index] = ReserveOfflineFacility.objects.filter(id=facility_item['id']).values(*get_model_field(ReserveOfflineFacility)).first()
             elif user_flow_schedule_item['online']:
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['online'] = ReserveOnlineSetting.objects.filter(id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineSetting)).first()
-                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['online_course'] = ReserveOnlineCourse.objects.filter(id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineCourse)).first()
+                user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['online_course'] = ReserveOnlineCourse.objects.filter(id=user_flow_schedule_item['online_course']).values(*get_model_field(ReserveOnlineCourse)).first()
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline_facility'] = ReserveOnlineFacility.objects.filter(id=user_flow_schedule_item['online_facility']).values(*get_model_field(ReserveOnlineFacility)).first()
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list'] = list(ReserveOnlineManagerMenu.objects.filter(shop__id=user['shop'], online__id=user_flow_schedule_item['online']).values(*get_model_field(ReserveOnlineManagerMenu)).all())
                 for manager_index, manager_item in enumerate(user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['manager_list']):

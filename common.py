@@ -160,7 +160,6 @@ def send_action_replace( text, line_data, user ):
     
     reserve_date = ''
     for user_flow in UserFlow.objects.filter(user=user, end_flg=False).order_by('-updated_at').all():
-        print(user_flow)
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('-number').first()
         if user_flow_schedule:
             date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
