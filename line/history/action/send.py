@@ -157,7 +157,7 @@ def send(request):
             reception_facility_list = list()
             for schedule_item in schedule_list:
                 schedule_date = datetime.datetime(schedule_item.date.year, schedule_item.date.month, schedule_item.date.day, schedule_item.time.hour, schedule_item.time.minute, 0)
-                schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule.offline.time)
+                schedule_add_date = schedule_date + datetime.timedelta(minutes=schedule_item.offline.time)
 
                 people_number = 0
                 people_count = user_flow_schedule.online.people

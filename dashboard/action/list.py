@@ -11,6 +11,8 @@ import datetime
 def get_list(request, page):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
     url = request.path.replace('paging/', '').replace('search/', '')
+    if url == '/':
+        url = '/dashboard/'
 
     page = int(page)
     number = 5
