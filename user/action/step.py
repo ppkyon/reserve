@@ -31,7 +31,7 @@ def save(request):
     remove = re.compile(r"<[^>]*?>")
     for user_flow in UserFlow.objects.filter(user=user).order_by('number').all():
         if not user_flow.end_flg:
-            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('number').all():
+            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).order_by('number').all():
                 change_flg = False
 
                 user_flow_schedule_date = None
@@ -68,7 +68,7 @@ def save(request):
                         id = str(uuid.uuid4()),
                         display_id = create_code(12, UserFlowSchedule),
                         flow = user_flow,
-                        number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                        number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                         date = user_flow_schedule_date,
                         time = user_flow_schedule_time,
                         join = user_flow_schedule_online_join,
@@ -208,7 +208,7 @@ def get(request):
     user['profile'] = UserProfile.objects.filter(user__id=user['id']).values(*get_model_field(UserProfile)).first()
     user['flow'] = list(UserFlow.objects.filter(user__id=user['id']).order_by('number').values(*get_model_field(UserFlow)).all())
     for user_flow_index, user_flow_item in enumerate(user['flow']):
-        user['flow'][user_flow_index]['schedule'] = list(UserFlowSchedule.objects.filter(flow__id=user_flow_item['id']).order_by('number').values(*get_model_field(UserFlowSchedule)).all())
+        user['flow'][user_flow_index]['schedule'] = list(UserFlowSchedule.objects.filter(flow__id=user_flow_item['id'], temp_flg=False).exclude(number=0).order_by('number').values(*get_model_field(UserFlowSchedule)).all())
         for user_flow_schedule_index, user_flow_schedule_item in enumerate(user['flow'][user_flow_index]['schedule']):
             if user_flow_schedule_item['offline']:
                 user['flow'][user_flow_index]['schedule'][user_flow_schedule_index]['offline'] = ReserveOfflineSetting.objects.filter(id=user_flow_schedule_item['offline']).values(*get_model_field(ReserveOfflineSetting)).first()

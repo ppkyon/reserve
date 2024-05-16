@@ -11,7 +11,7 @@ class Command(BaseCommand):
         for user_item in LineUser.objects.filter(delete_flg=False).all():
             UserAlert.objects.filter(user=user_item).all().delete()
             for user_flow in UserFlow.objects.filter(user=user_item, end_flg=False).order_by('number').all():
-                for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow).all():
+                for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).all():
                     if user_flow_schedule.join == 0:
                         if user_flow_schedule.date and user_flow_schedule.time:
                             interview_date = user_flow_schedule.date.replace(hour=user_flow_schedule.time.hour, minute=user_flow_schedule.time.minute, second=0, microsecond=0)

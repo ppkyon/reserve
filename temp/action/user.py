@@ -152,7 +152,7 @@ def member(request):
                 richmenu = None,
                 end_flg = False,
             )
-            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
                 reserve_offline_flow = ReserveOfflineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('offline__number').first()
                 reserve_online_flow = ReserveOnlineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('online__number').first()
                 if reserve_offline_flow:
@@ -161,7 +161,7 @@ def member(request):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlow),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,
@@ -177,7 +177,7 @@ def member(request):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlow),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,

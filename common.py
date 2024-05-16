@@ -99,7 +99,7 @@ def send_textarea_replace( text, line_data, user ):
     place_address = None
     if UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).exists():
         for reminder_item in UserFlowActionReminder.objects.filter(user=user, action_date__lte=datetime.datetime.now()).order_by('-flow__updated_at').all():
-            for schedule in UserFlowSchedule.objects.filter(flow=reminder_item.flow, cancel_flg=False).order_by('-number').all():
+            for schedule in UserFlowSchedule.objects.filter(flow=reminder_item.flow, temp_flg=False).exclude(number=0).order_by('-number').all():
                 manager = schedule.manager
                 date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                 if schedule.online:
@@ -160,7 +160,7 @@ def send_action_replace( text, line_data, user ):
     
     reserve_date = ''
     for user_flow in UserFlow.objects.filter(user=user, end_flg=False).order_by('-updated_at').all():
-        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('-number').first()
+        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).order_by('-number').first()
         if user_flow_schedule:
             date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
             if user_flow_schedule.online:

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import JsonResponse
 
 from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
@@ -186,7 +187,7 @@ def get(request):
             })
 
             for schedule_week_value in week_day:
-                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
+                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:], temp_flg=False).exclude(number=0).all():
                     if schedule.join == 0 or schedule.join == 1:
                         date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                         if schedule.online:
@@ -383,7 +384,7 @@ def get(request):
     if setting and setting['advance']:
         if setting['type'] == 1:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
-            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).order_by('-number').first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
@@ -391,7 +392,7 @@ def get(request):
                     start_date = advance_date
         elif setting['type'] == 2:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
-            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).order_by('-number').first()
+            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
             if advance_schedule and advance_schedule.date and advance_schedule.time:
                 advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
                 advance_date = advance_date + datetime.timedelta(minutes=advance_setting.time)
@@ -418,7 +419,7 @@ def get(request):
         }
     if setting['type'] == 1:
         advance_setting = ReserveOfflineSetting.objects.filter(advance=setting['display_id']).first()
-        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting).first()
+        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
         if advance_schedule and advance_schedule.date and advance_schedule.time:
             advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
             end_date = {
@@ -430,7 +431,7 @@ def get(request):
             }
     elif setting['type'] == 2:
         advance_setting = ReserveOnlineSetting.objects.filter(advance=setting['display_id']).first()
-        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting).first()
+        advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, online=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
         if advance_schedule and advance_schedule.date and advance_schedule.time:
             advance_date = datetime.datetime(advance_schedule.date.year, advance_schedule.date.month, advance_schedule.date.day, advance_schedule.time.hour, advance_schedule.time.minute, 0)
             end_date = {
@@ -502,7 +503,7 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
                 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
@@ -596,7 +597,7 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
@@ -705,7 +706,7 @@ def send(request):
         
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
@@ -797,7 +798,7 @@ def send(request):
         
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(join=2).all():
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)

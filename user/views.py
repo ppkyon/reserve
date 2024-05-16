@@ -42,7 +42,7 @@ class DetailView(UserView):
         context['user'].active_flow = UserFlow.objects.filter(user=context['user'], end_flg=False).order_by('flow_tab__number').first()
         context['user'].flow = UserFlow.objects.filter(user=context['user']).order_by('number').all()
         for user_flow_index, user_flow_item in enumerate(context['user'].flow):
-            context['user'].flow[user_flow_index].schedule = UserFlowSchedule.objects.filter(flow=user_flow_item).order_by('number').all()
+            context['user'].flow[user_flow_index].schedule = UserFlowSchedule.objects.filter(flow=user_flow_item, temp_flg=False).exclude(number=0).order_by('number').all()
             for user_flow_schedule_index, user_flow_schedule_item in enumerate(context['user'].flow[user_flow_index].schedule):
                 if user_flow_schedule_item.offline:
                     context['user'].flow[user_flow_index].schedule[user_flow_schedule_index].manager_list = ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=user_flow_schedule_item.offline).all()
@@ -59,7 +59,7 @@ class DetailView(UserView):
         context['setting_list'] = list()
         for user_flow_index, user_flow_item in enumerate(context['user'].flow):
             if not user_flow_item.end_flg:
-                for user_flow_schedule_item in UserFlowSchedule.objects.filter(flow=user_flow_item).order_by('number').all():
+                for user_flow_schedule_item in UserFlowSchedule.objects.filter(flow=user_flow_item, temp_flg=False).exclude(number=0).order_by('number').all():
                     if user_flow_schedule_item.join == 0:
                         if user_flow_schedule_item.offline:
                             context['setting_list'].append(user_flow_schedule_item.offline)

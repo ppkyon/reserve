@@ -82,7 +82,7 @@ def go(user, flow, flow_tab, flow_item):
                     richmenu = flow_rich_menu.rich_menu,
                     end_flg = False,
                 )
-            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0).exists():
+            if not UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
                 reserve_offline_flow = ReserveOfflineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('offline__number').first()
                 reserve_online_flow = ReserveOnlineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('online__number').first()
                 if reserve_offline_flow:
@@ -91,7 +91,7 @@ def go(user, flow, flow_tab, flow_item):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlowSchedule),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,
@@ -107,7 +107,7 @@ def go(user, flow, flow_tab, flow_item):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlowSchedule),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,
@@ -175,7 +175,7 @@ def go(user, flow, flow_tab, flow_item):
                 if flow_item.x < shop_flow_item.x and flow_item.y == shop_flow_item.y:
                     if shop_flow_item.type == 8:
                         shop_flow_action_reminder = ShopFlowActionReminder.objects.filter(flow=shop_flow_item).first()
-                        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('number').first()
+                        user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, date__isnull=False, temp_flg=False).exclude(number=0).order_by('-number').first()
                         action_date = datetime.datetime(user_flow_schedule.date.year, user_flow_schedule.date.month, user_flow_schedule.date.day, user_flow_schedule.time.hour, user_flow_schedule.time.minute, 0)
                         action_date = action_date - datetime.timedelta(shop_flow_action_reminder.date)
                         action_date = datetime.datetime(action_date.year, action_date.month, action_date.day, shop_flow_action_reminder.time, 0, 0)

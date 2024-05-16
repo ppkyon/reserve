@@ -94,7 +94,7 @@ class Command(BaseCommand):
                                     if not reception_place.reception_flg:
                                         for time in pandas.date_range(start=datetime.datetime(target.year, target.month, target.day, reception_place.reception_from.hour, reception_place.reception_from.minute, 0), end=datetime.datetime(target.year, target.month, target.day, reception_place.reception_to.hour, reception_place.reception_to.minute, 0), freq=unit_time):
                                             time_list.append(time)
-                                        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=target.year, date__month=target.month, date__day=target.day, time__gte=datetime.time(reception_place.reception_from.hour, reception_place.reception_from.minute, 0), time__lte=datetime.time(reception_place.reception_to.hour, reception_place.reception_to.minute, 0)).all():
+                                        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=target.year, date__month=target.month, date__day=target.day, time__gte=datetime.time(reception_place.reception_from.hour, reception_place.reception_from.minute, 0), time__lte=datetime.time(reception_place.reception_to.hour, reception_place.reception_to.minute, 0), temp_flg=False).exclude(number=0).all():
                                             if schedule.join == 0 or schedule.join == 1:
                                                 schedule_date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                                                 reception_list.append({
@@ -234,7 +234,7 @@ class Command(BaseCommand):
                             if not reception_place.reception_flg:
                                 for time in pandas.date_range(start=datetime.datetime(target.year, target.month, target.day, reception_place.reception_from.hour, reception_place.reception_from.minute, 0), end=datetime.datetime(target.year, target.month, target.day, reception_place.reception_to.hour, reception_place.reception_to.minute, 0), freq=unit_time):
                                     time_list.append(time)
-                                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=target.year, date__month=target.month, date__day=target.day, time__gte=datetime.time(reception_place.reception_from.hour, reception_place.reception_from.minute, 0), time__lte=datetime.time(reception_place.reception_to.hour, reception_place.reception_to.minute, 0)).all():
+                                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=target.year, date__month=target.month, date__day=target.day, time__gte=datetime.time(reception_place.reception_from.hour, reception_place.reception_from.minute, 0), time__lte=datetime.time(reception_place.reception_to.hour, reception_place.reception_to.minute, 0), temp_flg=False).exclude(number=0).all():
                                     if schedule.join == 0 or schedule.join == 1:
                                         schedule_date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                                         reception_list.append({

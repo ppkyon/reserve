@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from flow.models import UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting
 from sign.models import AuthLogin
@@ -28,7 +30,7 @@ def get_list(request, page):
     
     data = list()
     if request.POST.get('item') == 'today':
-        data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+        data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -44,9 +46,9 @@ def get_list(request, page):
                             data[data_index]['flow']['user']['schedule']['online'] = ReserveOnlineSetting.objects.filter(id=data[data_index]['flow']['user']['schedule']['online']).values(*get_model_field(ReserveOnlineSetting)).first()
                         data[data_index]['flow']['user']['reserve'] = get_reserve_date(data_item)
                     data[data_index]['number'] = start + data_index + 1
-                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).distinct().count()
+                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'new':
-        data = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).order_by('date', 'time').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end]
+        data = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end]
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -62,9 +64,9 @@ def get_list(request, page):
                             data[data_index]['flow']['user']['schedule']['online'] = ReserveOnlineSetting.objects.filter(id=data[data_index]['flow']['user']['schedule']['online']).values(*get_model_field(ReserveOnlineSetting)).first()
                         data[data_index]['flow']['user']['reserve'] = get_reserve_date(data_item)
                     data[data_index]['number'] = start + data_index + 1
-                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).distinct().count()
+                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'after':
-        data = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end]
+        data = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end]
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -80,7 +82,7 @@ def get_list(request, page):
                             data[data_index]['flow']['user']['schedule']['online'] = ReserveOnlineSetting.objects.filter(id=data[data_index]['flow']['user']['schedule']['online']).values(*get_model_field(ReserveOnlineSetting)).first()
                         data[data_index]['flow']['user']['reserve'] = get_reserve_date(data_item)
                     data[data_index]['number'] = start + data_index + 1
-                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0)).exclude(join=2).distinct().count()
+                    data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'line':
         data = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').values(*get_model_field(LineUser)).distinct().all()[start:end]
         if len(data) > 0:

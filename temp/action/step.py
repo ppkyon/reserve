@@ -22,7 +22,7 @@ def save(request):
 
     for user_flow in UserFlow.objects.filter(user=user).order_by('number').all():
         if not user_flow.end_flg:
-            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0).order_by('number').all():
+            for user_flow_schedule in UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).order_by('number').all():
                 change_flg = False
 
                 user_flow_schedule_date = None
@@ -59,7 +59,7 @@ def save(request):
                         id = str(uuid.uuid4()),
                         display_id = create_code(12, UserFlowSchedule),
                         flow = user_flow,
-                        number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                        number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                         date = user_flow_schedule_date,
                         time = user_flow_schedule_time,
                         join = user_flow_schedule_online_join,
@@ -94,7 +94,7 @@ def save(request):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlow),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,
@@ -109,7 +109,7 @@ def save(request):
                             id = str(uuid.uuid4()),
                             display_id = create_code(12, UserFlow),
                             flow = user_flow,
-                            number = UserFlowSchedule.objects.filter(flow=user_flow).count() + 1,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
                             date = None,
                             time = None,
                             join = 0,

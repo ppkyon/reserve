@@ -249,7 +249,7 @@ def date(request):
             })
 
             for schedule_week_value in week_day:
-                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
+                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:], temp_flg=False).exclude(number=0).all():
                     if schedule.join == 0 or schedule.join == 1:
                         date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
                         if schedule.online:

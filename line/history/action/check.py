@@ -18,7 +18,7 @@ def check(request):
 
     user_flow = list(UserFlow.objects.filter(user__id=user['id']).order_by('-number').values(*get_model_field(UserFlow)).all())
     for user_flow_index, user_flow_item in enumerate(user_flow):
-        user_flow[user_flow_index]['schedule'] = UserFlowSchedule.objects.filter(flow__id=user_flow_item['id'], cancel_flg=False).order_by('-number').values(*get_model_field(UserFlowSchedule)).first()
+        user_flow[user_flow_index]['schedule'] = UserFlowSchedule.objects.filter(flow__id=user_flow_item['id'], cancel_flg=False, temp_flg=False).exclude(number=0).order_by('-number').values(*get_model_field(UserFlowSchedule)).first()
         if user_flow[user_flow_index]['schedule'] and user_flow[user_flow_index]['schedule']['date']:
             date = datetime.datetime(user_flow[user_flow_index]['schedule']['date'].year, user_flow[user_flow_index]['schedule']['date'].month, user_flow[user_flow_index]['schedule']['date'].day, user_flow[user_flow_index]['schedule']['time'].hour, user_flow[user_flow_index]['schedule']['time'].minute, 0)
             if user_flow[user_flow_index]['schedule']['online']:

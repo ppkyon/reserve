@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.shortcuts import redirect
 
 from view import ShopView
@@ -27,10 +28,10 @@ class DashboardView(ShopView):
         after = now + datetime.timedelta(days=1)
         context['today_user_count'] = LineUser.objects.filter(shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), delete_flg=False).count()
 
-        context['today_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'today', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time').count())
-        context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).count()
+        context['today_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'today', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time').count())
+        context['today_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).count()
         context['today_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]:
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -38,10 +39,10 @@ class DashboardView(ShopView):
                 schedule.flow.user.reserve = get_reserve_date(schedule)
                 context['today_reserve_list'].append(schedule.flow.user)
 
-        context['new_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'new', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).count())
-        context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).count()
+        context['new_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'new', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).count())
+        context['new_reserve_count'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).count()
         context['new_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, created_at__range=(now.replace(hour=0, minute=0, second=0, microsecond=0), now.replace(hour=23, minute=59, second=59, microsecond=0)), check_flg=False, date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]:
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
@@ -49,15 +50,15 @@ class DashboardView(ShopView):
                 schedule.flow.user.reserve = get_reserve_date(schedule)
 
                 if schedule.number > 1:
-                    prev_schedule = UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1).first()
+                    prev_schedule = UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1, temp_flg=False).exclude(number=0).first()
                     if prev_schedule and prev_schedule.date:
                         schedule.flow.user.reserve = get_reserve_date(prev_schedule) + ' → ' + schedule.flow.user.reserve
 
                 context['new_reserve_list'].append(schedule.flow.user)
 
-        context['after_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'after', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).count())
+        context['after_reserve_table'] = get_table_data(self, auth_login.shop, 'dashboard', 'after', UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).count())
         context['after_reserve_list'] = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False).exclude(join=2).order_by('date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]:
+        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
