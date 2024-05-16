@@ -1,3 +1,21 @@
+.manager-area .manager-item-area {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.1rem 0.2rem 0.1rem rgb(0,0,0,0.16);
+}
+.manager-area img {
+    width: 50px;
+    height: 50px;
+}
+.manager-area .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.manager-area .logout-link {
+    color: red;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
 .menu-area .menu-icon {
     width: 11vw;
     height: 11vw;
@@ -36,6 +54,7 @@
 .content-area .content-description {
     font-size: 14px;
 }
+.manager-area .manager-item-area,
 .course-area .content-area .content-item-area,
 .question-area .content-area .content-item-area,
 .check-area .content-area .content-item-area,

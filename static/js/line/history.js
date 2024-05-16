@@ -184,7 +184,11 @@ $( function(){
                 });
             });
 
-            $( '.history-area' ).removeClass( 'd-none' );
+            setTimeout( function() {
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
+                $( '.history-area' ).removeClass( 'd-none' );
+            }, 750 );
         }).fail( function(){
             
         });

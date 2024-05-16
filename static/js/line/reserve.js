@@ -35,6 +35,8 @@ $( function(){
                 } else {
                     create_date(response);
                 }
+                $( '.loader-area' ).css( 'opacity', '0' );
+                $( '.loader-area' ).addClass( 'd-none' );
             }, 750 );
         }).fail( function(){
             

@@ -11,6 +11,34 @@
     <input type="hidden" name="course_flg">
     <input type="hidden" name="question_flg">
     <input type="hidden" id="check_url" value="{% url 'proxy:check' %}">
+    <div class="manager-area">
+        <div class="row mb-5">
+            <div class="col-12 p-0">
+                <div class="manager-item-area p-2">
+                    <div class="d-flex align-items-center">
+                        {% if header.manager.profile.image %}
+                            <img src="{{ header.manager.profile.image.url }}" class="rounded-circle me-2">
+                        {% else %}
+                            <img src="{% static 'img/manager-none.png' %}" class="rounded-circle me-2">
+                        {% endif %}
+                        <div>
+                            {% if header.manager.profile.family_name and header.manager.profile.first_name %}
+                                <p class="title mb-0">{{ header.manager.profile.family_name }} {{ header.manager.profile.first_name }}</p>
+                            {% elif header.manager.profile.family_name %}
+                                <p class="title mb-0">{{ header.manager.profile.family_name }}</p>
+                            {% elif header.manager.profile.first_name %}
+                                <p class="title mb-0">{{ header.manager.profile.first_name }}</p>
+                            {% else %}
+                                <p class="title mb-0">-</p>
+                            {% endif %}
+                            <p class="mb-0">{{ side.logo_name }}</p>
+                        </div>
+                        <a href="{% url 'proxy:logout'%}" class="logout-link ms-auto me-3">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="place-area d-none">
         <div class="menu-area">
             <div class="row">
@@ -518,7 +546,7 @@
             </div>
         </div>
     </div>
-    <div class="loader-area d-flex align-items-center position-absolute text-center d-none" style="opacity: 0">
+    <div class="loader-area d-flex align-items-center position-absolute text-center" style="opacity: 1">
         <div class="table-loader spinner-border">
             <span class="visually-hidden">Loading...</span>
         </div>
