@@ -234,7 +234,7 @@ class PlaceView(ShopView):
 
 class ManagerView(ShopView):
     template_name = 'reception/manager.html'
-    title = 'スタッフの受付設定'
+    title = '担当者の受付設定'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
