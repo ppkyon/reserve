@@ -178,9 +178,9 @@ $( function() {
                     html += '<label class="text-end pe-4 mb-0" style="width: 2.5%;"></label>';
                     html += '<div class="time-area" style="width: 97.5%;">';
                     html += '<div class="d-flex align-items-center justify-content-start">';
-                    html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" value="' + value.time_from + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+                    html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" value="' + value.time_from + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled>';
                     html += '<p class="mb-0 me-2" style="width: 2.5%;">～</p>';
-                    html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" value="' + value.time_to + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+                    html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" value="' + value.time_to + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled>';
                     html += '</div>';
                     html += '</div>';
                     html += '</div>';
@@ -214,18 +214,18 @@ $( function() {
                     html += '<div class="time-area" style="width: 97.5%;">';
                     html += '<div class="d-flex align-items-center justify-content-start">';
                     if ( value.flg || value.holiday_flg ) {
-                        html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+                        html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled disabled>';
                     } else {
-                        html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" value="' + value.time_from + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>';
+                        html += '<input type="text" name="time_from_' + value.week + '_' + value.number + '" value="' + value.time_from + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled required>';
                     }
                     html += '<p class="mb-0 me-2" style="width: 2.5%;">～</p>';
                     if ( value.flg || value.holiday_flg ) {
-                        html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+                        html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled disabled>';
                     } else {
-                        html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" value="' + value.time_to + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled required>';
+                        html += '<input type="text" name="time_to_' + value.week + '_' + value.number + '" value="' + value.time_to + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled required>';
                     }
-                    html += '<div class="input-check-wrap ps-4 mb-0" style="width: 12.5%;">';
-                    html += '<label for="detail_manager_holiday_check_' + value.week + '" class="mb-0">休日</label>';
+                    html += '<div class="input-check-wrap ps-4 mb-0" style="width: 15%;">';
+                    html += '<label for="detail_manager_holiday_check_' + value.week + '" class="mb-0">対応不可</label>';
                     if ( value.flg || value.holiday_flg ) {
                         html += '<input type="checkbox" id="detail_manager_holiday_check_' + value.week + '" name="time_check_' + value.week + '" value="' + value.week + '" class="time-check input-check" checked>';
                     } else {
@@ -327,15 +327,15 @@ $( function() {
         var html = '<div class="d-flex align-items-center justify-content-start mb-2">';
         html += '<p class="me-2 mb-0" style="width: 2.5%;"></p>';
         if ( $( this ).parents( '.time-area' ).find( '.time-check' ).prop( 'checked' ) ) {
-            html += '<input type="text" name="time_from_' + target + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+            html += '<input type="text" name="time_from_' + target + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 21.25%;" data-parsley-errors-messages-disabled disabled>';
         } else {
-            html += '<input type="text" name="time_from_' + target + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+            html += '<input type="text" name="time_from_' + target + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 21.25%;" data-parsley-errors-messages-disabled>';
         }
         html += '<p class="mb-0 me-2" style="width: 2.5%;">～</p>';
         if ( $( this ).parents( '.time-area' ).find( '.time-check' ).prop( 'checked' ) ) {
-            html += '<input type="text" name="time_to_' + target + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+            html += '<input type="text" name="time_to_' + target + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 21.25%;" data-parsley-errors-messages-disabled disabled>';
         } else {
-            html += '<input type="text" name="time_to_' + target + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+            html += '<input type="text" name="time_to_' + target + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 21.25%;" data-parsley-errors-messages-disabled>';
         }
         html += '<div class="d-flex justify-content-start align-items-center ms-1" style="width: 47.5%;"></div>';
         html += '</div>';
@@ -373,15 +373,15 @@ $( function() {
         html += '<div class="time-area" style="width: 97.5%;">';
         html += '<div class="d-flex align-items-center justify-content-start">';
         if ( flg ) {
-            html += '<input type="text" name="time_from_' + number + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+            html += '<input type="text" name="time_from_' + number + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled disabled>';
         } else {
-            html += '<input type="text" name="time_from_' + number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+            html += '<input type="text" name="time_from_' + number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled>';
         }
         html += '<p class="mb-0 me-2" style="width: 2.5%;">～</p>';
         if ( flg ) {
-            html += '<input type="text" name="time_to_' + number + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled disabled>';
+            html += '<input type="text" name="time_to_' + number + '" class="input-text input-time readonly ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled disabled>';
         } else {
-            html += '<input type="text" name="time_to_' + number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.5%;" data-parsley-errors-messages-disabled>';
+            html += '<input type="text" name="time_to_' + number + '" class="input-text input-time ps-2 pe-2 me-2" style="width: 22.25%;" data-parsley-errors-messages-disabled>';
         }
         html += '<div class="input-check-wrap ps-4 mb-0" style="width: 50%;"></div>';
         html += '</div>';
