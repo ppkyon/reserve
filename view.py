@@ -101,10 +101,11 @@ class ShopBaseView(ShopLoginMixin, TopBaseView):
                 
                 flow = 0
                 shop_flow = ShopFlow.objects.filter(shop=shop).order_by('-period_to').first()
-                if shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() and flow < 3:
-                    flow = 3
-                elif shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() + relativedelta(days=+10) and flow < 2:
-                    flow = 2
+                if shop_flow:
+                    if shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() and flow < 3:
+                        flow = 3
+                    elif shop_flow.period_to and shop_flow.period_to <= datetime.datetime.now() + relativedelta(days=+10) and flow < 2:
+                        flow = 2
                 talk_read = TalkRead.objects.filter(user__delete_flg=False, manager=self.request.user).aggregate(sum_read_count=models.Sum('read_count'))
                 user_count = UserAlert.objects.filter(user__shop=shop, user__proxy_flg=False).count()
                 temp_count = UserAlert.objects.filter(user__shop=shop, user__proxy_flg=True).count()
