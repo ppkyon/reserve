@@ -32,6 +32,9 @@ env.read_env('.env')
 def send(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
 
+    if not UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).exists():
+        return JsonResponse( {'temp': True}, safe=False )
+
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         manager_list = list()
@@ -55,8 +58,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
                 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-            schedule_list.append(schedule)
+        for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(temp_manager=auth_login.user, number=0, temp_flg=True).all():
+            if schedule.join != 2:
+                schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
@@ -149,8 +153,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-            schedule_list.append(schedule)
+        for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(temp_manager=auth_login.user, number=0, temp_flg=True).all():
+            if schedule.join != 2:
+                schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
@@ -841,8 +846,9 @@ def send(request):
                 )
         
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=2)|Q(join=2)).all():
-            schedule_list.append(schedule)
+        for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(temp_manager=auth_login.user, number=0, temp_flg=True).all():
+            if schedule.join != 2:
+                schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
@@ -903,6 +909,7 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
+        UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
         if UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
             user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).order_by('-number').first()
             user_flow_schedule.number = 1
@@ -994,8 +1001,9 @@ def send(request):
                 )
 
         schedule_list = list()
-        for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-            schedule_list.append(schedule)
+        for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(temp_manager=auth_login.user, number=0, temp_flg=True).all():
+            if schedule.join != 2:
+                schedule_list.append(schedule)
 
         date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
         add_date = date + datetime.timedelta(minutes=setting.time)
@@ -1054,6 +1062,7 @@ def send(request):
         if request.POST.get('course_id'):
             course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
+        UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
         if UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
             user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).order_by('-number').first()
             user_flow_schedule.number = 1

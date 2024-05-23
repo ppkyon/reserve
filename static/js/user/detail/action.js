@@ -300,11 +300,25 @@ $( function() {
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            setTimeout( function() {
-                $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
-                $( '#edit_step_success_button' ).trigger( 'click' );
-                up_modal();
-            }, 750 );
+            if ( response.temp ) {
+                setTimeout( function() {
+                    $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                    $( '#select_schedule_modal .yes-button' ).next().next().trigger( 'click' );
+                    up_modal();
+                }, 750 );
+            } else if ( response.error ) {
+                setTimeout( function() {
+                    $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                    $( '#select_schedule_modal .yes-button' ).next().trigger( 'click' );
+                    up_modal();
+                }, 750 );
+            } else {
+                setTimeout( function() {
+                    $( '#edit_step_check_modal .no-button' ).trigger( 'click' );
+                    $( '#edit_step_success_button' ).trigger( 'click' );
+                    up_modal();
+                }, 750 );
+            }
         }).fail( function(){
             setTimeout( function() {
                 $( '#edit_step_check_modal .no-button' ).trigger( 'click' );

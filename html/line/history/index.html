@@ -82,8 +82,9 @@
         <div class="content-area mb-4">
             <div class="row">
                 <div class="col-12 text-center p-0">
-                    <input type="hidden" id="get_date_url" value="{% url 'line:history:get_date' %}">
                     <p class="content-title pt-2 pb-2 mb-2">希望日時選択</p>
+                    <input type="hidden" id="get_date_url" value="{% url 'line:history:get_date' %}">
+                    <input type="hidden" id="save_temp_url" value="{% url 'line:history:save_temp' %}">
                 </div>
             </div>
             <div class="date-content-area">
@@ -473,6 +474,15 @@
             <div class="col-12 text-center">
                 <p class="fw-bold mb-3" style="color: red; font-size: 18px;">予約できませんでした。</p>
                 <p class="fw-bold mb-5" style="font-size: 18px;">ご希望の日程が埋まってしまいました。<br>お手数ですがもう一度ご予約をお願いします。</p>
+                <button type="button" class="btn reload-button">予約履歴に戻る</button>
+            </div>
+        </div>
+    </div>
+    <div class="temp-area d-none">
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p class="fw-bold mb-3" style="color: red; font-size: 18px;">予約できませんでした。</p>
+                <p class="fw-bold mb-5" style="font-size: 18px;">タイムアウトしました。<br>お手数ですがもう一度ご予約をお願いします。</p>
                 <button type="button" class="btn reload-button">予約履歴に戻る</button>
             </div>
         </div>

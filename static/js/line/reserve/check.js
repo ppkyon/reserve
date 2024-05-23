@@ -36,7 +36,13 @@ $( function(){
             'processData': false,
             'contentType': false,
         }).done( function( response ){
-            if ( response.error ) {
+            if ( response.temp ) {
+                setTimeout( function() {
+                    $( '.loader-area' ).css( 'opacity', '0' );
+                    $( '.loader-area' ).addClass( 'd-none' );
+                    $( '.temp-area' ).removeClass( 'd-none' );
+                }, 750 );
+            } else if ( response.error ) {
                 setTimeout( function() {
                     $( '.loader-area' ).css( 'opacity', '0' );
                     $( '.loader-area' ).addClass( 'd-none' );
@@ -172,7 +178,7 @@ $( function(){
     $( '.button-area .close-button, .error-area .close-button' ).on( 'click', function() {
         liff.closeWindow();
     });
-    $( '.fail-area .reload-button' ).on( 'click', function() {
+    $( '.fail-area .reload-button, .temp-area .reload-button' ).on( 'click', function() {
         location.reload();
     });
 });

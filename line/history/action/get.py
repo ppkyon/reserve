@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import JsonResponse
 
 from flow.models import UserFlowSchedule
@@ -184,9 +185,12 @@ def date(request):
             })
 
             for schedule_week_value in week_day:
-                for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:], temp_flg=False).exclude(number=0).all():
+                for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).exclude(flow__user=user, number=0, temp_flg=True).all():
                     if schedule.join == 0 or schedule.join == 1:
                         date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                        end_flg = False
+                        if schedule.flow:
+                            end_flg = schedule.flow.end_flg
                         if schedule.online:
                             reception_data.append({
                                 'from': date,
@@ -197,7 +201,7 @@ def date(request):
                                 'manager': schedule.manager,
                                 'question': schedule.question,
                                 'meeting': schedule.meeting,
-                                'end_flg': schedule.flow.end_flg,
+                                'end_flg': end_flg,
                             })
                         elif schedule.offline:
                             reception_data.append({
@@ -209,7 +213,7 @@ def date(request):
                                 'manager': schedule.manager,
                                 'question': schedule.question,
                                 'meeting': None,
-                                'end_flg': schedule.flow.end_flg,
+                                'end_flg': end_flg,
                             })
             
         for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):

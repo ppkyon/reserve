@@ -30,6 +30,10 @@ env.read_env('.env')
 
 def send(request):
     shop = AuthShop.objects.filter(display_id=request.POST.get('shop_id')).first()
+    user = LineUser.objects.filter(line_user_id=request.POST.get('user_id'), shop=shop).first()
+
+    if not UserFlowSchedule.objects.filter(flow__user=user, number=0, temp_flg=True).exists():
+        return JsonResponse( {'temp': True}, safe=False )
 
     user_flow = UserFlow.objects.filter(display_id=request.POST.get('flow_id')).first()
     user_flow_schedule = UserFlowSchedule.objects.filter(display_id=request.POST.get('schedule_id')).first()
@@ -55,8 +59,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
                     
             schedule_list = list()
-            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-                schedule_list.append(schedule)
+            for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(flow__user=user, number=0, temp_flg=True).all():
+                if schedule.join != 2:
+                    schedule_list.append(schedule)
 
             date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
             add_date = date + datetime.timedelta(minutes=user_flow_schedule.offline.time)
@@ -146,8 +151,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
 
             schedule_list = list()
-            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-                schedule_list.append(schedule)
+            for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(flow__user=user, number=0, temp_flg=True).all():
+                if schedule.join != 2:
+                    schedule_list.append(schedule)
 
             date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
             add_date = date + datetime.timedelta(minutes=user_flow_schedule.online.time)
@@ -246,8 +252,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
 
             schedule_list = list()
-            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-                schedule_list.append(schedule)
+            for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(flow__user=user, number=0, temp_flg=True).all():
+                if schedule.join != 2:
+                    schedule_list.append(schedule)
 
             date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
             add_date = date + datetime.timedelta(minutes=user_flow_schedule.offline.time)
@@ -305,6 +312,8 @@ def send(request):
 
             user_flow.updated_at = datetime.datetime.now()
             user_flow.save()
+
+            UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             user_flow_schedule = UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlowSchedule),
@@ -346,8 +355,9 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
 
             schedule_list = list()
-            for schedule in UserFlowSchedule.objects.filter(flow__user__shop=shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
-                schedule_list.append(schedule)
+            for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day')).exclude(flow__user=user, number=0, temp_flg=True).all():
+                if schedule.join != 2:
+                    schedule_list.append(schedule)
 
             date = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')), int(request.POST.get('hour')), int(request.POST.get('minute')), 0)
             add_date = date + datetime.timedelta(minutes=user_flow_schedule.online.time)
@@ -405,6 +415,8 @@ def send(request):
 
             user_flow.updated_at = datetime.datetime.now()
             user_flow.save()
+
+            UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             user_flow_schedule = UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlowSchedule),
