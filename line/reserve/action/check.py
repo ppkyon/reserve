@@ -29,7 +29,7 @@ def check(request):
     end_online_setting = list()
     for user_flow in UserFlow.objects.filter(user=user).all():
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count()).first()
-        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date:
+        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date and user_flow_schedule.number != 0:
             if user_flow_schedule.offline:
                 end_offline_setting.append(user_flow_schedule.offline.id)
             if user_flow_schedule.online:
@@ -39,7 +39,7 @@ def check(request):
     for offline_index, offline_item in enumerate(offline_list):
         offline_list[offline_index]['type'] = 1
         offline_list[offline_index]['time'] = list(ShopOfflineTime.objects.filter(offline__id=offline_item['id']).order_by('week').values(*get_model_field(ShopOfflineTime)).all())
-    online_list = list(ShopOnline.objects.filter(shop=shop).order_by('created_at').all())
+    online_list = list(ShopOnline.objects.filter(shop=shop).order_by('created_at').values(*get_model_field(ShopOnline)).all())
     for online_index, online_item in enumerate(online_list):
         online_list[online_index]['type'] = 2
         online_list[online_index]['time'] = list(ShopOnlineTime.objects.filter(online__id=online_item['id']).order_by('week').values(*get_model_field(ShopOnlineTime)).all())

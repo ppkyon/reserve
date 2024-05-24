@@ -40,7 +40,7 @@ def date(request):
     end_online_setting = list()
     for user_flow in UserFlow.objects.filter(user=user).all():
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count()).first()
-        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date:
+        if user_flow_schedule and ( user_flow_schedule.join == 0 or user_flow_schedule.join == 1 ) and user_flow_schedule.date and user_flow_schedule.number != 0:
             if user_flow_schedule.offline:
                 end_offline_setting.append(user_flow_schedule.offline.id)
             if user_flow_schedule.online:
