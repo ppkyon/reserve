@@ -6,7 +6,7 @@ from linebot import LineBotApi
 from flow.models import UserFlow, UserFlowSchedule
 from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 from reserve.models import (
-    ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFacility, ReserveOnlineFacility,
+    ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFacility, ReserveOnlineFacility, ReserveUserStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
 )
 from sign.models import AuthLogin, ShopLine, AuthUser
@@ -20,9 +20,6 @@ import uuid
 def save(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
     user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('user_id')).first()
-
-    if not UserFlowSchedule.objects.filter(flow__user=user, number=0, temp_flg=True).exists():
-        return JsonResponse( {'temp': True}, safe=False )
 
     global line_bot_api
     shop_line = ShopLine.objects.filter(shop=auth_login.shop).first()
@@ -88,6 +85,27 @@ def save(request):
                         check_flg = False,
                         updated_at = datetime.datetime.now(),
                     )
+
+                    if user_flow_schedule.offline:
+                        for reserve_offline_setting in ReserveOfflineSetting.objects.filter(offline__shop=auth_login.shop).order_by('number').all():
+                            if reserve_offline_setting.advance and int(reserve_offline_setting.advance) == user_flow_schedule.offline.display_id:
+                                ReserveUserStartDate.objects.filter(user=user, offline=reserve_offline_setting).all().delete()
+                                ReserveUserStartDate.objects.create(
+                                    id = str(uuid.uuid4()),
+                                    user = user,
+                                    offline = reserve_offline_setting,
+                                    date = user_flow_schedule_date,
+                                )
+                    elif user_flow_schedule.online:
+                        for reserve_online_setting in ReserveOnlineSetting.objects.filter(online__shop=auth_login.shop).order_by('number').all():
+                            if reserve_online_setting.advance and int(reserve_online_setting.advance) == user_flow_schedule.online.display_id:
+                                ReserveUserStartDate.objects.filter(user=user, online=reserve_online_setting).all().delete()
+                                ReserveUserStartDate.objects.create(
+                                    id = str(uuid.uuid4()),
+                                    user = user,
+                                    online = reserve_online_setting,
+                                    date = user_flow_schedule_date,
+                                )
                 else:
                     user_flow_schedule.date = user_flow_schedule_date
                     user_flow_schedule.time = user_flow_schedule_time

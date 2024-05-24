@@ -4,6 +4,7 @@ from django.utils import timezone
 from question.models import ShopQuestion
 from setting.models import ShopOffline, ShopOnline
 from sign.models import AuthUser, AuthShop
+from user.models import LineUser
 
 class ReserveBasic(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
@@ -296,3 +297,15 @@ class ReserveStartDate(models.Model):
 
     class Meta:
         db_table = 'reserve_start_date'
+
+class ReserveUserStartDate(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_user_start_date")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_user_start_date")
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_user_start_date")
+    date = models.DateTimeField(blank=False, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_user_start_date'

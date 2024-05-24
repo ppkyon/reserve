@@ -9,6 +9,7 @@ from flow.models import (
     ShopFlow, ShopFlowTab, ShopFlowItem,
     UserFlow, UserFlowSchedule, UserFlowTimer, UserFlowActionReminder, UserFlowActionMessage
 )
+from reserve.models import ReserveUserStartDate
 from richmenu.models import UserRichMenu, UserRichMenuClick
 from sign.models import AuthShop, ShopLine, AuthUser
 from talk.models import TalkMessage, TalkRead, TalkUpdate
@@ -85,6 +86,7 @@ def handle_follow(line_user_id, shop):
         UserQuestionItem.objects.filter(question=user_question).all().delete()
     UserQuestion.objects.filter(user=user).all().delete()
     UserAlert.objects.filter(user=user).all().delete()
+    ReserveUserStartDate.objects.filter(user=user).all().delete()
         
     flow = None
     if ShopFlow.objects.filter(shop=shop, period_from__lte=datetime.datetime.now(), period_to__isnull=True, delete_flg=False).exists():

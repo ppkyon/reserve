@@ -8,7 +8,10 @@ from PIL import Image
 from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionReminder, UserFlow, UserFlowSchedule, UserFlowActionReminder
 from question.models import UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
-from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
+from reserve.models import (
+    ReserveOfflineSetting, ReserveOnlineSetting, ReserveUserStartDate,
+    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
+)
 
 from common import create_code
 from line.action.message import push_card_type_message
@@ -330,6 +333,17 @@ def send(request):
                 check_flg = False,
                 updated_at = datetime.datetime.now(),
             )
+
+            for reserve_offline_setting in ReserveOfflineSetting.objects.filter(offline__shop=shop).order_by('number').all():
+                if reserve_offline_setting.advance and int(reserve_offline_setting.advance) == user_flow_schedule.offline.display_id:
+                    ReserveUserStartDate.objects.filter(user=user, offline=reserve_offline_setting).all().delete()
+                    ReserveUserStartDate.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user,
+                        offline = reserve_offline_setting,
+                        date = add_date,
+                    )
+
         if user_flow_schedule.online:
             people_count = user_flow_schedule.online.people
             manager_list = list()
@@ -433,6 +447,16 @@ def send(request):
                 check_flg = False,
                 updated_at = datetime.datetime.now(),
             )
+        
+            for reserve_online_setting in ReserveOnlineSetting.objects.filter(online__shop=shop).order_by('number').all():
+                if reserve_online_setting.advance and int(reserve_online_setting.advance) == user_flow_schedule.offline.display_id:
+                    ReserveUserStartDate.objects.filter(user=user, online=reserve_online_setting).all().delete()
+                    ReserveUserStartDate.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user,
+                        online = reserve_online_setting,
+                        date = add_date,
+                    )
             
         target_flow_item = None
         action_flow_item = None

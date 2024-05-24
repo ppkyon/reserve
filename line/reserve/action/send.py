@@ -9,7 +9,7 @@ from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, U
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
 from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 from reserve.models import (
-    ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveUserStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from richmenu.models import UserRichMenu
@@ -955,6 +955,16 @@ def send(request):
                 question = question,
                 updated_at = datetime.datetime.now()
             )
+        
+        for reserve_offline_setting in ReserveOfflineSetting.objects.filter(offline__shop=shop).order_by('number').all():
+            if reserve_offline_setting.advance and int(reserve_offline_setting.advance) == setting.display_id:
+                ReserveUserStartDate.objects.filter(user=user, offline=reserve_offline_setting).all().delete()
+                ReserveUserStartDate.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    offline = reserve_offline_setting,
+                    date = add_date,
+                )
 
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
@@ -1117,6 +1127,16 @@ def send(request):
                 question = question,
                 updated_at = datetime.datetime.now()
             )
+        
+        for reserve_online_setting in ReserveOnlineSetting.objects.filter(online__shop=shop).order_by('number').all():
+            if reserve_online_setting.advance and int(reserve_online_setting.advance) == setting.display_id:
+                ReserveUserStartDate.objects.filter(user=user, online=reserve_online_setting).all().delete()
+                ReserveUserStartDate.objects.create(
+                    id = str(uuid.uuid4()),
+                    user = user,
+                    online = reserve_online_setting,
+                    date = add_date,
+                )
 
     user_flow = UserFlow.objects.filter(user=user, flow_tab=target_flow_tab).first()
     for flow_item in ShopFlowItem.objects.filter(flow_tab=user_flow.flow_tab, x__gte=user_flow.flow_item.x, y__gte=user_flow.flow_item.y).order_by('y', 'x').all():

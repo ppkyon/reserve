@@ -7,7 +7,7 @@ from reception.models import (
     ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 )
 from reserve.models import (
-    ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveStartDate,
+    ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveStartDate, ReserveUserStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
 )
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
@@ -57,39 +57,51 @@ def date(request):
     else:
         current = datetime.datetime.now()
         if online_offline['type'] == 1:
-            if course:
-                reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=course).first()
-                if reserve_start_date:
-                    now = datetime.datetime.now()
-                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
-                        current = reserve_start_date.first_date
-                    elif reserve_start_date.second_date:
-                        current = reserve_start_date.second_date
+            user_start_date = ReserveUserStartDate.objects.filter(user=user, offline__id=setting['id']).first()
+            if user_start_date:
+                now = datetime.datetime.now()
+                if user_start_date.date and now <= user_start_date.date:
+                    current = user_start_date.date
             else:
-                reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=None).first()
-                if reserve_start_date:
-                    now = datetime.datetime.now()
-                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
-                        current = reserve_start_date.first_date
-                    elif reserve_start_date.second_date:
-                        current = reserve_start_date.second_date
+                if course:
+                    reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=course).first()
+                    if reserve_start_date:
+                        now = datetime.datetime.now()
+                        if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                            current = reserve_start_date.first_date
+                        elif reserve_start_date.second_date:
+                            current = reserve_start_date.second_date
+                else:
+                    reserve_start_date = ReserveStartDate.objects.filter(offline__id=setting['id'], offline_course=None).first()
+                    if reserve_start_date:
+                        now = datetime.datetime.now()
+                        if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                            current = reserve_start_date.first_date
+                        elif reserve_start_date.second_date:
+                            current = reserve_start_date.second_date
         elif online_offline['type'] == 2:
-            if course:
-                reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=course).first()
-                if reserve_start_date:
-                    now = datetime.datetime.now()
-                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
-                        current = reserve_start_date.first_date
-                    elif reserve_start_date.second_date:
-                        current = reserve_start_date.second_date
+            user_start_date = ReserveUserStartDate.objects.filter(user=user, online__id=setting['id']).first()
+            if user_start_date:
+                now = datetime.datetime.now()
+                if user_start_date.date and now <= user_start_date.date:
+                    current = user_start_date.date
             else:
-                reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=None).first()
-                if reserve_start_date:
-                    now = datetime.datetime.now()
-                    if reserve_start_date.first_date and now <= reserve_start_date.first_date:
-                        current = reserve_start_date.first_date
-                    elif reserve_start_date.second_date:
-                        current = reserve_start_date.second_date
+                if course:
+                    reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=course).first()
+                    if reserve_start_date:
+                        now = datetime.datetime.now()
+                        if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                            current = reserve_start_date.first_date
+                        elif reserve_start_date.second_date:
+                            current = reserve_start_date.second_date
+                else:
+                    reserve_start_date = ReserveStartDate.objects.filter(online__id=setting['id'], online_course=None).first()
+                    if reserve_start_date:
+                        now = datetime.datetime.now()
+                        if reserve_start_date.first_date and now <= reserve_start_date.first_date:
+                            current = reserve_start_date.first_date
+                        elif reserve_start_date.second_date:
+                            current = reserve_start_date.second_date
     prev = current - datetime.timedelta(days=7)
     next = current + datetime.timedelta(days=7)
 
