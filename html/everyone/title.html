@@ -1,0 +1,88 @@
+{% load static %}
+
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="title-area">
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 4rem;">登録名</label>
+                    <input type="text" name="name" class="input-text ps-2 pe-2 me-2" value="" placeholder="登録名を入力" data-parsley-errors-container="#error_title" required>
+                    <input type="text" class="d-none">
+                        <input type="checkbox" name="favorite" value="1" class="d-none" checked>
+                        <img src="{% static 'img/icon/star.svg' %}" class="d-none">
+                        <img src="{% static 'img/icon/star-color.svg' %}">
+                </div>
+                <div id="error_title" class="ps-5 ms-2 mb-1"></div>
+                <p class="description ps-5 me-3 ms-4 mb-0">登録名は管理画面のみで使用され、ユーザーには表示されません。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card-area pt-3 pb-3 ps-5 pe-5">
+            <div class="title-area">
+                <div class="d-flex justify-content-start align-items-start mb-2">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 4rem;">配信先</label>
+                    <div>
+                        <div class="input-radio-wrap position-relative mb-1">
+                            <label for="select_type" class="ps-4 mt-1 mb-0">全ての候補者に送信する</label>
+                            <input type="radio" id="select_type" name="select_type" value="0" class="input-radio" checked>
+                            <label for="select_type" class="input-radio-mark"></label>
+                        </div>
+                        <div class="input-radio-wrap position-relative mb-1">
+                            <label for="select_type_another" class="ps-4 mt-1 mb-0">絞り込み</label>
+                            <input type="radio" id="select_type_another" name="select_type" value="1" class="input-radio">
+                            <label for="select_type_another" class="input-radio-mark mb-0" style="top: 20%;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div id="error_menu_text" class="ps-5 mb-2" style="margin-left: 17.5rem;"></div>
+                <div class="d-flex justify-content-start align-items-start mb-2">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 4rem;">ステータス</label>
+                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                        <input type="dropdown" name="name" class="input-text input-select input-type ps-2 pe-2 me-2 mt-0" style="width: 10rem;" value="" placeholder="選択する" data-bs-toggle="dropdown" data-parsley-errors-container="#error_title" required>
+                        <div class="dropdown-menu">
+                            <button type="button" value="new" class="btn dropdown-item fw-bold text-center p-1">体験予約</button>
+                            <button type="button" value="first" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1回目</button>
+                            <button type="button" value="second" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">2回目</button>
+                            <button type="button" value="third" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">3回目</button>
+                            <button type="button" value="fourth" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">4回目</button>
+                            <button type="button" value="fifth" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">5回目</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-start mb-2">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 4rem;">タグ</label>
+                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                        <input type="dropdown" name="tag" class="input-text input-select input-type ps-2 pe-2 me-2" style="width: 10rem;" value="" placeholder="選択する" data-bs-toggle="dropdown" data-parsley-errors-container="#error_title">
+                        <div class="dropdown-menu" style="overflow: scroll;">
+                            <!-- タグの画面で登録しているタグが選択できるような仕様にしたい -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-start">
+                    <label class="input-label fw-bold me-3 mb-0" style="width: 4rem;">配信日時</label>
+                    <div>
+                        <div class="input-radio-wrap position-relative mb-1">
+                            <label for="send_type" class="ps-4 mt-1 mb-0">今すぐ送信する</label>
+                            <input type="radio" id="send_type" name="send_type" value="0" class="input-radio" checked>
+                            <label for="send_type" class="input-radio-mark"></label>
+                        </div>
+                        <div class="input-radio-wrap d-flex justify-content-start align-items-center position-relative mb-2">
+                            <label for="send_type_another" class="ps-4 mt-1 mb-0">日時を指定して送信する</label>
+                            <input type="radio" id="send_type_another" name="send_type" value="1" class="input-radio">
+                            <label for="send_type_another" class="input-radio-mark mb-0" style="top: 20%;"></label>
+                        </div>
+                        <div>
+                        <!-- 配信日と配信時間をカレンダーから選択できる仕様にしたい -->
+                            <input type="text" name="date" class="input-text input-date flatpickr-input ps-2 pe-2 me-2" value="" placeholder="配信日" data-parsley-errors-container="#error_title" required>
+                            <input type="text" name="time" class="input-text input-time flatpickr-input ps-2 pe-2 me-2" value="" placeholder="配信時間" data-parsley-errors-container="#error_title" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

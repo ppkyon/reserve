@@ -1,0 +1,59 @@
+{% extends '../../base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/everyone.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <p class="main-title mb-3">{{ title }}</p>
+        </div>
+    </div>
+    <div class="shop">
+        {% if template.display_id %}
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="delete_area d-flex justify-content-end align-items-center">
+                        <form id="delete_text_form" action="{% url 'everyone:delete_text' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                            <input type="hidden" name="id" value="{{ template.display_id }}">
+                        </form>
+                        <button type="button" class="btn delete-button p-1" value="text">このメッセージを削除する</a>
+                        <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete_check_modal"></button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" id="save_text_check_form" value="{% url 'everyone:save_text_check' %}">
+        <form id="save_text_form" action="{% url 'everyone:save_text' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+            {% include 'everyone/title.html' %}
+            {% include 'everyone/input.html' %}
+        </form>
+        {% include 'modal.html' %}
+        {% include 'everyone/modal/image.html' %}
+        {% include 'everyone/modal/modal.html' %}
+        {% include 'everyone/modal/text.html' %}
+        {% include 'template/text/modal/text.html' %}
+        {% include 'template/video/modal/video.html' %}
+        {% include 'template/richmessage/modal/richmessage.html' %}
+        {% include 'template/richvideo/modal/richvideo.html' %}
+        {% include 'template/cardtype/modal/cardtype.html' %}
+        {% include 'preview.html' %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- <script src="{% static 'js/everyone/modal.js' %}"></script>
+    <script src="{% static 'js/everyone/preview.js' %}"></script>
+    <script src="{% static 'js/everyone/append.js' %}"></script>
+    <script src="{% static 'js/everyone/data.js' %}"></script>
+    <script src="{% static 'js/everyone/action.js' %}"></script>
+    <script src="{% static 'js/everyone/image.js' %}"></script> -->
+    <script src="{% static 'js/template/text/modal.js' %}"></script>
+    <script src="{% static 'js/template/video/modal.js' %}"></script>
+    <script src="{% static 'js/template/richmessage/modal.js' %}"></script>
+    <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
+    <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
+{% endblock %}
