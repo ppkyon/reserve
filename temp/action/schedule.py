@@ -434,6 +434,9 @@ def get(request):
             'hour': 0,
             'minute': 0,
         }
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(end_date)
     if setting['type'] == 1:
         advance_setting = ReserveOfflineSetting.objects.filter(advance=setting['display_id']).first()
         advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
