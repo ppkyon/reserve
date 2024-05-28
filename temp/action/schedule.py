@@ -785,8 +785,10 @@ def send(request):
                 break
 
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('-number').first()
-        print(user_flow)
-        print(user_flow_schedule)
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(user_flow)
+        logger.info(user_flow_schedule)
         UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
         UserFlowSchedule.objects.create(
             id = str(uuid.uuid4()),
