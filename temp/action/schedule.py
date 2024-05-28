@@ -695,9 +695,15 @@ def send(request):
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(setting)
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=auth_login.shop, offline=setting).all():
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=auth_login.shop, name=menu.flow).first()
+            logger.info(menu)
+            logger.info(flow_tab)
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
+                logger.info('aaa')
                 target_flow_tab = flow_tab
 
         people_count = setting.people
@@ -723,11 +729,6 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
         
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(user.shop)
-        logger.info(user)
-        logger.info(target_flow_tab)
         schedule_list = list()
         for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
