@@ -695,15 +695,9 @@ def send(request):
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
-        import logging
-        logger = logging.getLogger('development')
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=auth_login.shop, offline=setting).all():
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=auth_login.shop, name=menu.flow).first()
-            logger.info(user_flow.flow)
-            logger.info(auth_login.shop)
-            logger.info(menu.flow)
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
-                logger.info('aaa')
                 target_flow_tab = flow_tab
 
         people_count = setting.people

@@ -788,7 +788,7 @@ def send(request):
     if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=auth_login.shop, offline=setting).all():
-            flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
+            flow_tab = ShopFlowTab.objects.filter(shop=auth_login.shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
         
@@ -955,7 +955,7 @@ def send(request):
     if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         for menu in ReserveOnlineFlowMenu.objects.filter(shop=auth_login.shop, online=setting).all():
-            flow_tab = ShopFlowTab.objects.filter(name=menu.flow).first()
+            flow_tab = ShopFlowTab.objects.filter(shop=auth_login.shop, name=menu.flow).first()
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 target_flow_tab = flow_tab
         
