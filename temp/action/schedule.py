@@ -398,6 +398,9 @@ def get(request):
                         start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
     
     if setting and setting['advance']:
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(setting)
         if setting['type'] == 1:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
@@ -422,9 +425,6 @@ def get(request):
         'hour': start_date.hour,
         'minute': start_date.minute,
     }
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(start_date)
 
     end_date = None
     if course_data and course_data.start != 0:
