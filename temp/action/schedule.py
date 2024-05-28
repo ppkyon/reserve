@@ -231,9 +231,6 @@ def get(request):
                                 'end_flg': end_flg,
                             })
 
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(reception_data)
         for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             send_week = list()
@@ -339,6 +336,11 @@ def get(request):
                 
                 if manager_count <= 0 or facility_count <= 0:
                     reception_flg = True
+                
+                if not reception_flg:
+                    import logging
+                    logger = logging.getLogger('development')
+                    logger.info(schedule_week_value)
                 send_week.append({
                     'year': schedule_week_value['year'],
                     'month': schedule_week_value['month'],
