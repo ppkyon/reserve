@@ -231,6 +231,9 @@ def get(request):
                                 'end_flg': end_flg,
                             })
 
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(reception_data)
         for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             send_week = list()
@@ -398,9 +401,6 @@ def get(request):
                         start_date = datetime.datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
     
     if setting and setting['advance']:
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(setting)
         if setting['type'] == 1:
             advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting['advance']).first()
             advance_schedule = UserFlowSchedule.objects.filter(flow__user=user, offline=advance_setting, temp_flg=False).exclude(number=0).order_by('-number').first()
