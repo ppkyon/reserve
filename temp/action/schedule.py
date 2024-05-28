@@ -697,11 +697,11 @@ def send(request):
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         import logging
         logger = logging.getLogger('development')
-        logger.info(setting)
         for menu in ReserveOfflineFlowMenu.objects.filter(shop=auth_login.shop, offline=setting).all():
             flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=auth_login.shop, name=menu.flow).first()
-            logger.info(menu)
-            logger.info(flow_tab)
+            logger.info(user_flow.flow)
+            logger.info(auth_login.shop)
+            logger.info(menu.flow)
             if not target_flow_tab or target_flow_tab.number > flow_tab.number:
                 logger.info('aaa')
                 target_flow_tab = flow_tab
