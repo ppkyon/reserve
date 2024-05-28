@@ -65,7 +65,7 @@ def temp(request):
                             for manager_item in manager_list:
                                 if manager_item == schedule_item.manager:
                                     manager_item.count = manager_item.count - 1
-                                    if manager_item.count <= 0:
+                                    if manager_item.count <= 0 and schedule_item.manager:
                                         reception_manager_list.append(schedule_item.manager.id)
                             for facility_item in facility_list:
                                 if facility_item == schedule_item.offline_facility:
@@ -171,7 +171,7 @@ def temp(request):
                             for manager_item in manager_list:
                                 if manager_item == schedule_item.manager:
                                     manager_item.count = manager_item.count - 1
-                                    if manager_item.count <= 0:
+                                    if manager_item.count <= 0 and schedule_item.manager:
                                         reception_manager_list.append(schedule_item.manager.id)
                             for facility_item in facility_list:
                                 if facility_item == schedule_item.online_facility:

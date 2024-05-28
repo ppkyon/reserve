@@ -865,7 +865,7 @@ def send(request):
                         for manager_item in manager_list:
                             if manager_item == schedule_item.manager:
                                 manager_item.count = manager_item.count - 1
-                                if manager_item.count <= 0:
+                                if manager_item.count <= 0 and schedule_item.manager:
                                     reception_manager_list.append(schedule_item.manager.id)
                         for facility_item in facility_list:
                             if facility_item == schedule_item.offline_facility:
@@ -873,10 +873,12 @@ def send(request):
                                 if facility_item.count <= 0:
                                     reception_facility_list.append(facility_item.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager.id)
+                        if schedule_item.manager:
+                            reception_manager_list.append(schedule_item.manager.id)
                         reception_facility_list.append(schedule_item.offline_facility.id)
                 else:
-                    reception_manager_list.append(schedule_item.manager.id)
+                    if schedule_item.manager:
+                        reception_manager_list.append(schedule_item.manager.id)
                     reception_facility_list.append(schedule_item.offline_facility.id)
         
         manager = None
@@ -1030,7 +1032,7 @@ def send(request):
                         for manager_item in manager_list:
                             if manager_item == schedule_item.manager:
                                 manager_item.count = manager_item.count - 1
-                                if manager_item.count <= 0:
+                                if manager_item.count <= 0 and schedule_item.manager:
                                     reception_manager_list.append(schedule_item.manager.id)
                         for facility_item in facility_list:
                             if facility_item == schedule_item.online_facility:
@@ -1038,10 +1040,12 @@ def send(request):
                                 if facility_item.count <= 0:
                                     reception_facility_list.append(facility_item.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager.id)
+                        if schedule_item.manager:
+                            reception_manager_list.append(schedule_item.manager.id)
                         reception_facility_list.append(schedule_item.online_facility.id)
                 else:
-                    reception_manager_list.append(schedule_item.manager.id)
+                    if schedule_item.manager:
+                        reception_manager_list.append(schedule_item.manager.id)
                     reception_facility_list.append(schedule_item.online_facility.id)
 
         for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=setting).order_by('manager__created_at').all():
