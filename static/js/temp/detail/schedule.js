@@ -257,7 +257,7 @@ function create_date(response) {
                     } else {
                         if ( week_value.reception_flg ) {
                             html += '<td class="no p-1">';
-                            html += '<span>✕</span>';
+                            html += '<span>aaa✕</span>';
                             html += '<input type="hidden" value="' + week_value.year + '">';
                             html += '<input type="hidden" value="' + week_value.month + '">';
                             html += '<input type="hidden" value="' + week_value.day + '">';
@@ -278,7 +278,7 @@ function create_date(response) {
                 } else {
                     if ( week_value.reception_flg ) {
                         html += '<td class="no p-1">';
-                        html += '<span>✕</span>';
+                        html += '<span>bbb✕</span>';
                         html += '<input type="hidden" value="' + week_value.year + '">';
                         html += '<input type="hidden" value="' + week_value.month + '">';
                         html += '<input type="hidden" value="' + week_value.day + '">';

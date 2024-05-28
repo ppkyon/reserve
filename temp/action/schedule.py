@@ -337,10 +337,6 @@ def get(request):
                 if manager_count <= 0 or facility_count <= 0:
                     reception_flg = True
                 
-                if not reception_flg:
-                    import logging
-                    logger = logging.getLogger('development')
-                    logger.info(schedule_week_value)
                 send_week.append({
                     'year': schedule_week_value['year'],
                     'month': schedule_week_value['month'],
