@@ -422,6 +422,9 @@ def get(request):
         'hour': start_date.hour,
         'minute': start_date.minute,
     }
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(start_date)
 
     end_date = None
     if course_data and course_data.start != 0:
