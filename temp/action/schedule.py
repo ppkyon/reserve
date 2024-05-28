@@ -723,6 +723,11 @@ def send(request):
                 facility_list.append(facility_menu_item.facility)
         
         user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, flow_tab=target_flow_tab).first()
+        import logging
+        logger = logging.getLogger('development')
+        logger.info(user.shop)
+        logger.info(user)
+        logger.info(target_flow_tab)
         schedule_list = list()
         for schedule in UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__year=request.POST.get('year'), date__month=request.POST.get('month'), date__day=request.POST.get('day'), temp_flg=False).exclude(Q(number=0)|Q(join=2)).all():
             schedule_list.append(schedule)
@@ -785,10 +790,6 @@ def send(request):
                 break
 
         user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow).order_by('-number').first()
-        import logging
-        logger = logging.getLogger('development')
-        logger.info(user_flow)
-        logger.info(user_flow_schedule)
         UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
         UserFlowSchedule.objects.create(
             id = str(uuid.uuid4()),
