@@ -7,9 +7,9 @@ from PIL import Image
 
 from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, UserFlowSchedule
 from question.models import ShopQuestion, ShopQuestionItem, ShopQuestionItemChoice, UserQuestion, UserQuestionItem, UserQuestionItemChoice
-from reception.models import ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
+from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 from reserve.models import (
-    ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveUserStartDate,
+    ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflineSetting, ReserveOnlineSetting, ReserveUserStartDate, ReserveCalendarDate, ReserveCalendarTime, ReserveTempCalendar,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from richmenu.models import UserRichMenu
@@ -26,6 +26,7 @@ import datetime
 import environ
 import io
 import os
+import pandas
 import urllib.parse
 import urllib.request
 import uuid
@@ -892,11 +893,11 @@ def send(request):
                                 if facility_item.count <= 0:
                                     reception_facility_list.append(facility_item.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager)
-                        reception_facility_list.append(schedule_item.offline_facility)
+                        reception_manager_list.append(schedule_item.manager.id)
+                        reception_facility_list.append(schedule_item.offline_facility.id)
                 else:
-                    reception_manager_list.append(schedule_item.manager)
-                    reception_facility_list.append(schedule_item.offline_facility)
+                    reception_manager_list.append(schedule_item.manager.id)
+                    reception_facility_list.append(schedule_item.offline_facility.id)
 
         manager = None
         for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=shop, offline=setting).order_by('manager__created_at').all():
@@ -1064,11 +1065,11 @@ def send(request):
                                 if facility_item.count <= 0:
                                     reception_facility_list.append(facility_item.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager)
-                        reception_facility_list.append(schedule_item.online_facility)
+                        reception_manager_list.append(schedule_item.manager.id)
+                        reception_facility_list.append(schedule_item.online_facility.id)
                 else:
-                    reception_manager_list.append(schedule_item.manager)
-                    reception_facility_list.append(schedule_item.online_facility)
+                    reception_manager_list.append(schedule_item.manager.id)
+                    reception_facility_list.append(schedule_item.online_facility.id)
 
         manager = None
         for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=shop, online=setting).order_by('manager__created_at').all():
