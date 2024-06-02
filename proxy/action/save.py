@@ -73,11 +73,15 @@ def temp(request):
                                     if facility_item.count <= 0:
                                         reception_facility_list.append(facility_item.id)
                         else:
-                            reception_manager_list.append(schedule_item.manager.id)
-                            reception_facility_list.append(schedule_item.offline_facility.id)
+                            if schedule_item and schedule_item.manager:
+                                reception_manager_list.append(schedule_item.manager.id)
+                            if schedule_item and schedule_item.offline_facility:
+                                reception_facility_list.append(schedule_item.offline_facility.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager.id)
-                        reception_facility_list.append(schedule_item.offline_facility.id)
+                        if schedule_item and schedule_item.manager:
+                            reception_manager_list.append(schedule_item.manager.id)
+                        if schedule_item and schedule_item.offline_facility:
+                            reception_facility_list.append(schedule_item.offline_facility.id)
             
             manager = None
             for manager_item in ReserveOfflineManagerMenu.objects.filter(shop=auth_login.shop, offline=setting).order_by('manager__created_at').all():
@@ -377,11 +381,15 @@ def temp(request):
                                     if facility_item.count <= 0:
                                         reception_facility_list.append(facility_item.id)
                         else:
-                            reception_manager_list.append(schedule_item.manager.id)
-                            reception_facility_list.append(schedule_item.online_facility.id)
+                            if schedule_item and schedule_item.manager:
+                                reception_manager_list.append(schedule_item.manager.id)
+                            if schedule_item and schedule_item.offline_facility:
+                                reception_facility_list.append(schedule_item.offline_facility.id)
                     else:
-                        reception_manager_list.append(schedule_item.manager.id)
-                        reception_facility_list.append(schedule_item.online_facility.id)
+                        if schedule_item and schedule_item.manager:
+                            reception_manager_list.append(schedule_item.manager.id)
+                        if schedule_item and schedule_item.offline_facility:
+                            reception_facility_list.append(schedule_item.offline_facility.id)
 
             manager = None
             for manager_item in ReserveOnlineManagerMenu.objects.filter(shop=auth_login.shop, online=setting).order_by('manager__created_at').all():
