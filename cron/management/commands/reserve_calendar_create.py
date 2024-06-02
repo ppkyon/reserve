@@ -16,6 +16,7 @@ import uuid
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        ReserveCalendarDate.objects.all().delete()
         for shop in AuthShop.objects.filter(status__gte=2, delete_flg=False).all():
             for offline in ShopOffline.objects.filter(shop=shop).order_by('created_at').all():
                 for offline_setting in ReserveOfflineSetting.objects.filter(offline=offline).all():
