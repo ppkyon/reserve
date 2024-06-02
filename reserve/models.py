@@ -309,3 +309,40 @@ class ReserveUserStartDate(models.Model):
 
     class Meta:
         db_table = 'reserve_user_start_date'
+
+
+
+class ReserveCalendarDate(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_date")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_date")
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_date")
+    date = models.DateTimeField(blank=False, null=True)
+    flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_calendar_date'
+
+class ReserveCalendarTime(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    calendar = models.ForeignKey(ReserveCalendarDate, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_time")
+    time = models.TimeField(blank=False, null=True)
+    count = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_calendar_time'
+
+class ReserveTempCalendar(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    calendar = models.ForeignKey(ReserveCalendarTime, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_temp_calendar")
+    user = models.ForeignKey(LineUser, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_temp_calendar")
+    manager = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_temp_calendar")
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_temp_calendar'
