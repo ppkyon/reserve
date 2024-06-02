@@ -17,10 +17,8 @@ import uuid
 class Command(BaseCommand):
     def handle(self, *args, **options):
         for shop in AuthShop.objects.filter(status__gte=2, delete_flg=False).all():
-            offline_list = list()
             for offline in ShopOffline.objects.filter(shop=shop).order_by('created_at').all():
                 for offline_setting in ReserveOfflineSetting.objects.filter(offline=offline).all():
-                    offline_list.append(offline_setting.display_id)
                     manager_list = list()
                     facility_list = list()
                     for manager_menu_item in ReserveOfflineManagerMenu.objects.filter(offline=offline_setting).all():
@@ -221,10 +219,8 @@ class Command(BaseCommand):
                                                 manager = None,
                                             )
             
-            online_list = list()
             for online in ShopOnline.objects.filter(shop=shop).order_by('created_at').all():
                 for online_setting in ReserveOnlineSetting.objects.filter(online=online).all():
-                    online_list.append(offline_setting.display_id)
                     manager_list = list()
                     facility_list = list()
                     for manager_menu_item in ReserveOnlineManagerMenu.objects.filter(online=online_setting).all():
@@ -424,5 +420,4 @@ class Command(BaseCommand):
                                                 user = temp_user,
                                                 manager = None,
                                             )
-            ReserveCalendarDate.objects.exclude(Q(shop=shop), Q(offline__display_id__in=offline_list)|Q(online__display_id__in=online_list)).all().delete()
         self.stdout.write(self.style.SUCCESS('reserve calendar create successfully!!'))
