@@ -569,6 +569,26 @@ def question(request):
                 course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
             user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, user_flow_schedule__offline=setting).first()
+            if not user_flow:
+                target_flow_tab = None
+                user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
+                for menu in ReserveOfflineFlowMenu.objects.filter(shop=shop, offline=setting).all():
+                    flow_tab = ShopFlowTab.objects.filter(flow=user_flow.flow, flow__shop=shop, name=menu.flow).first()
+                    if not target_flow_tab or target_flow_tab.number > flow_tab.number:
+                        target_flow_tab = flow_tab
+                user_flow = UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = target_flow_tab.flow,
+                    flow_tab = target_flow_tab,
+                    flow_item = None,
+                    name = target_flow_tab.name,
+                    richmenu = None,
+                    end_flg = False,
+                    updated_at = datetime.datetime.now(),
+                )
             temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).first()
             UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
