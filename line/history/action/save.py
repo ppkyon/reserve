@@ -113,7 +113,7 @@ def temp(request):
             if request.POST.get('course_id'):
                 course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, name=setting.name).first()
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, user_flow_schedule__offline=setting).first()
             temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).first()
             UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
@@ -429,7 +429,7 @@ def temp(request):
             if request.POST.get('course_id'):
                 course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
             
-            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, user_flow_schedule__online=setting).first()
             temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).first()
             UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
