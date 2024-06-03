@@ -2,11 +2,10 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
-from reception.models import (
-    ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
-)
+from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace
 from reserve.models import (
-    ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineSetting, ReserveOnlineSetting, ReserveStartDate, ReserveUserStartDate,
+    ReserveBasic, ReserveOfflineCourse, ReserveOnlineCourse, ReserveOfflinePlace, ReserveOnlinePlace, ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveStartDate, ReserveUserStartDate, ReserveCalendarDate, ReserveCalendarTime, ReserveTempCalendar,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 )
 from setting.models import ShopOffline, ShopOnline, ShopOfflineTime, ShopOnlineTime
@@ -245,8 +244,6 @@ def check(request):
     
     send_schedule = list()
     reserve_data = ReserveBasic.objects.filter(shop=shop).first()
-    reception_data = list()
-    week_schedule = list()
     week_time = list()
     unit_time = '60min'
     if setting['unit']:
@@ -264,157 +261,66 @@ def check(request):
         elif reserve_data.unit == 15:
             unit_time = '15min'
     if time['from'] and time['to']:
-        for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq='15min'):
-            schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
-            week_time.append({
-                'time': schedule_time
-            })
-            week_schedule.append({
-                'week': week_day,
-                'time': schedule_time,
-            })
-
-            for schedule_week_value in week_day:
-                for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day'], time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).exclude(flow__user=user, number=0, temp_flg=True).all():
-                    if schedule.join == 0 or schedule.join == 1:
-                        date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
-                        end_flg = False
-                        if schedule.flow:
-                            end_flg = schedule.flow.end_flg
-                        if schedule.online:
-                            reception_data.append({
-                                'from': date,
-                                'to': date + datetime.timedelta(minutes=schedule.online.time),
-                                'setting': schedule.online,
-                                'course': schedule.online_course,
-                                'facility': schedule.online_facility,
-                                'manager': schedule.manager,
-                                'question': schedule.question,
-                                'meeting': schedule.meeting,
-                                'end_flg': end_flg,
-                            })
-                        elif schedule.offline:
-                            reception_data.append({
-                                'from': date,
-                                'to': date + datetime.timedelta(minutes=schedule.offline.time),
-                                'setting': schedule.offline,
-                                'course': schedule.offline_course,
-                                'facility': schedule.offline_facility,
-                                'manager': schedule.manager,
-                                'question': schedule.question,
-                                'meeting': None,
-                                'end_flg': end_flg,
-                            })
-                            
         for times in pandas.date_range(start=datetime.datetime(current.year, current.month, current.day, time['from'].hour, time['from'].minute, 0), end=datetime.datetime(current.year, current.month, current.day, time['to'].hour, time['to'].minute, 0), freq=unit_time):
             schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
             send_week = list()
             for schedule_week_value in week_day:
-                reception_flg = True
-                manager_count = len(manager_list)
-                facility_count = len(facility_list)
-                reception_manager_list = list()
-                reception_facility_list = list()
-                for manager in manager_list:
-                    schedule_datetime = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
-                    schedule_datetime = schedule_datetime + datetime.timedelta(minutes=setting['time'])
-                    if online_offline['type'] == 1:
-                        reception_place = ReceptionOfflinePlace.objects.filter(offline__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
-                        reception_manager = ReceptionOfflineManager.objects.filter(offline__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
-                        if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
-                            if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline__id=setting['id']).exists():
-                                reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline__id=setting['id']).first()
-                                if not reception_offline_manager_setting.flg:
-                                    reception_manager = None
-                    if online_offline['type'] == 2:
-                        reception_place = ReceptionOnlinePlace.objects.filter(online__id=online_offline['id'], reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=False).first()
-                        reception_manager = ReceptionOnlineManager.objects.filter(online__id=online_offline['id'], manager=manager, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
-                        if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager).exists():
-                            if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online__id=setting['id']).exists():
-                                reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online__id=setting['id']).first()
-                                if not reception_online_manager_setting.flg:
-                                    reception_manager = None
-                    if reception_place and reception_manager and schedule_week_value['day'] == schedule_datetime.day:
-                        if len(reception_data) > 0 :
-                            people_number = 0
-                            people_count = setting['people']
-                            same_count = setting['facility']
-
-                            schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
-                            schedule_add_date = schedule_date + datetime.timedelta(minutes=setting['time'])
-
-                            count_flg = True
-                            for reception in reception_data:
-                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
-                                    if manager_count <= 0 or facility_count <= 0:
-                                        break
-                                    else:
-                                        if reception['setting']:
-                                            if reception['setting'].id == setting['id']:
-                                                if schedule_date == reception['from']:
-                                                    if count_flg:
-                                                        if reception['facility'] and reception['facility'].count < people_count:
-                                                            same_count = same_count - 1
-                                                            if same_count == 0:
-                                                                if people_count > reception['facility'].count:
-                                                                    people_count = reception['facility'].count
-                                                            else:
-                                                                people_total_count = reception['facility'].count
-                                                                while same_count > 0:
-                                                                    people_number = people_number + 1
-                                                                    people_total_count = people_total_count + facility_list[people_number].count
-                                                                    if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                        facility_count = facility_count - 1
-                                                                        reception_facility_list.append(facility_list[people_number])
-                                                                    same_count = same_count - 1
-                                                                if people_count > people_total_count:
-                                                                    people_count = people_total_count
-                                                        count_flg = False
-                                                    people_count = people_count - 1
-                                                    if people_count <= 0:
-                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                            manager_count = manager_count - 1
-                                                            reception_manager_list.append(reception['manager'])
-                                                        if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                            facility_count = facility_count - 1
-                                                            reception_facility_list.append(reception['facility'])
-
-                                                        people_number = people_number + 1
-                                                        people_count = setting['people']
-                                                        if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                            people_count = facility_list[people_number].count
-                                                else:
-                                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                        manager_count = manager_count - 1
-                                                        reception_manager_list.append(reception['manager'])
-                                                    if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                        facility_count = facility_count - 1
-                                                        reception_facility_list.append(reception['facility'])
-                                            else:
-                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                    manager_count = manager_count - 1
-                                                    reception_manager_list.append(reception['manager'])
-                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                    facility_count = facility_count - 1
-                                                    reception_facility_list.append(reception['facility'])
-                            if manager_count > 0 and facility_count > 0:
-                                reception_flg = False
+                if online_offline['type'] == 1:
+                    calendar_date = ReserveCalendarDate.objects.filter(shop=shop, offline__id=setting['id'], date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day']).first()
+                    calendar_time = ReserveCalendarTime.objects.filter(calendar=calendar_date, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).first()
+                    if calendar_time:
+                        reserve_count = calendar_time.count
+                        if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
+                            reserve_count = reserve_count + 1
+                        if reserve_count > 0:
+                            send_week.append({
+                                'year': schedule_week_value['year'],
+                                'month': schedule_week_value['month'],
+                                'day': schedule_week_value['day'],
+                                'reception_flg': False,
+                            })
                         else:
-                            schedule_date = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
-                            if manager_count > 0 and facility_count > 0:
-                                reception_flg = False
-                    if manager in reception_manager_list:
-                        manager_count = manager_count - 1
-                        reception_manager_list.append(manager)
-                
-                if manager_count <= 0 or facility_count <= 0:
-                    reception_flg = True
-                send_week.append({
-                    'year': schedule_week_value['year'],
-                    'month': schedule_week_value['month'],
-                    'day': schedule_week_value['day'],
-                    'reception_flg': reception_flg,
-                })
+                            send_week.append({
+                                'year': schedule_week_value['year'],
+                                'month': schedule_week_value['month'],
+                                'day': schedule_week_value['day'],
+                                'reception_flg': True,
+                            })
+                    else:
+                        send_week.append({
+                            'year': schedule_week_value['year'],
+                            'month': schedule_week_value['month'],
+                            'day': schedule_week_value['day'],
+                            'reception_flg': True,
+                        })
+                elif online_offline['type'] == 2:
+                    calendar_date = ReserveCalendarDate.objects.filter(shop=shop, online__id=setting['id'], date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day']).first()
+                    calendar_time = ReserveCalendarTime.objects.filter(calendar=calendar_date, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).first()
+                    if calendar_time:
+                        reserve_count = calendar_time.count
+                        if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
+                            reserve_count = reserve_count + 1
+                        if reserve_count > 0:
+                            send_week.append({
+                                'year': schedule_week_value['year'],
+                                'month': schedule_week_value['month'],
+                                'day': schedule_week_value['day'],
+                                'reception_flg': False,
+                            })
+                        else:
+                            send_week.append({
+                                'year': schedule_week_value['year'],
+                                'month': schedule_week_value['month'],
+                                'day': schedule_week_value['day'],
+                                'reception_flg': True,
+                            })
+                    else:
+                        send_week.append({
+                            'year': schedule_week_value['year'],
+                            'month': schedule_week_value['month'],
+                            'day': schedule_week_value['day'],
+                            'reception_flg': True,
+                        })
             add_time = datetime.datetime(schedule_week_value['year'], schedule_week_value['month'], schedule_week_value['day'], int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0) + datetime.timedelta(minutes=setting['time'])
             send_schedule.append({
                 'week': send_week,

@@ -568,7 +568,7 @@ def question(request):
             if request.POST.get('course_id'):
                 course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user).first()
+            user_flow = UserFlow.objects.filter(user__shop=user.shop, user=user, name=setting.name).first()
             temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).first()
             UserFlowSchedule.objects.filter(flow=user_flow, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
