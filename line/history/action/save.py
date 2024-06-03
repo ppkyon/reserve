@@ -166,9 +166,11 @@ def temp(request):
                                     for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=date.year, date__month=date.month, date__day=date.day, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
                                         if schedule.join == 0 or schedule.join == 1:
                                             date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                                            temp_user = None
                                             end_flg = False
                                             if schedule.flow:
                                                 end_flg = schedule.flow.end_flg
+                                                temp_user = schedule.flow.user
                                             if schedule.offline:
                                                 reception_data.append({
                                                     'from': date,
@@ -180,7 +182,7 @@ def temp(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -195,7 +197,7 @@ def temp(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -482,9 +484,11 @@ def temp(request):
                                     for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=shop)|Q(temp_manager__shop=shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=date.year, date__month=date.month, date__day=date.day, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
                                         if schedule.join == 0 or schedule.join == 1:
                                             date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                                            temp_user = None
                                             end_flg = False
                                             if schedule.flow:
                                                 end_flg = schedule.flow.end_flg
+                                                temp_user = schedule.flow.user
                                             if schedule.online:
                                                 reception_data.append({
                                                     'from': date,
@@ -496,7 +500,7 @@ def temp(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -511,7 +515,7 @@ def temp(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })

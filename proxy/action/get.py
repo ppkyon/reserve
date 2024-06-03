@@ -548,12 +548,14 @@ def question(request):
                             if not reception_offline_place.reception_flg:
                                 for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, reception_offline_place.reception_from.hour, reception_offline_place.reception_from.minute, 0), end=datetime.datetime(date.year, date.month, date.day, reception_offline_place.reception_to.hour, reception_offline_place.reception_to.minute, 0), freq='15min'):
                                     schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
-                                    for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=date.year, date__month=date.month, date__day=date.day, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
+                                    for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=date.year, date__month=date.month, date__day=date.day, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).exclude(temp_manager=auth_login.user, number=0, temp_flg=True).all():
                                         if schedule.join == 0 or schedule.join == 1:
                                             date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                                            temp_user = None
                                             end_flg = False
                                             if schedule.flow:
                                                 end_flg = schedule.flow.end_flg
+                                                temp_user = schedule.flow.user
                                             if schedule.offline:
                                                 reception_data.append({
                                                     'from': date,
@@ -565,7 +567,7 @@ def question(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -580,7 +582,7 @@ def question(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -864,9 +866,11 @@ def question(request):
                                     for schedule in UserFlowSchedule.objects.filter(Q(Q(flow__user__shop=auth_login.shop)|Q(temp_manager__shop=auth_login.shop)|Q(temp_manager__head_flg=True)|Q(temp_manager__company_flg=True)), date__year=date.year, date__month=date.month, date__day=date.day, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).all():
                                         if schedule.join == 0 or schedule.join == 1:
                                             date = datetime.datetime(schedule.date.year, schedule.date.month, schedule.date.day, schedule.time.hour, schedule.time.minute, 0)
+                                            temp_user = None
                                             end_flg = False
                                             if schedule.flow:
                                                 end_flg = schedule.flow.end_flg
+                                                temp_user = schedule.flow.user
                                             if schedule.online:
                                                 reception_data.append({
                                                     'from': date,
@@ -878,7 +882,7 @@ def question(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
@@ -893,7 +897,7 @@ def question(request):
                                                     'question': schedule.question,
                                                     'meeting': None,
                                                     'end_flg': end_flg,
-                                                    'temp_user': schedule.flow.user,
+                                                    'temp_user': temp_user,
                                                     'temp_manager': schedule.temp_manager,
                                                     'temp_flg': schedule.temp_flg,
                                                 })
