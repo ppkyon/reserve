@@ -497,7 +497,7 @@ def save(request):
                                         user = temp_user,
                                         manager = None,
                                     )
-    ReserveCalendarDate.objects.exclude(Q(shop=auth_login.shop), Q(offline__display_id__in=offline_list)|Q(online__display_id__in=online_list)).all().delete()
+    ReserveCalendarDate.objects.filter(Q(shop=auth_login.shop)).exclude(Q(offline__display_id__in=offline_list)|Q(online__display_id__in=online_list)).all().delete()
 
     return JsonResponse( {}, safe=False )
 

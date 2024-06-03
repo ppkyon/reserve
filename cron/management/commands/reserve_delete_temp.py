@@ -428,5 +428,5 @@ class Command(BaseCommand):
                                                 user = temp_user,
                                                 manager = None,
                                             )
-                ReserveCalendarDate.objects.exclude(Q(shop=shop), Q(offline__display_id__in=offline_list)|Q(online__display_id__in=online_list)).all().delete()
+                ReserveCalendarDate.objects.filter(Q(shop=shop)).exclude(Q(offline__display_id__in=offline_list)|Q(online__display_id__in=online_list)).all().delete()
         self.stdout.write(self.style.SUCCESS('reserve delete temp successfully!!'))
