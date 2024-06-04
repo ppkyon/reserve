@@ -65,12 +65,12 @@ def save(request):
                 user_flow.save()
 
                 old_user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count()).first()
-                temp_schedule = UserFlowSchedule.objects.filter(temp_manager=request.user, number=0, temp_flg=True).first()
+                temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, temp_manager=request.user, number=0, temp_flg=True).first()
                 if change_flg and user_flow_schedule.date:
                     user_flow_schedule.join = 2
                     user_flow_schedule.save()
 
-                    UserFlowSchedule.objects.filter(temp_manager=request.user, number=0, temp_flg=True).all().delete()
+                    UserFlowSchedule.objects.filter(flow=user_flow, temp_manager=request.user, number=0, temp_flg=True).all().delete()
                     user_flow_schedule = UserFlowSchedule.objects.create(
                         id = str(uuid.uuid4()),
                         display_id = create_code(12, UserFlowSchedule),
