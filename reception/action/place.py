@@ -153,7 +153,7 @@ def save(request):
                                         flg = False,
                                     )
 
-                                for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_from_' + target)[0:request.POST.get('setting_from_' + target).find(':')]), int(request.POST.get('setting_from_' + target)[request.POST.get('setting_from_' + target).find(':')+1:]), 0), end=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_to_' + target)[0:request.POST.get('setting_to_' + target).find(':')]), int(request.POST.get('setting_to_' + target)[request.POST.get('setting_to_' + target).find(':')+1:]), 0), freq='15min'):
+                                for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_from_' + target)[0:request.POST.get('setting_from_' + target).find(':')]), int(request.POST.get('setting_from_' + target)[request.POST.get('setting_from_' + target).find(':')+1:]), 0), end=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_to_' + target)[0:request.POST.get('setting_to_' + target).find(':')]), int(request.POST.get('setting_to_' + target)[request.POST.get('setting_to_' + target).find(':')+1:]), 0), freq=str(offline_setting.unit)+'min'):
                                     schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
                                     
                                     reception_flg = True
@@ -311,7 +311,7 @@ def save(request):
                                         flg = False,
                                     )
 
-                                for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_from_' + target)[0:request.POST.get('setting_from_' + target).find(':')]), int(request.POST.get('setting_from_' + target)[request.POST.get('setting_from_' + target).find(':')+1:]), 0), end=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_to_' + target)[0:request.POST.get('setting_to_' + target).find(':')]), int(request.POST.get('setting_to_' + target)[request.POST.get('setting_to_' + target).find(':')+1:]), 0), freq='15min'):
+                                for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_from_' + target)[0:request.POST.get('setting_from_' + target).find(':')]), int(request.POST.get('setting_from_' + target)[request.POST.get('setting_from_' + target).find(':')+1:]), 0), end=datetime.datetime(date.year, date.month, date.day, int(request.POST.get('setting_to_' + target)[0:request.POST.get('setting_to_' + target).find(':')]), int(request.POST.get('setting_to_' + target)[request.POST.get('setting_to_' + target).find(':')+1:]), 0), freq=str(online_setting.unit)+'min'):
                                     schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
                                     
                                     reception_flg = True
