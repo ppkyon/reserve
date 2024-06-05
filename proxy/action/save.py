@@ -112,8 +112,8 @@ def temp(request):
             if request.POST.get('course_id'):
                 course = ReserveOfflineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
 
-            temp_schedule = UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).first()
-            UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
+            temp_schedule = UserFlowSchedule.objects.filter(flow=None, temp_manager=auth_login.user, number=0, temp_flg=True).first()
+            UserFlowSchedule.objects.filter(flow=None, temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlow),
@@ -431,8 +431,8 @@ def temp(request):
             if request.POST.get('course_id'):
                 course = ReserveOnlineCourse.objects.filter(display_id=request.POST.get('course_id')).first()
             
-            temp_schedule = UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).first()
-            UserFlowSchedule.objects.filter(temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
+            temp_schedule = UserFlowSchedule.objects.filter(flow=None, temp_manager=auth_login.user, number=0, temp_flg=True).first()
+            UserFlowSchedule.objects.filter(flow=None, temp_manager=auth_login.user, number=0, temp_flg=True).all().delete()
             UserFlowSchedule.objects.create(
                 id = str(uuid.uuid4()),
                 display_id = create_code(12, UserFlow),
