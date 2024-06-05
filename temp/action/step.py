@@ -386,20 +386,24 @@ def change_calendar(shop, new, old, temp):
                     if i == 0:
                         if new:
                             date = new.date
+                            time = new.time
                         else:
                             continue
                     elif i == 1:
                         if old:
                             date = old.date
+                            time = old.time
                         else:
                             continue
                     elif i == 2:
                         if temp:
                             date = temp.date
+                            time = temp.time
                         else:
                             continue
                     if not date:
                         continue
+                    target_date = datetime.datetime(date.year, date.month, date.day, time.hour, time.minute, 0)
                     
                     if ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), offline=offline_setting).exists():
                         reserve_calendar_date = ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), offline=offline_setting).first()
@@ -460,71 +464,81 @@ def change_calendar(shop, new, old, temp):
                             for times in pandas.date_range(start=datetime.datetime(date.year, date.month, date.day, reception_offline_place.reception_from.hour, reception_offline_place.reception_from.minute, 0), end=datetime.datetime(date.year, date.month, date.day, reception_offline_place.reception_to.hour, reception_offline_place.reception_to.minute, 0), freq=str(offline_setting.unit)+'min'):
                                 schedule_time = str(times.hour)+':'+str(times.minute).ljust(2, '0')
                                 
-                                reception_flg = True
-                                reception_manager_list = list()
-                                reception_facility_list = list()
-                                temp_manager_list = list()
-                                temp_user_list = list()
-                                manager_count = len(manager_list)
-                                facility_count = len(facility_list)
-                                schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
-                                schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
-                                for manager_item in manager_list:
-                                    reception_manager = ReceptionOfflineManager.objects.filter(offline=offline, manager=manager_item, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
-                                    if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
-                                        if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).exists():
-                                            reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).first()
-                                            if not reception_offline_manager_setting.flg:
-                                                reception_manager = None
-                                    if reception_manager:
-                                        if len(reception_data) > 0 :
-                                            people_number = 0
-                                            people_count = offline_setting.people
-                                            same_count = offline_setting.facility
+                                target_low_date = target_date - datetime.timedelta(minutes=offline_setting.time)
+                                target_up_date = target_date + datetime.timedelta(minutes=offline_setting.time)
+                                if datetime.time(target_low_date.hour, target_low_date.minute, 0) < datetime.time(times.hour, times.minute, 0) and datetime.time(times.hour, times.minute, 0) < datetime.time(target_up_date.hour, target_up_date.minute, 0):
+                                    reception_flg = True
+                                    reception_manager_list = list()
+                                    reception_facility_list = list()
+                                    temp_manager_list = list()
+                                    temp_user_list = list()
+                                    manager_count = len(manager_list)
+                                    facility_count = len(facility_list)
+                                    schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
+                                    schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
+                                    for manager_item in manager_list:
+                                        reception_manager = ReceptionOfflineManager.objects.filter(offline=offline, manager=manager_item, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
+                                        if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
+                                            if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).exists():
+                                                reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).first()
+                                                if not reception_offline_manager_setting.flg:
+                                                    reception_manager = None
+                                        if reception_manager:
+                                            if len(reception_data) > 0 :
+                                                people_number = 0
+                                                people_count = offline_setting.people
+                                                same_count = offline_setting.facility
 
-                                            schedule_date = datetime.datetime(times.year, times.month, times.day, int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
-                                            schedule_add_date = schedule_date + datetime.timedelta(minutes=offline_setting.time)
-                                            
-                                            count_flg = True
-                                            for reception in reception_data:
-                                                if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
-                                                    if manager_count <= 0 or facility_count <= 0:
-                                                        break
-                                                    else:
-                                                        if reception['setting']:
-                                                            if reception['setting'].id == offline_setting.id:
-                                                                if schedule_date == reception['from']:
-                                                                    if count_flg:
-                                                                        if reception['facility'] and reception['facility'].count < people_count:
-                                                                            same_count = same_count - 1
-                                                                            if same_count == 0:
-                                                                                if people_count > reception['facility'].count:
-                                                                                    people_count = reception['facility'].count
-                                                                            else:
-                                                                                people_total_count = reception['facility'].count
-                                                                                while same_count > 0:
-                                                                                    people_number = people_number + 1
-                                                                                    people_total_count = people_total_count + facility_list[people_number].count
-                                                                                    if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                        facility_count = facility_count - 1
-                                                                                        reception_facility_list.append(facility_list[people_number])
-                                                                                    same_count = same_count - 1
-                                                                                if people_count > people_total_count:
-                                                                                    people_count = people_total_count
-                                                                        count_flg = False
-                                                                    people_count = people_count - 1
-                                                                    if people_count <= 0:
+                                                schedule_date = datetime.datetime(times.year, times.month, times.day, int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
+                                                schedule_add_date = schedule_date + datetime.timedelta(minutes=offline_setting.time)
+                                                
+                                                count_flg = True
+                                                for reception in reception_data:
+                                                    if schedule_add_date > reception['from'] and reception['to'] > schedule_date:
+                                                        if manager_count <= 0 or facility_count <= 0:
+                                                            break
+                                                        else:
+                                                            if reception['setting']:
+                                                                if reception['setting'].id == offline_setting.id:
+                                                                    if schedule_date == reception['from']:
+                                                                        if count_flg:
+                                                                            if reception['facility'] and reception['facility'].count < people_count:
+                                                                                same_count = same_count - 1
+                                                                                if same_count == 0:
+                                                                                    if people_count > reception['facility'].count:
+                                                                                        people_count = reception['facility'].count
+                                                                                else:
+                                                                                    people_total_count = reception['facility'].count
+                                                                                    while same_count > 0:
+                                                                                        people_number = people_number + 1
+                                                                                        people_total_count = people_total_count + facility_list[people_number].count
+                                                                                        if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                            facility_count = facility_count - 1
+                                                                                            reception_facility_list.append(facility_list[people_number])
+                                                                                        same_count = same_count - 1
+                                                                                    if people_count > people_total_count:
+                                                                                        people_count = people_total_count
+                                                                            count_flg = False
+                                                                        people_count = people_count - 1
+                                                                        if people_count <= 0:
+                                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                                                manager_count = manager_count - 1
+                                                                                reception_manager_list.append(reception['manager'])
+                                                                            if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                                                facility_count = facility_count - 1
+                                                                                reception_facility_list.append(reception['facility'])
+
+                                                                            people_number = people_number + 1
+                                                                            people_count = offline_setting.people
+                                                                            if facility_count > 0 and facility_list[people_number].count < people_count:
+                                                                                people_count = facility_list[people_number].count
+                                                                    else:
                                                                         if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                             reception_manager_list.append(reception['manager'])
                                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                             facility_count = facility_count - 1
                                                                             reception_facility_list.append(reception['facility'])
-
-                                                                        people_number = people_number + 1
-                                                                        people_count = offline_setting.people
-                                                                        if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                                            people_count = facility_list[people_number].count
                                                                 else:
                                                                     if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                         manager_count = manager_count - 1
@@ -532,83 +546,76 @@ def change_calendar(shop, new, old, temp):
                                                                     if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                         facility_count = facility_count - 1
                                                                         reception_facility_list.append(reception['facility'])
+                                                        if reception['temp_flg']:
+                                                            if reception['temp_manager']:
+                                                                temp_manager_list.append(reception['temp_manager'])
                                                             else:
-                                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                                    manager_count = manager_count - 1
-                                                                    reception_manager_list.append(reception['manager'])
-                                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                                    facility_count = facility_count - 1
-                                                                    reception_facility_list.append(reception['facility'])
-                                                    if reception['temp_flg']:
-                                                        if reception['temp_manager']:
-                                                            temp_manager_list.append(reception['temp_manager'])
-                                                        else:
-                                                            temp_user_list.append(reception['temp_user'])
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
+                                                                temp_user_list.append(reception['temp_user'])
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
+                                            else:
+                                                schedule_date = datetime.datetime(date.year, date.month, date.day, int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
                                         else:
-                                            schedule_date = datetime.datetime(date.year, date.month, date.day, int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
+                                            if not manager_item in reception_manager_list:
+                                                manager_count = manager_count - 1
+                                                reception_manager_list.append(manager_item)
+                                    if manager_count <= 0 or facility_count <= 0:
+                                        reception_flg = True
+                                    
+                                    if reception_flg:
+                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                            reserve_calendar_time.count = 0
+                                            reserve_calendar_time.save()
+                                        else:
+                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                id = str(uuid.uuid4()),
+                                                calendar = reserve_calendar_date,
+                                                time = schedule_time,
+                                                count = 0,
+                                            )
                                     else:
-                                        if not manager_item in reception_manager_list:
-                                            manager_count = manager_count - 1
-                                            reception_manager_list.append(manager_item)
-                                if manager_count <= 0 or facility_count <= 0:
-                                    reception_flg = True
-                                
-                                if reception_flg:
-                                    if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
-                                        reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
-                                        reserve_calendar_time.count = 0
-                                        reserve_calendar_time.save()
-                                    else:
-                                        reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                        if manager_count < facility_count:
+                                            if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                                reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                                reserve_calendar_time.count = manager_count
+                                                reserve_calendar_time.save()
+                                            else:
+                                                reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                    id = str(uuid.uuid4()),
+                                                    calendar = reserve_calendar_date,
+                                                    time = schedule_time,
+                                                    count = manager_count,
+                                                )
+                                        else:
+                                            if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                                reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                                reserve_calendar_time.count = facility_count
+                                                reserve_calendar_time.save()
+                                            else:
+                                                reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                    id = str(uuid.uuid4()),
+                                                    calendar = reserve_calendar_date,
+                                                    time = schedule_time,
+                                                    count = facility_count,
+                                                )
+                                    ReserveTempCalendar.objects.filter(calendar=reserve_calendar_time).all().delete()
+                                    for temp_manager in temp_manager_list:
+                                        ReserveTempCalendar.objects.create(
                                             id = str(uuid.uuid4()),
-                                            calendar = reserve_calendar_date,
-                                            time = schedule_time,
-                                            count = 0,
+                                            calendar = reserve_calendar_time,
+                                            user = None,
+                                            manager = temp_manager,
                                         )
-                                else:
-                                    if manager_count < facility_count:
-                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
-                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
-                                            reserve_calendar_time.count = manager_count
-                                            reserve_calendar_time.save()
-                                        else:
-                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                                id = str(uuid.uuid4()),
-                                                calendar = reserve_calendar_date,
-                                                time = schedule_time,
-                                                count = manager_count,
-                                            )
-                                    else:
-                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
-                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
-                                            reserve_calendar_time.count = facility_count
-                                            reserve_calendar_time.save()
-                                        else:
-                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                                id = str(uuid.uuid4()),
-                                                calendar = reserve_calendar_date,
-                                                time = schedule_time,
-                                                count = facility_count,
-                                            )
-                                ReserveTempCalendar.objects.filter(calendar=reserve_calendar_time).all().delete()
-                                for temp_manager in temp_manager_list:
-                                    ReserveTempCalendar.objects.create(
-                                        id = str(uuid.uuid4()),
-                                        calendar = reserve_calendar_time,
-                                        user = None,
-                                        manager = temp_manager,
-                                    )
-                                for temp_user in temp_user_list:
-                                    ReserveTempCalendar.objects.create(
-                                        id = str(uuid.uuid4()),
-                                        calendar = reserve_calendar_time,
-                                        user = temp_user,
-                                        manager = None,
-                                    )
+                                    for temp_user in temp_user_list:
+                                        ReserveTempCalendar.objects.create(
+                                            id = str(uuid.uuid4()),
+                                            calendar = reserve_calendar_time,
+                                            user = temp_user,
+                                            manager = None,
+                                        )
                     
                     if new == old:
                         break
