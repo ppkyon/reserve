@@ -515,13 +515,16 @@ def change_calendar(shop, new, old, temp):
                             continue
                     if not date:
                         continue
-                    ReserveCalendarDate.objects.filter(date__year=date.year, date__month=date.month, date__day=date.day, offline=offline_setting).all().delete()
-                    reserve_calendar_date = ReserveCalendarDate.objects.create(
-                        id = str(uuid.uuid4()),
-                        shop = shop,
-                        offline = offline_setting,
-                        date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
-                    )
+                    
+                    if ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), offline=offline_setting).exists():
+                        reserve_calendar_date = ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), offline=offline_setting).first()
+                    else:
+                        reserve_calendar_date = ReserveCalendarDate.objects.create(
+                            id = str(uuid.uuid4()),
+                            shop = shop,
+                            offline = offline_setting,
+                            date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
+                        )
 
                     for reception_offline_place in ReceptionOfflinePlace.objects.filter(offline=offline, reception_date__year=date.year, reception_date__month=date.month, reception_date__day=date.day).all():
                         reception_data = list()
@@ -670,27 +673,43 @@ def change_calendar(shop, new, old, temp):
                                     reception_flg = True
                                 
                                 if reception_flg:
-                                    reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                        id = str(uuid.uuid4()),
-                                        calendar = reserve_calendar_date,
-                                        time = schedule_time,
-                                        count = 0,
-                                    )
-                                else:
-                                    if manager_count < facility_count:
-                                        reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                            id = str(uuid.uuid4()),
-                                            calendar = reserve_calendar_date,
-                                            time = schedule_time,
-                                            count = manager_count,
-                                        )
+                                    if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                        reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                        reserve_calendar_time.count = 0
+                                        reserve_calendar_time.save()
                                     else:
                                         reserve_calendar_time = ReserveCalendarTime.objects.create(
                                             id = str(uuid.uuid4()),
                                             calendar = reserve_calendar_date,
                                             time = schedule_time,
-                                            count = facility_count,
+                                            count = 0,
                                         )
+                                else:
+                                    if manager_count < facility_count:
+                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                            reserve_calendar_time.count = manager_count
+                                            reserve_calendar_time.save()
+                                        else:
+                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                id = str(uuid.uuid4()),
+                                                calendar = reserve_calendar_date,
+                                                time = schedule_time,
+                                                count = manager_count,
+                                            )
+                                    else:
+                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                            reserve_calendar_time.count = facility_count
+                                            reserve_calendar_time.save()
+                                        else:
+                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                id = str(uuid.uuid4()),
+                                                calendar = reserve_calendar_date,
+                                                time = schedule_time,
+                                                count = facility_count,
+                                            )
+                                ReserveTempCalendar.objects.filter(calendar=reserve_calendar_time).all().delete()
                                 for temp_manager in temp_manager_list:
                                     ReserveTempCalendar.objects.create(
                                         id = str(uuid.uuid4()),
@@ -737,13 +756,16 @@ def change_calendar(shop, new, old, temp):
                             continue
                     if not date:
                         continue
-                    ReserveCalendarDate.objects.filter(date__year=date.year, date__month=date.month, date__day=date.day, online=online_setting).all().delete()
-                    reserve_calendar_date = ReserveCalendarDate.objects.create(
-                        id = str(uuid.uuid4()),
-                        shop = shop,
-                        online = online_setting,
-                        date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
-                    )
+
+                    if ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), online=online_setting).exists():
+                        reserve_calendar_date = ReserveCalendarDate.objects.filter(date=datetime.datetime(date.year, date.month, date.day, 0, 0, 0), online=online_setting).first()
+                    else:
+                        reserve_calendar_date = ReserveCalendarDate.objects.create(
+                            id = str(uuid.uuid4()),
+                            shop = shop,
+                            online = online_setting,
+                            date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
+                        )
 
                     for reception_online_place in ReceptionOnlinePlace.objects.filter(online=online, reception_date__year=date.year, reception_date__month=date.month, reception_date__day=date.day).all():
                         reception_data = list()
@@ -892,27 +914,43 @@ def change_calendar(shop, new, old, temp):
                                     reception_flg = True
                                 
                                 if reception_flg:
-                                    reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                        id = str(uuid.uuid4()),
-                                        calendar = reserve_calendar_date,
-                                        time = schedule_time,
-                                        count = 0,
-                                    )
-                                else:
-                                    if manager_count < facility_count:
-                                        reserve_calendar_time = ReserveCalendarTime.objects.create(
-                                            id = str(uuid.uuid4()),
-                                            calendar = reserve_calendar_date,
-                                            time = schedule_time,
-                                            count = manager_count,
-                                        )
+                                    if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                        reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                        reserve_calendar_time.count = 0
+                                        reserve_calendar_time.save()
                                     else:
                                         reserve_calendar_time = ReserveCalendarTime.objects.create(
                                             id = str(uuid.uuid4()),
                                             calendar = reserve_calendar_date,
                                             time = schedule_time,
-                                            count = facility_count,
+                                            count = 0,
                                         )
+                                else:
+                                    if manager_count < facility_count:
+                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                            reserve_calendar_time.count = manager_count
+                                            reserve_calendar_time.save()
+                                        else:
+                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                id = str(uuid.uuid4()),
+                                                calendar = reserve_calendar_date,
+                                                time = schedule_time,
+                                                count = manager_count,
+                                            )
+                                    else:
+                                        if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
+                                            reserve_calendar_time = ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).first()
+                                            reserve_calendar_time.count = facility_count
+                                            reserve_calendar_time.save()
+                                        else:
+                                            reserve_calendar_time = ReserveCalendarTime.objects.create(
+                                                id = str(uuid.uuid4()),
+                                                calendar = reserve_calendar_date,
+                                                time = schedule_time,
+                                                count = facility_count,
+                                            )
+                                ReserveTempCalendar.objects.filter(calendar=reserve_calendar_time).all().delete()
                                 for temp_manager in temp_manager_list:
                                     ReserveTempCalendar.objects.create(
                                         id = str(uuid.uuid4()),
