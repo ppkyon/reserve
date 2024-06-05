@@ -127,7 +127,7 @@ $( function(){
     $( document ).on( 'click', '#select_schedule_modal .yes-button', function () {
         $( this ).prop( 'disabled', true )
         $( '#select_schedule_modal .date-area' ).css( 'opacity', 0 );
-        $( '#select_schedule_modal .loader-area' ).css( 'opacity', 1 );
+        $( '#select_schedule_modal .loader-area' ).removeClass( 'd-none' );
 
         var target = $( this );
         var form_data = new FormData();
@@ -170,8 +170,8 @@ $( function(){
                 $( target ).next().trigger( 'click' );
                 up_modal();
                 $( target ).prop( 'disabled', false )
+                $( '#select_schedule_modal .loader-area' ).addClass( 'd-none' );
                 $( '#select_schedule_modal .date-area' ).css( 'opacity', 1 );
-                $( '#select_schedule_modal .loader-area' ).css( 'opacity', 0 );
             } else {
                 $( '#save_step_form .table-area .content-course' ).each( function( index, value ) {
                     if ( $( this ).next().val() == $( '#select_schedule_modal [name=schedule_setting]' ).next().val() ) {
@@ -184,8 +184,8 @@ $( function(){
                 });
                 $( '#select_schedule_modal .no-button' ).trigger( 'click' );
                 $( target ).prop( 'disabled', false )
+                $( '#select_schedule_modal .loader-area' ).addClass( 'd-none' );
                 $( '#select_schedule_modal .date-area' ).css( 'opacity', 1 );
-                $( '#select_schedule_modal .loader-area' ).css( 'opacity', 0 );
             }
         }).fail( function(){
             
