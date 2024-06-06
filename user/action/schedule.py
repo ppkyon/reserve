@@ -196,23 +196,31 @@ def get(request):
                     calendar_date = ReserveCalendarDate.objects.filter(shop=auth_login.shop, offline__id=setting['id'], date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day']).first()
                     calendar_time = ReserveCalendarTime.objects.filter(calendar=calendar_date, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).first()
                     if calendar_time:
-                        reserve_count = calendar_time.count
-                        if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
-                            reserve_count = reserve_count + 1
-                        if reserve_count > 0:
-                            send_week.append({
-                                'year': schedule_week_value['year'],
-                                'month': schedule_week_value['month'],
-                                'day': schedule_week_value['day'],
-                                'reception_flg': False,
-                            })
-                        else:
+                        if calendar_date.flg:
                             send_week.append({
                                 'year': schedule_week_value['year'],
                                 'month': schedule_week_value['month'],
                                 'day': schedule_week_value['day'],
                                 'reception_flg': True,
                             })
+                        else:
+                            reserve_count = calendar_time.count
+                            if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
+                                reserve_count = reserve_count + 1
+                            if reserve_count > 0:
+                                send_week.append({
+                                    'year': schedule_week_value['year'],
+                                    'month': schedule_week_value['month'],
+                                    'day': schedule_week_value['day'],
+                                    'reception_flg': False,
+                                })
+                            else:
+                                send_week.append({
+                                    'year': schedule_week_value['year'],
+                                    'month': schedule_week_value['month'],
+                                    'day': schedule_week_value['day'],
+                                    'reception_flg': True,
+                                })
                     else:
                         send_week.append({
                             'year': schedule_week_value['year'],
@@ -224,23 +232,31 @@ def get(request):
                     calendar_date = ReserveCalendarDate.objects.filter(shop=auth_login.shop, online__id=setting['id'], date__year=schedule_week_value['year'], date__month=schedule_week_value['month'], date__day=schedule_week_value['day']).first()
                     calendar_time = ReserveCalendarTime.objects.filter(calendar=calendar_date, time__hour=schedule_time[:schedule_time.find(':')], time__minute=schedule_time[schedule_time.find(':')+1:]).first()
                     if calendar_time:
-                        reserve_count = calendar_time.count
-                        if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
-                            reserve_count = reserve_count + 1
-                        if reserve_count > 0:
-                            send_week.append({
-                                'year': schedule_week_value['year'],
-                                'month': schedule_week_value['month'],
-                                'day': schedule_week_value['day'],
-                                'reception_flg': False,
-                            })
-                        else:
+                        if calendar_date.flg:
                             send_week.append({
                                 'year': schedule_week_value['year'],
                                 'month': schedule_week_value['month'],
                                 'day': schedule_week_value['day'],
                                 'reception_flg': True,
                             })
+                        else:
+                            reserve_count = calendar_time.count
+                            if ReserveTempCalendar.objects.filter(calendar=calendar_time, user=user).exists():
+                                reserve_count = reserve_count + 1
+                            if reserve_count > 0:
+                                send_week.append({
+                                    'year': schedule_week_value['year'],
+                                    'month': schedule_week_value['month'],
+                                    'day': schedule_week_value['day'],
+                                    'reception_flg': False,
+                                })
+                            else:
+                                send_week.append({
+                                    'year': schedule_week_value['year'],
+                                    'month': schedule_week_value['month'],
+                                    'day': schedule_week_value['day'],
+                                    'reception_flg': True,
+                                })
                     else:
                         send_week.append({
                             'year': schedule_week_value['year'],
