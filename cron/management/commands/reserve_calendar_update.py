@@ -176,8 +176,6 @@ class Command(BaseCommand):
                                             if manager_count > 0 and facility_count > 0:
                                                 reception_flg = False
                                     else:
-                                        reserve_calendar_date.flg = True
-                                        reserve_calendar_date.save()
                                         if not manager_item in reception_manager_list:
                                             manager_count = manager_count - 1
                                             reception_manager_list.append(manager_item)
@@ -396,8 +394,6 @@ class Command(BaseCommand):
                                             if manager_count > 0 and facility_count > 0:
                                                 reception_flg = False
                                     else:
-                                        reserve_calendar_date.flg = True
-                                        reserve_calendar_date.save()
                                         if not manager_item in reception_manager_list:
                                             manager_count = manager_count - 1
                                             reception_manager_list.append(manager_item)
