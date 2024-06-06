@@ -393,7 +393,7 @@ def send(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
     user = LineUser.objects.filter(display_id=request.POST.get('user_id')).first()
 
-    if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+    if request.POST.get('year') and ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         manager_list = list()
         facility_list = list()
@@ -503,7 +503,7 @@ def send(request):
                                 facility_count = facility_count - 1
                                 reception_facility_list.append(schedule_item.offline_facility)
 
-    if ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
+    if request.POST.get('year') and ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).exists():
         setting = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('setting_id')).first()
         manager_list = list()
         facility_list = list()
@@ -613,7 +613,7 @@ def send(request):
                                 facility_count = facility_count - 1
                                 reception_facility_list.append(schedule_item.online_facility)
 
-    if manager_count <= 0 or facility_count <= 0:
+    if ( manager_count <= 0 or facility_count <= 0 ) or not request.POST.get('year'):
         return JsonResponse( {'error': True}, safe=False )
 
     manager = None
@@ -886,10 +886,11 @@ def send(request):
                                                                                     people_total_count = reception['facility'].count
                                                                                     while same_count > 0:
                                                                                         people_number = people_number + 1
-                                                                                        people_total_count = people_total_count + facility_list[people_number].count
-                                                                                        if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                            facility_count = facility_count - 1
-                                                                                            reception_facility_list.append(facility_list[people_number])
+                                                                                        if len(facility_list) > people_number + 1:
+                                                                                            people_total_count = people_total_count + facility_list[people_number].count
+                                                                                            if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                                facility_count = facility_count - 1
+                                                                                                reception_facility_list.append(facility_list[people_number])
                                                                                         same_count = same_count - 1
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
