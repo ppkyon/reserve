@@ -312,6 +312,19 @@ class ReserveUserStartDate(models.Model):
 
 
 
+class ReserveCalendarUpdate(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_update")
+    offline = models.ForeignKey(ReserveOfflineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_update")
+    online = models.ForeignKey(ReserveOnlineSetting, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_update")
+    date = models.DateTimeField(blank=False, null=True)
+    flg = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'reserve_calendar_update'
+
 class ReserveCalendarDate(models.Model):
     id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
     shop = models.ForeignKey(AuthShop, on_delete=models.CASCADE, blank=True, null=True, related_name="reserve_calendar_date")
