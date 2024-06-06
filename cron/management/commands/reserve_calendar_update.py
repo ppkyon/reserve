@@ -36,6 +36,10 @@ class Command(BaseCommand):
                             date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
                         )
 
+                    for reserve_calendar_time in ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date).all():
+                        reserve_calendar_time.count = 0
+                        reserve_calendar_time.save()
+
                     time = {
                         'from': None,
                         'to': None
@@ -279,6 +283,10 @@ class Command(BaseCommand):
                             online = reserve_calendar_update.online,
                             date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0),
                         )
+
+                    for reserve_calendar_time in ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date).all():
+                        reserve_calendar_time.count = 0
+                        reserve_calendar_time.save()
 
                     time = {
                         'from': None,
