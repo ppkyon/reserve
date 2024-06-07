@@ -894,6 +894,7 @@ def send(request):
                                                                                 logger = logging.getLogger('development')
                                                                                 logger.info(manager_item)
                                                                                 logger.info(reception_manager_list)
+                                                                                logger.info(reception['manager'])
                                                                             if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
                                                                                 reception_manager_list.append(reception['manager'])
