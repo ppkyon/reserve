@@ -945,8 +945,7 @@ def send(request):
                                             if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
                                                 import logging
                                                 logger = logging.getLogger('development')
-                                                logger.info(manager_count)
-                                                logger.info(facility_count)
+                                                logger.info(reception_manager_list)
                                             if not manager_item in reception_manager_list:
                                                 manager_count = manager_count - 1
                                                 reception_manager_list.append(manager_item)
