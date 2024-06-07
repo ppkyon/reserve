@@ -866,6 +866,10 @@ def send(request):
                                                         else:
                                                             if reception['setting']:
                                                                 if reception['setting'].id == offline_setting.id:
+                                                                    if times.day == 14 and times.hour == 16:
+                                                                        import logging
+                                                                        logger = logging.getLogger('development')
+                                                                        logger.info(reception)
                                                                     if schedule_date == reception['from']:
                                                                         if count_flg:
                                                                             if reception['facility'] and reception['facility'].count < people_count:
@@ -940,12 +944,6 @@ def send(request):
                                                 schedule_date = datetime.datetime(date.year, date.month, date.day, int(schedule_time[:schedule_time.find(':')]), int(schedule_time[schedule_time.find(':')+1:]), 0)
                                                 if manager_count > 0 and facility_count > 0:
                                                     reception_flg = False
-                                            if times.day == 14 and times.hour == 16:
-                                                import logging
-                                                logger = logging.getLogger('development')
-                                                logger.info(manager_count)
-                                                logger.info(facility_count)
-                                                logger.info(reception_flg)
                                         else:
                                             if not manager_item in reception_manager_list:
                                                 manager_count = manager_count - 1
