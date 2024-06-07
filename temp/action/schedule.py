@@ -840,6 +840,13 @@ def send(request):
                                     temp_user_list = list()
                                     manager_count = len(manager_list)
                                     facility_count = len(facility_list)
+
+                                    if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                        import logging
+                                        logger = logging.getLogger('development')
+                                        logger.info(manager_count)
+                                        logger.info(facility_count)
+                                    
                                     schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
                                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
                                     for manager_item in manager_list:
@@ -894,12 +901,6 @@ def send(request):
                                                                             if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                                 facility_count = facility_count - 1
                                                                                 reception_facility_list.append(reception['facility'])
-
-                                                                            if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
-                                                                                import logging
-                                                                                logger = logging.getLogger('development')
-                                                                                logger.info(manager_count)
-                                                                                logger.info(facility_count)
                                                                             
                                                                             people_number = people_number + 1
                                                                             people_count = offline_setting.people
