@@ -850,6 +850,10 @@ def send(request):
                                                 if not reception_offline_manager_setting.flg:
                                                     reception_manager = None
                                         if reception_manager:
+                                            if times.day == 14 and times.hour == 16:
+                                                import logging
+                                                logger = logging.getLogger('development')
+                                                logger.info('aaa')
                                             if len(reception_data) > 0 :
                                                 people_number = 0
                                                 people_count = offline_setting.people
