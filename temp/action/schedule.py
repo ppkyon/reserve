@@ -844,6 +844,10 @@ def send(request):
                                     schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
                                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
                                     for manager_item in manager_list:
+                                        if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                            import logging
+                                            logger = logging.getLogger('development')
+                                            logger.info(manager_item)
                                         reception_manager = ReceptionOfflineManager.objects.filter(offline=offline, manager=manager_item, reception_date__year=schedule_datetime.year, reception_date__month=schedule_datetime.month, reception_date__day=schedule_datetime.day, reception_from__lte=schedule_time, reception_to__gte=schedule_datetime.time(), reception_flg=True).first()
                                         if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
                                             if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).exists():
@@ -942,11 +946,6 @@ def send(request):
                                                 if manager_count > 0 and facility_count > 0:
                                                     reception_flg = False
                                         else:
-                                            if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
-                                                import logging
-                                                logger = logging.getLogger('development')
-                                                logger.info(reception_manager_list)
-                                                logger.info(manager_item)
                                             if not manager_item in reception_manager_list:
                                                 manager_count = manager_count - 1
                                                 reception_manager_list.append(manager_item)
