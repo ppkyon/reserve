@@ -141,11 +141,11 @@ class Command(BaseCommand):
                                                                             manager_count = manager_count - 1
                                                                             facility_count = facility_count - 1
                                                                     else:
-                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                        if not manager in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                         if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                                             facility_count = facility_count - 1
-                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                        if not manager in reception_manager_list:
                                                             reception_manager_list.append(reception['manager'])
                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                             reception_facility_list.append(reception['facility'])
@@ -281,11 +281,11 @@ class Command(BaseCommand):
                                                                     manager_count = manager_count - 1
                                                                     facility_count = facility_count - 1
                                                             else:
-                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                if not manager in reception_manager_list:
                                                                     manager_count = manager_count - 1
                                                                 if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                                     facility_count = facility_count - 1
-                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                if not manager in reception_manager_list:
                                                     reception_manager_list.append(reception['manager'])
                                                 if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                     reception_facility_list.append(reception['facility'])
@@ -430,11 +430,11 @@ class Command(BaseCommand):
                                                                             manager_count = manager_count - 1
                                                                             facility_count = facility_count - 1
                                                                     else:
-                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                        if not manager in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                         if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                                             facility_count = facility_count - 1
-                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                        if not manager in reception_manager_list:
                                                             reception_manager_list.append(reception['manager'])
                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                             reception_facility_list.append(reception['facility'])
@@ -570,11 +570,11 @@ class Command(BaseCommand):
                                                                     manager_count = manager_count - 1
                                                                     facility_count = facility_count - 1
                                                             else:
-                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                if not manager in reception_manager_list:
                                                                     manager_count = manager_count - 1
                                                                 if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
                                                                     facility_count = facility_count - 1
-                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                if not manager in reception_manager_list:
                                                     reception_manager_list.append(reception['manager'])
                                                 if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                     reception_facility_list.append(reception['facility'])
