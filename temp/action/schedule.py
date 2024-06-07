@@ -840,12 +840,6 @@ def send(request):
                                     temp_user_list = list()
                                     manager_count = len(manager_list)
                                     facility_count = len(facility_list)
-
-                                    if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
-                                        import logging
-                                        logger = logging.getLogger('development')
-                                        logger.info(manager_count)
-                                        logger.info(facility_count)
                                     
                                     schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
                                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
@@ -951,6 +945,12 @@ def send(request):
                                             if not manager_item in reception_manager_list:
                                                 manager_count = manager_count - 1
                                                 reception_manager_list.append(manager_item)
+
+                                    if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                        import logging
+                                        logger = logging.getLogger('development')
+                                        logger.info(manager_count)
+                                        logger.info(facility_count)
                                     if manager_count <= 0 or facility_count <= 0:
                                         reception_flg = True
                                     
