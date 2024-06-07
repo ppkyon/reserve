@@ -866,11 +866,11 @@ def send(request):
                                                         else:
                                                             if reception['setting']:
                                                                 if reception['setting'].id == offline_setting.id:
-                                                                    if times.day == 14 and times.hour == 16:
-                                                                        import logging
-                                                                        logger = logging.getLogger('development')
-                                                                        logger.info(reception)
                                                                     if schedule_date == reception['from']:
+                                                                        if times.day == 14 and times.hour == 16:
+                                                                            import logging
+                                                                            logger = logging.getLogger('development')
+                                                                            logger.info(reception)
                                                                         if count_flg:
                                                                             if reception['facility'] and reception['facility'].count < people_count:
                                                                                 same_count = same_count - 1
