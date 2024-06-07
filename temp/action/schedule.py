@@ -850,11 +850,6 @@ def send(request):
                                                 reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline_setting).first()
                                                 if not reception_offline_manager_setting.flg:
                                                     reception_manager = None
-                                        if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
-                                            import logging
-                                            logger = logging.getLogger('development')
-                                            logger.info(manager_item)
-                                            logger.info(reception_manager)
                                         if reception_manager:
                                             if len(reception_data) > 0 :
                                                 people_number = 0
@@ -894,6 +889,11 @@ def send(request):
                                                                             count_flg = False
                                                                         people_count = people_count - 1
                                                                         if people_count <= 0:
+                                                                            if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                                                                import logging
+                                                                                logger = logging.getLogger('development')
+                                                                                logger.info(manager_item)
+                                                                                logger.info(reception_manager)
                                                                             if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
                                                                                 reception_manager_list.append(reception['manager'])
