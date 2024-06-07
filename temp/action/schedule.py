@@ -870,7 +870,9 @@ def send(request):
                                                                         if times.day == 14 and times.hour == 16:
                                                                             import logging
                                                                             logger = logging.getLogger('development')
-                                                                            logger.info(reception)
+                                                                            logger.info(people_count)
+                                                                            logger.info(reception['facility'].count)
+                                                                            logger.info(same_count)
                                                                         if count_flg:
                                                                             if reception['facility'] and reception['facility'].count < people_count:
                                                                                 same_count = same_count - 1
