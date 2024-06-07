@@ -867,6 +867,10 @@ def send(request):
                                                             if reception['setting']:
                                                                 if reception['setting'].id == offline_setting.id:
                                                                     if schedule_date == reception['from']:
+                                                                        if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                                                            import logging
+                                                                            logger = logging.getLogger('development')
+                                                                            logger.info(reception)
                                                                         if count_flg:
                                                                             if reception['facility'] and reception['facility'].count < people_count:
                                                                                 same_count = same_count - 1
@@ -946,13 +950,6 @@ def send(request):
                                                 reception_manager_list.append(manager_item)
                                     if manager_count <= 0 or facility_count <= 0:
                                         reception_flg = True
-                                        
-                                    if times.day == 14 and times.hour == 16:
-                                        import logging
-                                        logger = logging.getLogger('development')
-                                        logger.info(offline_setting.name)
-                                        logger.info(manager_count)
-                                        logger.info(facility_count)
                                     
                                     if reception_flg:
                                         if ReserveCalendarTime.objects.filter(calendar=reserve_calendar_date, time=schedule_time).exists():
