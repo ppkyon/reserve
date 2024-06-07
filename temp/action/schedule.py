@@ -946,6 +946,7 @@ def send(request):
                                                 import logging
                                                 logger = logging.getLogger('development')
                                                 logger.info(reception_manager_list)
+                                                logger.info(manager_item)
                                             if not manager_item in reception_manager_list:
                                                 manager_count = manager_count - 1
                                                 reception_manager_list.append(manager_item)
