@@ -950,6 +950,7 @@ def send(request):
                                     if times.day == 14 and times.hour == 16:
                                         import logging
                                         logger = logging.getLogger('development')
+                                        logger.info(offline_setting.name)
                                         logger.info(manager_count)
                                         logger.info(facility_count)
                                     
