@@ -746,10 +746,11 @@ def question(request):
                                                                                         people_total_count = reception['facility'].count
                                                                                         while same_count > 0:
                                                                                             people_number = people_number + 1
-                                                                                            people_total_count = people_total_count + facility_list[people_number].count
-                                                                                            if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                                facility_count = facility_count - 1
-                                                                                                reception_facility_list.append(facility_list[people_number])
+                                                                                            if len(facility_list) > people_number + 1:
+                                                                                                people_total_count = people_total_count + facility_list[people_number].count
+                                                                                                if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                                    facility_count = facility_count - 1
+                                                                                                    reception_facility_list.append(facility_list[people_number])
                                                                                             same_count = same_count - 1
                                                                                         if people_count > people_total_count:
                                                                                             people_count = people_total_count
@@ -1087,10 +1088,11 @@ def question(request):
                                                                                         people_total_count = reception['facility'].count
                                                                                         while same_count > 0:
                                                                                             people_number = people_number + 1
-                                                                                            people_total_count = people_total_count + facility_list[people_number].count
-                                                                                            if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                                facility_count = facility_count - 1
-                                                                                                reception_facility_list.append(facility_list[people_number])
+                                                                                            if len(facility_list) > people_number + 1:
+                                                                                                people_total_count = people_total_count + facility_list[people_number].count
+                                                                                                if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                                    facility_count = facility_count - 1
+                                                                                                    reception_facility_list.append(facility_list[people_number])
                                                                                             same_count = same_count - 1
                                                                                         if people_count > people_total_count:
                                                                                             people_count = people_total_count

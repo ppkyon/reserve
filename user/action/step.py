@@ -72,11 +72,11 @@ def save(request):
 
                 old_user_flow_schedule = UserFlowSchedule.objects.filter(flow=user_flow, number=UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count()).first()
                 temp_schedule = UserFlowSchedule.objects.filter(flow=user_flow, temp_manager=request.user, number=0, temp_flg=True).first()
+                UserFlowSchedule.objects.filter(flow=user_flow, temp_manager=request.user, number=0, temp_flg=True).all().delete()
                 if change_flg and user_flow_schedule.date:
                     user_flow_schedule.join = 2
                     user_flow_schedule.save()
 
-                    UserFlowSchedule.objects.filter(flow=user_flow, temp_manager=request.user, number=0, temp_flg=True).all().delete()
                     user_flow_schedule = UserFlowSchedule.objects.create(
                         id = str(uuid.uuid4()),
                         display_id = create_code(12, UserFlowSchedule),
@@ -344,10 +344,11 @@ def check_reserve(auth_login, user_flow, user_flow_schedule, date):
                                             people_total_count = schedule_item.offline_facility.count
                                             while same_count > 0:
                                                 people_number = people_number + 1
-                                                people_total_count = people_total_count + facility_list[people_number].count
-                                                if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                    facility_count = facility_count - 1
-                                                    reception_facility_list.append(facility_list[people_number])
+                                                if len(facility_list) > people_number + 1:
+                                                    people_total_count = people_total_count + facility_list[people_number].count
+                                                    if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(facility_list[people_number])
                                                 same_count = same_count - 1
                                             if people_count > people_total_count:
                                                 people_count = people_total_count
@@ -441,10 +442,11 @@ def check_reserve(auth_login, user_flow, user_flow_schedule, date):
                                             people_total_count = schedule_item.online_facility.count
                                             while same_count > 0:
                                                 people_number = people_number + 1
-                                                people_total_count = people_total_count + facility_list[people_number].count
-                                                if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                    facility_count = facility_count - 1
-                                                    reception_facility_list.append(facility_list[people_number])
+                                                if len(facility_list) > people_number + 1:
+                                                    people_total_count = people_total_count + facility_list[people_number].count
+                                                    if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(facility_list[people_number])
                                                 same_count = same_count - 1
                                             if people_count > people_total_count:
                                                 people_count = people_total_count
@@ -625,10 +627,11 @@ def change_calendar(shop, new, old, temp):
                                                                                     people_total_count = reception['facility'].count
                                                                                     while same_count > 0:
                                                                                         people_number = people_number + 1
-                                                                                        people_total_count = people_total_count + facility_list[people_number].count
-                                                                                        if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                            facility_count = facility_count - 1
-                                                                                            reception_facility_list.append(facility_list[people_number])
+                                                                                        if len(facility_list) > people_number + 1:
+                                                                                            people_total_count = people_total_count + facility_list[people_number].count
+                                                                                            if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                                facility_count = facility_count - 1
+                                                                                                reception_facility_list.append(facility_list[people_number])
                                                                                         same_count = same_count - 1
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
@@ -872,10 +875,11 @@ def change_calendar(shop, new, old, temp):
                                                                                     people_total_count = reception['facility'].count
                                                                                     while same_count > 0:
                                                                                         people_number = people_number + 1
-                                                                                        people_total_count = people_total_count + facility_list[people_number].count
-                                                                                        if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
-                                                                                            facility_count = facility_count - 1
-                                                                                            reception_facility_list.append(facility_list[people_number])
+                                                                                        if len(facility_list) > people_number + 1:
+                                                                                            people_total_count = people_total_count + facility_list[people_number].count
+                                                                                            if facility_list[people_number] and not facility_list[people_number] in reception_facility_list:
+                                                                                                facility_count = facility_count - 1
+                                                                                                reception_facility_list.append(facility_list[people_number])
                                                                                         same_count = same_count - 1
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
