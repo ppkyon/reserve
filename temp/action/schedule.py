@@ -886,10 +886,6 @@ def send(request):
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
                                                                             count_flg = False
-                                                                        if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
-                                                                            import logging
-                                                                            logger = logging.getLogger('development')
-                                                                            logger.info(people_count)
                                                                         people_count = people_count - 1
                                                                         if people_count <= 0:
                                                                             if reception['manager'] and not reception['manager'] in reception_manager_list:
@@ -899,6 +895,12 @@ def send(request):
                                                                                 facility_count = facility_count - 1
                                                                                 reception_facility_list.append(reception['facility'])
 
+                                                                            if times.day == 14 and times.hour == 16 and offline_setting.name == '2回目の予約':
+                                                                                import logging
+                                                                                logger = logging.getLogger('development')
+                                                                                logger.info(manager_count)
+                                                                                logger.info(facility_count)
+                                                                            
                                                                             people_number = people_number + 1
                                                                             people_count = offline_setting.people
                                                                             same_count = offline_setting.facility
