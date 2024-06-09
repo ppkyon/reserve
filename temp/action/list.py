@@ -28,21 +28,28 @@ def get_list(request, page):
         if sort.target == 'user_flow__number':
             if sort.sort == 1:
                 sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                user_list = LineUser.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('alert', 'active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             elif sort.sort == 2:
                 sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                user_list = LineUser.objects.annotate(active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query).order_by('alert', '-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             else:
-                user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
         else:
             if sort.sort == 1:
-                user_list = LineUser.objects.filter(query).order_by(sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query).order_by('alert', sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             elif sort.sort == 2:
-                user_list = LineUser.objects.filter(query).order_by('-'+sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query).order_by('alert', '-'+sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             else:
-                user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
     else:
-        user_list = LineUser.objects.filter(query).order_by('-created_at').values(*get_model_field(LineUser)).all()[start:end]
+        alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+        user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
     total = LineUser.objects.filter(query).distinct().count()
 
     for user_index, user_item in enumerate(user_list):
