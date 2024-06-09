@@ -63,6 +63,10 @@ def get_list(request, page):
                         elif data[data_index]['flow']['user']['schedule']['online']:
                             data[data_index]['flow']['user']['schedule']['online'] = ReserveOnlineSetting.objects.filter(id=data[data_index]['flow']['user']['schedule']['online']).values(*get_model_field(ReserveOnlineSetting)).first()
                         data[data_index]['flow']['user']['reserve'] = get_reserve_date(data_item)
+                        if data_item['number'] > 1:
+                            prev_schedule = UserFlowSchedule.objects.filter(flow__id=data[data_index]['flow']['id'], number=data_item['number']-1, temp_flg=False).exclude(number=0).values(*get_model_field(UserFlowSchedule)).first()
+                            if prev_schedule and prev_schedule['date']:
+                                data[data_index]['flow']['user']['reserve'] = get_reserve_date(prev_schedule) + ' → ' + data[data_index]['flow']['user']['reserve']
                     data[data_index]['number'] = start + data_index + 1
                     data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'after':
