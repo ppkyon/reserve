@@ -20,10 +20,10 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;">#</th>
-                            {% include 'table/sort.html' with text='予約者氏名' target='name' %}
-                            {% include 'table/sort.html' with text='予約日時' target='date' width='300' %}
-                            {% include 'table/sort.html' with text='メニュー' target='setting' width='150' %}
-                            {% include 'table/sort.html' with text='LINE登録' target='line' width='120' %}
+                            {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=new_reserve_sort %}
+                            {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=new_reserve_sort %}
+                            {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=new_reserve_sort %}
+                            {% include 'table/mini/sort.html' with text='LINE登録' target='line' width='120' table=new_reserve_sort %}
                             <th style="width: 120px;">確認</th>
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
@@ -106,6 +106,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <input type="hidden" value="dashboard">
+                <input type="hidden" value="new">
             </div>
             {% include 'loader.html' %}
         </div>

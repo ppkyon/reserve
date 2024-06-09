@@ -20,7 +20,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;">#</th>
-                            {% include 'table/sort.html' with text='登録者氏名' target='name' %}
+                            {% include 'table/mini/sort.html' with text='登録者氏名' target='name' table=new_line_sort %}
                             <th style="width: 120px;">確認</th>
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
@@ -86,6 +86,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <input type="hidden" value="dashboard">
+                <input type="hidden" value="line">
             </div>
             {% include 'loader.html' %}
         </div>

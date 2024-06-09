@@ -9,4 +9,5 @@ urlpatterns = [
     path('sort/', action.sort, name='sort'),
     
     path('mini/number/', action.mini_number, name='mini_number'),
+    path('mini/sort/', action.mini_sort, name='mini_sort'),
 ]

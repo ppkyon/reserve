@@ -78,6 +78,26 @@ $( function() {
             window.location.reload();
         });
     });
+
+    $( '.mini-table-area .table .sort-area' ).on( 'click', function() {
+        var form_data = new FormData();
+        form_data.append( 'target', $( this ).find( 'button' ).val() );
+        form_data.append( 'url', location.pathname );
+        form_data.append( 'page', $( this ).parents( '.table' ).next().val() );
+        form_data.append( 'item', $( this ).parents( '.table' ).next().next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#mini_table_sort_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            window.location.reload();
+        }).fail( function(){
+            window.location.reload();
+        });
+    });
     
     $( document ).on( 'click', '.table-area .table tbody tr', function () {
         if ( !$( this ).parents( '.table' ).hasClass( 'parent-table' ) && !$( this ).parents( '.table' ).hasClass( 'children-table' ) && !$( this ).parents( '.table' ).hasClass( 'reserve-setting-table' ) && !$( this ).parents( '.table' ).hasClass( 'facility-setting-table' ) ) {
