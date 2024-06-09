@@ -23,6 +23,7 @@ $( function() {
     }
     save_success.facility = function(modal) {
         $( '#save_check_modal .yes-button' ).val( 'facility' );
+        $( '#save_check_modal .modal-description' ).text( '変更内容のカレンダーへの反映には10分程時間がかかる場合があります。' );
         $( modal ).trigger( 'click' );
         up_modal();
     };

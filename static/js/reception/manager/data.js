@@ -64,6 +64,7 @@ $( function() {
     }
     save_success.manager = function(modal) {
         $( '#save_check_modal .yes-button' ).val( 'manager' );
+        $( '#save_check_modal .modal-description' ).text( '変更内容のカレンダーへの反映には10分程時間がかかる場合があります。' );
         $( modal ).trigger( 'click' );
         up_modal();
     };
