@@ -841,6 +841,8 @@ def send(request):
                                     manager_count = len(manager_list)
                                     facility_count = len(facility_list)
                                     
+                                    if times.day == 21 and times.hour == 12 and times.minute == 00:
+                                        print(offline_setting.name)
                                     schedule_datetime = datetime.datetime(times.year, times.month, times.day, times.hour, times.minute, 0)
                                     schedule_datetime = schedule_datetime + datetime.timedelta(minutes=offline_setting.time)
                                     for manager_item in manager_list:
@@ -889,9 +891,9 @@ def send(request):
                                                                             count_flg = False
                                                                         people_count = people_count - 1
                                                                         if people_count <= 0:
-                                                                            if not manager_item in reception_manager_list:
+                                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
-                                                                                reception_manager_list.append(manager_item)
+                                                                                reception_manager_list.append(reception['manager'])
                                                                             if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                                 facility_count = facility_count - 1
                                                                                 reception_facility_list.append(reception['facility'])
@@ -917,16 +919,16 @@ def send(request):
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
                                                                     else:
-                                                                        if not manager_item in reception_manager_list:
+                                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                             manager_count = manager_count - 1
-                                                                            reception_manager_list.append(manager_item)
+                                                                            reception_manager_list.append(reception['manager'])
                                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                             facility_count = facility_count - 1
                                                                             reception_facility_list.append(reception['facility'])
                                                                 else:
-                                                                    if not manager_item in reception_manager_list:
+                                                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                         manager_count = manager_count - 1
-                                                                        reception_manager_list.append(manager_item)
+                                                                        reception_manager_list.append(reception['manager'])
                                                                     if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                         facility_count = facility_count - 1
                                                                         reception_facility_list.append(reception['facility'])
@@ -1253,7 +1255,7 @@ def send(request):
                                                                             count_flg = False
                                                                         people_count = people_count - 1
                                                                         if people_count <= 0:
-                                                                            if not manager_item in reception_manager_list:
+                                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
                                                                                 reception_manager_list.append(reception['manager'])
                                                                             if reception['facility'] and not reception['facility'] in reception_facility_list:
@@ -1281,14 +1283,14 @@ def send(request):
                                                                                     if people_count > people_total_count:
                                                                                         people_count = people_total_count
                                                                     else:
-                                                                        if not manager_item in reception_manager_list:
+                                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                             reception_manager_list.append(reception['manager'])
                                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                             facility_count = facility_count - 1
                                                                             reception_facility_list.append(reception['facility'])
                                                                 else:
-                                                                    if not manager_item in reception_manager_list:
+                                                                    if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                         manager_count = manager_count - 1
                                                                         reception_manager_list.append(reception['manager'])
                                                                     if reception['facility'] and not reception['facility'] in reception_facility_list:

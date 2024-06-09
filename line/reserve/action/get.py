@@ -757,7 +757,7 @@ def question(request):
                                                                                 count_flg = False
                                                                             people_count = people_count - 1
                                                                             if people_count <= 0:
-                                                                                if not manager_item in reception_manager_list:
+                                                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                     manager_count = manager_count - 1
                                                                                     reception_manager_list.append(reception['manager'])
                                                                                 if reception['facility'] and not reception['facility'] in reception_facility_list:
@@ -769,14 +769,14 @@ def question(request):
                                                                                 if facility_count > 0 and facility_list[people_number].count < people_count:
                                                                                     people_count = facility_list[people_number].count
                                                                         else:
-                                                                            if not manager_item in reception_manager_list:
+                                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
                                                                                 reception_manager_list.append(reception['manager'])
                                                                             if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                                 facility_count = facility_count - 1
                                                                                 reception_facility_list.append(reception['facility'])
                                                                     else:
-                                                                        if not manager_item in reception_manager_list:
+                                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                             reception_manager_list.append(reception['manager'])
                                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
@@ -1099,7 +1099,7 @@ def question(request):
                                                                                 count_flg = False
                                                                             people_count = people_count - 1
                                                                             if people_count <= 0:
-                                                                                if not manager_item in reception_manager_list:
+                                                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                     manager_count = manager_count - 1
                                                                                     reception_manager_list.append(reception['manager'])
                                                                                 if reception['facility'] and not reception['facility'] in reception_facility_list:
@@ -1111,14 +1111,14 @@ def question(request):
                                                                                 if facility_count > 0 and facility_list[people_number].count < people_count:
                                                                                     people_count = facility_list[people_number].count
                                                                         else:
-                                                                            if not manager_item in reception_manager_list:
+                                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                                 manager_count = manager_count - 1
                                                                                 reception_manager_list.append(reception['manager'])
                                                                             if reception['facility'] and not reception['facility'] in reception_facility_list:
                                                                                 facility_count = facility_count - 1
                                                                                 reception_facility_list.append(reception['facility'])
                                                                     else:
-                                                                        if not manager_item in reception_manager_list:
+                                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
                                                                             manager_count = manager_count - 1
                                                                             reception_manager_list.append(reception['manager'])
                                                                         if reception['facility'] and not reception['facility'] in reception_facility_list:
