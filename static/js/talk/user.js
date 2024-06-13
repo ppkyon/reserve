@@ -173,7 +173,7 @@ function create_user_list(response) {
         html += '<p class="time ms-auto mb-0">' + value.line_message.display_date + '</p>';
         html += '</div>';
         html += '<div class="message-area mb-1">';
-        html += '<p class="message mb-0">' + message + 'aaa</p>';
+        html += '<p class="message mb-0">' + message + '</p>';
         html += '</div>';
         html += '<div class="status-area d-flex align-items-center justify-content-end mt-1"></div>';
         html += '</div>';
