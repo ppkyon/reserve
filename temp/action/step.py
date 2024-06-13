@@ -61,6 +61,7 @@ def save(request):
                 if user_flow_schedule.join == 0:
                     user_flow_schedule_online_join = join
 
+                user_flow.memo = request.POST.get('memo_'+str(user_flow.display_id))
                 user_flow.updated_at = datetime.datetime.now()
                 user_flow.save()
 

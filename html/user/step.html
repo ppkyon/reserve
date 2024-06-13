@@ -133,7 +133,11 @@
                     </tr>
                     <tr>
                         <td class="pt-0" colspan="5">
-                            <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                            {% if user_flow.memo %}
+                                <input type="text" class="input-text readonly ps-1 w-100" value="{{ user_flow.memo }}" readonly>
+                            {% else %}
+                                <input type="text" class="input-text text-center readonly w-100" value="-" readonly>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

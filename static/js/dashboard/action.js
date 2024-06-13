@@ -278,9 +278,17 @@ $( function() {
                 html += '<tr>';
                 html += '<td class="pt-0" colspan="4">';
                 if ( value.end_flg ) {
-                    html += '<input type="text" name="memo_' + value.display_id + '" class="input-text text-center readonly w-100" value="-" readonly>';
+                    if ( check_empty(value.memo) ) {
+                        html += '<input type="text" name="memo_' + value.display_id + '" class="input-text text-center readonly ps-1 w-100" value="' + value.memo + '" readonly>';
+                    } else {
+                        html += '<input type="text" name="memo_' + value.display_id + '" class="input-text text-center readonly w-100" value="-" readonly>';
+                    }
                 } else {
-                    html += '<input type="text" name="memo_' + value.display_id + '" class="input-text w-100" value="">';
+                    if ( check_empty(value.memo) ) {
+                        html += '<input type="text" name="memo_' + value.display_id + '" class="input-text ps-1 w-100" value="' + value.memo + '">';
+                    } else {
+                        html += '<input type="text" name="memo_' + value.display_id + '" class="input-text w-100" value="">';
+                    }
                 }
                 html += '</td>';
                 html += '</tr>';

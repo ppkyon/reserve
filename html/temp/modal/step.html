@@ -283,9 +283,17 @@
                                     <tr>
                                         <td class="pt-0" colspan="4">
                                             {% if user_flow.end_flg or user_flow_schedule.join == 2 %}
-                                                <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text text-center readonly w-100" value="-" readonly>
+                                                {% if user_flow.memo %}
+                                                    <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text readonly ps-1 w-100" value="{{ user_flow.memo }}" readonly>
+                                                {% else %}
+                                                    <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text text-center readonly w-100" value="-" readonly>
+                                                {% endif %}
                                             {% else %}
-                                                <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text w-100" value="">
+                                                {% if user_flow.memo %}
+                                                    <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text ps-1 w-100" value="{{ user_flow.memo }}">
+                                                {% else %}
+                                                    <input type="text" name="memo_{{ user_flow.display_id }}" class="input-text ps-1 w-100" value="">
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                     </tr>
