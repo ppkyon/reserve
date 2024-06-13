@@ -246,11 +246,11 @@ $( function() {
             $( '#save_question_form [name=id]' ).val( $( target ).find( 'input[type=hidden]' ).val() );
             $( '#save_question_form [name=memo]' ).val( response.memo );
             $.each( response.item, function( index, value ) {
-                if ( check_empty( value.data.title ) ) {
+                if ( check_empty( value.title ) ) {
                     var html = '<div class="block-area">';
                     html += '<div class="question-area d-flex justify-content-start mb-1">';
                     html += '<i class="bx bx-notepad me-1 ms-3" style="font-size:1.2rem;"></i>';
-                    html += '<p class="question-title mb-0">' + value.data.number + '. ' + value.data.title + '</p>';
+                    html += '<p class="question-title mb-0">' + value.number + '. ' + value.title + '</p>';
                     html += '</div>';
                     html += '</div>';
                     $( '.question-modal .modal-body .question-answer-area' ).append( html );
@@ -258,19 +258,19 @@ $( function() {
             });
             $.each( response.item, function( index, value ) {
                 var html = '<div class="answer-area d-flex justify-content-start mb-2">';
-                if ( value.data.type == 1 || value.data.type == 2 || value.data.type == 5 || value.data.type == 8 ) {
+                if ( value.type == 1 || value.type == 2 || value.type == 5 || value.type == 8 ) {
                     var answer = '';
                     if ( check_empty(value.text) ) {
                         answer = value.text;
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + answer + '</textarea>';
-                } else if ( value.data.type == 3 ) {
+                } else if ( value.type == 3 ) {
                     var answer = '';
                     if ( check_empty(value.value) ) {
                         answer = value.value + '歳';
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + answer + '</textarea>';
-                } else if ( value.data.type == 4 ) {
+                } else if ( value.type == 4 ) {
                     if ( value.value == 1 ) {
                         html += '<textarea class="input-textarea w-100 ms-3" readonly>男性</textarea>';
                     } else if ( value.value == 2 ) {
@@ -278,20 +278,20 @@ $( function() {
                     } else {
                         html += '<textarea class="input-textarea w-100 ms-3" readonly></textarea>';
                     }
-                } else if ( value.data.type == 6 ) {
+                } else if ( value.type == 6 ) {
                     var answer = '';
                     if ( check_empty(value.email) ) {
                         answer = value.email;
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + answer + '</textarea>';
-                } else if ( value.data.type == 7 ) {
+                } else if ( value.type == 7 ) {
                     date = '';
                     if ( check_empty(value.date) ) {
                         date = new Date( value.date );
                         date = date.getFullYear() + '年' + ( '00' + ( date.getMonth() + 1 ) ).slice(-2) + '月' + ( '00' + date.getDate() ).slice(-2) + '日';
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + date + '</textarea>';
-                } else if ( value.data.type == 9 || value.data.type == 10 ) {
+                } else if ( value.type == 9 || value.type == 10 ) {
                     var answer = '';
                     if ( check_empty(value.image) ) {
                         if ( $( '#env_ngrok' ).val() == 'True' ) {
@@ -301,7 +301,7 @@ $( function() {
                         }
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + answer + '</textarea>';
-                } else if ( value.data.type == 11 ) {
+                } else if ( value.type == 11 ) {
                     var answer = '';
                     if ( check_empty(value.video) ) {
                         if ( $( '#env_ngrok' ).val() == 'True' ) {
@@ -311,8 +311,8 @@ $( function() {
                         }
                     }
                     html += '<textarea class="input-textarea w-100 ms-3" readonly>' + answer + '</textarea>';
-                } else if ( value.data.type == 99 ) {
-                    if ( value.data.choice_type == 1 ) {
+                } else if ( value.type == 99 ) {
+                    if ( value.choice_type == 1 ) {
                         var display_text = '';
                         $.each( value.choice, function( choice_index, choice_value ) {
                             if ( choice_index == 0 ) {
@@ -326,23 +326,23 @@ $( function() {
                             }
                         });
                         html += '<textarea class="input-textarea w-100 ms-3" readonly>' + display_text + '</textarea>';
-                    } else if ( value.data.choice_type == 2 || value.data.choice_type == 3 || value.data.choice_type == 4 ) {
+                    } else if ( value.choice_type == 2 || value.choice_type == 3 || value.choice_type == 4 ) {
                         var display_text = '';
                         var display_flg = false;
                         $.each( value.choice, function( choice_index, choice_value ) {
                             if ( display_flg ) {
                                 if ( check_empty(choice_value.text) && choice_value.text == '1' ) {
-                                    display_text += ', ' + choice_value.data.text;
+                                    display_text += ', ' + choice_value.text;
                                 }
                             } else {
                                 if ( check_empty(choice_value.text) && choice_value.text == '1' ) {
-                                    display_text += choice_value.data.text;
+                                    display_text += choice_value.text;
                                     display_flg = true;
                                 }
                             }
                         });
                         html += '<textarea class="input-textarea w-100 ms-3" readonly>' + display_text + '</textarea>';
-                    } else if ( value.data.choice_type == 5 ) {
+                    } else if ( value.choice_type == 5 ) {
                         var display_date = '';
                         $.each( value.choice, function( choice_index, choice_value ) {
                             if ( check_empty(choice_value.date) ) {
@@ -356,7 +356,7 @@ $( function() {
                             }
                         });
                         html += '<textarea class="input-textarea w-100 ms-3" readonly>' + display_date + '</textarea>';
-                    } else if ( value.data.choice_type == 6 ) {
+                    } else if ( value.choice_type == 6 ) {
                         var display_time = '';
                         $.each( value.choice, function( choice_index, choice_value ) {
                             if ( check_empty(choice_value.time) ) {
@@ -369,7 +369,7 @@ $( function() {
                             }
                         });
                         html += '<textarea class="input-textarea w-100 ms-3" readonly>' + display_time + '</textarea>';
-                    } else if ( value.data.choice_type == 7 ) {
+                    } else if ( value.choice_type == 7 ) {
                         var display_date = '';
                         $.each( value.choice, function( choice_index, choice_value ) {
                             if ( check_empty(choice_value.date) ) {
