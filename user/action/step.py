@@ -188,6 +188,7 @@ def save(request):
                             template_cardtype = ShopTemplateCardType.objects.filter(display_id=request.POST.get('message_template')).first()
                             push_card_type_message(user, template_cardtype, None)
                     UserAlert.objects.filter(user=user, number=user_flow.number).all().delete()
+                    UserFlowActionReminder.objects.filter(user=user, flow=user_flow).all().delete()
 
                 if change_flg:
                     target_flow_item = None
