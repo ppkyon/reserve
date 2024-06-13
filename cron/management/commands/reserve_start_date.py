@@ -1,9 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from common import create_code
-
 from flow.models import UserFlowSchedule
-from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager
+from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 from reserve.models import (
     ReserveBasic, ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineCourse, ReserveOnlineCourse, ReserveStartDate,
     ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
@@ -100,64 +98,79 @@ class Command(BaseCommand):
                                                 
                                     for time in time_list:
                                         reception_flg = True
+                                        time_from = time
+                                        time_to = time + datetime.timedelta(minutes=offline.time)
+                                        manager_count = len(manager_list)
+                                        facility_count = len(facility_list)
                                         for manager in manager_list:
-                                            time_from = time
-                                            time_to = time + datetime.timedelta(minutes=offline.time)
-                                            reception_place = ReceptionOfflinePlace.objects.filter(offline=shop_offline, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=False).first()
-                                            reception_manager = ReceptionOfflineManager.objects.filter(offline=shop_offline, manager=manager, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=True).first()
-                                            if reception_place and reception_manager and reception_flg:
-                                                manager_count = len(manager_list)
-                                                facility_count = len(facility_list)
-
-                                                if len(reception_list) > 0:
-                                                    people_number = 0
-                                                    people_count = offline.people
-                                                    
-                                                    reception_manager_list = list()
-                                                    reception_facility_list = list()
-                                                    count_flg = True
-                                                    for reception in reception_list:
-                                                        if time_to > reception['from'] and reception['to'] > time_from:
-                                                            if manager_count <= 0 or facility_count <= 0:
-                                                                break
-                                                            else:
-                                                                if reception['setting']:
-                                                                    if reception['setting'].id == offline.id:
-                                                                        if time_from == reception['from']:
-                                                                            if count_flg:
-                                                                                if reception['facility'] and reception['facility'].count < people_count:
-                                                                                    people_count = reception['facility'].count
-                                                                                count_flg = False
-                                                                            people_count = people_count - 1
-                                                                            if people_count <= 0:
-                                                                                manager_count = manager_count - 1
-                                                                                facility_count = facility_count - 1
-
-                                                                                people_number = people_number + 1
-                                                                                people_count = offline.people
-                                                                                if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                                                    people_count = facility_list[people_number].count
+                                            if reception_flg:
+                                                reception_manager = ReceptionOfflineManager.objects.filter(offline=shop_offline, manager=manager, reception_date__year=target.year, reception_date__month=target.month, reception_date__day=target.day, reception_from__lte=time_from, reception_to__gte=time_to.time(), reception_flg=True).first()
+                                                if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
+                                                    if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).exists():
+                                                        reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).first()
+                                                        if not reception_offline_manager_setting.flg:
+                                                            reception_manager = None
+                                                if reception_manager:
+                                                    if len(reception_list) > 0:
+                                                        people_count = offline.people
+                                                        same_count = offline.facility
+                                                        
+                                                        reception_manager_list = list()
+                                                        reception_facility_list = list()
+                                                        for reception in reception_list:
+                                                            if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
+                                                                if manager_count <= 0 or facility_count <= 0:
+                                                                    break
+                                                                else:
+                                                                    if reception['setting']:
+                                                                        if reception['setting'].id == offline.id:
+                                                                            if time_from == reception['from']:
+                                                                                if reception['facility'] and reception['facility'].count <= people_count:
+                                                                                    same_count = same_count - 1
+                                                                                    if same_count == 0:
+                                                                                        if people_count > reception['facility'].count:
+                                                                                            people_count = reception['facility'].count
+                                                                                people_count = people_count - 1
+                                                                                if people_count <= 0:
+                                                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                        manager_count = manager_count - 1
+                                                                                        reception_manager_list.append(reception['manager'])
+                                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                    facility_count = facility_count - 1
+                                                                                    reception_facility_list.append(reception['facility'])
+                                                                            else:
+                                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                    manager_count = manager_count - 1
+                                                                                    reception_manager_list.append(reception['manager'])
+                                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                    facility_count = facility_count - 1
+                                                                                    reception_facility_list.append(reception['facility'])
                                                                         else:
-                                                                            manager_count = manager_count - 1
-                                                                            facility_count = facility_count - 1
-                                                                    else:
-                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
-                                                                            manager_count = manager_count - 1
-                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
-                                                                            facility_count = facility_count - 1
-                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                            reception_manager_list.append(reception['manager'])
-                                                        if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                            reception_facility_list.append(reception['facility'])
+                                                                            if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                manager_count = manager_count - 1
+                                                                                reception_manager_list.append(reception['manager'])
+                                                                            if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                facility_count = facility_count - 1
+                                                                                reception_facility_list.append(reception['facility'])
+                                                            if reception['manager'] and not reception['manager'] in reception_manager_list:
+                                                                manager_count = manager_count - 1
+                                                                reception_manager_list.append(reception['manager'])
+                                                            if reception['facility'] and not reception['facility'] in reception_facility_list:
+                                                                facility_count = facility_count - 1
+                                                                reception_facility_list.append(reception['facility'])
 
-                                                    if manager_count > 0 and facility_count > 0:
-                                                        reception_flg = False
-                                                        break
+                                                        if manager_count > 0 and facility_count > 0:
+                                                            reception_flg = False
+                                                            break
+                                                    else:
+                                                        if manager_count > 0 and facility_count > 0:
+                                                            reception_flg = False
+                                                            break
                                                 else:
-                                                    if manager_count > 0 and facility_count > 0:
-                                                        reception_flg = False
-                                                        break
-                                        
+                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(reception['manager'])
+
                                         if not reception_flg:
                                             if not first_date or time.date() == first_date.date():
                                                 first_date = time
@@ -240,63 +253,74 @@ class Command(BaseCommand):
                             
                             for time in time_list:
                                 reception_flg = True
+                                time_from = time
+                                time_to = time + datetime.timedelta(minutes=offline.time)
+                                manager_count = len(manager_list)
+                                facility_count = len(facility_list)
                                 for manager in manager_list:
-                                    time_from = time
-                                    time_to = time + datetime.timedelta(minutes=offline.time)
-                                    reception_place = ReceptionOfflinePlace.objects.filter(offline=shop_offline, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=False).first()
-                                    reception_manager = ReceptionOfflineManager.objects.filter(offline=shop_offline, manager=manager, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=True).first()
-                                    if reception_place and reception_manager and reception_flg:
-                                        manager_count = len(manager_list)
-                                        facility_count = len(facility_list)
-
-                                        if len(reception_list) > 0:
-                                            people_number = 0
-                                            people_count = offline.people
-                                            
-                                            reception_manager_list = list()
-                                            reception_facility_list = list()
-                                            count_flg = True
-                                            for reception in reception_list:
-                                                if time_to > reception['from'] and reception['to'] > time_from:
-                                                    if manager_count <= 0 or facility_count <= 0:
-                                                        break
-                                                    else:
-                                                        if reception['setting']:
-                                                            if reception['setting'].id == offline.id:
-                                                                if time_from == reception['from']:
-                                                                    if count_flg:
-                                                                        if reception['facility'] and reception['facility'].count < people_count:
-                                                                            people_count = reception['facility'].count
-                                                                        count_flg = False
-                                                                    people_count = people_count - 1
-                                                                    if people_count <= 0:
-                                                                        manager_count = manager_count - 1
-                                                                        facility_count = facility_count - 1
-
-                                                                        people_number = people_number + 1
-                                                                        people_count = offline.people
-                                                                        if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                                            people_count = facility_list[people_number].count
+                                    if reception_flg:
+                                        reception_manager = ReceptionOfflineManager.objects.filter(offline=shop_offline, manager=manager, reception_date__year=target.year, reception_date__month=target.month, reception_date__day=target.day, reception_from__lte=time_from, reception_to__gte=time_to.time(), reception_flg=True).first()
+                                        if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager).exists():
+                                            if ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).exists():
+                                                reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).first()
+                                                if not reception_offline_manager_setting.flg:
+                                                    reception_manager = None
+                                        if reception_manager:
+                                            if len(reception_list) > 0:
+                                                people_count = offline.people
+                                                same_count = offline.facility
+                                                
+                                                reception_manager_list = list()
+                                                reception_facility_list = list()
+                                                for reception in reception_list:
+                                                    if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
+                                                        if manager_count <= 0 or facility_count <= 0:
+                                                            break
+                                                        else:
+                                                            if reception['setting']:
+                                                                if reception['setting'].id == offline.id:
+                                                                    if time_from == reception['from']:
+                                                                        if reception['facility'] and reception['facility'].count <= people_count:
+                                                                            same_count = same_count - 1
+                                                                            if same_count == 0:
+                                                                                if people_count > reception['facility'].count:
+                                                                                    people_count = reception['facility'].count
+                                                                        people_count = people_count - 1
+                                                                        if people_count <= 0:
+                                                                            if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                manager_count = manager_count - 1
+                                                                                reception_manager_list.append(reception['manager'])
+                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                            facility_count = facility_count - 1
+                                                                            reception_facility_list.append(reception['facility'])
+                                                                    else:
+                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                            manager_count = manager_count - 1
+                                                                            reception_manager_list.append(reception['manager'])
+                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                            facility_count = facility_count - 1
+                                                                            reception_facility_list.append(reception['facility'])
                                                                 else:
-                                                                    manager_count = manager_count - 1
-                                                                    facility_count = facility_count - 1
-                                                            else:
-                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
-                                                                    manager_count = manager_count - 1
-                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
-                                                                    facility_count = facility_count - 1
-                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                    reception_manager_list.append(reception['manager'])
-                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                    reception_facility_list.append(reception['facility'])
+                                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                        manager_count = manager_count - 1
+                                                                        reception_manager_list.append(reception['manager'])
+                                                                    if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                        facility_count = facility_count - 1
+                                                                        reception_facility_list.append(reception['facility'])
+                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(reception['manager'])
+                                                    if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(reception['facility'])
 
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
-                                                break
-                                        else:
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
-                                                break
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
+                                                    break
+                                            else:
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
+                                                    break
                                             
                                 if not reception_flg:
                                     if not first_date or time.date() == first_date.date():
@@ -389,63 +413,74 @@ class Command(BaseCommand):
                                                 
                                     for time in time_list:
                                         reception_flg = True
+                                        time_from = time
+                                        time_to = time + datetime.timedelta(minutes=online.time)
+                                        manager_count = len(manager_list)
+                                        facility_count = len(facility_list)
                                         for manager in manager_list:
-                                            time_from = time
-                                            time_to = time + datetime.timedelta(minutes=online.time)
-                                            reception_place = ReceptionOnlinePlace.objects.filter(online=shop_online, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=False).first()
-                                            reception_manager = ReceptionOnlineManager.objects.filter(online=shop_online, manager=manager, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=True).first()
-                                            if reception_place and reception_manager and reception_flg:
-                                                manager_count = len(manager_list)
-                                                facility_count = len(facility_list)
-
-                                                if len(reception_list) > 0:
-                                                    people_number = 0
-                                                    people_count = online.people
-                                                    
-                                                    reception_manager_list = list()
-                                                    reception_facility_list = list()
-                                                    count_flg = True
-                                                    for reception in reception_list:
-                                                        if time_to > reception['from'] and reception['to'] > time_from:
-                                                            if manager_count <= 0 or facility_count <= 0:
-                                                                break
-                                                            else:
-                                                                if reception['setting']:
-                                                                    if reception['setting'].id == online.id:
-                                                                        if time_from == reception['from']:
-                                                                            if count_flg:
-                                                                                if reception['facility'] and reception['facility'].count < people_count:
-                                                                                    people_count = reception['facility'].count
-                                                                                count_flg = False
-                                                                            people_count = people_count - 1
-                                                                            if people_count <= 0:
-                                                                                manager_count = manager_count - 1
-                                                                                facility_count = facility_count - 1
-
-                                                                                people_number = people_number + 1
-                                                                                people_count = online.people
-                                                                                if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                                                    people_count = facility_list[people_number].count
+                                            if reception_flg:
+                                                reception_manager = ReceptionOnlineManager.objects.filter(online=shop_online, manager=manager, reception_date__year=target.year, reception_date__month=target.month, reception_date__day=target.day, reception_from__lte=time_from, reception_to__gte=time_to.time(), reception_flg=True).first()
+                                                if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager).exists():
+                                                    if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).exists():
+                                                        reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).first()
+                                                        if not reception_online_manager_setting.flg:
+                                                            reception_manager = None
+                                                if reception_manager:
+                                                    if len(reception_list) > 0:
+                                                        people_count = online.people
+                                                        same_count = online.facility
+                                                        
+                                                        reception_manager_list = list()
+                                                        reception_facility_list = list()
+                                                        for reception in reception_list:
+                                                            if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
+                                                                if manager_count <= 0 or facility_count <= 0:
+                                                                    break
+                                                                else:
+                                                                    if reception['setting']:
+                                                                        if reception['setting'].id == online.id:
+                                                                            if time_from == reception['from']:
+                                                                                if reception['facility'] and reception['facility'].count <= people_count:
+                                                                                    same_count = same_count - 1
+                                                                                    if same_count == 0:
+                                                                                        if people_count > reception['facility'].count:
+                                                                                            people_count = reception['facility'].count
+                                                                                people_count = people_count - 1
+                                                                                if people_count <= 0:
+                                                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                        manager_count = manager_count - 1
+                                                                                        reception_manager_list.append(reception['manager'])
+                                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                    facility_count = facility_count - 1
+                                                                                    reception_facility_list.append(reception['facility'])
+                                                                            else:
+                                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                    manager_count = manager_count - 1
+                                                                                    reception_manager_list.append(reception['manager'])
+                                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                    facility_count = facility_count - 1
+                                                                                    reception_facility_list.append(reception['facility'])
                                                                         else:
-                                                                            manager_count = manager_count - 1
-                                                                            facility_count = facility_count - 1
-                                                                    else:
-                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
-                                                                            manager_count = manager_count - 1
-                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
-                                                                            facility_count = facility_count - 1
-                                                        if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                            reception_manager_list.append(reception['manager'])
-                                                        if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                            reception_facility_list.append(reception['facility'])
+                                                                            if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                manager_count = manager_count - 1
+                                                                                reception_manager_list.append(reception['manager'])
+                                                                            if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                                facility_count = facility_count - 1
+                                                                                reception_facility_list.append(reception['facility'])
+                                                            if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                manager_count = manager_count - 1
+                                                                reception_manager_list.append(reception['manager'])
+                                                            if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                facility_count = facility_count - 1
+                                                                reception_facility_list.append(reception['facility'])
 
-                                                    if manager_count > 0 and facility_count > 0:
-                                                        reception_flg = False
-                                                        break
-                                                else:
-                                                    if manager_count > 0 and facility_count > 0:
-                                                        reception_flg = False
-                                                        break
+                                                        if manager_count > 0 and facility_count > 0:
+                                                            reception_flg = False
+                                                            break
+                                                    else:
+                                                        if manager_count > 0 and facility_count > 0:
+                                                            reception_flg = False
+                                                            break
                                         
                                         if not reception_flg:
                                             if not first_date or time.date() == first_date.date():
@@ -529,63 +564,77 @@ class Command(BaseCommand):
                             
                             for time in time_list:
                                 reception_flg = True
+                                time_from = time
+                                time_to = time + datetime.timedelta(minutes=online.time)
+                                manager_count = len(manager_list)
+                                facility_count = len(facility_list)
                                 for manager in manager_list:
-                                    time_from = time
-                                    time_to = time + datetime.timedelta(minutes=online.time)
-                                    reception_place = ReceptionOnlinePlace.objects.filter(online=shop_online, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=False).first()
-                                    reception_manager = ReceptionOnlineManager.objects.filter(online=shop_online, manager=manager, reception_date__year=time.year, reception_date__month=time.month, reception_date__day=time.day, reception_from__lte=time_from.time(), reception_to__gte=time_to.time(), reception_flg=True).first()
-                                    if reception_place and reception_manager and reception_flg:
-                                        manager_count = len(manager_list)
-                                        facility_count = len(facility_list)
+                                    if reception_flg:
+                                        reception_manager = ReceptionOnlineManager.objects.filter(online=shop_online, manager=manager, reception_date__year=target.year, reception_date__month=target.month, reception_date__day=target.day, reception_from__lte=time_from, reception_to__gte=time_to.time(), reception_flg=True).first()
+                                        if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager).exists():
+                                            if ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).exists():
+                                                reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).first()
+                                                if not reception_online_manager_setting.flg:
+                                                    reception_manager = None
+                                        if reception_manager:
+                                            manager_count = len(manager_list)
+                                            facility_count = len(facility_list)
 
-                                        if len(reception_list) > 0:
-                                            people_number = 0
-                                            people_count = online.people
-                                            
-                                            reception_manager_list = list()
-                                            reception_facility_list = list()
-                                            count_flg = True
-                                            for reception in reception_list:
-                                                if time_to > reception['from'] and reception['to'] > time_from:
-                                                    if manager_count <= 0 or facility_count <= 0:
-                                                        break
-                                                    else:
-                                                        if reception['setting']:
-                                                            if reception['setting'].id == online.id:
-                                                                if time_from == reception['from']:
-                                                                    if count_flg:
-                                                                        if reception['facility'] and reception['facility'].count < people_count:
-                                                                            people_count = reception['facility'].count
-                                                                        count_flg = False
-                                                                    people_count = people_count - 1
-                                                                    if people_count <= 0:
-                                                                        manager_count = manager_count - 1
-                                                                        facility_count = facility_count - 1
-
-                                                                        people_number = people_number + 1
-                                                                        people_count = online.people
-                                                                        if facility_count > 0 and facility_list[people_number].count < people_count:
-                                                                            people_count = facility_list[people_number].count
+                                            if len(reception_list) > 0:
+                                                people_count = online.people
+                                                same_count = online.facility
+                                                
+                                                reception_manager_list = list()
+                                                reception_facility_list = list()
+                                                for reception in reception_list:
+                                                    if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
+                                                        if manager_count <= 0 or facility_count <= 0:
+                                                            break
+                                                        else:
+                                                            if reception['setting']:
+                                                                if reception['setting'].id == online.id:
+                                                                    if time_from == reception['from']:
+                                                                        if reception['facility'] and reception['facility'].count <= people_count:
+                                                                            same_count = same_count - 1
+                                                                            if same_count == 0:
+                                                                                if people_count > reception['facility'].count:
+                                                                                    people_count = reception['facility'].count
+                                                                        people_count = people_count - 1
+                                                                        if people_count <= 0:
+                                                                            if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                                manager_count = manager_count - 1
+                                                                                reception_manager_list.append(reception['manager'])
+                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                            facility_count = facility_count - 1
+                                                                            reception_facility_list.append(reception['facility'])
+                                                                    else:
+                                                                        if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                            manager_count = manager_count - 1
+                                                                            reception_manager_list.append(reception['manager'])
+                                                                        if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                            facility_count = facility_count - 1
+                                                                            reception_facility_list.append(reception['facility'])
                                                                 else:
-                                                                    manager_count = manager_count - 1
-                                                                    facility_count = facility_count - 1
-                                                            else:
-                                                                if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
-                                                                    manager_count = manager_count - 1
-                                                                if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
-                                                                    facility_count = facility_count - 1
-                                                if reception['manager'] and not reception['manager'] in reception_manager_list:
-                                                    reception_manager_list.append(reception['manager'])
-                                                if reception['facility'] and not reception['facility'] in reception_facility_list:
-                                                    reception_facility_list.append(reception['facility'])
+                                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                                        manager_count = manager_count - 1
+                                                                        reception_manager_list.append(reception['manager'])
+                                                                    if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                                        facility_count = facility_count - 1
+                                                                        reception_facility_list.append(reception['facility'])
+                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(reception['manager'])
+                                                    if reception['facility'] in facility_list and not reception['facility'] in reception_facility_list:
+                                                        facility_count = facility_count - 1
+                                                        reception_facility_list.append(reception['facility'])
 
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
-                                                break
-                                        else:
-                                            if manager_count > 0 and facility_count > 0:
-                                                reception_flg = False
-                                                break
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
+                                                    break
+                                            else:
+                                                if manager_count > 0 and facility_count > 0:
+                                                    reception_flg = False
+                                                    break
                                             
                                 if not reception_flg:
                                     if not first_date or time.date() == first_date.date():
