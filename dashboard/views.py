@@ -50,9 +50,9 @@ class DashboardView(ShopView):
                     today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
             elif context['today_reserve_sort'].target == 'setting':
                 if context['today_reserve_sort'].sort == 1:
-                    today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__number', 'date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
+                    today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
                 elif context['today_reserve_sort'].sort == 2:
-                    today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__number', 'date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
+                    today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
                 else:
                     today_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['today_reserve_table']['number']]
             elif context['today_reserve_sort'].target == 'line':
@@ -101,9 +101,9 @@ class DashboardView(ShopView):
                     new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
             elif context['new_reserve_sort'].target == 'setting':
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
                     new_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
             elif context['new_reserve_sort'].target == 'line':
@@ -157,9 +157,9 @@ class DashboardView(ShopView):
                     after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
             elif context['after_reserve_sort'].target == 'setting':
                 if context['after_reserve_sort'].sort == 1:
-                    after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__number', 'date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
+                    after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
                 elif context['after_reserve_sort'].sort == 2:
-                    after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__number', 'date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
+                    after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
                 else:
                     after_reserve_list = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').all()[:context['after_reserve_table']['number']]
             elif context['after_reserve_sort'].target == 'line':
