@@ -1,5 +1,4 @@
 {% load static %}
-{% load md5url %}
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -8,7 +7,7 @@
 
         <title>{{ title }} | {{ env.site_name }}</title>
 
-        <link href="{% md5url 'img/favicon.jpg' %}" rel="icon" type="image/x-icon">
+        <link href="{% static 'img/favicon.jpg' %}" rel="icon" type="image/x-icon">
 
         {% include './css.html' %}
         {% block css %}
