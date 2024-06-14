@@ -194,7 +194,7 @@ AWS_DEFAULT_ACL = None
 if env('AWS_FLG') == 'True':
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, 'media')
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
 
 LOG_BASE_DIR = os.path.join(BASE_DIR, "log")
