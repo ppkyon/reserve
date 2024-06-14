@@ -39,7 +39,7 @@
                         <div class="row mb-2">
                             <div class="col-12">
                                 <div class="table-area w-100" style="overflow-x: auto;">
-                                    <table class="table manager-table mb-0" style="white-space: nowrap;">
+                                    <table class="table manager-table mb-0" style="white-space: nowrap; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th class="fix" style="width: 150px; border-radius: 5px 0 0 0; vertical-align: middle;">会場カテゴリ</th>
@@ -91,13 +91,13 @@
                                                 {% for manager_item in online_offline_item.manager %}
                                                     {% if forloop.first %}
                                                         <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
-                                                            <td rowspan="{{ online_offline_item.manager|length }}" style="white-space: normal; word-break: break-word;">
+                                                            <td rowspan="{{ online_offline_item.manager|length }}" style="white-space: normal; word-break: break-word; position: sticky; left: 0; z-index: 200; background-color: #FFF;">
                                                                 <span class="setting-name-{{ online_offline_item.display_id }}">{{ online_offline_item.name }}</span>
                                                             </td>
-                                                            <td>
+                                                            <td style="position: sticky; left: 150px; z-index: 200; background-color: #FFF;">
                                                                 <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td class="text-center" style="position: sticky;left: 280px; z-index: 200; background-color: #FFF;">
                                                                 {% if manager_item.reception_count == 0 %}
                                                                     <span style="color: #FF0000">未設定</span>
                                                                 {% elif manager_item.reception_count < days_count %}
@@ -226,10 +226,10 @@
                                                         </tr>
                                                     {% else %}
                                                         <tr style="background-color: #FFF;">
-                                                            <td>
+                                                            <td style="position: sticky;left: 150px; z-index: 200; background-color: #FFF;">
                                                                 <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td class="text-center" style="position: sticky;left: 280px; z-index: 200; background-color: #FFF;">
                                                                 {% if manager_item.reception_count == 0 %}
                                                                     <span style="color: #FF0000">未設定</span>
                                                                 {% elif manager_item.reception_count < days_count %}
