@@ -1,6 +1,9 @@
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
+from django.templatetags.static import static
+
+from pathlib import Path
 
 import datetime
 import locale
@@ -89,3 +92,13 @@ def display_time(value):
             return value.split(',')[0]
         else:
             return value.split(',')[0] + '前'
+
+
+
+@register.simple_tag
+def static_cache(filepath) -> str:
+    res_path = static(filepath)
+    full_filepath = Path(getattr(settings, 'STATICFILES_DIRS', '')[0]).joinpath(filepath)
+    file_mtime = str(int(full_filepath.stat().st_mtime))
+    res_path += '?v=' + file_mtime
+    return res_path

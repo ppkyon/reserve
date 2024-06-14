@@ -1,9 +1,10 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/template/cardtype.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/template/cardtype.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -43,12 +44,12 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/company/question/modal.js' %}"></script>
-    <script src="{% static 'js/company/template/video/modal.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/preview.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/append.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/tab.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/action.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/data.js' %}"></script>
-    <script src="{% static 'js/company/template/cardtype/image.js' %}"></script>
+    <script src="{% static_cache 'js/company/question/modal.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/modal.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/preview.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/append.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/tab.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/action.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/data.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/cardtype/image.js' %}"></script>
 {% endblock %}

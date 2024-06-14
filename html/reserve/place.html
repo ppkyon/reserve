@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/reserve.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -242,7 +243,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/reserve/place/append.js' %}"></script>
-    <script src="{% static 'js/reserve/place/action.js' %}"></script>
-    <script src="{% static 'js/reserve/place/data.js' %}"></script>
+    <script src="{% static_cache 'js/reserve/place/append.js' %}"></script>
+    <script src="{% static_cache 'js/reserve/place/action.js' %}"></script>
+    <script src="{% static_cache 'js/reserve/place/data.js' %}"></script>
 {% endblock %}

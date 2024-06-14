@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/reception.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/reception.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -183,5 +184,5 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/reception/data/data.js' %}"></script>
+    <script src="{% static_cache 'js/reception/data/data.js' %}"></script>
 {% endblock %}

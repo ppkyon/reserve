@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/setting.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/setting.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -42,6 +43,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/head/setting/data.js' %}"></script>
-    <script src="{% static 'js/head/setting/action.js' %}"></script>
+    <script src="{% static_cache 'js/head/setting/data.js' %}"></script>
+    <script src="{% static_cache 'js/head/setting/action.js' %}"></script>
 {% endblock %}

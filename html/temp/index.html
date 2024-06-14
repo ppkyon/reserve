@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/user/index.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/user/index.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -175,8 +176,8 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/tag/modal.js' %}"></script>
-    <script src="{% static 'js/temp/index/append.js' %}"></script>
-    <script src="{% static 'js/temp/index/action.js' %}"></script>
-    <script src="{% static 'js/temp/index/data.js' %}"></script>
+    <script src="{% static_cache 'js/tag/modal.js' %}"></script>
+    <script src="{% static_cache 'js/temp/index/append.js' %}"></script>
+    <script src="{% static_cache 'js/temp/index/action.js' %}"></script>
+    <script src="{% static_cache 'js/temp/index/data.js' %}"></script>
 {% endblock %}

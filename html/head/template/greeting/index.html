@@ -4,7 +4,7 @@
 {% load original %}
 
 {% block css %}
-    <link href="{% static 'css/template/greeting.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/template/greeting.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -476,14 +476,14 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/head/template/text/modal.js' %}"></script>
-    <script src="{% static 'js/head/template/video/modal.js' %}"></script>
-    <script src="{% static 'js/head/template/richmessage/modal.js' %}"></script>
-    <script src="{% static 'js/head/template/richvideo/modal.js' %}"></script>
-    <script src="{% static 'js/head/template/cardtype/modal.js' %}"></script>
-    <script src="{% static 'js/head/template/greeting/preview.js' %}"></script>
-    <script src="{% static 'js/head/template/greeting/append.js' %}"></script>
-    <script src="{% static 'js/head/template/greeting/data.js' %}"></script>
-    <script src="{% static 'js/head/template/greeting/action.js' %}"></script>
-    <script src="{% static 'js/head/template/greeting/image.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/text/modal.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/video/modal.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/richmessage/modal.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/richvideo/modal.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/cardtype/modal.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/greeting/preview.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/greeting/append.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/greeting/data.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/greeting/action.js' %}"></script>
+    <script src="{% static_cache 'js/head/template/greeting/image.js' %}"></script>
 {% endblock %}

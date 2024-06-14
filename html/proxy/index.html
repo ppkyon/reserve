@@ -1,9 +1,10 @@
 {% extends './base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/proxy.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/proxy.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -565,11 +566,11 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/proxy/index.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/place.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/course.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/date.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/question.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/check.js' %}" type="module"></script>
-    <script src="{% static 'js/proxy/drop.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/index.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/place.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/course.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/date.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/question.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/check.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/proxy/drop.js' %}" type="module"></script>
 {% endblock %}

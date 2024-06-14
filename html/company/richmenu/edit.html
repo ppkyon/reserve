@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/richmenu.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/richmenu.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -41,11 +42,11 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/company/question/modal.js' %}"></script>
-    <script src="{% static 'js/company/template/video/modal.js' %}"></script>
-    <script src="{% static 'js/company/richmenu/preview.js' %}"></script>
-    <script src="{% static 'js/company/richmenu/append.js' %}"></script>
-    <script src="{% static 'js/company/richmenu/action.js' %}"></script>
-    <script src="{% static 'js/company/richmenu/data.js' %}"></script>
-    <script src="{% static 'js/company/richmenu/image.js' %}"></script>
+    <script src="{% static_cache 'js/company/question/modal.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/modal.js' %}"></script>
+    <script src="{% static_cache 'js/company/richmenu/preview.js' %}"></script>
+    <script src="{% static_cache 'js/company/richmenu/append.js' %}"></script>
+    <script src="{% static_cache 'js/company/richmenu/action.js' %}"></script>
+    <script src="{% static_cache 'js/company/richmenu/data.js' %}"></script>
+    <script src="{% static_cache 'js/company/richmenu/image.js' %}"></script>
 {% endblock %}

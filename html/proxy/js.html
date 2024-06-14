@@ -1,14 +1,15 @@
 {% load static %}
+{% load original %}
 
-<script src="{% static 'js/library/jquery.min.js' %}"></script>
-<script src="{% static 'js/library/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'js/library/parsley.min.js' %}"></script>
+<script src="{% static_cache 'js/library/jquery.min.js' %}"></script>
+<script src="{% static_cache 'js/library/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static_cache 'js/library/parsley.min.js' %}"></script>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
 
 <script src="{% static 'node_modules/flatpickr/dist/flatpickr.min.js' %}"></script>
 <script src="{% static 'node_modules/flatpickr/dist/l10n/ja.js' %}"></script>
 
-<script src="{% static 'js/ajax.js' %}"></script>
-<script src="{% static 'js/common.js' %}"></script>
-<script src="{% static 'js/form.js' %}"></script>
+<script src="{% static_cache 'js/ajax.js' %}"></script>
+<script src="{% static_cache 'js/common.js' %}"></script>
+<script src="{% static_cache 'js/form.js' %}"></script>

@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/line/reserve.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/line/reserve.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -539,11 +540,11 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/line/reserve.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/place.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/course.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/date.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/question.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/check.js' %}" type="module"></script>
-    <script src="{% static 'js/line/reserve/drop.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/place.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/course.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/date.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/question.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/check.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/reserve/drop.js' %}" type="module"></script>
 {% endblock %}

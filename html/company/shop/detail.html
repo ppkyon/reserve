@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/company/shop.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/company/shop.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -29,7 +30,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/company/tag/modal.js' %}"></script>
-    <script src="{% static 'js/company/shop/data.js' %}"></script>
-    <script src="{% static 'js/company/shop/detail.js' %}"></script>
+    <script src="{% static_cache 'js/company/tag/modal.js' %}"></script>
+    <script src="{% static_cache 'js/company/shop/data.js' %}"></script>
+    <script src="{% static_cache 'js/company/shop/detail.js' %}"></script>
 {% endblock %}

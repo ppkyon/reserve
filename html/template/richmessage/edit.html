@@ -1,9 +1,10 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/template/richmessage.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/template/richmessage.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -41,11 +42,11 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/question/modal.js' %}"></script>
-    <script src="{% static 'js/template/video/modal.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/preview.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/append.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/action.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/data.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/image.js' %}"></script>
+    <script src="{% static_cache 'js/question/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/video/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/preview.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/append.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/action.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/data.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/image.js' %}"></script>
 {% endblock %}

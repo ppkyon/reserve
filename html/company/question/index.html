@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/question.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/question.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -113,7 +114,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/company/question/preview.js' %}"></script>
-    <script src="{% static 'js/company/question/append.js' %}"></script>
-    <script src="{% static 'js/company/question/action.js' %}"></script>
+    <script src="{% static_cache 'js/company/question/preview.js' %}"></script>
+    <script src="{% static_cache 'js/company/question/append.js' %}"></script>
+    <script src="{% static_cache 'js/company/question/action.js' %}"></script>
 {% endblock %}

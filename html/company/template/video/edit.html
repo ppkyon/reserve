@@ -1,9 +1,10 @@
 {% extends '../../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/template/video.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/template/video.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -37,8 +38,8 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/company/template/video/preview.js' %}"></script>
-    <script src="{% static 'js/company/template/video/data.js' %}"></script>
-    <script src="{% static 'js/company/template/video/action.js' %}"></script>
-    <script src="{% static 'js/company/template/video/image.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/preview.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/data.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/action.js' %}"></script>
+    <script src="{% static_cache 'js/company/template/video/image.js' %}"></script>
 {% endblock %}

@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/dashboard.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -36,14 +37,14 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/template/text/modal.js' %}"></script>
-    <script src="{% static 'js/template/video/modal.js' %}"></script>
-    <script src="{% static 'js/template/richmessage/modal.js' %}"></script>
-    <script src="{% static 'js/template/richvideo/modal.js' %}"></script>
-    <script src="{% static 'js/template/cardtype/modal.js' %}"></script>
-    <script src="{% static 'js/tag/modal.js' %}"></script>
-    <script src="{% static 'js/dashboard/append.js' %}"></script>
-    <script src="{% static 'js/dashboard/action.js' %}"></script>
-    <script src="{% static 'js/dashboard/schedule.js' %}"></script>
-    <script src="{% static 'js/dashboard/data.js' %}"></script>
+    <script src="{% static_cache 'js/template/text/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/video/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/richmessage/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/richvideo/modal.js' %}"></script>
+    <script src="{% static_cache 'js/template/cardtype/modal.js' %}"></script>
+    <script src="{% static_cache 'js/tag/modal.js' %}"></script>
+    <script src="{% static_cache 'js/dashboard/append.js' %}"></script>
+    <script src="{% static_cache 'js/dashboard/action.js' %}"></script>
+    <script src="{% static_cache 'js/dashboard/schedule.js' %}"></script>
+    <script src="{% static_cache 'js/dashboard/data.js' %}"></script>
 {% endblock %}

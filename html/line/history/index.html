@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/line/history.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/line/history.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -496,9 +497,9 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/line/history.js' %}" type="module"></script>
-    <script src="{% static 'js/line/history/history.js' %}" type="module"></script>
-    <script src="{% static 'js/line/history/date.js' %}" type="module"></script>
-    <script src="{% static 'js/line/history/check.js' %}" type="module"></script>
-    <script src="{% static 'js/line/history/question.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/history.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/history/history.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/history/date.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/history/check.js' %}" type="module"></script>
+    <script src="{% static_cache 'js/line/history/question.js' %}" type="module"></script>
 {% endblock %}

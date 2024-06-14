@@ -1,9 +1,10 @@
 {% extends '../base.html' %}
 
 {% load static %}
+{% load original %}
 
 {% block css %}
-    <link href="{% static 'css/richmenu.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static_cache 'css/richmenu.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -104,7 +105,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/richmenu/preview.js' %}"></script>
-    <script src="{% static 'js/richmenu/append.js' %}"></script>
-    <script src="{% static 'js/richmenu/action.js' %}"></script>
+    <script src="{% static_cache 'js/richmenu/preview.js' %}"></script>
+    <script src="{% static_cache 'js/richmenu/append.js' %}"></script>
+    <script src="{% static_cache 'js/richmenu/action.js' %}"></script>
 {% endblock %}
