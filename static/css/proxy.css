@@ -412,3 +412,44 @@
     width: 3rem;
     height: 3rem;
 }
+
+/* PC用レスポンシブ */
+@media screen and (min-width: 768px) {
+
+.menu-area .menu-icon {
+    width: 5vw !important;
+    height: 5vw !important;
+}
+.menu-area .menu-bar {
+    width: 15vw !important;
+}
+
+.menu-area .menu-text-area {
+    justify-content: center !important;
+}
+
+.menu-area .menu-text {
+    width: 8vw !important;
+    font-size: 10px;
+    text-align: center !important;
+    margin: 0.25rem 4.7vw 0 !important;
+}
+
+}
+
+/* PC用レスポンシブ */
+@media screen and (min-width: 1280px) {
+
+.menu-area .menu-bar {
+    width: 30vw !important;
+}
+    
+.menu-area .menu-icon {
+    width: 4vw !important;
+    height: 4vw !important;
+}
+.menu-area .menu-text {
+    margin: 0.25rem 4.64vw 0 !important;
+}
+
+}
