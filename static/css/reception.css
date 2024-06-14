@@ -61,18 +61,18 @@
 
 .manager-table {
     border-radius: 5px;
+    border-collapse:separate;
 }
 .manager-table th,
 .manager-table td {
-    border: 1px solid rgba(60,60,67,0.18);
+    border: 0.5px solid rgba(60,60,67,0.18);
 }
 .manager-table th {
     background-color: #EBEBEB !important;
 }
-.manager-table th:before {
+.manager-table th::before{
     border-bottom: 0px;
 }
-
 .manager-table th.fix {
     color: #FFF;
     background-color: #5F6267 !important;
@@ -82,14 +82,22 @@
 }
 .manager-table th:nth-child(1) {
     left: 0;
-  }
+}
 .manager-table th:nth-child(2) {
     left: 150px; 
-  }
+}
 .manager-table th:nth-child(3) {
     left: 280px; 
-  }
-
+}
+.manager-table .fix-tr-area{
+    background-color: #FFF; 
+    border-right: 1px solid rgba(60, 60, 67, 0.18);
+}
+.manager-table .fix-td-area {
+    background-color: #FFF; 
+    z-index: 200;
+    position: sticky;
+}
 
 .manager-table .setting-button {
     width: 50px;

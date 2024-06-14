@@ -90,14 +90,14 @@
                                             {% for online_offline_item in online_offline_list %}
                                                 {% for manager_item in online_offline_item.manager %}
                                                     {% if forloop.first %}
-                                                        <tr style="background-color: #FFF; border-top: 3px solid rgba(60,60,67,0.36);">
-                                                            <td rowspan="{{ online_offline_item.manager|length }}" style="white-space: normal; word-break: break-word; position: sticky; left: 0; z-index: 200; background-color: #FFF;">
+                                                        <tr class="fix-tr-area">
+                                                            <td rowspan="{{ online_offline_item.manager|length }}" class="fix-td-area" style="white-space: normal; word-break: break-word; left: 0;">
                                                                 <span class="setting-name-{{ online_offline_item.display_id }}">{{ online_offline_item.name }}</span>
                                                             </td>
-                                                            <td style="position: sticky; left: 150px; z-index: 200; background-color: #FFF;">
+                                                            <td class="fix-td-area" style="left: 150px;">
                                                                 <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
                                                             </td>
-                                                            <td class="text-center" style="position: sticky;left: 280px; z-index: 200; background-color: #FFF;">
+                                                            <td class="fix-td-area text-center" style="left: 280px;">
                                                                 {% if manager_item.reception_count == 0 %}
                                                                     <span style="color: #FF0000">未設定</span>
                                                                 {% elif manager_item.reception_count < days_count %}
@@ -225,11 +225,11 @@
                                                             {% endfor %}
                                                         </tr>
                                                     {% else %}
-                                                        <tr style="background-color: #FFF;">
-                                                            <td style="position: sticky;left: 150px; z-index: 200; background-color: #FFF;">
+                                                        <tr class="fix-tr-area" style="background-color: #FFF;">
+                                                            <td class="fix-td-area" style="left: 150px">
                                                                 <span class="manager-name-{{ manager_item.display_id }}">{{ manager_item.profile.family_name }} {{ manager_item.profile.first_name }}</span>
                                                             </td>
-                                                            <td class="text-center" style="position: sticky;left: 280px; z-index: 200; background-color: #FFF;">
+                                                            <td class="fix-td-area text-center" style="left: 280px;">
                                                                 {% if manager_item.reception_count == 0 %}
                                                                     <span style="color: #FF0000">未設定</span>
                                                                 {% elif manager_item.reception_count < days_count %}
