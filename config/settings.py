@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     
     'maintenance_mode',
     'storages',
+    'django_static_md5url',
 ]
 
 MIDDLEWARE = [
