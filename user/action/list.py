@@ -74,7 +74,7 @@ def get_list(request, page):
     query.add(search_query, Q.AND)
 
     sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
-    flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('number').values("number")
+    flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('number').values("number")
     alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
     if search_tag:
         tag = UserHashTag.objects.filter(tag__display_id__in=search_tag).order_by('-created_at').values("tag__display_id")
