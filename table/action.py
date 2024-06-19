@@ -144,7 +144,7 @@ def mini_sort(request):
 def action_search(request, shop, company):
     if request.POST.get('text'):
         if TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).exists():
-            search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user).first()
+            search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).first()
             search.text = request.POST.get('text')
             search.save()
         else:
@@ -159,4 +159,25 @@ def action_search(request, shop, company):
         return search
     else:
         TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company).all().delete()
+        return None
+
+def action_item_search(request, shop, company, target):
+    if request.POST.get(target):
+        if TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, item=target).exists():
+            search = TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, item=target).first()
+            search.text = request.POST.get(target)
+            search.save()
+        else:
+            search = TableSearch.objects.create(
+                id = str(uuid.uuid4()),
+                url = request.POST.get('url'),
+                company = company,
+                shop = shop,
+                manager = request.user,
+                item = target,
+                text = request.POST.get(target),
+            )
+        return search
+    else:
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, item=target).all().delete()
         return None

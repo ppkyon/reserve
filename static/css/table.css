@@ -335,6 +335,21 @@
     color: #fff;
     box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 0.16);
 }
+.table-control-area .search-button {
+    width: 8.5rem;
+    height: 2rem;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    background-color: #001D4D;
+    border: none;
+    border-radius: 0.2rem;
+    transition: all .4s ease-in-out;
+}
+.table-control-area .search-button:hover {
+    color: #fff;
+    box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 0.16);
+}
 .table-control-area .search-input {
     width: 12rem;
     text-align: left;
@@ -344,6 +359,14 @@
 }
 .table-control-area .dropdown .dropdown-menu {
     max-height: 12rem;
+}
+.table-control-area .search-box {
+    color: #001D4D;
+    font-size: 12px;
+    background-color: #FFF;
+    border: 1px solid #001D4D;
+    border-radius: 20px;
+    line-height: 1.1;
 }
 
 .table-paging-area ul,

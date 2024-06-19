@@ -7,11 +7,11 @@ from django.views.generic.list import MultipleObjectMixin, MultipleObjectTemplat
 
 from sign.mixins import HeadLoginMixin, CompanyLoginMixin, ShopLoginMixin
 
-from flow.models import ShopFlow, UserFlow
+from flow.models import HeadFlow, ShopFlow, UserFlow
 from setting.models import SettingAlert
 from sign.models import AuthUser, CompanyProfile, ShopProfile, ManagerProfile, AuthLogin
 from table.models import TableNumber, TableSort, TableSearch
-from tag.models import UserHashTag
+from tag.models import ShopTag, UserHashTag
 from talk.models import TalkRead
 from user.models import LineUser, UserAlert
 
@@ -19,6 +19,7 @@ from dateutil.relativedelta import relativedelta
 
 import datetime
 import environ
+import re
 
 env = environ.Env()
 env.read_env('.env')
@@ -377,35 +378,79 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
     def get_queryset(self):
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         query = Q(shop=auth_login.shop)
+
+        search = TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).all()
+        search_query = Q()
+        search_tag = None
+        for search_item in search:
+            if search_item.item == 'name':
+                search_query.add(Q(**{'user_profile__name__icontains': search_item.text}), Q.AND)
+            elif search_item.item == 'kana':
+                search_query.add(Q(**{'user_profile__name_kana__icontains': search_item.text}), Q.AND)
+            elif search_item.item == 'phone':
+                search_query.add(Q(**{'user_profile__phone_number__icontains': search_item.text.replace('-', '')}), Q.AND)
+            elif search_item.item == 'email':
+                search_query.add(Q(**{'user_profile__email__icontains': search_item.text.replace('-', '')}), Q.AND)
+            elif search_item.item == 'age_from':
+                search_query.add(Q(**{'user_profile__age__gte': search_item.text}), Q.AND)
+            elif search_item.item == 'age_to':
+                search_query.add(Q(**{'user_profile__age__lte': search_item.text}), Q.AND)
+            elif search_item.item == 'date_from':
+                search_query.add(Q(**{'created_at__gte': search_item.text.replace('/', '-') + ' 00:00:00'}), Q.AND)
+            elif search_item.item == 'date_to':
+                search_query.add(Q(**{'created_at__lte': search_item.text.replace('/', '-') + ' 23:59:59'}), Q.AND)
+            elif search_item.item == 'id_from':
+                search_query.add(Q(**{'user_profile__atelle_id__gte': search_item.text}), Q.AND)
+            elif search_item.item == 'id_to':
+                search_query.add(Q(**{'user_profile__atelle_id__lte': search_item.text}), Q.AND)
+            elif search_item.item == 'sex':
+                search_query.add(Q(**{'user_profile__sex': search_item.text}), Q.AND)
+            elif search_item.item == 'member':
+                if search_item.text == '1':
+                    search_query.add(Q(**{'member_flg': True}), Q.AND)
+                elif search_item.text == '2':
+                    search_query.add(Q(**{'member_flg': False}), Q.AND)
+            elif search_item.item == 'tag':
+                search_tag = search_item.text.split(",")
+                search_query.add(Q(**{'all_tag__in': search_tag}), Q.AND)
+            elif search_item.item == 'flow':
+                search_flow = search_item.text.split(",")
+                flow_list = list()
+                for flow in HeadFlow.objects.order_by('-created_at').all():
+                    flow_tab_list = flow.description.split('→')
+                    for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
+                        if str(flow_tab_index) in search_flow:
+                            flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
+                            if not flow_chart_name in flow_list:
+                                flow_list.append(flow_chart_name)
+                search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.AND)
+        query.add(search_query, Q.AND)
         
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
+        flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('-number').values("number", "flow_tab__name")
+        alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+        if search_tag:
+            tag = UserHashTag.objects.filter(tag__display_id__in=search_tag).order_by('-created_at').values("tag__display_id")
+        else:
+            tag = UserHashTag.objects.filter(tag__display_id__in=list()).order_by('-created_at').values("tag__display_id")
         if sort:
             if sort.target == 'user_flow__number':
                 if sort.sort == 1:
-                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', 'active_flow', self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(flow.values('number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', 'active_flow', self.default_sort).all()
                 elif sort.sort == 2:
-                    sub = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=True).order_by('-number').values("number")
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(sub.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-active_flow', self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(flow.values('number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-active_flow', self.default_sort).all()
                 else:
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
             else:
                 if sort.sort == 1:
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', sort.target, self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', sort.target, self.default_sort).all()
                 elif sort.sort == 2:
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-'+sort.target, self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-'+sort.target, self.default_sort).all()
                 else:
-                    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
         else:
-            alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
-            query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
+            query_list = self.model.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
 
         for query_index, query_item in enumerate(query_list):
             query_list[query_index].active_flow = UserFlow.objects.filter(user=query_item, end_flg=False).order_by('flow_tab__number').first()
@@ -439,9 +484,66 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             count_end = number
         if count_end == 0:
             count_start = 0
+
+        search = {}
+        for search_item in TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).order_by('created_at').all():
+            search[search_item.item] = search_item.text
+            if search_item.item == 'age_from':
+                if 'age' in search:
+                    search['age'] = search_item.text + '歳' + search['age']
+                else:
+                    search['age'] = search_item.text + '歳' + ' ～ '
+            if search_item.item == 'age_to':
+                if 'age' in search:
+                    search['age'] = search['age'] + search_item.text + '歳'
+                else:
+                    search['age'] = ' ～ ' + search_item.text + '歳'
+            if search_item.item == 'date_from':
+                if 'date' in search:
+                    search['date'] = search_item.text + search['date']
+                else:
+                    search['date'] = search_item.text + ' ～ '
+            if search_item.item == 'date_to':
+                if 'date' in search:
+                    search['date'] = search['date'] + search_item.text
+                else:
+                    search['date'] = ' ～ ' + search_item.text
+            if search_item.item == 'id_from':
+                if 'id' in search:
+                    search['id'] = search_item.text + search['id']
+                else:
+                    search['id'] = search_item.text + ' ～ '
+            if search_item.item == 'id_to':
+                if 'id' in search:
+                    search['id'] = search['id'] + search_item.text
+                else:
+                    search['id'] = ' ～ ' + search_item.text
+            if search_item.item == 'tag':
+                for tag_index, tag_value in enumerate(search_item.text.split(",")):
+                    if tag_index == 0:
+                        if ShopTag.objects.filter(display_id=tag_value).exists():
+                            search['tag_all'] = ShopTag.objects.filter(display_id=tag_value).first().name
+                    else:
+                        if ShopTag.objects.filter(display_id=tag_value).exists():
+                            search['tag_all'] = search['tag_all'] + ', ' + ShopTag.objects.filter(display_id=tag_value).first().name
+            if search_item.item == 'flow':
+                context['flow_list'] = list()
+                for flow in HeadFlow.objects.order_by('-created_at').all():
+                    flow_tab_list = flow.description.split('→')
+                    for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
+                        if flow_tab_index != 0:
+                            flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
+                            if not flow_chart_name in context['flow_list']:
+                                context['flow_list'].append(flow_chart_name)
+                for flow_index, flow_value in enumerate(search_item.text.split(",")):
+                    if flow_index == 0:
+                        search['flow_all'] = context['flow_list'][int(flow_value)-1]
+                    else:
+                        search['flow_all'] = search['flow_all'] + ', ' + context['flow_list'][int(flow_value)-1]
         context['table'] = {
             'number': self.get_paginate_by(None),
             'sort': sort,
+            'search': search,
             'count': count,
             'count_start': count_start,
             'count_end': count_end,

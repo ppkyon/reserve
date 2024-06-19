@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'template',
     'user',
     
+    'mathfilters',
     'maintenance_mode',
     'storages',
 ]

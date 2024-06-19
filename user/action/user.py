@@ -7,6 +7,7 @@ from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowRichMenu, UserFlow, U
 from reserve.models import ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 from richmenu.models import UserRichMenu
 from sign.models import AuthLogin, ShopLine
+from table.models import TableSearch
 from tag.models import ShopTag, UserHashTag
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
 from user.models import LineUser, UserProfile
@@ -15,6 +16,7 @@ from common import create_code, send_textarea_replace, get_model_field
 from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
 from line.action.richmenu import create_rich_menu, delete_rich_menu
+from table.action import action_item_search
 from user.action.list import get_list
 
 import phonenumbers
@@ -73,6 +75,33 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def search(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    action_item_search(request, auth_login.shop, auth_login.company, 'name')
+    action_item_search(request, auth_login.shop, auth_login.company, 'kana')
+    action_item_search(request, auth_login.shop, auth_login.company, 'phone')
+    action_item_search(request, auth_login.shop, auth_login.company, 'email')
+    action_item_search(request, auth_login.shop, auth_login.company, 'age_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'age_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'date_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'date_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'id_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'id_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'sex')
+    action_item_search(request, auth_login.shop, auth_login.company, 'member')
+    action_item_search(request, auth_login.shop, auth_login.company, 'tag')
+    action_item_search(request, auth_login.shop, auth_login.company, 'flow')
+    return JsonResponse( list(get_list(request, 1)), safe=False )
+
+def delete_search(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    if request.POST.get('item') == 'age' or request.POST.get('item') == 'date' or request.POST.get('item') == 'id':
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')+'_from').all().delete()
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')+'_to').all().delete()
+    else:
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')).all().delete()
+    return JsonResponse( {}, safe=False )
 
 def paging(request):
     return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )

@@ -56,6 +56,12 @@
     font-size: 12px;
     background-color: #efefef;
 }
+.modal .modal-header .reset-button {
+    padding: 5px;
+    width: 200px;
+    font-size: 12px;
+    background-color: #efefef;
+}
 
 .up-modal {
     z-index: 1065;

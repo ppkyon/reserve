@@ -18,7 +18,157 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-control-area mb-2">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-start">
+                        <button type="button" class="btn search-button me-2 p-0" style="width: 6.5rem;" data-bs-toggle="modal" data-bs-target="#search_user_modal">
+                            <img src="{% static 'img/icon/search-down.svg' %}" height="15" width="15">
+                            <span class="ms-1">絞り込み</span>
+                        </button>
+                        <div style="width: 60rem;">
+                            <input type="hidden" id="delete_search_user_url" value="{% url 'user:delete_search' %}">
+                            {% for search_key, search_value in table.search.items %}
+                                {% if search_key == 'name' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">名前</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="name" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'kana' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">フリガナ</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="kana" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'phone' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">電話番号</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="phone" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'email' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">メールアドレス</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="email" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'age' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">年齢</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="age" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'date' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">登録日</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="date" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'id' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">お客様ID</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="id" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'sex' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">性別</p>
+                                                {% if search_value == '1' %}
+                                                    <p class="mb-0">男性</p>
+                                                {% elif search_value == '2' %}
+                                                    <p class="mb-0">女性</p>
+                                                {% endif %}
+                                            </div>
+                                            <button type="button" value="sex" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'member' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">会員登録</p>
+                                                {% if search_value == '1' %}
+                                                    <p class="mb-0">登録済み</p>
+                                                {% elif search_value == '2' %}
+                                                    <p class="mb-0">未登録</p>
+                                                {% endif %}
+                                            </div>
+                                            <button type="button" value="member" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'tag_all' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">タグ</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="tag" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% elif search_key == 'flow_all' %}
+                                    <label class="search-box text-center mb-1">
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-100 ps-3">
+                                                <p class="mb-0">ステータス</p>
+                                                <p class="mb-0">{{ search_value }}</p>
+                                            </div>
+                                            <button type="button" value="flow" class="btn delete-button ms-1 p-1">
+                                                <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                            </button>
+                                        </div>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                         {% include 'table/number.html' %}
                     </div>
                 </div>
@@ -133,7 +283,7 @@
                                     </td>
                                     <td class="p-1">
                                         {% for user_tag_item in object_item.tag %}
-                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ user_tag_item.name }}</label>
+                                            <label class="content-tag text-center p-1 mt-1 mb-1">{{ user_tag_item.tag.name }}</label>
                                         {% endfor %}
                                     </td>
                                     <td class="text-center p-1">
@@ -176,6 +326,7 @@
         {% include 'template/richvideo/modal/richvideo.html' %}
         {% include 'template/cardtype/modal/cardtype.html' %}
         {% include 'user/modal/user.html' %}
+        {% include 'user/modal/search.html' %}
         {% include 'user/offcanvas.html' %}
         {% include 'tag/modal/tag.html' %}
     </div>
@@ -190,6 +341,7 @@
     <script src="{% static_cache 'js/tag/modal.js' %}"></script>
     <script src="{% static_cache 'js/user/index/append.js' %}"></script>
     <script src="{% static_cache 'js/user/index/template.js' %}"></script>
+    <script src="{% static_cache 'js/user/index/search.js' %}"></script>
     <script src="{% static_cache 'js/user/index/action.js' %}"></script>
     <script src="{% static_cache 'js/user/index/data.js' %}"></script>
 {% endblock %}
