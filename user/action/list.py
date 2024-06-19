@@ -77,9 +77,9 @@ def get_list(request, page):
     flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('number').values("number")
     alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
     if search_tag:
-        tag = UserHashTag.objects.filter(tag__display_id__in=search_tag).order_by('-created_at').values("tag__display_id")
+        tag = UserHashTag.objects.filter(user=OuterRef('pk'), tag__display_id__in=search_tag).order_by('-created_at').values("tag__display_id")
     else:
-        tag = UserHashTag.objects.filter(tag__display_id__in=list()).order_by('-created_at').values("tag__display_id")
+        tag = UserHashTag.objects.filter(user=OuterRef('pk'), tag__display_id__in=list()).order_by('-created_at').values("tag__display_id")
     if sort:
         if sort.target == 'user_flow__number':
             if sort.sort == 1:
