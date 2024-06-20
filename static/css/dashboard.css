@@ -260,18 +260,12 @@
 }
 
 /* スマホ用レスポンシブ */
-@media screen and (max-width: 932px) {
+@media screen and (max-width: 1190px) {
     .mini-table-area-sp {
         overflow-x: auto;
     }
 
     .table-sp {
-        min-width: 55rem;
-    }
-    
-    .today-area .mini-table-area .table thead tr .date,
-    .new-area .mini-table-area .table thead tr .date,
-    .after-area .mini-table-area .table thead tr .date {
-        width: 160px !important;
+        min-width: 70rem;
     }
 }
