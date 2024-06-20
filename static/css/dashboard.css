@@ -260,7 +260,7 @@
 }
 
 /* スマホ用レスポンシブ */
-@media screen and (max-width: 1190px) {
+@media screen and (max-width: 1200px) {
     .mini-table-area-sp {
         overflow-x: auto;
     }
