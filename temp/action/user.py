@@ -4,10 +4,12 @@ from django.http import JsonResponse
 from flow.models import ShopFlowTab, UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
 from sign.models import AuthLogin
+from table.models import TableSearch
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile
 
 from common import create_code, get_model_field
+from table.action import action_item_search
 from temp.action.list import get_list
 
 import phonenumbers
@@ -65,6 +67,33 @@ def save(request):
 
 def save_check(request):
     return JsonResponse( {'check': True}, safe=False )
+
+def search(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    action_item_search(request, auth_login.shop, auth_login.company, 'name')
+    action_item_search(request, auth_login.shop, auth_login.company, 'kana')
+    action_item_search(request, auth_login.shop, auth_login.company, 'phone')
+    action_item_search(request, auth_login.shop, auth_login.company, 'email')
+    action_item_search(request, auth_login.shop, auth_login.company, 'age_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'age_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'date_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'date_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'id_from')
+    action_item_search(request, auth_login.shop, auth_login.company, 'id_to')
+    action_item_search(request, auth_login.shop, auth_login.company, 'sex')
+    action_item_search(request, auth_login.shop, auth_login.company, 'member')
+    action_item_search(request, auth_login.shop, auth_login.company, 'tag')
+    action_item_search(request, auth_login.shop, auth_login.company, 'flow')
+    return JsonResponse( list(get_list(request, 1)), safe=False )
+
+def delete_search(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    if request.POST.get('item') == 'age' or request.POST.get('item') == 'date' or request.POST.get('item') == 'id':
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')+'_from').all().delete()
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')+'_to').all().delete()
+    else:
+        TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, item=request.POST.get('item')).all().delete()
+    return JsonResponse( {}, safe=False )
 
 def paging(request):
     return JsonResponse( list(get_list(request, int(request.POST.get('page')))), safe=False )

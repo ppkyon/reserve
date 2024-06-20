@@ -74,8 +74,8 @@ def get_list(request, page):
     query.add(search_query, Q.AND)
 
     sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
-    flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('number').values("number")
-    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('number').values("number")
+    flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('flow_tab__number').values("flow_tab__number", "flow_tab__name")
+    alert = UserAlert.objects.filter(user=OuterRef('pk')).order_by('-status').values("status")
     if search_tag:
         tag = UserHashTag.objects.filter(user=OuterRef('pk'), tag__display_id__in=search_tag).order_by('-created_at').values("tag__display_id")
     else:
@@ -83,20 +83,20 @@ def get_list(request, page):
     if sort:
         if sort.target == 'user_flow__number':
             if sort.sort == 1:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(flow.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', 'active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', 'active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             elif sort.sort == 2:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow=Subquery(flow.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             else:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
         else:
             if sort.sort == 1:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             elif sort.sort == 2:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-'+sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-'+sort.target, '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             else:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
     else:
-        user_list = LineUser.objects.annotate(alert=Subquery(alert.values('id')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+        user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
     total = LineUser.objects.annotate(active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).distinct().count()
 
     for user_index, user_item in enumerate(user_list):

@@ -3,13 +3,14 @@ from django.shortcuts import redirect
 from view import TempListView, TempView
 
 from question.models import UserQuestion
-from flow.models import UserFlow, UserFlowSchedule
+from flow.models import HeadFlow, UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu
 from sign.models import AuthLogin
-from tag.models import UserHashTag
+from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile, UserAlert
 
 import phonenumbers
+import re
 
 class IndexView(TempListView):
     template_name = 'temp/index.html'
@@ -19,8 +20,29 @@ class IndexView(TempListView):
     default_sort = '-created_at'
 
     def get_context_data(self, *args, **kwargs):
+        auth_login = AuthLogin.objects.filter(user=self.request.user).first()
         context = super().get_context_data(*args, **kwargs)
         context['age_list'] = [i for i in range(101)]
+        context['tag_list'] = ShopTag.objects.filter(genre__shop=auth_login.shop).all()
+        for tag_index, tag_item in enumerate(context['tag_list']):
+            if 'tag' in context['table']['search'] and str(tag_item.display_id) in context['table']['search']['tag']:
+                context['tag_list'][tag_index].check = True
+            else:
+                context['tag_list'][tag_index].check = False
+        context['flow_list'] = list()
+        for flow in HeadFlow.objects.order_by('-created_at').all():
+            flow_tab_list = flow.description.split('→')
+            for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
+                if flow_tab_index != 0:
+                    flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
+                    if not flow_chart_name in context['flow_list']:
+                        context['flow_list'].append(flow_chart_name)
+        context['flow_check_list'] = {}
+        for flow_index, flow_item in enumerate(context['flow_list']):
+            if 'flow' in context['table']['search'] and str(flow_index+1) in context['table']['search']['flow']:
+                context['flow_check_list'][flow_item] = True
+            else:
+                context['flow_check_list'][flow_item] = False
         return context
 
 class DetailView(TempView):
