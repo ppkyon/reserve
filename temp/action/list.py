@@ -83,9 +83,9 @@ def get_list(request, page):
     if sort:
         if sort.target == 'user_flow__number':
             if sort.sort == 1:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', 'active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', 'status', 'active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             elif sort.sort == 2:
-                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
+                user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-status', '-active_flow', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
             else:
                 user_list = LineUser.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query).order_by('alert', '-created_at').values(*get_model_field(LineUser)).all()[start:end]
         else:
