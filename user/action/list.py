@@ -27,9 +27,9 @@ def get_list(request, page):
     query.add(Q(proxy_flg=False), Q.AND)
 
     search = TableSearch.objects.filter(url=url, company=auth_login.company, shop=auth_login.shop, manager=request.user).all()
-    search_query = Q()
     search_tag = None
     for search_item in search:
+        search_query = Q()
         if search_item.item == 'name':
             search_query.add(Q(**{'user_profile__name__icontains': search_item.text}), Q.AND)
         elif search_item.item == 'kana':
@@ -63,15 +63,24 @@ def get_list(request, page):
         elif search_item.item == 'flow':
             search_flow = search_item.text.split(",")
             flow_list = list()
+            block_flg = False
             for flow in HeadFlow.objects.order_by('-created_at').all():
                 flow_tab_list = flow.description.split('→')
                 for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
-                    if str(flow_tab_index) in search_flow:
+                    if '0' in search_flow:
+                        if not 'ブロック' in flow_list:
+                            flow_list.append('ブロック')
+                        block_flg = True
+                    elif str(flow_tab_index) in search_flow:
                         flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
                         if not flow_chart_name in flow_list:
                             flow_list.append(flow_chart_name)
-            search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.AND)
-    query.add(search_query, Q.AND)
+            search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.OR)
+            if block_flg:
+                search_query.add(Q(**{'status': 2}), Q.OR)
+            else:
+                search_query.add(Q(**{'status': 1}), Q.OR)
+        query.add(search_query, Q.AND)
 
     sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
     flow = UserFlow.objects.filter(user=OuterRef('pk'), end_flg=False).order_by('flow_tab__number').values("flow_tab__number", "flow_tab__name")

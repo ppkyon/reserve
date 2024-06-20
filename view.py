@@ -380,9 +380,9 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
         query = Q(shop=auth_login.shop)
 
         search = TableSearch.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).all()
-        search_query = Q()
         search_tag = None
         for search_item in search:
+            search_query = Q()
             if search_item.item == 'name':
                 search_query.add(Q(**{'user_profile__name__icontains': search_item.text}), Q.AND)
             elif search_item.item == 'kana':
@@ -416,15 +416,24 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             elif search_item.item == 'flow':
                 search_flow = search_item.text.split(",")
                 flow_list = list()
+                block_flg = False
                 for flow in HeadFlow.objects.order_by('-created_at').all():
                     flow_tab_list = flow.description.split('→')
                     for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
-                        if str(flow_tab_index) in search_flow:
+                        if '0' in search_flow:
+                            if not 'ブロック' in flow_list:
+                                flow_list.append('ブロック')
+                            block_flg = True
+                        elif str(flow_tab_index) in search_flow:
                             flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
                             if not flow_chart_name in flow_list:
                                 flow_list.append(flow_chart_name)
-                search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.AND)
-        query.add(search_query, Q.AND)
+                search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.OR)
+                if block_flg:
+                    search_query.add(Q(**{'status': 2}), Q.OR)
+                else:
+                    search_query.add(Q(**{'status': 1}), Q.OR)
+            query.add(search_query, Q.AND)
         
         query_list = list()
         sort = TableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user).first()
@@ -531,15 +540,18 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
                 for flow in HeadFlow.objects.order_by('-created_at').all():
                     flow_tab_list = flow.description.split('→')
                     for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
-                        if flow_tab_index != 0:
+                        if flow_tab_index == 0:
+                            if not 'ブロック' in context['flow_list']:
+                                context['flow_list'].append('ブロック')
+                        else:
                             flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
                             if not flow_chart_name in context['flow_list']:
                                 context['flow_list'].append(flow_chart_name)
                 for flow_index, flow_value in enumerate(search_item.text.split(",")):
                     if flow_index == 0:
-                        search['flow_all'] = context['flow_list'][int(flow_value)-1]
+                        search['flow_all'] = context['flow_list'][int(flow_value)]
                     else:
-                        search['flow_all'] = search['flow_all'] + ', ' + context['flow_list'][int(flow_value)-1]
+                        search['flow_all'] = search['flow_all'] + ', ' + context['flow_list'][int(flow_value)]
         context['table'] = {
             'number': self.get_paginate_by(None),
             'sort': sort,

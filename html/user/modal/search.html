@@ -175,15 +175,27 @@
                                             {% if forloop.counter|mod:3 == 1 %}
                                                 <div class="d-flex align-items-center w-100 mb-2">
                                             {% endif %}
-                                            <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
-                                                <label for="flow_{{ forloop.counter }}" class="mb-0">{{ flow_key }}</label>
-                                                {% if flow_value %}
-                                                    <input type="checkbox" id="flow_{{ forloop.counter }}" name="flow" value="{{ forloop.counter }}" class="input-check" checked>
-                                                {% else %}
-                                                    <input type="checkbox" id="flow_{{ forloop.counter }}" name="flow" value="{{ forloop.counter }}" class="input-check">
-                                                {% endif %}
-                                                <label for="flow_{{ forloop.counter }}" class="input-check-mark mb-0"></label>
-                                            </div>
+                                            {% if flow_key == 'ブロック' %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
+                                                    <label for="flow_0" class="mb-0">{{ flow_key }}</label>
+                                                    {% if flow_value %}
+                                                        <input type="checkbox" id="flow_0" name="flow" value="0" class="input-check" checked>
+                                                    {% else %}
+                                                        <input type="checkbox" id="flow_0" name="flow" value="0" class="input-check">
+                                                    {% endif %}
+                                                    <label for="flow_0" class="input-check-mark mb-0"></label>
+                                                </div>
+                                            {% else %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
+                                                    <label for="flow_{{ forloop.counter }}" class="mb-0">{{ flow_key }}</label>
+                                                    {% if flow_value %}
+                                                        <input type="checkbox" id="flow_{{ forloop.counter }}" name="flow" value="{{ forloop.counter }}" class="input-check" checked>
+                                                    {% else %}
+                                                        <input type="checkbox" id="flow_{{ forloop.counter }}" name="flow" value="{{ forloop.counter }}" class="input-check">
+                                                    {% endif %}
+                                                    <label for="flow_{{ forloop.counter }}" class="input-check-mark mb-0"></label>
+                                                </div>
+                                            {% endif %}
                                             {% if forloop.counter|mod:3 == 1 and forloop.last %}
                                                 <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
                                                 <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>

@@ -37,12 +37,17 @@ class IndexView(UserListView):
                     flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
                     if not flow_chart_name in context['flow_list']:
                         context['flow_list'].append(flow_chart_name)
+        context['flow_list'].append('ブロック')
         context['flow_check_list'] = {}
         for flow_index, flow_item in enumerate(context['flow_list']):
             if 'flow' in context['table']['search'] and str(flow_index+1) in context['table']['search']['flow']:
                 context['flow_check_list'][flow_item] = True
             else:
                 context['flow_check_list'][flow_item] = False
+        if 'flow' in context['table']['search'] and str(0) in context['table']['search']['flow']:
+            context['flow_check_list']['ブロック'] = True
+        else:
+            context['flow_check_list']['ブロック'] = False
         return context
 
 class DetailView(UserView):
