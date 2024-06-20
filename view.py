@@ -439,7 +439,7 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
                 if sort.sort == 1:
                     query_list = self.model.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', 'active_flow', self.default_sort).all()
                 elif sort.sort == 2:
-                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', '-delete_flg', '-active_flow', self.default_sort).all()
+                    query_list = self.model.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow=Subquery(flow.values('flow_tab__number')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', 'delete_flg', '-active_flow', self.default_sort).all()
                 else:
                     query_list = self.model.objects.annotate(alert=Subquery(alert.values('status')[:1]), active_flow_name=Subquery(flow.values('flow_tab__name')[:1]), all_tag=Subquery(tag.values('tag__display_id')[:1])).filter(query, Q(proxy_flg=False)).order_by('alert', self.default_sort).all()
             else:
