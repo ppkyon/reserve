@@ -431,8 +431,6 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
                 search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.OR)
                 if block_flg:
                     search_query.add(Q(**{'status': 2}), Q.OR)
-                else:
-                    search_query.add(Q(**{'status': 1}), Q.OR)
             query.add(search_query, Q.AND)
         
         query_list = list()

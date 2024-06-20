@@ -78,8 +78,6 @@ def get_list(request, page):
             search_query.add(Q(**{'active_flow_name__in': flow_list}), Q.OR)
             if block_flg:
                 search_query.add(Q(**{'status': 2}), Q.OR)
-            else:
-                search_query.add(Q(**{'status': 1}), Q.OR)
         query.add(search_query, Q.AND)
 
     sort = TableSort.objects.filter(url=url, company=auth_login.shop.company, shop=auth_login.shop, manager=request.user).first()
