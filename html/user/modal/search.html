@@ -64,9 +64,37 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="input-label ms-auto me-5 mb-0">年齢</label>
-                                    <input type="text" name="age_from" value="{{ table.search.age_from }}" class="input-text ps-2 pe-2" style="width: 33.75%;">
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 33.75%;">
+                                        <input type="text" name="age_from" value="{{ table.search.age_from }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="{{ table.search.age_from }}">
+                                        <div class="dropdown-menu">
+                                            {% for age_item in age_list %}
+                                                {% if age_item >= 15 %}
+                                                    {% if age_item == 15 %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center">{{ age_item }}歳</button>
+                                                    {% else %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ age_item }}歳</button>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                     <span class="text-center" style="width: 5%;">～</span>
-                                    <input type="text" name="age_to" value="{{ table.search.age_to }}" class="input-text ps-2 pe-2" style="width: 33.75%;">
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 33.75%;">
+                                        <input type="text" name="age_to" value="{{ table.search.age_to }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="{{ table.search.age_to }}">
+                                        <div class="dropdown-menu">
+                                            {% for age_item in age_list %}
+                                                {% if age_item >= 15 %}
+                                                    {% if age_item == 15 %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center">{{ age_item }}歳</button>
+                                                    {% else %}
+                                                        <button type="button" value="{{ age_item }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ age_item }}歳</button>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

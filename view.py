@@ -392,9 +392,9 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             elif search_item.item == 'email':
                 search_query.add(Q(**{'user_profile__email__icontains': search_item.text.replace('-', '')}), Q.AND)
             elif search_item.item == 'age_from':
-                search_query.add(Q(**{'user_profile__age__gte': search_item.text}), Q.AND)
+                search_query.add(Q(**{'user_profile__age__gte': search_item.text.replace('歳', '')}), Q.AND)
             elif search_item.item == 'age_to':
-                search_query.add(Q(**{'user_profile__age__lte': search_item.text}), Q.AND)
+                search_query.add(Q(**{'user_profile__age__lte': search_item.text.replace('歳', '')}), Q.AND)
             elif search_item.item == 'date_from':
                 search_query.add(Q(**{'created_at__gte': search_item.text.replace('/', '-') + ' 00:00:00'}), Q.AND)
             elif search_item.item == 'date_to':
@@ -490,14 +490,14 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             search[search_item.item] = search_item.text
             if search_item.item == 'age_from':
                 if 'age' in search:
-                    search['age'] = search_item.text + '歳' + search['age']
+                    search['age'] = search_item.text + search['age']
                 else:
-                    search['age'] = search_item.text + '歳' + ' ～ '
+                    search['age'] = search_item.text + ' ～ '
             if search_item.item == 'age_to':
                 if 'age' in search:
-                    search['age'] = search['age'] + search_item.text + '歳'
+                    search['age'] = search['age'] + search_item.text
                 else:
-                    search['age'] = ' ～ ' + search_item.text + '歳'
+                    search['age'] = ' ～ ' + search_item.text
             if search_item.item == 'date_from':
                 if 'date' in search:
                     search['date'] = search_item.text + search['date']

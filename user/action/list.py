@@ -39,9 +39,9 @@ def get_list(request, page):
         elif search_item.item == 'email':
             search_query.add(Q(**{'user_profile__email__icontains': search_item.text.replace('-', '')}), Q.AND)
         elif search_item.item == 'age_from':
-            search_query.add(Q(**{'user_profile__age__gte': search_item.text}), Q.AND)
+            search_query.add(Q(**{'user_profile__age__gte': search_item.text.replace('歳', '')}), Q.AND)
         elif search_item.item == 'age_to':
-            search_query.add(Q(**{'user_profile__age__lte': search_item.text}), Q.AND)
+            search_query.add(Q(**{'user_profile__age__lte': search_item.text.replace('歳', '')}), Q.AND)
         elif search_item.item == 'date_from':
             search_query.add(Q(**{'created_at__gte': search_item.text.replace('/', '-') + ' 00:00:00'}), Q.AND)
         elif search_item.item == 'date_to':
