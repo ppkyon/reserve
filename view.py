@@ -400,9 +400,9 @@ class UserBaseLisView(MultipleObjectMixin, ShopBaseView):
             elif search_item.item == 'date_to':
                 search_query.add(Q(**{'created_at__lte': search_item.text.replace('/', '-') + ' 23:59:59'}), Q.AND)
             elif search_item.item == 'id_from':
-                search_query.add(Q(**{'user_profile__atelle_id__gte': search_item.text}), Q.AND)
+                search_query.add(Q(**{'user_profile__atelle_id__gte': search_item.text.replace('#', '')}), Q.AND)
             elif search_item.item == 'id_to':
-                search_query.add(Q(**{'user_profile__atelle_id__lte': search_item.text}), Q.AND)
+                search_query.add(Q(**{'user_profile__atelle_id__lte': search_item.text.replace('#', '')}), Q.AND)
             elif search_item.item == 'sex':
                 search_query.add(Q(**{'user_profile__sex': search_item.text}), Q.AND)
             elif search_item.item == 'member':
