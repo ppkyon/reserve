@@ -2,7 +2,7 @@
 {% load mathfilters %}
 
 <div id="search_user_modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header d-block ps-4 pe-4">
                 <div class="row">
@@ -19,52 +19,44 @@
             </div>
             <div class="modal-body d-block ps-4 pe-4">
                 <form id="search_user_form" action="{% url 'temp:search' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">お客様氏名</label>
-                                    <input type="text" name="name" value="{{ table.search.name }}" class="input-text ps-2 pe-2" style="width: 72.5%;">
+                                    <label class="input-label me-3 mb-0">お客様氏名</label>
+                                    <input type="text" name="name" value="{{ table.search.name }}" class="input-text ps-2 pe-2" style="width: 60%;">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label me-3 mb-0">フリガナ</label>
+                                    <input type="text" name="kana" value="{{ table.search.kana }}" class="input-text ps-2 pe-2" style="width: 60%;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">フリガナ</label>
-                                    <input type="text" name="kana" value="{{ table.search.kana }}" class="input-text ps-2 pe-2" style="width: 72.5%;">
+                                    <label class="input-label me-3 mb-0">電話番号</label>
+                                    <input type="text" name="phone" value="{{ table.search.phone }}" class="input-text ps-2 pe-2" style="width: 60%;">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label me-3 mb-0">メールアドレス</label>
+                                    <input type="text" name="email" value="{{ table.search.email }}" class="input-text ps-2 pe-2" style="width: 60%;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">電話番号</label>
-                                    <input type="text" name="phone" value="{{ table.search.phone }}" class="input-text ps-2 pe-2" style="width: 72.5%;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content ps-4 pe-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">メールアドレス</label>
-                                    <input type="text" name="email" value="{{ table.search.email }}" class="input-text ps-2 pe-2" style="width: 72.5%;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content ps-4 pe-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">年齢</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 33.75%;">
+                            <div class="col-10">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-0" style="width: 20.75%;">年齢</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 34.5%;">
                                         <input type="text" name="age_from" value="{{ table.search.age_from }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         <input type="hidden" value="{{ table.search.age_from }}">
                                         <div class="dropdown-menu">
@@ -76,8 +68,8 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-                                    <span class="text-center" style="width: 5%;">～</span>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 33.75%;">
+                                    <span class="text-center" style="width: 5.25%;">～</span>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 34.5%;">
                                         <input type="text" name="age_to" value="{{ table.search.age_to }}" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         <input type="hidden" value="{{ table.search.age_to }}">
                                         <div class="dropdown-menu">
@@ -93,36 +85,36 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">登録日</label>
-                                    <input type="text" name="date_from" value="{{ table.search.date_from }}" class="input-text input-date ps-2 pe-2" style="width: 33.75%;">
-                                    <span class="text-center" style="width: 5%;">～</span>
-                                    <input type="text" name="date_to" value="{{ table.search.date_to }}" class="input-text input-date ps-2 pe-2" style="width: 33.75%;">
+                            <div class="col-10">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-0" style="width: 20.75%;">登録日</label>
+                                    <input type="text" name="date_from" value="{{ table.search.date_from }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
+                                    <span class="text-center" style="width: 5.25%;">～</span>
+                                    <input type="text" name="date_to" value="{{ table.search.date_to }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">お客様ID</label>
-                                    <input type="text" name="id_from" value="{{ table.search.id_from }}" class="input-text ps-2 pe-2" style="width: 33.75%;">
-                                    <span class="text-center" style="width: 5%;">～</span>
-                                    <input type="text" name="id_to" value="{{ table.search.id_to }}" class="input-text ps-2 pe-2" style="width: 33.75%;">
+                            <div class="col-10">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-0" style="width: 20.75%;">お客様ID</label>
+                                    <input type="text" name="id_from" value="{{ table.search.id_from }}" class="input-text ps-2 pe-2" style="width: 34.5%;">
+                                    <span class="text-center" style="width: 5.25%;">～</span>
+                                    <input type="text" name="id_to" value="{{ table.search.id_to }}" class="input-text ps-2 pe-2" style="width: 34.5%;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-0">性別</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 72.5%;">
+                                    <label class="input-label me-3 mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
                                         {% if table.search.sex == '1' %}
                                             <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         {% elif table.search.sex == '2' %}
@@ -139,14 +131,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="content ps-4 pe-4">
-                        <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <label class="input-label ms-auto me-5 mb-0">会員登録</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 72.5%;">
+                                    <label class="input-label me-3 mb-0">会員登録</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
                                         {% if table.search.member == '1' %}
                                             <input type="text" name="member" value="登録済み" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         {% elif table.search.member == '2' %}
@@ -165,18 +153,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content ps-4 pe-4">
+                    <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label ms-auto me-5 mb-auto">ステータス</label>
-                                    <div style="width: 72.5%;">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-auto" style="width: 18%;">ステータス</label>
+                                    <div style="width: 82%;">
                                         {% for flow_key, flow_value in flow_check_list.items %}
-                                            {% if forloop.counter|mod:3 == 1 %}
+                                            {% if forloop.counter|mod:4 == 1 %}
                                                 <div class="d-flex align-items-center w-100 mb-2">
                                             {% endif %}
                                             {% if flow_key == 'ブロック' %}
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
                                                     <label for="flow_0" class="mb-0">{{ flow_key }}</label>
                                                     {% if flow_value %}
                                                         <input type="checkbox" id="flow_0" name="flow" value="0" class="input-check" checked>
@@ -186,7 +174,7 @@
                                                     <label for="flow_0" class="input-check-mark mb-0"></label>
                                                 </div>
                                             {% else %}
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
                                                     <label for="flow_{{ forloop.counter }}" class="mb-0">{{ flow_key }}</label>
                                                     {% if flow_value %}
                                                         <input type="checkbox" id="flow_{{ forloop.counter }}" name="flow" value="{{ forloop.counter }}" class="input-check" checked>
@@ -196,14 +184,19 @@
                                                     <label for="flow_{{ forloop.counter }}" class="input-check-mark mb-0"></label>
                                                 </div>
                                             {% endif %}
-                                            {% if forloop.counter|mod:3 == 1 and forloop.last %}
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
+                                            {% if forloop.counter|mod:4 == 1 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                             {% endif %}
-                                            {% if forloop.counter|mod:3 == 2 and forloop.last %}
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
+                                            {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                             {% endif %}
-                                            {% if forloop.counter|mod:3 == 0 or forloop.last %}
+                                            {% if forloop.counter|mod:4 == 3 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 0 or forloop.last %}
                                                 </div>
                                             {% endif %}
                                         {% endfor %}
@@ -213,17 +206,17 @@
                         </div>
                     </div>
                     {% if tag_list|length > 0 %}
-                        <div class="content ps-4 pe-4">
+                        <div class="content ps-3 pe-3">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="d-flex align-items-center justify-content-start mb-3">
-                                        <label class="input-label ms-auto me-5 mb-auto">タグ</label>
-                                        <div style="width: 72.5%;">
+                                    <div class="d-flex align-items-center justify-content-start">
+                                        <label class="input-label me-3 mb-auto" style="width: 18%;">タグ</label>
+                                        <div style="width: 82%;">
                                             {% for tag_item in tag_list %}
-                                                {% if forloop.counter|mod:3 == 1 %}
+                                                {% if forloop.counter|mod:4 == 1 %}
                                                     <div class="d-flex align-items-center w-100 mb-2">
                                                 {% endif %}
-                                                <div class="input-check-wrap ps-4 me-3" style="width: 33%;">
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
                                                     <label for="tag_{{ tag_item.display_id }}" class="mb-0">{{ tag_item.name }}</label>
                                                     {% if tag_item.check %}
                                                         <input type="checkbox" id="tag_{{ tag_item.display_id }}" name="tag" value="{{ tag_item.display_id }}" class="input-check" checked>
@@ -232,14 +225,18 @@
                                                     {% endif %}
                                                     <label for="tag_{{ tag_item.display_id }}" class="input-check-mark mb-0"></label>
                                                 </div>
-                                                {% if forloop.counter|mod:3 == 1 and forloop.last %}
-                                                    <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
-                                                    <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
+                                                {% if forloop.counter|mod:4 == 1 and forloop.last %}
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                                 {% endif %}
-                                                {% if forloop.counter|mod:3 == 2 and forloop.last %}
-                                                    <div class="input-check-wrap ps-4 me-3" style="width: 33%;"></div>
+                                                {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                                 {% endif %}
-                                                {% if forloop.counter|mod:3 == 0 or forloop.last %}
+                                                {% if forloop.counter|mod:4 == 3 and forloop.last %}
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                {% endif %}
+                                                {% if forloop.counter|mod:4 == 0 or forloop.last %}
                                                     </div>
                                                 {% endif %}
                                             {% endfor %}
@@ -250,7 +247,9 @@
                         </div>
                     {% endif %}
                 </form>
-                <div class="row text-center mt-4">
+            </div>
+            <div class="modal-footer d-block ps-4 pe-4">
+                <div class="row text-center">
                     <div class="col-4 offset-2">
                         <button type="button" class="btn yes-button" style="background-color: #002247;">絞り込み</button>
                     </div>
