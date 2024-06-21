@@ -31,9 +31,7 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';
         html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="d-flex align-items-center content-title mb-0">';
-        html += '<span>' + name + '</span>';
-        html += '</p>';
+        html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
         html += '</td>';
         html += '<td>';
@@ -48,7 +46,7 @@ function append_mini_table_area(target, data) {
         html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
-            html += '<p class="content-title mb-0">未登録</p>';
+            html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
         } else {
             html += '<p class="content-title mb-0">登録済み</p>';
         }
@@ -114,9 +112,7 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';
         html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="d-flex align-items-center content-title mb-0">';
-        html += '<span>' + name + '</span>';
-        html += '</p>';
+        html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
         html += '</td>';
         html += '<td>';
@@ -131,7 +127,7 @@ function append_mini_table_area(target, data) {
         html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
-            html += '<p class="content-title mb-0">未登録</p>';
+            html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
         } else {
             html += '<p class="content-title mb-0">登録済み</p>';
         }
@@ -197,9 +193,7 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';
         html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="d-flex align-items-center content-title mb-0">';
-        html += '<span>' + name + '</span>';
-        html += '</p>';
+        html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
         html += '</td>';
         html += '<td>';
@@ -214,7 +208,7 @@ function append_mini_table_area(target, data) {
         html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
-            html += '<p class="content-title mb-0">未登録</p>';
+            html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
         } else {
             html += '<p class="content-title mb-0">登録済み</p>';
         }
@@ -277,9 +271,7 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';
         html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="d-flex align-items-center content-title mb-0">';
-        html += '<span>' + name + '</span>';
-        html += '</p>';
+        html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
         html += '</td>';
         html += '<td>';
