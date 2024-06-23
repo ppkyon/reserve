@@ -1,14 +1,15 @@
 from django.db.models import Q
 
-from flow.models import UserFlow, UserFlowSchedule
+from flow.models import HeadFlow, UserFlow, UserFlowSchedule
 from reserve.models import ReserveOfflineSetting, ReserveOnlineSetting
 from sign.models import AuthLogin
-from table.models import MiniTableNumber, MiniTableSort
+from table.models import MiniTableSearch, MiniTableNumber, MiniTableSort
 from user.models import LineUser, UserProfile
 
 from common import get_model_field
 
 import datetime
+import re
 
 def get_list(request, page):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
@@ -30,45 +31,46 @@ def get_list(request, page):
     
     data = list()
     if request.POST.get('item') == 'today':
+        query = get_query_data(request, auth_login.company, auth_login.shop, 'today')
         sort = MiniTableSort.objects.filter(url='/dashboard/', company=auth_login.company, shop=auth_login.shop, manager=request.user, page='dashboard', item='today').first()
         if sort:
             if sort.target == 'name':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'date':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'setting':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'line':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             else:
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         else:
-            data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+            data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -86,45 +88,46 @@ def get_list(request, page):
                     data[data_index]['number'] = start + data_index + 1
                     data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date=now.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'new':
+        query = get_query_data(request, auth_login.company, auth_login.shop, 'new')
         sort = MiniTableSort.objects.filter(url='/dashboard/', company=auth_login.company, shop=auth_login.shop, manager=request.user, page='dashboard', item='new').first()
         if sort:
             if sort.target == 'name':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'date':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'setting':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'line':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             else:
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         else:
-            data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+            data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -146,45 +149,46 @@ def get_list(request, page):
                     data[data_index]['number'] = start + data_index + 1
                     data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'after':
+        query = get_query_data(request, auth_login.company, auth_login.shop, 'after')
         sort = MiniTableSort.objects.filter(url='/dashboard/', company=auth_login.company, shop=auth_login.shop, manager=request.user, page='dashboard', item='after').first()
         if sort:
             if sort.target == 'name':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'date':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'setting':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             elif sort.target == 'line':
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
             else:
                 if sort.sort == 1:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 elif sort.sort == 2:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
                 else:
-                    data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+                    data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         else:
-            data = list(UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
+            data = list(UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', '-created_at').values(*get_model_field(UserFlowSchedule)).distinct().all()[start:end])
         if len(data) > 0:
             for data_index, data_item in enumerate(data):
                 if data_item['date']:
@@ -226,6 +230,65 @@ def get_list(request, page):
                 data[data_index]['number'] = start + data_index + 1
                 data[data_index]['total'] = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').values(*get_model_field(LineUser)).distinct().count()
     return data
+
+
+
+def get_query_data(request, company, shop, page):
+    query = Q()
+    search = MiniTableSearch.objects.filter(url='/dashboard/', company=company, shop=shop, manager=request.user, page=page).all()
+    for search_item in search:
+        search_query = Q()
+        if search_item.item == 'name':
+            search_query.add(Q(**{'flow__user__user_profile__name__icontains': search_item.text}), Q.AND)
+        elif search_item.item == 'kana':
+            search_query.add(Q(**{'flow__user__user_profile__name_kana__icontains': search_item.text}), Q.AND)
+        elif search_item.item == 'phone':
+            search_query.add(Q(**{'flow__user__user_profile__phone_number__icontains': search_item.text.replace('-', '')}), Q.AND)
+        elif search_item.item == 'email':
+            search_query.add(Q(**{'flow__user__user_profile__email__icontains': search_item.text.replace('-', '')}), Q.AND)
+        elif search_item.item == 'age_from':
+            search_query.add(Q(**{'flow__user__user_profile__age__gte': search_item.text.replace('歳', '')}), Q.AND)
+        elif search_item.item == 'age_to':
+            search_query.add(Q(**{'flow__user__user_profile__age__lte': search_item.text.replace('歳', '')}), Q.AND)
+        elif search_item.item == 'time_from':
+            search_query.add(Q(**{'time__gte': search_item.text}), Q.AND)
+        elif search_item.item == 'time_to':
+            search_query.add(Q(**{'time__lte': search_item.text}), Q.AND)
+        elif search_item.item == 'datetime_from':
+            date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d %H:%M')
+            search_query.add(Q(**{'date__gte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
+            search_query.add(Q(**{'time__gte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
+        elif search_item.item == 'datetime_to':
+            date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d %H:%M')
+            search_query.add(Q(**{'date__lte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
+            search_query.add(Q(**{'time__lte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
+        elif search_item.item == 'sex':
+            search_query.add(Q(**{'flow__user__user_profile__sex': search_item.text}), Q.AND)
+        elif search_item.item == 'member':
+            if search_item.text == '1':
+                search_query.add(Q(**{'flow__user__member_flg': True}), Q.AND)
+            elif search_item.text == '2':
+                search_query.add(Q(**{'flow__user__member_flg': False}), Q.AND)
+        elif search_item.item == 'flow':
+            search_flow = search_item.text.split(",")
+            flow_list = list()
+            for flow in HeadFlow.objects.order_by('-created_at').all():
+                flow_tab_list = flow.description.split('→')
+                for flow_tab_index, flow_tab_item in enumerate(flow_tab_list):
+                    if str(flow_tab_index) in search_flow:
+                        flow_chart_name = re.sub('\(.*?\)','',flow_tab_item).strip()
+                        if not flow_chart_name in flow_list:
+                            flow_list.append(flow_chart_name)
+            search_query.add(Q(**{'flow__flow_tab__name__in': flow_list}), Q.AND)
+        elif search_item.item == 'manager':
+            search_manager = search_item.text.split(",")
+            search_query.add(Q(**{'manager__display_id__in': search_manager}), Q.AND)
+        elif search_item.item == 'facility':
+            search_facility = search_item.text.split(",")
+            search_query.add(Q(**{'offline_facility__display_id__in': search_facility}), Q.OR)
+            search_query.add(Q(**{'online_facility__display_id__in': search_facility}), Q.OR)
+        query.add(search_query, Q.AND)
+    return query
 
 
 

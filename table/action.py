@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from sign.models import AuthLogin
-from table.models import TableSearch, TableNumber, TableSort, MiniTableNumber, MiniTableSort
+from table.models import TableSearch, TableNumber, TableSort, MiniTableSearch, MiniTableNumber, MiniTableSort
 
 import uuid
 
@@ -180,4 +180,26 @@ def action_item_search(request, shop, company, target):
         return search
     else:
         TableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, item=target).all().delete()
+        return None
+
+def action_mini_search(request, shop, company, target):
+    if request.POST.get(target):
+        if MiniTableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, page=request.POST.get('page'), item=target).exists():
+            search = MiniTableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, page=request.POST.get('page'), item=target).first()
+            search.text = request.POST.get(target)
+            search.save()
+        else:
+            search = MiniTableSearch.objects.create(
+                id = str(uuid.uuid4()),
+                url = request.POST.get('url'),
+                company = company,
+                shop = shop,
+                manager = request.user,
+                page = request.POST.get('page'),
+                item = target,
+                text = request.POST.get(target),
+            )
+        return search
+    else:
+        MiniTableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=shop, company=company, page=request.POST.get('page'), item=target).all().delete()
         return None

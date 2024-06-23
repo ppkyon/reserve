@@ -159,7 +159,7 @@
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-auto" style="width: 18%;">ステータス</label>
                                     <div style="width: 82%;">
-                                        {% for flow_key, flow_value in flow_check_list.items %}
+                                        {% for flow_key, flow_value in table.search.flow_list.items %}
                                             {% if forloop.counter|mod:4 == 1 %}
                                                 <div class="d-flex align-items-center w-100 mb-2">
                                             {% endif %}
@@ -231,6 +231,7 @@
                                                     <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                                 {% endif %}
                                                 {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                    <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                                     <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
                                                 {% endif %}
                                                 {% if forloop.counter|mod:4 == 3 and forloop.last %}

@@ -8,6 +8,40 @@ $( function() {
         dateFormat : 'Y年m月d日',
     });
 
+    flatpickr( '.input-datetime', {
+        "locale": "ja",
+        dateFormat : 'Y/m/d H:i',
+        enableTime  : true,
+        minuteIncrement: 15,
+        onReady: function(dateObj, dateStr, instance) {
+            const clearButton = document.createElement("div");
+            clearButton.innerHTML = "クリア";
+            clearButton.classList.add("clear-button");
+            clearButton.style.cursor = "pointer";
+            clearButton.addEventListener("click", function() {
+                instance.clear();
+            });
+            instance.calendarContainer.appendChild(clearButton);
+        }
+    });
+    flatpickr( '.input-time', {
+        "locale": "ja",
+        enableTime: true,
+        noCalendar: true,
+        dateFormat : 'H:i',
+        minuteIncrement: 15,
+        onReady: function(dateObj, dateStr, instance) {
+            const clearButton = document.createElement("div");
+            clearButton.innerHTML = "クリア";
+            clearButton.classList.add("clear-button");
+            clearButton.style.cursor = "pointer";
+            clearButton.addEventListener("click", function() {
+                instance.clear();
+            });
+            instance.calendarContainer.appendChild(clearButton);
+        }
+    });
+
     $( '#save_user_form' ).parsley();
     $( '#save_user_form' ).parsley().options.requiredMessage = "入力してください";
     $( '#save_user_form' ).parsley().options.typeMessage = "正しい形式で入力してください";
