@@ -27,6 +27,7 @@ $( function() {
         form_data.append( 'time_to', $( '#search_today_modal input[name=date_to]' ).val() );
         form_data.append( 'sex', $( '#search_today_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_today_modal input[name=member]' ).next().val() );
+        form_data.append( 'line', $( '#search_today_modal input[name=line]' ).next().val() );
         var flow = [];
         $( '#search_today_modal input[name=flow]:checked' ).each( function( index, value ) {
             flow.push( $( this ).val() );
@@ -69,6 +70,7 @@ $( function() {
         form_data.append( 'datetime_to', $( '#search_new_modal input[name=date_to]' ).val() );
         form_data.append( 'sex', $( '#search_new_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_new_modal input[name=member]' ).next().val() );
+        form_data.append( 'line', $( '#search_new_modal input[name=line]' ).next().val() );
         var flow = [];
         $( '#search_new_modal input[name=flow]:checked' ).each( function( index, value ) {
             flow.push( $( this ).val() );
@@ -111,6 +113,7 @@ $( function() {
         form_data.append( 'datetime_to', $( '#search_after_modal input[name=date_to]' ).val() );
         form_data.append( 'sex', $( '#search_after_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_after_modal input[name=member]' ).next().val() );
+        form_data.append( 'line', $( '#search_after_modal input[name=line]' ).next().val() );
         var flow = [];
         $( '#search_after_modal input[name=flow]:checked' ).each( function( index, value ) {
             flow.push( $( this ).val() );

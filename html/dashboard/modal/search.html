@@ -53,6 +53,30 @@
                     </div>
                     <div class="content ps-3 pe-3">
                         <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label me-3 mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.today.sex == '1' %}
+                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.today.sex == '2' %}
+                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.today.sex }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
                             <div class="col-10">
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-0" style="width: 20.75%;">年齢</label>
@@ -100,26 +124,6 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-6">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label me-3 mb-0">性別</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
-                                        {% if search.today.sex == '1' %}
-                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% elif search.today.sex == '2' %}
-                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% else %}
-                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% endif %}
-                                        <input type="hidden" value="{{ search.today.sex }}">
-                                        <div class="dropdown-menu">
-                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
-                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
-                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <label class="input-label me-3 mb-0">会員登録</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
@@ -131,6 +135,26 @@
                                             <input type="text" name="member" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         {% endif %}
                                         <input type="hidden" value="{{ search.today.member }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">未登録</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="input-label me-3 mb-0">LINE登録</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.today.line == '1' %}
+                                            <input type="text" name="line" value="登録済み" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.today.line == '2' %}
+                                            <input type="text" name="line" value="未登録" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="line" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.today.line }}">
                                         <div class="dropdown-menu">
                                             <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
                                             <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
@@ -328,6 +352,30 @@
                     </div>
                     <div class="content ps-3 pe-3">
                         <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label me-3 mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.new.sex == '1' %}
+                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.new.sex == '2' %}
+                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.new.sex }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
                             <div class="col-10">
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-0" style="width: 20.75%;">年齢</label>
@@ -375,26 +423,6 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-6">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label me-3 mb-0">性別</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
-                                        {% if search.new.sex == '1' %}
-                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% elif search.new.sex == '2' %}
-                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% else %}
-                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% endif %}
-                                        <input type="hidden" value="{{ search.new.sex }}">
-                                        <div class="dropdown-menu">
-                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
-                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
-                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <label class="input-label me-3 mb-0">会員登録</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
@@ -406,6 +434,26 @@
                                             <input type="text" name="member" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         {% endif %}
                                         <input type="hidden" value="{{ search.new.member }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">未登録</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="input-label me-3 mb-0">LINE登録</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.new.line == '1' %}
+                                            <input type="text" name="line" value="登録済み" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.new.line == '2' %}
+                                            <input type="text" name="line" value="未登録" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="line" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.new.line }}">
                                         <div class="dropdown-menu">
                                             <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
                                             <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
@@ -603,6 +651,30 @@
                     </div>
                     <div class="content ps-3 pe-3">
                         <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="input-label me-3 mb-0">性別</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.after.sex == '1' %}
+                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.after.sex == '2' %}
+                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.after.sex }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
                             <div class="col-10">
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-0" style="width: 20.75%;">年齢</label>
@@ -650,26 +722,6 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-6">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="input-label me-3 mb-0">性別</label>
-                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
-                                        {% if search.after.sex == '1' %}
-                                            <input type="text" name="sex" value="男性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% elif search.after.sex == '2' %}
-                                            <input type="text" name="sex" value="女性" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% else %}
-                                            <input type="text" name="sex" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
-                                        {% endif %}
-                                        <input type="hidden" value="{{ search.after.sex }}">
-                                        <div class="dropdown-menu">
-                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
-                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">男性</button>
-                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">女性</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <label class="input-label me-3 mb-0">会員登録</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
@@ -681,6 +733,26 @@
                                             <input type="text" name="member" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
                                         {% endif %}
                                         <input type="hidden" value="{{ search.after.member }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">未登録</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="input-label me-3 mb-0">LINE登録</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.after.line == '1' %}
+                                            <input type="text" name="line" value="登録済み" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.after.line == '2' %}
+                                            <input type="text" name="line" value="未登録" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="line" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.after.line }}">
                                         <div class="dropdown-menu">
                                             <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
                                             <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>

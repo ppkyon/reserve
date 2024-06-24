@@ -118,6 +118,22 @@
                                         </button>
                                     </div>
                                 </label>
+                            {% elif search_key == 'line' %}
+                                <label class="search-box text-center mb-1">
+                                    <div class="d-flex align-items-center">
+                                        <div class="w-100 ps-3">
+                                            <p class="mb-0">会員登録</p>
+                                            {% if search_value == '1' %}
+                                                <p class="mb-0">登録済み</p>
+                                            {% elif search_value == '2' %}
+                                                <p class="mb-0">未登録</p>
+                                            {% endif %}
+                                        </div>
+                                        <button type="button" value="line" class="btn delete-today-button ms-1 p-1">
+                                            <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                        </button>
+                                    </div>
+                                </label>
                             {% elif search_key == 'flow_all' %}
                                 <label class="search-box text-center mb-1">
                                     <div class="d-flex align-items-center">

@@ -620,6 +620,11 @@ def get_query_data(request, company, shop, page):
                 search_query.add(Q(**{'flow__user__member_flg': True}), Q.AND)
             elif search_item.text == '2':
                 search_query.add(Q(**{'flow__user__member_flg': False}), Q.AND)
+        elif search_item.item == 'line':
+            if search_item.text == '1':
+                search_query.add(Q(**{'flow__user__proxy_flg': False}), Q.AND)
+            elif search_item.text == '2':
+                search_query.add(Q(**{'flow__user__proxy_flg': True}), Q.AND)
         elif search_item.item == 'flow':
             search_flow = search_item.text.split(",")
             flow_list = list()

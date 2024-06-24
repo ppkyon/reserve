@@ -20,6 +20,7 @@ def search(request):
     action_mini_search(request, auth_login.shop, auth_login.company, 'time_to')
     action_mini_search(request, auth_login.shop, auth_login.company, 'sex')
     action_mini_search(request, auth_login.shop, auth_login.company, 'member')
+    action_mini_search(request, auth_login.shop, auth_login.company, 'line')
     action_mini_search(request, auth_login.shop, auth_login.company, 'flow')
     action_mini_search(request, auth_login.shop, auth_login.company, 'manager')
     action_mini_search(request, auth_login.shop, auth_login.company, 'facility')
