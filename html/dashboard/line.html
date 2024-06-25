@@ -54,6 +54,7 @@
                                             {% endif %}
                                         {% endif %}
                                     </div>
+                                    <p class="content-date mb-0">{{ new_line_item.created_at|date:'Y年m月d日 H:i' }}</p>
                                 </td>
                                 <td>
                                     <button type="button" value="{{ new_line_item.display_id }}" class="btn check-button">確認</button>
