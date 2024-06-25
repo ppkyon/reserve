@@ -189,7 +189,7 @@
                                 <label class="search-box text-center mb-1">
                                     <div class="d-flex align-items-center">
                                         <div class="w-100 ps-3">
-                                            <p class="mb-0">会場</p>
+                                            <p class="mb-0">設備</p>
                                             <p class="mb-0">{{ search_value }}</p>
                                         </div>
                                         <button type="button" value="facility" class="btn delete-new-button ms-1 p-1">
@@ -263,7 +263,7 @@
                                             {% endif %}
                                         {% endif %}
                                     </div>
-                                    <p class="content-date mb-0">{{ new_reserve_item.created_at|date:'Y年m月d日 H:i' }}</p>
+                                    <p class="content-date mb-0">{{ new_reserve_item.schedule.created_at|date:'Y年m月d日 H:i' }}</p>
                                 </td>
                                 <td>
                                     <p class="content-title mb-0">{{ new_reserve_item.reserve }}</p>
