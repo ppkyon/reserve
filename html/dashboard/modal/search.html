@@ -463,7 +463,7 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-6">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="input-label me-3 mb-0">会員登録</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
                                         {% if search.new.member == '1' %}
@@ -483,7 +483,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="input-label me-3 mb-0">LINE登録</label>
                                     <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
                                         {% if search.new.line == '1' %}
@@ -498,6 +498,30 @@
                                             <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
                                             <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">登録済み</button>
                                             <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">未登録</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="input-label me-3 mb-0">予約変更</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0" style="width: 60%;">
+                                        {% if search.new.change == '1' %}
+                                            <input type="text" name="change" value="予約変更あり" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% elif search.new.change == '2' %}
+                                            <input type="text" name="change" value="予約変更なし" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% else %}
+                                            <input type="text" name="change" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ search.new.change }}">
+                                        <div class="dropdown-menu">
+                                            <button type="button" value="" class="btn dropdown-item fw-bold text-center">&nbsp;</button>
+                                            <button type="button" value="1" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">予約変更あり</button>
+                                            <button type="button" value="2" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">予約変更なし</button>
                                         </div>
                                     </div>
                                 </div>

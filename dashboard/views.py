@@ -668,6 +668,11 @@ def get_query_data(request, company, shop, page):
                 search_query.add(Q(**{'flow__user__member_flg': True}), Q.AND)
             elif search_item.text == '2':
                 search_query.add(Q(**{'flow__user__member_flg': False}), Q.AND)
+        elif search_item.item == 'change':
+            if search_item.text == '1':
+                search_query.add(~Q(**{'number': 1}), Q.AND)
+            elif search_item.text == '2':
+                search_query.add(Q(**{'number': 1}), Q.AND)
         elif search_item.item == 'line':
             if search_item.text == '1':
                 search_query.add(Q(**{'flow__user__proxy_flg': False}), Q.AND)

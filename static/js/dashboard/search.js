@@ -76,6 +76,7 @@ $( function() {
         form_data.append( 'sex', $( '#search_new_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_new_modal input[name=member]' ).next().val() );
         form_data.append( 'line', $( '#search_new_modal input[name=line]' ).next().val() );
+        form_data.append( 'change', $( '#search_new_modal input[name=change]' ).next().val() );
         var flow = [];
         $( '#search_new_modal input[name=flow]:checked' ).each( function( index, value ) {
             flow.push( $( this ).val() );
