@@ -173,6 +173,7 @@
     border-radius: 50%;
 }
 
+.modal .modal-body .content .input-date,
 .modal .modal-body .content .input-datetime {
     text-align: left;
     background: url(../img/icon/calendar.svg) no-repeat,#fff;

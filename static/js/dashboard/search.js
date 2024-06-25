@@ -73,6 +73,8 @@ $( function() {
         form_data.append( 'age_to', $( '#search_new_modal input[name=age_to]' ).val() );
         form_data.append( 'datetime_from', $( '#search_new_modal input[name=date_from]' ).val() );
         form_data.append( 'datetime_to', $( '#search_new_modal input[name=date_to]' ).val() );
+        form_data.append( 'create_from', $( '#search_new_modal input[name=create_from]' ).val() );
+        form_data.append( 'create_to', $( '#search_new_modal input[name=create_to]' ).val() );
         form_data.append( 'sex', $( '#search_new_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_new_modal input[name=member]' ).next().val() );
         form_data.append( 'line', $( '#search_new_modal input[name=line]' ).next().val() );
@@ -122,6 +124,8 @@ $( function() {
         form_data.append( 'age_to', $( '#search_after_modal input[name=age_to]' ).val() );
         form_data.append( 'datetime_from', $( '#search_after_modal input[name=date_from]' ).val() );
         form_data.append( 'datetime_to', $( '#search_after_modal input[name=date_to]' ).val() );
+        form_data.append( 'create_from', $( '#search_after_modal input[name=create_from]' ).val() );
+        form_data.append( 'create_to', $( '#search_after_modal input[name=create_to]' ).val() );
         form_data.append( 'sex', $( '#search_after_modal input[name=sex]' ).next().val() );
         form_data.append( 'member', $( '#search_after_modal input[name=member]' ).next().val() );
         form_data.append( 'line', $( '#search_after_modal input[name=line]' ).next().val() );

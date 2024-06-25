@@ -18,6 +18,8 @@ def search(request):
     action_mini_search(request, auth_login.shop, auth_login.company, 'datetime_to')
     action_mini_search(request, auth_login.shop, auth_login.company, 'time_from')
     action_mini_search(request, auth_login.shop, auth_login.company, 'time_to')
+    action_mini_search(request, auth_login.shop, auth_login.company, 'create_from')
+    action_mini_search(request, auth_login.shop, auth_login.company, 'create_to')
     action_mini_search(request, auth_login.shop, auth_login.company, 'sex')
     action_mini_search(request, auth_login.shop, auth_login.company, 'member')
     action_mini_search(request, auth_login.shop, auth_login.company, 'line')
@@ -30,7 +32,7 @@ def search(request):
 
 def delete_search(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
-    if request.POST.get('item') == 'age' or request.POST.get('item') == 'datetime' or request.POST.get('item') == 'time':
+    if request.POST.get('item') == 'age' or request.POST.get('item') == 'datetime' or request.POST.get('item') == 'time' or request.POST.get('item') == 'create':
         MiniTableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, page=request.POST.get('page'), item=request.POST.get('item')+'_from').all().delete()
         MiniTableSearch.objects.filter(url=request.POST.get('url'), manager=request.user, shop=auth_login.shop, company=auth_login.company, page=request.POST.get('page'), item=request.POST.get('item')+'_to').all().delete()
     else:

@@ -104,6 +104,9 @@ function append_mini_table_area(target, data) {
                 name = data.flow.user.display_name;
             }
         }
+
+        var created_date = new Date( data.created_at );
+        created_date = created_date.getFullYear() + '年' + ( created_date.getMonth() + 1 ) + '月' + created_date.getDate() + '日 ' + created_date.getHours() + ':' + created_date.getMinutes();
         
         var html = '<tr class="position-relative">';
         html += '<td>';
@@ -114,6 +117,7 @@ function append_mini_table_area(target, data) {
         html += '<img src="' + image + '" class="user-image me-2">';
         html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
+        html += '<p class="content-date mb-0">' + created_date + '</p>';
         html += '</td>';
         html += '<td>';
         html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
@@ -185,6 +189,9 @@ function append_mini_table_area(target, data) {
                 name = data.flow.user.display_name;
             }
         }
+
+        var created_date = new Date( data.created_at );
+        created_date = created_date.getFullYear() + '年' + ( created_date.getMonth() + 1 ) + '月' + created_date.getDate() + '日 ' + created_date.getHours() + ':' + created_date.getMinutes();
         
         var html = '<tr class="position-relative">';
         html += '<td>';
@@ -195,6 +202,7 @@ function append_mini_table_area(target, data) {
         html += '<img src="' + image + '" class="user-image me-2">';
         html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
+        html += '<p class="content-date mb-0">' + created_date + '</p>';
         html += '</td>';
         html += '<td>';
         html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
@@ -263,6 +271,9 @@ function append_mini_table_area(target, data) {
                 name = data.display_name;
             }
         }
+
+        var created_date = new Date( data.created_at );
+        created_date = created_date.getFullYear() + '年' + ( created_date.getMonth() + 1 ) + '月' + created_date.getDate() + '日 ' + created_date.getHours() + ':' + created_date.getMinutes();
         
         var html = '<tr class="position-relative">';
         html += '<td>';
@@ -273,6 +284,7 @@ function append_mini_table_area(target, data) {
         html += '<img src="' + image + '" class="user-image me-2">';
         html += '<p class="content-title mb-0">' + name + '</p>';
         html += '</div>';
+        html += '<p class="content-date mb-0">' + created_date + '</p>';
         html += '</td>';
         html += '<td>';
         html += '<button type="button" value="' + data.display_id + '" class="btn check-button">確認</button>';

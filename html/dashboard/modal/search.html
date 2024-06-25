@@ -462,6 +462,18 @@
                     </div>
                     <div class="content ps-3 pe-3">
                         <div class="row">
+                            <div class="col-10">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-0" style="width: 20.75%;">予約登録日</label>
+                                    <input type="text" name="create_from" value="{{ search.new.create_from }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
+                                    <span class="text-center" style="width: 5.25%;">～</span>
+                                    <input type="text" name="create_to" value="{{ search.new.create_to }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
                             <div class="col-6">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="input-label me-3 mb-0">会員登録</label>
@@ -819,6 +831,18 @@
                                     <input type="text" name="date_from" value="{{ search.after.datetime_from }}" class="input-text input-datetime ps-2 pe-2" style="width: 34.5%;">
                                     <span class="text-center" style="width: 5.25%;">～</span>
                                     <input type="text" name="date_to" value="{{ search.after.datetime_to }}" class="input-text input-datetime ps-2 pe-2" style="width: 34.5%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    <label class="input-label me-3 mb-0" style="width: 20.75%;">予約登録日</label>
+                                    <input type="text" name="create_from" value="{{ search.after.create_from }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
+                                    <span class="text-center" style="width: 5.25%;">～</span>
+                                    <input type="text" name="create_to" value="{{ search.after.create_to }}" class="input-text input-date ps-2 pe-2" style="width: 34.5%;">
                                 </div>
                             </div>
                         </div>

@@ -8,6 +8,20 @@ $( function() {
         dateFormat : 'Y年m月d日',
     });
 
+    flatpickr( '.input-date', {
+        "locale": "ja",
+        dateFormat : 'Y/m/d',
+        onReady: function(dateObj, dateStr, instance) {
+            const clearButton = document.createElement("div");
+            clearButton.innerHTML = "クリア";
+            clearButton.classList.add("clear-button");
+            clearButton.style.cursor = "pointer";
+            clearButton.addEventListener("click", function() {
+                instance.clear();
+            });
+            instance.calendarContainer.appendChild(clearButton);
+        }
+    });
     flatpickr( '.input-datetime', {
         "locale": "ja",
         dateFormat : 'Y/m/d H:i',
