@@ -287,6 +287,10 @@ def get_query_data(request, company, shop, page):
             search_facility = search_item.text.split(",")
             search_query.add(Q(**{'offline_facility__display_id__in': search_facility}), Q.OR)
             search_query.add(Q(**{'online_facility__display_id__in': search_facility}), Q.OR)
+        elif search_item.item == 'place':
+            search_place = search_item.text.split(",")
+            search_query.add(Q(**{'offline__offline__display_id__in': search_place}), Q.OR)
+            search_query.add(Q(**{'online__online__display_id__in': search_place}), Q.OR)
         query.add(search_query, Q.AND)
     return query
 

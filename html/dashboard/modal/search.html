@@ -248,7 +248,7 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-start">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-auto" style="width: 18%;">設備</label>
                                     <div style="width: 82%;">
                                         {% for facility_item in condition.today.facility_list %}
@@ -263,6 +263,46 @@
                                                     <input type="checkbox" id="today_facility_{{ facility_item.display_id }}" name="facility" value="{{ facility_item.display_id }}" class="input-check">
                                                 {% endif %}
                                                 <label for="today_facility_{{ facility_item.display_id }}" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            {% if forloop.counter|mod:4 == 1 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 3 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 0 or forloop.last %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label class="input-label me-3 mb-auto" style="width: 18%;">会場</label>
+                                    <div style="width: 82%;">
+                                        {% for place_item in condition.today.place_list %}
+                                            {% if forloop.counter|mod:4 == 1 %}
+                                                <div class="d-flex align-items-center w-100 mb-2">
+                                            {% endif %}
+                                            <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
+                                                <label for="today_place_{{ place_item.display_id }}" class="mb-0">{{ place_item.name }}</label>
+                                                {% if place_item.check %}
+                                                    <input type="checkbox" id="today_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="today_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check">
+                                                {% endif %}
+                                                <label for="today_place_{{ place_item.display_id }}" class="input-check-mark mb-0"></label>
                                             </div>
                                             {% if forloop.counter|mod:4 == 1 and forloop.last %}
                                                 <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
@@ -547,7 +587,7 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-start">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-auto" style="width: 18%;">設備</label>
                                     <div style="width: 82%;">
                                         {% for facility_item in condition.new.facility_list %}
@@ -562,6 +602,46 @@
                                                     <input type="checkbox" id="new_facility_{{ facility_item.display_id }}" name="facility" value="{{ facility_item.display_id }}" class="input-check">
                                                 {% endif %}
                                                 <label for="new_facility_{{ facility_item.display_id }}" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            {% if forloop.counter|mod:4 == 1 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 3 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 0 or forloop.last %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label class="input-label me-3 mb-auto" style="width: 18%;">会場</label>
+                                    <div style="width: 82%;">
+                                        {% for place_item in condition.new.place_list %}
+                                            {% if forloop.counter|mod:4 == 1 %}
+                                                <div class="d-flex align-items-center w-100 mb-2">
+                                            {% endif %}
+                                            <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
+                                                <label for="new_place_{{ place_item.display_id }}" class="mb-0">{{ place_item.name }}</label>
+                                                {% if place_item.check %}
+                                                    <input type="checkbox" id="new_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="new_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check">
+                                                {% endif %}
+                                                <label for="new_place_{{ place_item.display_id }}" class="input-check-mark mb-0"></label>
                                             </div>
                                             {% if forloop.counter|mod:4 == 1 and forloop.last %}
                                                 <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
@@ -846,7 +926,7 @@
                     <div class="content ps-3 pe-3">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-start">
+                                <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-auto" style="width: 18%;">設備</label>
                                     <div style="width: 82%;">
                                         {% for facility_item in condition.after.facility_list %}
@@ -861,6 +941,46 @@
                                                     <input type="checkbox" id="after_facility_{{ facility_item.display_id }}" name="facility" value="{{ facility_item.display_id }}" class="input-check">
                                                 {% endif %}
                                                 <label for="after_facility_{{ facility_item.display_id }}" class="input-check-mark mb-0"></label>
+                                            </div>
+                                            {% if forloop.counter|mod:4 == 1 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 2 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 3 and forloop.last %}
+                                                <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>
+                                            {% endif %}
+                                            {% if forloop.counter|mod:4 == 0 or forloop.last %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content ps-3 pe-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label class="input-label me-3 mb-auto" style="width: 18%;">会場</label>
+                                    <div style="width: 82%;">
+                                        {% for place_item in condition.after.place_list %}
+                                            {% if forloop.counter|mod:4 == 1 %}
+                                                <div class="d-flex align-items-center w-100 mb-2">
+                                            {% endif %}
+                                            <div class="input-check-wrap ps-4 me-3" style="width: 25%;">
+                                                <label for="after_place_{{ place_item.display_id }}" class="mb-0">{{ place_item.name }}</label>
+                                                {% if place_item.check %}
+                                                    <input type="checkbox" id="after_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check" checked>
+                                                {% else %}
+                                                    <input type="checkbox" id="after_place_{{ place_item.display_id }}" name="place" value="{{ place_item.display_id }}" class="input-check">
+                                                {% endif %}
+                                                <label for="after_place_{{ place_item.display_id }}" class="input-check-mark mb-0"></label>
                                             </div>
                                             {% if forloop.counter|mod:4 == 1 and forloop.last %}
                                                 <div class="input-check-wrap ps-4 me-3" style="width: 25%;"></div>

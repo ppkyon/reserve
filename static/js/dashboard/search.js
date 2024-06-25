@@ -43,6 +43,11 @@ $( function() {
             facility.push( $( this ).val() );
         });
         form_data.append( 'facility', facility );
+        var place = [];
+        $( '#search_today_modal input[name=place]:checked' ).each( function( index, value ) {
+            place.push( $( this ).val() );
+        });
+        form_data.append( 'place', place );
         form_data.append( 'url', location.pathname );
         form_data.append( 'page', 'today' );
         $.ajax({
@@ -86,6 +91,11 @@ $( function() {
             facility.push( $( this ).val() );
         });
         form_data.append( 'facility', facility );
+        var place = [];
+        $( '#search_new_modal input[name=place]:checked' ).each( function( index, value ) {
+            place.push( $( this ).val() );
+        });
+        form_data.append( 'place', place );
         form_data.append( 'url', location.pathname );
         form_data.append( 'page', 'new' );
         $.ajax({
@@ -129,6 +139,11 @@ $( function() {
             facility.push( $( this ).val() );
         });
         form_data.append( 'facility', facility );
+        var place = [];
+        $( '#search_after_modal input[name=place]:checked' ).each( function( index, value ) {
+            place.push( $( this ).val() );
+        });
+        form_data.append( 'place', place );
         form_data.append( 'url', location.pathname );
         form_data.append( 'page', 'after' );
         $.ajax({

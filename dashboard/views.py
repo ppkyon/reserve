@@ -320,6 +320,20 @@ def get_search_data(request, company, shop):
                         today['facility_all'] = today['facility_all'] + ', ' + ReserveOfflineFacility.objects.filter(display_id=facility_value).first().name
                     if ReserveOnlineFacility.objects.filter(display_id=facility_value).exists():
                         today['facility_all'] = today['facility_all'] + ', ' + ReserveOnlineFacility.objects.filter(display_id=facility_value).first().name
+        if search_item.item == 'place':
+            today['place_list'] = list()
+            for place_index, place_value in enumerate(search_item.text.split(",")):
+                today['place_list'].append(place_value)
+                if place_index == 0:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        today['place_all'] = ShopOffline.objects.filter(display_id=place_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        today['place_all'] = ShopOnline.objects.filter(display_id=place_value).first().name
+                else:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        today['place_all'] = today['place_all'] + ', ' + ShopOffline.objects.filter(display_id=facility_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        today['place_all'] = today['place_all'] + ', ' + ShopOnline.objects.filter(display_id=facility_value).first().name
         
     new = {}
     for search_item in MiniTableSearch.objects.filter(url=request.path, company=company, shop=shop, manager=request.user, page='new').order_by('created_at').all():
@@ -386,6 +400,20 @@ def get_search_data(request, company, shop):
                         new['facility_all'] = new['facility_all'] + ', ' + ReserveOfflineFacility.objects.filter(display_id=facility_value).first().name
                     if ReserveOnlineFacility.objects.filter(display_id=facility_value).exists():
                         new['facility_all'] = new['facility_all'] + ', ' + ReserveOnlineFacility.objects.filter(display_id=facility_value).first().name
+        if search_item.item == 'place':
+            new['place_list'] = list()
+            for place_index, place_value in enumerate(search_item.text.split(",")):
+                new['place_list'].append(place_value)
+                if place_index == 0:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        new['place_all'] = ShopOffline.objects.filter(display_id=place_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        new['place_all'] = ShopOnline.objects.filter(display_id=place_value).first().name
+                else:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        new['place_all'] = new['place_all'] + ', ' + ShopOffline.objects.filter(display_id=facility_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        new['place_all'] = new['place_all'] + ', ' + ShopOnline.objects.filter(display_id=facility_value).first().name
     
     after = {}
     for search_item in MiniTableSearch.objects.filter(url=request.path, company=company, shop=shop, manager=request.user, page='after').order_by('created_at').all():
@@ -452,6 +480,20 @@ def get_search_data(request, company, shop):
                         after['facility_all'] = after['facility_all'] + ', ' + ReserveOfflineFacility.objects.filter(display_id=facility_value).first().name
                     if ReserveOnlineFacility.objects.filter(display_id=facility_value).exists():
                         after['facility_all'] = after['facility_all'] + ', ' + ReserveOnlineFacility.objects.filter(display_id=facility_value).first().name
+        if search_item.item == 'place':
+            after['place_list'] = list()
+            for place_index, place_value in enumerate(search_item.text.split(",")):
+                after['place_list'].append(place_value)
+                if place_index == 0:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        after['place_all'] = ShopOffline.objects.filter(display_id=place_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        after['place_all'] = ShopOnline.objects.filter(display_id=place_value).first().name
+                else:
+                    if ShopOffline.objects.filter(display_id=place_value).exists():
+                        after['place_all'] = after['place_all'] + ', ' + ShopOffline.objects.filter(display_id=facility_value).first().name
+                    if ShopOnline.objects.filter(display_id=place_value).exists():
+                        after['place_all'] = after['place_all'] + ', ' + ShopOnline.objects.filter(display_id=facility_value).first().name
     return {
         'today': today,
         'new': new,
@@ -482,7 +524,9 @@ def get_condition_data(shop, search):
             today['manager_list'][manager_index].check = False
         today['manager_list'][manager_index].profile = ManagerProfile.objects.filter(manager_id=manager_item.id).first()
     today['facility_list'] = list()
+    today['place_list'] = list()
     for online_offline_item in list(chain(ShopOffline.objects.filter(shop=shop).order_by('created_at').all(), ShopOnline.objects.filter(shop=shop).order_by('created_at').all())):
+        today['place_list'].append(online_offline_item)
         if ShopOffline.objects.filter(id=online_offline_item.id).exists():
             for facility_index, facility_item in enumerate(ReserveOfflineFacility.objects.filter(offline=online_offline_item).order_by('number').all()):
                 today['facility_list'].append(facility_item)
@@ -521,7 +565,9 @@ def get_condition_data(shop, search):
             new['manager_list'][manager_index].check = False
         new['manager_list'][manager_index].profile = ManagerProfile.objects.filter(manager_id=manager_item.id).first()
     new['facility_list'] = list()
+    new['place_list'] = list()
     for online_offline_item in list(chain(ShopOffline.objects.filter(shop=shop).order_by('created_at').all(), ShopOnline.objects.filter(shop=shop).order_by('created_at').all())):
+        new['place_list'].append(online_offline_item)
         if ShopOffline.objects.filter(id=online_offline_item.id).exists():
             for facility_index, facility_item in enumerate(ReserveOfflineFacility.objects.filter(offline=online_offline_item).order_by('number').all()):
                 new['facility_list'].append(facility_item)
@@ -560,7 +606,9 @@ def get_condition_data(shop, search):
             after['manager_list'][manager_index].check = False
         after['manager_list'][manager_index].profile = ManagerProfile.objects.filter(manager_id=manager_item.id).first()
     after['facility_list'] = list()
+    after['place_list'] = list()
     for online_offline_item in list(chain(ShopOffline.objects.filter(shop=shop).order_by('created_at').all(), ShopOnline.objects.filter(shop=shop).order_by('created_at').all())):
+        after['place_list'].append(online_offline_item)
         if ShopOffline.objects.filter(id=online_offline_item.id).exists():
             for facility_index, facility_item in enumerate(ReserveOfflineFacility.objects.filter(offline=online_offline_item).order_by('number').all()):
                 after['facility_list'].append(facility_item)
@@ -643,6 +691,10 @@ def get_query_data(request, company, shop, page):
             search_facility = search_item.text.split(",")
             search_query.add(Q(**{'offline_facility__display_id__in': search_facility}), Q.OR)
             search_query.add(Q(**{'online_facility__display_id__in': search_facility}), Q.OR)
+        elif search_item.item == 'place':
+            search_place = search_item.text.split(",")
+            search_query.add(Q(**{'offline__offline__display_id__in': search_place}), Q.OR)
+            search_query.add(Q(**{'online__online__display_id__in': search_place}), Q.OR)
         query.add(search_query, Q.AND)
     return query
 

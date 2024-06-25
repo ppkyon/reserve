@@ -24,6 +24,7 @@ def search(request):
     action_mini_search(request, auth_login.shop, auth_login.company, 'flow')
     action_mini_search(request, auth_login.shop, auth_login.company, 'manager')
     action_mini_search(request, auth_login.shop, auth_login.company, 'facility')
+    action_mini_search(request, auth_login.shop, auth_login.company, 'place')
     return JsonResponse( list(get_list(request, 1)), safe=False )
 
 def delete_search(request):

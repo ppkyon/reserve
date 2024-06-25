@@ -170,6 +170,18 @@
                                         </button>
                                     </div>
                                 </label>
+                            {% elif search_key == 'place_all' %}
+                                <label class="search-box text-center mb-1">
+                                    <div class="d-flex align-items-center">
+                                        <div class="w-100 ps-3">
+                                            <p class="mb-0">会場</p>
+                                            <p class="mb-0">{{ search_value }}</p>
+                                        </div>
+                                        <button type="button" value="place" class="btn delete-today-button ms-1 p-1">
+                                            <img src="{% static 'img/icon/cross.svg' %}" width="15" height="15">
+                                        </button>
+                                    </div>
+                                </label>
                             {% endif %}
                         {% endfor %}
                     </div>
