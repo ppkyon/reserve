@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Subquery, OuterRef
 from django.shortcuts import redirect
 
 from view import ShopView
@@ -94,50 +94,55 @@ class DashboardView(ShopView):
         context['new_reserve_sort'] = MiniTableSort.objects.filter(url=self.request.path, company=auth_login.company, shop=auth_login.shop, manager=self.request.user, page='dashboard', item='new').first()
         context['new_reserve_list'] = list()
         new_reserve_list = list()
+        new = UserFlowSchedule.objects.filter(id=OuterRef('pk'), created_at__gte=datetime.datetime.now()-datetime.timedelta(days=1)).values("created_at")
         if context['new_reserve_sort']:
             if context['new_reserve_sort'].target == 'name':
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__user_profile__name_kana', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'flow__user__user_profile__name_kana', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__user_profile__name_kana', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', '-flow__user__user_profile__name_kana', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
             elif context['new_reserve_sort'].target == 'date':
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', '-date', '-time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
             elif context['new_reserve_sort'].target == 'setting':
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', '-flow__flow_tab__number', 'date', 'time', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
             elif context['new_reserve_sort'].target == 'line':
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('flow__user__proxy_flg', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'flow__user__proxy_flg', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-flow__user__proxy_flg', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', '-flow__user__proxy_flg', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
             else:
                 if context['new_reserve_sort'].sort == 1:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 elif context['new_reserve_sort'].sort == 2:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('-date', '-time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', '-date', '-time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
                 else:
-                    new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+                    new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
         else:
-            new_reserve_list = UserFlowSchedule.objects.filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
+            new_reserve_list = UserFlowSchedule.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(query, flow__user__shop=auth_login.shop, check_flg=False, date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).order_by('new', 'date', 'time', 'flow__flow_tab__number', '-created_at').all()[:context['new_reserve_table']['number']]
         for schedule in new_reserve_list:
             if schedule.date:
                 schedule.flow.user.profile = UserProfile.objects.filter(user=schedule.flow.user).first()
                 schedule.flow.user.flow = schedule.flow
                 schedule.flow.user.schedule = schedule
                 schedule.flow.user.reserve = get_reserve_date(schedule)
+                if schedule.created_at >= datetime.datetime.now() - datetime.timedelta(days=1):
+                    schedule.flow.user.new_flg = True
+                else:
+                    schedule.flow.user.new_flg = False
 
                 if schedule.number > 1:
                     prev_schedule = UserFlowSchedule.objects.filter(flow=schedule.flow, number=schedule.number-1, temp_flg=False).exclude(number=0).first()
@@ -202,25 +207,30 @@ class DashboardView(ShopView):
         context['new_line_list'] = list()
         new_line_list = list()
         after_reserve_list = list()
+        new = LineUser.objects.filter(id=OuterRef('pk'), created_at__gte=datetime.datetime.now()-datetime.timedelta(days=1)).values("created_at")
         if context['new_line_sort']:
             if context['new_line_sort'].target == 'name':
                 if context['new_line_sort'].sort == 1:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('user_profile__name_kana', 'created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', 'user_profile__name_kana', 'created_at').all()[:context['new_line_table']['number']]
                 elif context['new_line_sort'].sort == 2:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('-user_profile__name_kana', 'created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', '-user_profile__name_kana', 'created_at').all()[:context['new_line_table']['number']]
                 else:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', 'created_at').all()[:context['new_line_table']['number']]
             else:
                 if context['new_line_sort'].sort == 1:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', 'created_at').all()[:context['new_line_table']['number']]
                 elif context['new_line_sort'].sort == 2:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('-created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', '-created_at').all()[:context['new_line_table']['number']]
                 else:
-                    new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all()[:context['new_line_table']['number']]
+                    new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', 'created_at').all()[:context['new_line_table']['number']]
         else:
-            new_line_list = LineUser.objects.filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('created_at').all()[:context['new_line_table']['number']]
+            new_line_list = LineUser.objects.annotate(new=Subquery(new.values('created_at')[:1])).filter(shop=auth_login.shop, member_flg=False, proxy_flg=False, check_flg=False, delete_flg=False).order_by('new', 'created_at').all()[:context['new_line_table']['number']]
         for user in new_line_list:
             user.profile = UserProfile.objects.filter(user=user).first()
+            if user.created_at >= datetime.datetime.now() - datetime.timedelta(days=1):
+                user.new_flg = True
+            else:
+                user.new_flg = False
             context['new_line_list'].append(user)
 
         context['message_required_count'] = 0

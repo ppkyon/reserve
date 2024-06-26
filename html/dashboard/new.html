@@ -225,7 +225,7 @@
                 <table class="table table-sp mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 50px;">#</th>
+                            <th style="width: 60px;">#</th>
                             {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=new_reserve_sort %}
                             {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=new_reserve_sort %}
                             {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=new_reserve_sort %}
@@ -238,7 +238,12 @@
                         {% for new_reserve_item in new_reserve_list %}
                             <tr class="position-relative">
                                 <td>
-                                    <p class="content-title mb-0">{{ forloop.counter }}</p>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <p class="content-title mb-0" style="overflow: visible;">{{ forloop.counter }}</p>
+                                        {% if new_reserve_item.new_flg %}
+                                            <img src="{% static 'img/icon/new.svg' %}" class="ms-1">
+                                        {% endif %}
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-center">

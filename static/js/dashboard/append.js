@@ -110,7 +110,12 @@ function append_mini_table_area(target, data) {
         
         var html = '<tr class="position-relative">';
         html += '<td>';
-        html += '<p class="content-title mb-0">' + data.number + '</p>';
+        html += '<div class="d-flex justify-content-start align-items-center">';
+        html += '<p class="content-title mb-0" style="overflow: visible;">' + data.number + '</p>';
+        if ( data.new_flg ) {
+            html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/new.svg" class="ms-1">';
+        }
+        html += '</div>';
         html += '</td>';
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';
@@ -277,7 +282,12 @@ function append_mini_table_area(target, data) {
         
         var html = '<tr class="position-relative">';
         html += '<td>';
-        html += '<p class="content-title mb-0">' + data.number + '</p>';
+        html += '<div class="d-flex justify-content-start align-items-center">';
+        html += '<p class="content-title mb-0" style="overflow: visible;">' + data.number + '</p>';
+        if ( data.new_flg ) {
+            html += '<img src="' + $( '#env_static_url' ).val() + 'img/icon/new.svg" class="ms-1">';
+        }
+        html += '</div>';
         html += '</td>';
         html += '<td>';
         html += '<div class="d-flex justify-content-start align-items-center">';

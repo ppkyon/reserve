@@ -19,7 +19,7 @@
                 <table class="table table-sp mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 50px;">#</th>
+                            <th style="width: 60px;">#</th>
                             {% include 'table/mini/sort.html' with text='登録者氏名' target='name' table=new_line_sort %}
                             <th style="width: 120px;">確認</th>
                             <th style="width: 100px;">予約者詳細</th>
@@ -29,7 +29,12 @@
                         {% for new_line_item in new_line_list %}
                             <tr class="position-relative">
                                 <td>
-                                    <p class="content-title mb-0">{{ forloop.counter }}</p>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <p class="content-title mb-0" style="overflow: visible;">{{ forloop.counter }}</p>
+                                        {% if new_line_item.new_flg %}
+                                            <img src="{% static 'img/icon/new.svg' %}" class="ms-1">
+                                        {% endif %}
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-center">

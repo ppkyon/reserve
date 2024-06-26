@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="13" viewBox="0 0 37 13">
+  <g id="btn-shadow-success" transform="translate(-130 123)">
+    <rect id="btn-bg" width="37" height="13" rx="6.5" transform="translate(130 -123)" fill="#3b86ff"/>
+  </g>
+  <text id="New" transform="translate(9 1)" fill="#fff" font-size="8" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="9">New</tspan></text>
+</svg>
