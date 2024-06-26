@@ -35,7 +35,7 @@
                             </li>
                         {% endif %}
                         <li class="page-item d-inline">
-                            <button type="button" value="2" class="btn d-flex justify-content-center align-items-center position-relative">
+                            <button type="button" value="{{ table.count|division:table.count_end }}" class="btn d-flex justify-content-center align-items-center position-relative">
                                 <img src="{% static 'img/icon/paging-right.svg' %}">
                             </button>
                         </li>
