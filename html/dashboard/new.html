@@ -226,7 +226,7 @@
                     <thead>
                         <tr>
                             <th style="width: 60px;">#</th>
-                            {% if domain_name == 'curves' %}
+                            {% if env.domain_name == 'curves' %}
                                 {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=new_reserve_sort %}
                                 {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=new_reserve_sort %}
                                 {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=new_reserve_sort %}
@@ -251,7 +251,7 @@
                                         {% endif %}
                                     </div>
                                 </td>
-                                {% if domain_name == 'curves' %}
+                                {% if env.domain_name == 'curves' %}
                                     <td>
                                         <p class="content-title mb-0">{{ new_reserve_item.reserve }}</p>
                                     </td>

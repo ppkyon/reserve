@@ -199,7 +199,7 @@
                     <thead>
                         <tr>
                             <th style="width: 60px;">#</th>
-                            {% if domain_name == 'curves' %}
+                            {% if env.domain_name == 'curves' %}
                                 {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=today_reserve_sort %}
                                 {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=today_reserve_sort %}
                                 {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=today_reserve_sort %}
@@ -219,7 +219,7 @@
                                 <td>
                                     <p class="content-title mb-0">{{ forloop.counter }}</p>
                                 </td>
-                                {% if domain_name == 'curves' %}
+                                {% if env.domain_name == 'curves' %}
                                     <td>
                                         <p class="content-title mb-0">{{ today_reserve_item.reserve }}</p>
                                     </td>
