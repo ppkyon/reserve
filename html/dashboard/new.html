@@ -236,7 +236,11 @@
                                 {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=new_reserve_sort %}
                             {% endif %}
                             {% include 'table/mini/sort.html' with text='LINE登録' target='line' width='120' table=new_reserve_sort %}
-                            <th style="width: 120px;">確認</th>
+                            {% if env.domain_name == 'curves' %}
+                                <th style="width: 120px;">転記</th>
+                            {% else %}
+                                <th style="width: 120px;">確認</th>
+                            {% endif %}
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
                     </thead>
@@ -332,7 +336,11 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <button type="button" value="{{ new_reserve_item.schedule.display_id }}" class="btn check-button">確認</button>
+                                    {% if env.domain_name == 'curves' %}
+                                        <button type="button" value="{{ new_reserve_item.schedule.display_id }}" class="btn check-button">転記済</button>
+                                    {% else %}
+                                        <button type="button" value="{{ new_reserve_item.schedule.display_id }}" class="btn check-button">確認</button>
+                                    {% endif %}
                                     <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#check_check_modal"></button>
                                 </td>
                                 <td class="text-center">

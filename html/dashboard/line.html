@@ -21,7 +21,11 @@
                         <tr>
                             <th style="width: 60px;">#</th>
                             {% include 'table/mini/sort.html' with text='登録者氏名' target='name' table=new_line_sort %}
-                            <th style="width: 120px;">確認</th>
+                            {% if env.domain_name == 'curves' %}
+                                <th style="width: 120px;">転記</th>
+                            {% else %}
+                                <th style="width: 120px;">確認</th>
+                            {% endif %}
                             <th style="width: 100px;">予約者詳細</th>
                         </tr>
                     </thead>
@@ -62,7 +66,11 @@
                                     <p class="content-date mb-0">{{ new_line_item.created_at|date:'Y年m月d日 H:i' }}</p>
                                 </td>
                                 <td>
-                                    <button type="button" value="{{ new_line_item.display_id }}" class="btn check-button">確認</button>
+                                    {% if env.domain_name == 'curves' %}
+                                        <button type="button" value="{{ new_line_item.display_id }}" class="btn check-button">転記済</button>
+                                    {% else %}
+                                        <button type="button" value="{{ new_line_item.display_id }}" class="btn check-button">確認</button>
+                                    {% endif %}
                                     <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#check_user_modal"></button>
                                 </td>
                                 <td class="text-center">
