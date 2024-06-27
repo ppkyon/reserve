@@ -241,7 +241,7 @@
                                             <p class="content-title mb-0">{{ after_reserve_item.schedule.online.name }}</p>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="position-relative">
                                         <div class="d-flex justify-content-start align-items-center">
                                             {% if after_reserve_item.profile.image %}
                                                 <img src="{{ after_reserve_item.profile.image.url }}" class="user-image me-2">
@@ -267,7 +267,7 @@
                                         <p class="content-date mb-0">{{ after_reserve_item.schedule.created_at|date:'Y年m月d日 H:i' }}</p>
                                     </td>
                                 {% else %}
-                                    <td>
+                                    <td class="position-relative">
                                         <div class="d-flex justify-content-start align-items-center">
                                             {% if after_reserve_item.profile.image %}
                                                 <img src="{{ after_reserve_item.profile.image.url }}" class="user-image me-2">
