@@ -212,7 +212,7 @@ def get_list(request, page):
                     data[data_index]['total'] = UserFlowSchedule.objects.filter(flow__user__shop=auth_login.shop, date__gte=after.replace(hour=0, minute=0, second=0, microsecond=0), date__isnull=False, temp_flg=False).exclude(Q(number=0)|Q(join=2)).distinct().count()
     if request.POST.get('item') == 'line':
         sort = MiniTableSort.objects.filter(url='/dashboard/', company=auth_login.company, shop=auth_login.shop, manager=request.user, page='dashboard', item='line').first()
-        new = UserFlowSchedule.objects.filter(id=OuterRef('pk'), created_at__gte=datetime.datetime.now()-datetime.timedelta(days=1)).values("check_flg")
+        new = LineUser.objects.filter(id=OuterRef('pk'), created_at__gte=datetime.datetime.now()-datetime.timedelta(days=1)).values("check_flg")
         if sort:
             if sort.target == 'name':
                 if sort.sort == 1:
