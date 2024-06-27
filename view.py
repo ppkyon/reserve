@@ -37,12 +37,16 @@ class TopBaseView(TemplateView):
         web_index = 'False'
         if env('WEB_INDEX'):
             web_index = env('WEB_INDEX')
+        domain_name = ''
+        if env('DOMAIN_NAME'):
+            domain_name = env('DOMAIN_NAME')
         context['env'] = {
             'domain_url': settings.DOMAIN_URL,
             'static_url': settings.STATIC_URL,
             'media_url': settings.MEDIA_URL,
             'site_name': site_name,
             'web_index': web_index,
+            'domain_name': domain_name,
         }
 
         manager = None

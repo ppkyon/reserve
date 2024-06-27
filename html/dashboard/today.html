@@ -199,9 +199,15 @@
                     <thead>
                         <tr>
                             <th style="width: 60px;">#</th>
-                            {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=today_reserve_sort %}
-                            {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=today_reserve_sort %}
-                            {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=today_reserve_sort %}
+                            {% if domain_name == 'curves' %}
+                                {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=today_reserve_sort %}
+                                {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=today_reserve_sort %}
+                                {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=today_reserve_sort %}
+                            {% else %}
+                                {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=today_reserve_sort %}
+                                {% include 'table/mini/sort.html' with text='予約日時' target='date' width='300' table=today_reserve_sort %}
+                                {% include 'table/mini/sort.html' with text='メニュー' target='setting' width='150' table=today_reserve_sort %}
+                            {% endif %}
                             {% include 'table/mini/sort.html' with text='LINE登録' target='line' width='120' table=today_reserve_sort %}
                             <th style="width: 120px;">受付チェック</th>
                             <th style="width: 100px;">予約者詳細</th>
@@ -213,40 +219,77 @@
                                 <td>
                                     <p class="content-title mb-0">{{ forloop.counter }}</p>
                                 </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-center">
-                                        {% if today_reserve_item.profile.image %}
-                                            <img src="{{ today_reserve_item.profile.image.url }}" class="user-image me-2">
-                                        {% elif today_reserve_item.display_image %}
-                                            <img src="{{ today_reserve_item.display_image }}" class="user-image me-2">
-                                        {% else %}
-                                            <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                                {% if domain_name == 'curves' %}
+                                    <td>
+                                        <p class="content-title mb-0">{{ today_reserve_item.reserve }}</p>
+                                    </td>
+                                    <td>
+                                        {% if today_reserve_item.schedule.offline %}
+                                            <p class="content-title mb-0">{{ today_reserve_item.schedule.offline.name }}</p>
+                                        {% elif today_reserve_item.schedule.online %}
+                                            <p class="content-title mb-0">{{ today_reserve_item.schedule.online.name }}</p>
                                         {% endif %}
-                                        {% if today_reserve_item.profile.name %}
-                                            {% if today_reserve_item.profile.age %}
-                                                <p class="content-title mb-0">{{ today_reserve_item.profile.name }} ({{ today_reserve_item.profile.age }})</p>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            {% if today_reserve_item.profile.image %}
+                                                <img src="{{ today_reserve_item.profile.image.url }}" class="user-image me-2">
+                                            {% elif today_reserve_item.display_image %}
+                                                <img src="{{ today_reserve_item.display_image }}" class="user-image me-2">
                                             {% else %}
-                                                <p class="content-title mb-0">{{ today_reserve_item.profile.name }}</p>
+                                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
                                             {% endif %}
-                                        {% else %}
-                                            {% if today_reserve_item.profile.age %}
-                                                <p class="content-title mb-0">{{ today_reserve_item.display_name }} ({{ today_reserve_item.profile.age }})</p>
+                                            {% if today_reserve_item.profile.name %}
+                                                {% if today_reserve_item.profile.age %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.profile.name }} ({{ today_reserve_item.profile.age }})</p>
+                                                {% else %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.profile.name }}</p>
+                                                {% endif %}
                                             {% else %}
-                                                <p class="content-title mb-0">{{ today_reserve_item.display_name }}</p>
+                                                {% if today_reserve_item.profile.age %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.display_name }} ({{ today_reserve_item.profile.age }})</p>
+                                                {% else %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.display_name }}</p>
+                                                {% endif %}
                                             {% endif %}
+                                        </div>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            {% if today_reserve_item.profile.image %}
+                                                <img src="{{ today_reserve_item.profile.image.url }}" class="user-image me-2">
+                                            {% elif today_reserve_item.display_image %}
+                                                <img src="{{ today_reserve_item.display_image }}" class="user-image me-2">
+                                            {% else %}
+                                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
+                                            {% endif %}
+                                            {% if today_reserve_item.profile.name %}
+                                                {% if today_reserve_item.profile.age %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.profile.name }} ({{ today_reserve_item.profile.age }})</p>
+                                                {% else %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.profile.name }}</p>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if today_reserve_item.profile.age %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.display_name }} ({{ today_reserve_item.profile.age }})</p>
+                                                {% else %}
+                                                    <p class="content-title mb-0">{{ today_reserve_item.display_name }}</p>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="content-title mb-0">{{ today_reserve_item.reserve }}</p>
+                                    </td>
+                                    <td>
+                                        {% if today_reserve_item.schedule.offline %}
+                                            <p class="content-title mb-0">{{ today_reserve_item.schedule.offline.name }}</p>
+                                        {% elif today_reserve_item.schedule.online %}
+                                            <p class="content-title mb-0">{{ today_reserve_item.schedule.online.name }}</p>
                                         {% endif %}
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="content-title mb-0">{{ today_reserve_item.reserve }}</p>
-                                </td>
-                                <td>
-                                    {% if today_reserve_item.schedule.offline %}
-                                        <p class="content-title mb-0">{{ today_reserve_item.schedule.offline.name }}</p>
-                                    {% elif today_reserve_item.schedule.online %}
-                                        <p class="content-title mb-0">{{ today_reserve_item.schedule.online.name }}</p>
-                                    {% endif %}
-                                </td>
+                                    </td>
+                                {% endif %}
                                 <td>
                                     {% if today_reserve_item.proxy_flg %}
                                         <p class="content-title mb-0" style="color: #FF0000;">未登録</p>
