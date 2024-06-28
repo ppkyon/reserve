@@ -28,22 +28,41 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<p class="content-title mb-0">' + data.number + '</p>';
         html += '</td>';
-        html += '<td>';
-        html += '<div class="d-flex justify-content-start align-items-center">';
-        html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="content-title mb-0">' + name + '</p>';
-        html += '</div>';
-        html += '</td>';
-        html += '<td>';
-        html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
-        html += '</td>';
-        html += '<td>';
-        if ( data.flow.user.schedule.offline ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
-        } else if ( data.flow.user.schedule.online ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
+            html += '<td class="position-relative">';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '</td>';
+        } else {
+            html += '<td class="position-relative">';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '</td>';
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
         }
-        html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
             html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
@@ -117,23 +136,43 @@ function append_mini_table_area(target, data) {
         }
         html += '</div>';
         html += '</td>';
-        html += '<td>';
-        html += '<div class="d-flex justify-content-start align-items-center">';
-        html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="content-title mb-0">' + name + '</p>';
-        html += '</div>';
-        html += '<p class="content-date mb-0">' + created_date + '</p>';
-        html += '</td>';
-        html += '<td>';
-        html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
-        html += '</td>';
-        html += '<td>';
-        if ( data.flow.user.schedule.offline ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
-        } else if ( data.flow.user.schedule.online ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
+            html += '<td class="position-relative">';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '<p class="content-date mb-0">' + created_date + '</p>';
+            html += '</td>';
+        } else {
+            html += '<td>';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '<p class="content-date mb-0">' + created_date + '</p>';
+            html += '</td>';
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
         }
-        html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
             html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
@@ -202,23 +241,43 @@ function append_mini_table_area(target, data) {
         html += '<td>';
         html += '<p class="content-title mb-0">' + data.number + '</p>';
         html += '</td>';
-        html += '<td>';
-        html += '<div class="d-flex justify-content-start align-items-center">';
-        html += '<img src="' + image + '" class="user-image me-2">';
-        html += '<p class="content-title mb-0">' + name + '</p>';
-        html += '</div>';
-        html += '<p class="content-date mb-0">' + created_date + '</p>';
-        html += '</td>';
-        html += '<td>';
-        html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
-        html += '</td>';
-        html += '<td>';
-        if ( data.flow.user.schedule.offline ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
-        } else if ( data.flow.user.schedule.online ) {
-            html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
+            html += '<td class="position-relative">';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '<p class="content-date mb-0">' + created_date + '</p>';
+            html += '</td>';
+        } else {
+            html += '<td>';
+            html += '<div class="d-flex justify-content-start align-items-center">';
+            html += '<img src="' + image + '" class="user-image me-2">';
+            html += '<p class="content-title mb-0">' + name + '</p>';
+            html += '</div>';
+            html += '<p class="content-date mb-0">' + created_date + '</p>';
+            html += '</td>';
+            html += '<td>';
+            html += '<p class="content-title mb-0">' + data.flow.user.reserve + '</p>';
+            html += '</td>';
+            html += '<td>';
+            if ( data.flow.user.schedule.offline ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.offline.name + '</p>';
+            } else if ( data.flow.user.schedule.online ) {
+                html += '<p class="content-title mb-0">' + data.flow.user.schedule.online.name + '</p>';
+            }
+            html += '</td>';
         }
-        html += '</td>';
         html += '<td>';
         if ( data.flow.user.proxy_flg ) {
             html += '<p class="content-title mb-0" style="color: #FF0000;">未登録</p>';
