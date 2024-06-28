@@ -280,29 +280,29 @@ $( function(){
                     if ( value.required_flg ) {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="' + value.description + '" required>';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '" required>';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="' + value.description + '" required>';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '" required>';
                             }
                         } else {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="" required>';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="" required>';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="" required>';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="" required>';
                             }
                         }
                     } else {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="' + value.description + '">';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '">';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="' + value.description + '">';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '">';
                             }
                         } else {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="">';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="">';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30F6]*" placeholder="">';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="">';
                             }
                         }
                     }

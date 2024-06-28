@@ -30,9 +30,9 @@
                     <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                         <label class="input-label mb-0">フリガナ</label>
                         <div class="input-text-area">
-                            <input type="text" value="{{ input.head.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" disabled>
+                            <input type="text" value="{{ input.head.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30FC]*" style="width: 41%" disabled>
                             <input type="hidden" name="head_family_name_kana" value="{{ input.head.family_name_kana|default:'' }}">
-                            <input type="text" value="{{ input.head.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" disabled>
+                            <input type="text" value="{{ input.head.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30FC]*" style="width: 41%" disabled>
                             <input type="hidden" name="head_first_name_kana" value="{{ input.head.first_name_kana|default:'' }}">
                         </div>
                         <label class="input-mark required mb-0">必須</label>

@@ -38,8 +38,8 @@
                         <div class="d-flex justify-content-start align-items-center ps-2 mb-3">
                             <label class="input-label mb-0">フリガナ</label>
                             <div class="input-text-area">
-                                <input type="text" name="head_family_name_kana" value="{{ input.head.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
-                                <input type="text" name="head_first_name_kana" value="{{ input.head.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="head_family_name_kana" value="{{ input.head.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                <input type="text" name="head_first_name_kana" value="{{ input.head.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled required>
                             </div>
                             <label class="input-mark required mb-0">必須</label>
                         </div>
@@ -111,11 +111,11 @@
                             <label class="input-label mb-0">フリガナ</label>
                             <div class="input-text-area">
                                 {% if input.manager.check == 'on' %}
-                                    <input type="text" name="manager_family_name_kana" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
-                                    <input type="text" name="manager_first_name_kana" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                    <input type="text" name="manager_family_name_kana" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
+                                    <input type="text" name="manager_first_name_kana" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled disabled>
                                 {% else %}
-                                    <input type="text" name="manager_family_name_kana" value="{{ input.manager.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
-                                    <input type="text" name="manager_first_name_kana" value="{{ input.manager.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30F6]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                    <input type="text" name="manager_family_name_kana" value="{{ input.manager.family_name_kana|default:'' }}" class="input-text ps-2 pe-2 me-3" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled required>
+                                    <input type="text" name="manager_first_name_kana" value="{{ input.manager.first_name_kana|default:'' }}" class="input-text ps-2 pe-2" pattern="[\u30A1-\u30FC]*" style="width: 41%" data-parsley-errors-messages-disabled required>
                                 {% endif %}
                             </div>
                             <label class="input-mark required mb-0">必須</label>
