@@ -286,7 +286,6 @@
 
 /* スマホ用レスポンシブ */
 @media screen and (max-width: 1180px) {
-
     .mini-table-area-pc,
     .table-tablet-pc {
         display: none;
@@ -303,9 +302,11 @@
     .mini-table-area-tablet .table-tablet td {
         height: 80px;
     }
+    
     .mini-table-area tbody tr .content-date {
         left: 8.8rem !important;
     }
+
     .search-button {
         width: 7rem !important;
     }
@@ -316,14 +317,9 @@
         min-width:330px;
         max-width: 823px;
     }
-
     .name {
         width: 100%;
-
     }
-        /* .name 
-        min-width: 674px;
-        max-width: 943px;*/
     .setting {
         min-width: 120px;
     }
@@ -357,11 +353,14 @@
         width: 34.5% !important;
     }
 
+    .mini-table-area table tbody tr td .dropdown-menu {
+        inset: inherit !important;
+        left: -260% !important;
+    }
 }
 
 
 @media screen and (max-width: 1024px) {
-
     .search-button {
         width: 9.2rem !important;
     }
@@ -373,10 +372,8 @@
     .setting {
         min-width: 120px;
     }
-    /* .name {
-        min-width: 523px;
-    } */
 }
+
 @media screen and (max-width: 820px) {
     .top-tablet {
         padding-left: 1rem !important;
@@ -386,14 +383,10 @@
     .date {
         min-width:300px;
     }
-    /* .name {
-        min-width: 439px;
-    } */
 
     .mini-table-area-tablet .table-tablet td {
         height: 110px;
     }
-
     .line-area .mini-table-area-tablet .table-tablet td {
         height: 70px;
     }
@@ -403,18 +396,10 @@
         margin-top: 0.5rem;
     }
 
-
-/* 
-    .content-title-tablet {
-        margin-top: 1.3rem;
-        margin-bottom: 0.5rem !important;
-    } */
-
     .created-date-sp {
         bottom: inherit !important;
         margin-top: 2.7rem !important;
     }
-
 
     .content-date-sp {
         display: block;
@@ -423,10 +408,7 @@
         height: auto;
         overflow-wrap: break-word;
     }
-
-    .content-date-sp p {
-        /* margin-bottom: 0.5rem !important; */
-        /* height: 2.2rem !important; */        
+    .content-date-sp p {       
         height: auto !important;
         overflow: visible !important;
         overflow-wrap: normal;
@@ -439,8 +421,4 @@
     .date {
         min-width:248px;
     }
-    /* .name {
-        min-width: 392px;
-    } */
-
 }
