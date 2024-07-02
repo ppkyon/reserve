@@ -110,8 +110,8 @@ def save(request):
                     print()
                 elif flow_item.type == 6:
                     head_flow_template = HeadFlowTemplate.objects.filter(flow=head_flow_item).first()
-                    if CompanyTemplateCardType.objects.filter(parent=head_flow_template.template_cardtype).exists():
-                        template = CompanyTemplateCardType.objects.filter(parent=head_flow_template.template_cardtype).first()
+                    if CompanyTemplateCardType.objects.filter(parent=head_flow_template.template_cardtype, company=auth_login.company).exists():
+                        template = CompanyTemplateCardType.objects.filter(parent=head_flow_template.template_cardtype, company=auth_login.company).first()
                     else:
                         template = CompanyTemplateCardType.objects.create(
                             id = str(uuid.uuid4()),
@@ -286,8 +286,8 @@ def save(request):
                     )
                 elif flow_item.type == 7:
                     head_flow_rich_menu = HeadFlowRichMenu.objects.filter(flow=head_flow_item).first()
-                    if CompanyRichMenu.objects.filter(parent=head_flow_rich_menu.rich_menu).exists():
-                        rich_menu = CompanyRichMenu.objects.filter(parent=head_flow_rich_menu.rich_menu).first()
+                    if CompanyRichMenu.objects.filter(parent=head_flow_rich_menu.rich_menu, company=auth_login.company).exists():
+                        rich_menu = CompanyRichMenu.objects.filter(parent=head_flow_rich_menu.rich_menu, company=auth_login.company).first()
                     else:
                         if head_flow_rich_menu.rich_menu:
                             rich_menu = CompanyRichMenu.objects.create(
@@ -336,7 +336,7 @@ def save(request):
                     template_text = None
                     if head_flow_action_reminder.template_text:
                         if CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_reminder.template_text).exists():
-                            template_text = CompanyTemplateText.objects.filter(parent=head_flow_action_reminder.template_text).first()
+                            template_text = CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_reminder.template_text).first()
                         else:
                             template_text = CompanyTemplateText.objects.create(
                                 id = str(uuid.uuid4()),
@@ -384,7 +384,7 @@ def save(request):
                     template_text = None
                     if head_flow_action_message.template_text:
                         if CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_message.template_text).exists():
-                            template_text = CompanyTemplateText.objects.filter(parent=head_flow_action_message.template_text).first()
+                            template_text = CompanyTemplateText.objects.filter(company=auth_login.company, parent=head_flow_action_message.template_text).first()
                         else:
                             template_text = CompanyTemplateText.objects.create(
                                 id = str(uuid.uuid4()),
