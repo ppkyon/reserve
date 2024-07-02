@@ -71,7 +71,11 @@ function append_mini_table_area(target, data) {
         }
         html += '</td>';
         html += '<td>';
-        html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn action-button">対応</button>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn action-button">確認</button>';
+        } else {
+            html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn action-button">対応</button>';
+        }
         html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#edit_step_modal"></button>';
         html += '</td>';
         html += '<td class="text-center">';
@@ -181,7 +185,11 @@ function append_mini_table_area(target, data) {
         }
         html += '</td>';
         html += '<td>';
-        html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn check-button">確認</button>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn check-button">転記済</button>';
+        } else {
+            html += '<button type="button" value="' + data.flow.user.display_id + '" class="btn check-button">確認</button>';
+        }
         html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#check_check_modal"></button>';
         html += '</td>';
         html += '<td class="text-center">';
@@ -356,7 +364,11 @@ function append_mini_table_area(target, data) {
         html += '<p class="content-date mb-0">' + created_date + '</p>';
         html += '</td>';
         html += '<td>';
-        html += '<button type="button" value="' + data.display_id + '" class="btn check-button">確認</button>';
+        if ( $( '#env_domain_name' ).val() == 'curves' ) {
+            html += '<button type="button" value="' + data.display_id + '" class="btn check-button">転記済</button>';
+        } else {
+            html += '<button type="button" value="' + data.display_id + '" class="btn check-button">確認</button>';
+        }
         html += '<button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#check_user_modal"></button>';
         html += '</td>';
         html += '<td class="text-center">';
