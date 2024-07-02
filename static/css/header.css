@@ -67,7 +67,8 @@
 }
 
 .side-sp,
-.logo-area-sp {
+.logo-area-sp,
+.menu-area-sp {
     display: none !important;
 }
 
@@ -80,29 +81,16 @@
     } 
 
     .header .menu-area-sp {
+        display: block !important;
         width: 2.8rem !important;
         height: 2.8rem !important;
-        margin-left: 1rem;
-        margin-top: 0.5rem;
-    }
-    .header .menu-area-sp span {
-        display: block;
+        margin-left: 0.5rem;
         position: absolute;
-        width: 2.5rem;
-        border-bottom: solid 1px #333;
-    }
-    .header .menu-area-sp span:nth-child(1) {
-        top: 1rem;
-    }
-    .header .menu-area-sp span:nth-child(2) {
-        top: 2rem;
-    }
-    .header .menu-area-sp span:nth-child(3) {
-        top: 3rem;
     }
 
     .logo-area-sp {
         display: block !important;
+        margin-left: 43% !important;
     }
     .logo-area-sp img {
         width: 6rem !important;
