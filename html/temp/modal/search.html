@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-11">
                         <div class="d-flex align-items-center">
-                            <p class="modal-title">絞り込み - お客様管理 - </p>
+                            <p class="modal-title">絞り込み - 代理予約管理 - </p>
                             <button type="button" class="btn reset-button ms-auto">絞り込み条件をリセット</button>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <label class="input-label me-3 mb-auto" style="width: 18%;">ステータス</label>
                                     <div style="width: 82%;">
-                                        {% for flow_key, flow_value in table.search.flow_list.items %}
+                                        {% for flow_key, flow_value in flow_check_list.items %}
                                             {% if forloop.counter|mod:4 == 1 %}
                                                 <div class="d-flex align-items-center w-100 mb-2">
                                             {% endif %}
