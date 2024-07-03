@@ -688,14 +688,14 @@ def get_query_data(request, company, shop, page):
             date_query.add(Q(**{'date': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
             date_query.add(Q(**{'time__gte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
             search_query.add(date_query, Q.OR)
-            search_query.add(Q(**{'date__gte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.OR)
+            search_query.add(Q(**{'date__gt': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.OR)
         elif search_item.item == 'datetime_to':
             date_query = Q()
             date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d %H:%M')
             date_query.add(Q(**{'date': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
             date_query.add(Q(**{'time__lte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
             search_query.add(date_query, Q.OR)
-            search_query.add(Q(**{'date__lte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.OR)
+            search_query.add(Q(**{'date__lt': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.OR)
         elif search_item.item == 'create_from':
             date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d')
             search_query.add(Q(**{'created_at__gte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
