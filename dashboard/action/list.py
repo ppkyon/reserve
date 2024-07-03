@@ -270,8 +270,8 @@ def get_query_data(request, company, shop, page):
             search_query.add(Q(**{'time__gte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
         elif search_item.item == 'datetime_to':
             date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d %H:%M')
-            search_query.add(Q(**{'date__lte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
-            search_query.add(Q(**{'time__lte': datetime.time(date.hour, date.minute, 0)}), Q.AND)
+            search_query.add(Q(**{'date__lte': datetime.datetime(date.year, date.month, date.day, 23, 59, 59)}), Q.AND)
+            search_query.add(Q(**{'time__lte': datetime.time(date.hour, date.minute, 59)}), Q.AND)
         elif search_item.item == 'create_from':
             date = datetime.datetime.strptime(search_item.text, '%Y/%m/%d')
             search_query.add(Q(**{'created_at__gte': datetime.datetime(date.year, date.month, date.day, 0, 0, 0)}), Q.AND)
