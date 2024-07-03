@@ -552,8 +552,8 @@ def get(request):
 def create_video(data, auth):
     video = None
     if data:
-        if CompanyTemplateVideo.objects.filter(parent=data).exists():
-            video = CompanyTemplateVideo.objects.filter(parent=data).first()
+        if CompanyTemplateVideo.objects.filter(parent=data, company=auth.company).exists():
+            video = CompanyTemplateVideo.objects.filter(parent=data, company=auth.company).first()
         else:
             video = CompanyTemplateVideo.objects.create(
                 id = str(uuid.uuid4()),
@@ -573,8 +573,8 @@ def create_video(data, auth):
 def create_question(data, auth):
     question = None
     if data:
-        if CompanyQuestion.objects.filter(parent=data).exists():
-            question = CompanyQuestion.objects.filter(parent=data).first()
+        if CompanyQuestion.objects.filter(parent=data, company=auth.company).exists():
+            question = CompanyQuestion.objects.filter(parent=data, company=auth.company).first()
         else:
             question = CompanyQuestion.objects.create(
                 id = str(uuid.uuid4()),

@@ -507,8 +507,8 @@ def paging(request):
 def create_video(data, auth):
     video = None
     if data:
-        if ShopTemplateVideo.objects.filter(parent=data).exists():
-            video = ShopTemplateVideo.objects.filter(parent=data).first()
+        if ShopTemplateVideo.objects.filter(parent=data, shop=auth.shop).exists():
+            video = ShopTemplateVideo.objects.filter(parent=data, shop=auth.shop).first()
         else:
             video = ShopTemplateVideo.objects.create(
                 id = str(uuid.uuid4()),
@@ -529,8 +529,8 @@ def create_video(data, auth):
 def create_question(data, auth):
     question = None
     if data:
-        if ShopQuestion.objects.filter(parent=data).exists():
-            question = ShopQuestion.objects.filter(parent=data).first()
+        if ShopQuestion.objects.filter(parent=data, shop=auth.shop).exists():
+            question = ShopQuestion.objects.filter(parent=data, shop=auth.shop).first()
         else:
             question = ShopQuestion.objects.create(
                 id = str(uuid.uuid4()),
