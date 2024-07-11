@@ -138,6 +138,9 @@
     color: #000;
     font-size: 1rem;
 }
+.chat-area .info-area .control-area .name-area a {
+    font-size: 1rem;
+}
 .chat-area .info-area .control-area .pin-area span {
     color: #707070;
     font-size: 0.8rem;
