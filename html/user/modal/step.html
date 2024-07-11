@@ -1,5 +1,147 @@
 {% load static %}
 
+<div id="add_step_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block ps-4 pe-4">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="d-flex align-items-center">
+                            <p class="modal-title">メニューを追加する</p>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body d-block">
+                <form id="add_step_form" action="{% url 'user:add_step' %}" method="POST" enctype="multipart/form-data" data-parsley-focus="none">
+                    <input type="hidden" name="user_id" value="{{ user.display_id }}">
+                    <div class="content ps-4 pe-4 mt-2 mb-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="mb-0">メニュー</label>
+                                    <div class="dropdown input-select-dropdown d-inline-block p-0">
+                                        <input type="text" name="menu" value="" class="input-text input-select ps-2 pe-2" data-bs-toggle="dropdown" readonly>
+                                        <input type="hidden" value="">
+                                        <div class="dropdown-menu" style="max-height: 75px;">
+                                            {% for menu_item in menu_list %}
+                                                {% if forloop.first %}
+                                                    <button type="button" value="{{ menu_item.display_id }}" class="btn dropdown-item fw-bold text-center">{{ menu_item.name }}</button>
+                                                {% else %}
+                                                    <button type="button" value="{{ menu_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">{{ menu_item.name }}</button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row text-center mt-2">
+                    <div class="col-5 offset-1">
+                        <button type="button" class="btn yes-button">追加する</button>
+                        <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_step_check_modal"></button>
+                    </div>
+                    <div class="col-5">
+                        <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_step_check_modal" class="modal up-modal fade" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="content-area" style="width: 100%; opacity: 1;">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <div class="mx-auto">
+                                <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                            </div>
+                            <div class="ps-4 pe-4">
+                                <p class="modal-title mb-1">メニューを追加してもよろしいですか？</p>
+                            </div>
+                            <div class="modal-description-area ps-3 pe-3">
+                                <p class="modal-description mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col-5 offset-1">
+                            <button type="button" class="btn yes-button">追加</button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_step_success_modal"></button>
+                            <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#add_step_error_modal"></button>
+                        </div>
+                        <div class="col-5">
+                            <button type="button" class="btn no-button" data-bs-dismiss="modal" aria-label="Close">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="loader-area" style="opacity: 0;">
+                    <div class="modal-loader-area d-flex justify-content-center align-items-center">
+                        <div class="form-loader spinner-border">
+                            <span class="visually-hidden">追加中...</span>
+                        </div>
+                        <p class="h5 fw-bold ms-3 mb-0">追加中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_step_success_modal" class="modal up-modal fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">追加しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add_step_error_modal" class="modal up-modal fade" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <div class="mx-auto">
+                            <i class="mdi mdi-alert-circle-outline text-danger display-4"></i>
+                        </div>
+                        <div class="ps-5 pe-5">
+                            <p class="modal-title mb-0">追加に失敗しました</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn close-button">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="edit_step_modal" class="modal step-modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">

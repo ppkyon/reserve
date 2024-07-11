@@ -3,11 +3,17 @@ from django.shortcuts import redirect
 from view import UserView, UserListView
 
 from question.models import UserQuestion
-from flow.models import HeadFlow, UserFlow, UserFlowSchedule
-from reserve.models import ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+from flow.models import HeadFlow, ShopFlowTab, UserFlow, UserFlowSchedule
+from reserve.models import (
+    ReserveOfflineSetting, ReserveOnlineSetting,
+    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu
+)
+from setting.models import ShopOffline, ShopOnline
 from sign.models import AuthLogin
 from tag.models import ShopTag, UserHashTag
 from user.models import LineUser, UserProfile, UserAlert
+
+from itertools import chain
 
 import phonenumbers
 import re
@@ -92,6 +98,82 @@ class DetailView(UserView):
                             context['setting_list'].append(user_flow_schedule_item.offline)
                         elif user_flow_schedule_item.online:
                             context['setting_list'].append(user_flow_schedule_item.online)
+        
+        context['menu_list'] = list()
+        user_flow = UserFlow.objects.filter(user=context['user']).first()
+        offline_list = ShopOffline.objects.filter(shop=auth_login.shop).order_by('created_at').all()
+        for offline_index, offline_item in enumerate(offline_list):
+            offline_list[offline_index].type = 1
+        online_list = ShopOnline.objects.filter(shop=auth_login.shop).order_by('created_at').all()
+        for online_index, online_item in enumerate(online_list):
+            online_list[online_index].type = 2
+        online_offline_list = list(chain(offline_list, online_list))
+        if context['user'].member_flg:
+            for flow_tab in ShopFlowTab.objects.filter(flow=user_flow.flow, member=1).order_by('number').all():
+                check_flow = UserFlow.objects.filter(user=user_flow.user, flow_tab=flow_tab).first()
+                if not check_flow:
+                    for online_offline_item in online_offline_list:
+                        if online_offline_item.type == 1:
+                            setting = ReserveOfflineSetting.objects.filter(offline=online_offline_item, display_flg=True).all()
+                            for setting_item in setting:
+                                if ReserveOfflineFlowMenu.objects.filter(offline=setting_item, flow=flow_tab.name).exists():
+                                    if setting_item.advance:
+                                        advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting_item.advance).first()
+                                        if advance_setting:
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user_flow.user, offline=advance_setting, temp_flg=False).exclude(number=0).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
+                                                context['menu_list'].append(setting_item)
+                                        else:
+                                            context['menu_list'].append(setting_item)
+                                    else:
+                                        context['menu_list'].append(setting_item)
+                        elif online_offline_item.type == 2:
+                            setting = ReserveOnlineSetting.objects.filter(online=online_offline_item, display_flg=True).all()
+                            for setting_item in setting:
+                                if ReserveOnlineFlowMenu.objects.filter(online=setting_item, flow=flow_tab.name).exists():
+                                    if setting_item.advance:
+                                        advance_setting = ReserveOnlineSetting.objects.filter(display_id=setting_item.advance).first()
+                                        if advance_setting:
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user_flow.user, online=advance_setting, temp_flg=False).exclude(number=0).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
+                                                context['menu_list'].append(setting_item)
+                                        else:
+                                            context['menu_list'].append(setting_item)
+                                    else:
+                                        context['menu_list'].append(setting_item)
+        else:
+            for flow_tab in ShopFlowTab.objects.filter(flow=user_flow.flow, member=0).order_by('number').all():
+                check_flow = UserFlow.objects.filter(user=user_flow.user, flow_tab=flow_tab).first()
+                if not check_flow:
+                    for online_offline_item in online_offline_list:
+                        if online_offline_item.type == 1:
+                            setting = ReserveOfflineSetting.objects.filter(offline=online_offline_item, display_flg=True).all()
+                            for setting_item in setting:
+                                if ReserveOfflineFlowMenu.objects.filter(offline=setting_item, flow=flow_tab.name).exists():
+                                    if setting_item.advance:
+                                        advance_setting = ReserveOfflineSetting.objects.filter(display_id=setting_item.advance).first()
+                                        if advance_setting:
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user_flow.user, offline=advance_setting, temp_flg=False).exclude(number=0).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
+                                                context['menu_list'].append(setting_item)
+                                        else:
+                                            context['menu_list'].append(setting_item)
+                                    else:
+                                        context['menu_list'].append(setting_item)
+                        elif online_offline_item.type == 2:
+                            setting = ReserveOnlineSetting.objects.filter(online=online_offline_item, display_flg=True).all()
+                            for setting_item in setting:
+                                if ReserveOnlineFlowMenu.objects.filter(online=setting_item, flow=flow_tab.name).exists():
+                                    if setting_item.advance:
+                                        advance_setting = ReserveOnlineSetting.objects.filter(display_id=setting_item.advance).first()
+                                        if advance_setting:
+                                            advance_schedule = UserFlowSchedule.objects.filter(flow__user=user_flow.user, online=advance_setting, temp_flg=False).exclude(number=0).first()
+                                            if advance_schedule and advance_schedule.date and advance_schedule.time:
+                                                context['menu_list'].append(setting_item)
+                                        else:
+                                            context['menu_list'].append(setting_item)
+                                    else:
+                                        context['menu_list'].append(setting_item)
 
         context['age_list'] = [i for i in range(101)]
         return context

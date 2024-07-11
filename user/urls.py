@@ -17,6 +17,7 @@ urlpatterns = [
     path('get/', user.get, name='get'),
     path('member/', user.member, name='member'),
     
+    path('step/add/', step.add, name='add_step'),
     path('step/save/', step.save, name='save_step'),
     path('step/save/check', step.save_check, name='save_step_check'),
     path('step/get/', step.get, name='get_step'),

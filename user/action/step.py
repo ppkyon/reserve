@@ -3,12 +3,14 @@ from django.http import JsonResponse
 
 from linebot import LineBotApi
 
-from flow.models import ShopFlowItem, ShopFlowTemplate, ShopFlowActionReminder, ShopFlowActionMessage, UserFlow, UserFlowSchedule, UserFlowActionReminder
+from flow.models import ShopFlowTab, ShopFlowItem, ShopFlowTemplate, ShopFlowRichMenu, ShopFlowActionReminder, ShopFlowActionMessage, UserFlow, UserFlowSchedule, UserFlowActionReminder
 from reception.models import ReceptionOfflinePlace, ReceptionOnlinePlace, ReceptionOfflineManager, ReceptionOnlineManager, ReceptionOfflineManagerSetting, ReceptionOnlineManagerSetting
 from reserve.models import (
     ReserveOfflineSetting, ReserveOnlineSetting, ReserveOfflineFacility, ReserveOnlineFacility, ReserveOfflineCourse, ReserveOnlineCourse, ReserveUserStartDate,
-    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveCalendarDate, ReserveCalendarTime, ReserveTempCalendar
+    ReserveOfflineManagerMenu, ReserveOnlineManagerMenu, ReserveOfflineFacilityMenu, ReserveOnlineFacilityMenu, ReserveOfflineFlowMenu, ReserveOnlineFlowMenu,
+    ReserveCalendarDate, ReserveCalendarTime, ReserveTempCalendar
 )
+from richmenu.models import UserRichMenu
 from setting.models import ShopOffline, ShopOnline
 from sign.models import AuthLogin, ShopLine, AuthUser, ManagerProfile
 from template.models import ShopTemplateTextItem, ShopTemplateVideo, ShopTemplateCardType
@@ -18,11 +20,128 @@ from common import create_code, send_textarea_replace, get_model_field
 from flow.action.go import go
 from line.action.common import line_info
 from line.action.message import push_text_message, push_image_message, push_video_message, push_card_type_message
+from line.action.richmenu import create_rich_menu, delete_rich_menu
 
 import datetime
 import pandas
 import re
 import uuid
+
+def add(request):
+    auth_login = AuthLogin.objects.filter(user=request.user).first()
+    user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('id')).first()
+
+    if ReserveOfflineSetting.objects.filter(display_id=request.POST.get('menu')).exists():
+        offline = ReserveOfflineSetting.objects.filter(display_id=request.POST.get('menu')).first()
+        for offline_flow_menu in ReserveOfflineFlowMenu.objects.filter(shop=auth_login.shop, offline=offline).order_by('offline__number').all():
+            if not UserFlow.objects.filter(user=user, flow_tab__name=offline_flow_menu.flow).order_by('number').exists():
+                flow_tab = ShopFlowTab.objects.filter(flow__shop=auth_login.shop, name=offline_flow_menu.flow).first()
+                target_flow_item = None
+                target_rich_menu = None
+                for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).all():
+                    if flow_item.type == 7:
+                        target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                        target_rich_menu = target_rich_menu.rich_menu
+                    if flow_item.type == 10:
+                        target_flow_item = flow_item
+                        break
+                delete_rich_menu(user)
+                if target_rich_menu:
+                    UserRichMenu.objects.filter(user=user).all().delete()
+                    UserRichMenu.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user,
+                        rich_menu = target_rich_menu
+                    )
+                    create_rich_menu(user)
+
+                user_flow = UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = flow_tab.flow,
+                    flow_tab = flow_tab,
+                    flow_item = target_flow_item,
+                    name = flow_tab.name,
+                    richmenu = target_rich_menu,
+                    end_flg = False,
+                )
+                if not UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
+                    reserve_offline_flow = ReserveOfflineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('offline__number').first()
+                    if reserve_offline_flow:
+                        if reserve_offline_flow.offline:
+                            UserFlowSchedule.objects.create(
+                                id = str(uuid.uuid4()),
+                                display_id = create_code(12, UserFlow),
+                                flow = user_flow,
+                                number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
+                                date = None,
+                                time = None,
+                                join = 0,
+                                offline = reserve_offline_flow.offline,
+                                offline_course = None,
+                                offline_facility = None,
+                                manager = None,
+                                question = None,
+                            )
+                break
+    elif ReserveOnlineSetting.objects.filter(display_id=request.POST.get('menu')).exists():
+        online = ReserveOnlineSetting.objects.filter(display_id=request.POST.get('menu')).first()
+        for online_flow_menu in ReserveOnlineFlowMenu.objects.filter(shop=auth_login.shop, online=online).order_by('online__number').all():
+            if not UserFlow.objects.filter(user=user, flow_tab__name=online_flow_menu.flow).order_by('number').exists():
+                flow_tab = ShopFlowTab.objects.filter(flow__shop=auth_login.shop, name=online_flow_menu.flow).first()
+                target_flow_item = None
+                target_rich_menu = None
+                for flow_item in ShopFlowItem.objects.filter(flow_tab=flow_tab).all():
+                    if flow_item.type == 7:
+                        target_rich_menu = ShopFlowRichMenu.objects.filter(flow=flow_item).first()
+                        target_rich_menu = target_rich_menu.rich_menu
+                    if flow_item.type == 10:
+                        target_flow_item = flow_item
+                        break
+                delete_rich_menu(user)
+                if target_rich_menu:
+                    UserRichMenu.objects.filter(user=user).all().delete()
+                    UserRichMenu.objects.create(
+                        id = str(uuid.uuid4()),
+                        user = user,
+                        rich_menu = target_rich_menu
+                    )
+                    create_rich_menu(user)
+
+                user_flow = UserFlow.objects.create(
+                    id = str(uuid.uuid4()),
+                    display_id = create_code(12, UserFlow),
+                    user = user,
+                    number = UserFlow.objects.filter(user=user).count() + 1,
+                    flow = flow_tab.flow,
+                    flow_tab = flow_tab,
+                    flow_item = target_flow_item,
+                    name = flow_tab.name,
+                    richmenu = target_rich_menu,
+                    end_flg = False,
+                )
+                if not UserFlowSchedule.objects.filter(flow=user_flow, join=0, temp_flg=False).exclude(number=0).exists():
+                    reserve_online_flow = ReserveOnlineFlowMenu.objects.filter(shop=user.shop, flow=flow_tab.name).order_by('online__number').first()
+                    if reserve_online_flow:
+                        if reserve_online_flow.online:
+                            UserFlowSchedule.objects.create(
+                                id = str(uuid.uuid4()),
+                                display_id = create_code(12, UserFlow),
+                                flow = user_flow,
+                                number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
+                                date = None,
+                                time = None,
+                                join = 0,
+                                online = reserve_online_flow.online,
+                                online_course = None,
+                                online_facility = None,
+                                manager = None,
+                                question = None,
+                            )
+                break
+    return JsonResponse( {}, safe=False )
 
 def save(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
@@ -163,6 +282,36 @@ def save(request):
                             flow_flg = True
                     UserAlert.objects.filter(user=user, number=user_flow.number).all().delete()
                 elif join == 2:
+                    if user_flow_schedule.offline:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            offline = user_flow_schedule.offline,
+                            offline_course = None,
+                            offline_facility = None,
+                            manager = None,
+                            question = None,
+                        )
+                    elif user_flow_schedule.online:
+                        UserFlowSchedule.objects.create(
+                            id = str(uuid.uuid4()),
+                            display_id = create_code(12, UserFlow),
+                            flow = user_flow,
+                            number = UserFlowSchedule.objects.filter(flow=user_flow, temp_flg=False).exclude(number=0).count() + 1,
+                            date = None,
+                            time = None,
+                            join = 0,
+                            online = user_flow_schedule.online,
+                            online_course = None,
+                            online_facility = None,
+                            manager = None,
+                            question = None,
+                        )
                     remove = re.compile(r"<[^>]*?>")
                     if request.POST.get('message_type') == '1':
                         push_text_message(user, remove.sub( '', request.POST.get('message') ), None)

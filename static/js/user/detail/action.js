@@ -1,5 +1,43 @@
 
 $( function() {
+    $( '#add_step_modal .yes-button' ).on( 'click', function() {
+        if ( check_empty($( '#add_step_form [name=menu]' ).next().val()) ) {
+            $( this ).next().trigger( 'click' );
+            up_modal();
+        }
+    });
+    $( '#add_step_check_modal .yes-button' ).on( 'click', function() {
+        $( this ).parents( '.modal' ).find( '.content-area' ).css( 'opacity', 0 );
+        $( this ).parents( '.modal' ).find( '.loader-area' ).css( 'opacity', 1 );
+        $( this ).prop( 'disabled', true );
+        
+        var target = $( this );
+        var form_data = new FormData();
+        form_data.append( 'id', $( '#add_step_form [name=user_id]' ).val() );
+        form_data.append( 'menu', $( '#add_step_form [name=menu]' ).next().val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#add_step_form' ).attr( 'action' ),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            setTimeout( function() {
+                $( '#add_step_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        }).fail( function(){
+            setTimeout( function() {
+                $( '#add_step_check_modal .no-button' ).trigger( 'click' );
+                $( target ).next().next().trigger( 'click' );
+                up_modal();
+            }, 750 );
+        });
+    });
+    action_reload( 'add_step' );
+
     $( '.member-button' ).on( 'click', function() {
         var target = $( this );
         var form_data = new FormData();

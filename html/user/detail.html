@@ -13,6 +13,11 @@
             <p class="main-title mb-3">{{ title }}</p>
         </div>
         <div class="col-7 d-flex justify-content-end align-items-center">
+            {% if menu_list|length > 0 %}
+                {% if request.user.authority > 2 or request.user.head_flg or request.user.company_flg %}
+                    <button class="btn main-button plus p-0 ps-3 mb-3" style="margin-right: 1.5rem;" data-bs-toggle="modal" data-bs-target="#add_step_modal">メニューを追加する</button>
+                {% endif %}
+            {% endif %}
             {% if not user.member_flg %}
                 <input type="hidden" id="get_user_url" value="{% url 'user:get' %}">
                 <button type="button" value="{{ user.display_id }}" class="btn d-flex align-items-center main-button member-button p-0 me-3 mb-3">
