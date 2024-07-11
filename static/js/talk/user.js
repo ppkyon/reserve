@@ -59,6 +59,7 @@ $( function() {
             } else {
                 $( '#line_message_user_name' ).text( response.line_user.profile.name );
             }
+            $( '#line_message_user_name' ).attr( 'href', '/user/detail/?id=' + response.line_user.display_id );
             
             if ( response.line_user.profile != null && response.line_user.profile.image != null && response.line_user.profile.image != '' ) {
                 $( '#line_message_user_image' ).attr( 'src', $( '#env_media_url' ).val() + response.line_user.profile.image );

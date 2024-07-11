@@ -13,9 +13,9 @@
     <div class="control-area">
         <div class="name-area d-flex align-items-center justify-content-start">
             {% if line_message_user.profile and line_message_user.profile.name %}
-                <p id="line_message_user_name" class="mb-0">{{ line_message_user.profile.name }}</p>
+                <a id="line_message_user_name" href="{% url 'user:detail' %}?id={{ line_message_user.display_id }}" class="mb-0">{{ line_message_user.profile.name }}</a>
             {% else %}
-                <p id="line_message_user_name" class="mb-0">{{ line_message_user.display_name }}</p>
+                <a id="line_message_user_name" href="{% url 'user:detail' %}?id={{ line_message_user.display_id }}" class="mb-0">{{ line_message_user.display_name }}</a>
             {% endif %}
         </div>
         {% if request.user.authority > 1 %}
