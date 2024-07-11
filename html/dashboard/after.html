@@ -205,8 +205,8 @@
     </div>
     <div class="row mb-2">
         <div class="col-12">
-            <div class="mini-table-area mini-table-area-pc">
-                <table class="table table-pc mb-0">
+            <div class="mini-table-area mini-table-area-sp">
+                <table class="table table-sp mb-0">
                     <thead>
                         <tr>
                             <th style="width: 60px;">#</th>
@@ -221,7 +221,7 @@
                             {% endif %}
                             {% include 'table/mini/sort.html' with text='LINE登録' target='line' width='120' table=after_reserve_sort %}
                             <th style="width: 120px;"></th>
-                            <th style="width: 100px; text-align: center;">予約者詳細</th>
+                            <th style="width: 100px;">予約者詳細</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -316,159 +316,6 @@
                                         <button type="button" class="btn" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-horizontal-rounded bx-sm"></i>
                                         </button>
-                                        <div class="dropdown-menu">
-                                            <button type="button" value="{{ after_reserve_item.display_id }}" class="btn dropdown-item dropdown-preview-button fw-bold text-center">プレビュー</button>
-                                            <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>
-                                            {% if after_reserve_item.proxy_flg %}
-                                                <a href="{% url 'temp:detail' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
-                                            {% else %}
-                                                <a href="{% url 'user:detail' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">詳細</a>
-                                            {% endif %}
-                                            {% if not after_reserve_item.proxy_flg %}
-                                                <a href="{% url 'talk:index' %}?id={{ after_reserve_item.display_id }}" class="btn dropdown-item fw-bold text-center border-top p-1 pt-2">1対1トーク</a>
-                                            {% endif %}
-                                            {% if not after_reserve_item.member_flg %}
-                                                <button type="button" value="{{ after_reserve_item.display_id }}" class="btn member-button dropdown-item fw-bold text-center border-top p-1 ps-2 pe-2 pt-2">会員登録</a>
-                                                <button type="button" class="up-modal-button d-none" data-bs-toggle="modal" data-bs-target="#member_user_check_modal"></button>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <input type="hidden" value="dashboard">
-                <input type="hidden" value="after">
-            </div>
-
-            <div class="mini-table-area mini-table-area-tablet">
-                <table class="table table-tablet mb-0">
-                    <thead>
-                        <tr>
-                            <th style="min-width: 83px;">#</th>
-                            {% if env.domain_name == 'curves' %}
-                                {% include 'table/mini/sort.html' with text='予約日時' target='date' table=after_reserve_sort %}
-                                {% include 'table/mini/sort.html' with text='メニュー' target='setting' table=after_reserve_sort %}
-                                <!-- {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=after_reserve_sort %} -->
-                            {% else %}
-                                <!-- {% include 'table/mini/sort.html' with text='予約者氏名' target='name' table=after_reserve_sort %} -->
-                                {% include 'table/mini/sort.html' with text='予約日時' target='date' table=after_reserve_sort %}
-                                {% include 'table/mini/sort.html' with text='メニュー' target='setting' table=after_reserve_sort %}
-                            {% endif %}
-                            <!-- {% include 'table/mini/sort.html' with text='LINE登録' target='line' width='120' table=after_reserve_sort %} -->
-                            <th style="min-width: 120px;"></th>
-                            <th style="min-width: 100px; text-align: center;">予約者詳細</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for after_reserve_item in after_reserve_list %}
-                            <tr class="position-relative">
-                                <td>
-                                    <p class="content-title mb-0">{{ forloop.counter }}</p>
-                                </td>
-                                {% if env.domain_name == 'curves' %}
-                                    <td>
-                                        <div class="d-flex">
-                                            <div>
-                                            {% if after_reserve_item.profile.image %}
-                                                <img src="{{ after_reserve_item.profile.image.url }}" class="user-image me-2">
-                                            {% elif after_reserve_item.display_image %}
-                                                <img src="{{ after_reserve_item.display_image }}" class="user-image me-2">
-                                            {% else %}
-                                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
-                                            {% endif %}
-                                            </div>
-                                            <div>
-                                                <div class="content-date-sp">
-                                                    <p class="content-title mb-1">{{ after_reserve_item.reserve }}</p>
-                                                </div>
-                                                <div>
-                                                    <div class="d-flex justify-content-start align-items-center">
-                                                        {% if after_reserve_item.profile.name %}
-                                                            {% if after_reserve_item.profile.age %}
-                                                                <p class="content-title mb-1">{{ after_reserve_item.profile.name }} ({{ after_reserve_item.profile.age }})</p>
-                                                            {% else %}
-                                                                <p class="content-title mb-1">{{ after_reserve_item.profile.name }}</p>
-                                                            {% endif %}
-                                                        {% else %}
-                                                            {% if after_reserve_item.profile.age %}
-                                                                <p class="content-title mb-1">{{ after_reserve_item.display_name }} ({{ after_reserve_item.profile.age }})</p>
-                                                            {% else %}
-                                                                <p class="content-title mb-1">{{ after_reserve_item.display_name }}</p>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    </div>
-                                                    <p class="content-date mb-0">{{ after_reserve_item.schedule.created_at|date:'Y年m月d日 H:i' }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="align-items: center;">
-                                        <div>
-                                        {% if after_reserve_item.schedule.offline %}
-                                            <p class="content-title mb-1">{{ after_reserve_item.schedule.offline.name }}</p>
-                                        {% elif after_reserve_item.schedule.online %}
-                                            <p class="content-title mb-1">{{ after_reserve_item.schedule.online.name }}</p>
-                                        {% endif %}
-                                        </div>
-                                        <div>
-                                        {% if after_reserve_item.proxy_flg %}
-                                            <p class="content-title mb-1" style="color: #FF0000;">未登録</p>
-                                        {% else %}
-                                            <p class="content-title mb-1">登録済み</p>
-                                        {% endif %}
-                                        </div>
-                                    </td>
-                                    <td style="min-width: 120px;"></td>
-                                {% else %}
-                                    <td class="position-relative">
-                                        <div class="d-flex">
-                                            <div>
-                                            {% if after_reserve_item.profile.image %}
-                                                <img src="{{ after_reserve_item.profile.image.url }}" class="user-image me-2">
-                                            {% elif after_reserve_item.display_image %}
-                                                <img src="{{ after_reserve_item.display_image }}" class="user-image me-2">
-                                            {% else %}
-                                                <img src="{% static 'img/user-none.png' %}" class="user-image me-2">
-                                            {% endif %}
-                                            </div>
-                                            <div>
-                                                <div  class="content-date-sp mb-1">
-                                                    <p class="content-title">{{ after_reserve_item.reserve }}</p>
-                                                </div>
-                                                <div>
-                                                    <div class="d-flex justify-content-start align-items-center">
-                                                        {% if after_reserve_item.profile.name %}
-                                                            {% if after_reserve_item.profile.age %}
-                                                                <p class="content-title mb-0">{{ after_reserve_item.profile.name }} ({{ after_reserve_item.profile.age }})</p>
-                                                            {% else %}
-                                                                <p class="content-title mb-0">{{ after_reserve_item.profile.name }}</p>
-                                                            {% endif %}
-                                                        {% else %}
-                                                            {% if after_reserve_item.profile.age %}
-                                                                <p class="content-title mb-0">{{ after_reserve_item.display_name }} ({{ after_reserve_item.profile.age }})</p>
-                                                            {% else %}
-                                                                <p class="content-title mb-0">{{ after_reserve_item.display_name }}</p>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    </div>
-                                                    <p class="content-date mb-0">{{ after_reserve_item.schedule.created_at|date:'Y年m月d日 H:i' }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="align-items: center;">
-                                        {% if after_reserve_item.schedule.offline %}
-                                            <p class="content-title mb-0">{{ after_reserve_item.schedule.offline.name }}</p>
-                                        {% elif after_reserve_item.schedule.online %}
-                                            <p class="content-title mb-0">{{ after_reserve_item.schedule.online.name }}</p>
-                                        {% endif %}
-                                    </td>
-                                {% endif %}
-                                <td class="text-center">
-                                    <div class="dropdown d-inline-block p-0">
-                                        <button type="button" class="btn dropdown-btn" data-bs-toggle="dropdown"></button>
                                         <div class="dropdown-menu">
                                             <button type="button" value="{{ after_reserve_item.display_id }}" class="btn dropdown-item dropdown-preview-button fw-bold text-center">プレビュー</button>
                                             <button type="button" class="d-none" data-bs-toggle="offcanvas" data-bs-target="#user_profile_offcanvas"></button>
