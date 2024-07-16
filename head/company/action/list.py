@@ -41,7 +41,7 @@ def get_list(request, page):
         company[company_index]['profile'] = CompanyProfile.objects.filter(company__id=company_item['id']).values(*get_model_field(CompanyProfile)).first()
         company[company_index]['total'] = total
 
-        if Prefecture.objects.filter(id=company_item['profile']['company_prefecture']).exists():
+        if company_item['profile'] and Prefecture.objects.filter(id=company_item['profile']['company_prefecture']).exists():
             company[company_index]['profile']['prefecture_name'] = Prefecture.objects.filter(id=company_item['profile']['company_prefecture']).first().name
         else:
             company[company_index]['profile']['prefecture_name'] = ''
