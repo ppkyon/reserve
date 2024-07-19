@@ -1,4 +1,7 @@
 $( function() {
+    $( '.text-area p' ).each( function( index, value ) {
+        $( this ).text(convert_unicode($( this ).text()));
+    });
     $( '.talk-slide' ).each( function( index, value ) {
         $( this ).slick({
             infinite: false,
@@ -55,7 +58,7 @@ function create_message( response, value, last_date ) {
             html += '<div class="content-item d-flex align-items-center position-relative mt-3 mb-3">';
             html += '<img id="line_message_user_image" src="' + image + '">';
             html += '<div class="text-area p-2 ms-5 position-relative">';
-            html += '<p class="mb-0">' + value.text.replaceAll('\\n','\n').replaceAll('\\r','') + '</p>';
+            html += '<p class="mb-0">' + convert_unicode(value.text.replaceAll('\\n','\n').replaceAll('\\r','')) + '</p>';
             html += '</div>';
             html += '<p class="ps-1 mt-auto mb-2"> ' + send_date + '</p>';
             html += '</div>';
@@ -270,6 +273,20 @@ function create_message( response, value, last_date ) {
     }
     return html;
 }
+
+function convert_unicode(text) {
+	var result = '';
+    var match = text.match(/\\u.{4}/ig);
+	if ( !match ) {
+        return text;
+    }
+	for (var i = 0, len = match.length; i < len; i++) {
+		result = String.fromCharCode(match[i].replace('\\u', '0x'));
+        text = text.replace(match[i], result);
+	}
+    
+	return text;
+};
 
 function scroll_message() {
     setTimeout( function() {

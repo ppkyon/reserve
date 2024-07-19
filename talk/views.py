@@ -1,6 +1,5 @@
 from django.db import models
 
-
 from view import ShopView
 
 from sign.models import AuthLogin, AuthUser, ManagerProfile
