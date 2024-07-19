@@ -158,6 +158,8 @@ def handle_message(line_user_id, shop, body):
         handle_audio_message(user, message, message_type)
     elif message_type == 4:
         handle_location_message(user, message, message_type)
+    elif message_type == 9:
+        handle_sticker_message(user, message, message_type)
         
     count_read(user)
     talk_update(user)
@@ -267,6 +269,20 @@ def handle_location_message(user, message, message_type):
         send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
     )
 
+def handle_sticker_message(user, message, message_type):
+    TalkMessage.objects.create(
+        id = str(uuid.uuid4()),
+        display_id = create_code(16, TalkMessage),
+        user = user,
+        line_user_id = user.line_user_id,
+        line_message_id = message['id'],
+        reply_token = message['reply_token'],
+        message_type = message_type,
+        sticker_id = message['sticker_id'],
+        account_type = 0,
+        send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
+    )
+
 
 
 def update_user(line_user_id, shop):
@@ -352,6 +368,8 @@ def get_message_data(body):
     message['id'] = message_data[:message_data.find('","')]
     message_data = message_data[message_data.find('","text":"')+len('","text":"'):]
     message['text'] = message_data[:message_data.find('"},"')]
+    message_data = message_data[message_data.find('","stickerId":"')+len('","stickerId":"'):]
+    message['sticker_id'] = message_data[:message_data.find('","')]
     message_data = message_data[message_data.find('},"timestamp":')+len('},"timestamp":'):]
     message['timestamp'] = message_data[:message_data.find(',"')]
     message_data = message_data[message_data.find('"},"replyToken":"')+len('"},"replyToken":"'):]

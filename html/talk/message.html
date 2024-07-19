@@ -375,6 +375,10 @@
                                 {% endif %}
                             </ul>
                         </div>
+                    {% elif line_message_item.message_type == 9 %}
+                        <div class="image-area ms-5 position-relative">
+                            <img src="{{ line_message_item.sticker }}">
+                        </div>
                     {% endif %}
                     <p class="ps-1 mt-auto mb-2">{{ line_message_item.send_date|date:'H:i' }}</p>
                 </div>

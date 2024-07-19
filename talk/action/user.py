@@ -42,6 +42,8 @@ def change(request):
                     line_user['message'][line_message_index]['template'][template_index]['person'] = ShopTemplateCardTypePerson.objects.filter(template__id=template_item['id']).values(*get_model_field(ShopTemplateCardTypePerson)).first()
                 elif template_item['type'] == 4:
                     line_user['message'][line_message_index]['template'][template_index]['image'] = ShopTemplateCardTypeImage.objects.filter(template__id=template_item['id']).values(*get_model_field(ShopTemplateCardTypeImage)).first()
+        elif line_user['message'][line_message_index]['message_type'] == 9:
+            line_user['message'][line_message_index]['sticker'] = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/' + line_user['message'][line_message_index]['sticker_id'] + '/iPhone/sticker_key@2x.png'
 
     line_user['talk_manager'] = None
     line_user['talk_status'] = None

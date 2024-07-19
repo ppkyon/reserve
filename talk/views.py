@@ -69,6 +69,8 @@ class IndexView(ShopView):
                         elif context['line_message'][line_message_index].card_type.type == 4:
                             context['line_message'][line_message_index].card_type.image = TalkMessageCardTypeImage.objects.filter(card_type=context['line_message'][line_message_index].card_type).order_by('number').all()
                         context['line_message'][line_message_index].card_type.more = TalkMessageCardTypeMore.objects.filter(card_type=context['line_message'][line_message_index].card_type).first()
+                elif line_message_item.message_type == 9:
+                    context['line_message'][line_message_index].sticker = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/' + context['line_message'][line_message_index].sticker_id + '/iPhone/sticker_key@2x.png'
 
             context['line_message_user'] = context['line_message'][0].user
             context['line_message_user'].profile = UserProfile.objects.filter(user=context['line_message_user']).first()

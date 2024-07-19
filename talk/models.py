@@ -27,6 +27,7 @@ class TalkMessage(models.Model):
         (6, 'rich_video'),
         (7, 'card_type'),
         (8, 'button'),
+        (9, 'sticker'),
     )
     account_type_choice = (
         (0, 'user'),
@@ -49,6 +50,7 @@ class TalkMessage(models.Model):
     video_height = models.IntegerField(blank=True, null=True)
     video_thumbnail = models.FileField(upload_to=talk_video_thumbnail_path, blank=True, null=True)
     template_id = models.CharField(max_length=255, blank=True, null=True)
+    sticker_id = models.CharField(max_length=255, blank=True, null=True)
     account_type = models.IntegerField(choices=account_type_choice, default=0)
     author = models.CharField(max_length=255,null=True)
     send_date = models.DateTimeField(blank=False, null=False)
