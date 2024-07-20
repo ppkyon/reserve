@@ -62,45 +62,83 @@
                                 <p class="message mb-0">{{ line_user_item.message.text }}</p>
                             {% elif line_user_item.message.message_type == 1 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が写真を送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が写真を送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が写真を送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">写真を送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 2 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が動画を送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が動画を送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が動画を送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">動画を送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 3 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が{{ line_user_item.message.text }}</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">{{ line_user_item.message.text }}</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 4 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が{{ line_user_item.message.text }}</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">{{ line_user_item.message.text }}</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 5 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチメッセージを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がリッチメッセージを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がリッチメッセージを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">リッチメッセージを送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 6 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチビデオを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がリッチビデオを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がリッチビデオを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">リッチビデオを送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 7 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がカードタイプメッセージを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">カードタイプメッセージを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 9 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がスタンプを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がスタンプを送信しました</p>
+                                    {% endif %}
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">スタンプを送信しました</p>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -169,45 +207,83 @@
                                 <p class="message mb-0">{{ line_user_item.message.text }}</p>
                             {% elif line_user_item.message.message_type == 1 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.display_name }}が写真を送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が写真を送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が写真を送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">写真を送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 2 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が動画を送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が動画を送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が動画を送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">動画を送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 3 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が{{ line_user_item.message.text }}</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">{{ line_user_item.message.text }}</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 4 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}が{{ line_user_item.message.text }}</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}が{{ line_user_item.message.text }}</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">{{ line_user_item.message.text }}</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 5 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチメッセージを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がリッチメッセージを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がリッチメッセージを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">リッチメッセージを送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 6 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がリッチビデオを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がリッチビデオを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がリッチビデオを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">リッチビデオを送信しました</p>
                                 {% endif %}
                             {% elif line_user_item.message.message_type == 7 %}
                                 {% if line_user_item.message.account_type == 0 %}
-                                    <p class="message mb-0">{{ line_user_item.user.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がカードタイプメッセージを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がカードタイプメッセージを送信しました</p>
+                                    {% endif %}
                                 {% elif line_user_item.message.account_type == 1 %}
                                     <p class="message mb-0">カードタイプメッセージを送信しました</p>
+                                {% endif %}
+                            {% elif line_user_item.message.message_type == 9 %}
+                                {% if line_user_item.message.account_type == 0 %}
+                                    {% if line_user_item.profile and line_user_item.profile.name %}
+                                        <p class="message mb-0">{{ line_user_item.profile.name }}がスタンプを送信しました</p>
+                                    {% else %}
+                                        <p class="message mb-0">{{ line_user_item.user.display_name }}がスタンプを送信しました</p>
+                                    {% endif %}
+                                {% elif line_user_item.message.account_type == 1 %}
+                                    <p class="message mb-0">スタンプを送信しました</p>
                                 {% endif %}
                             {% endif %}
                         </div>

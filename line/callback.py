@@ -278,6 +278,7 @@ def handle_sticker_message(user, message, message_type):
         line_message_id = message['id'],
         reply_token = message['reply_token'],
         message_type = message_type,
+        text = 'スタンプを送信しました',
         sticker_id = message['sticker_id'],
         account_type = 0,
         send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)

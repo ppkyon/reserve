@@ -44,14 +44,14 @@ $( function() {
                 }
             });
             if ( response.talk_read.all_read_count >= 100 ) {
-                $( '.side-area .menu-area .alert-badge' ).text( '+99' );
-                $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
+                $( '.side-area .menu-area .active .alert-badge' ).text( '+99' );
+                $( '.side-area .menu-area .active .alert-badge' ).removeClass( 'd-none' );
             } else if ( response.talk_read.all_read_count > 0 ) {
-                $( '.side-area .menu-area .alert-badge' ).text( response.talk_read.all_read_count );
-                $( '.side-area .menu-area .alert-badge' ).removeClass( 'd-none' );
+                $( '.side-area .menu-area .active .alert-badge' ).text( response.talk_read.all_read_count );
+                $( '.side-area .menu-area .active .alert-badge' ).removeClass( 'd-none' );
             } else {
-                $( '.side-area .menu-area .alert-badge' ).text( response.talk_read.all_read_count );
-                $( '.side-area .menu-area .alert-badge' ).addClass( 'd-none' );
+                $( '.side-area .menu-area .active .alert-badge' ).text( response.talk_read.all_read_count );
+                $( '.side-area .menu-area .active .alert-badge' ).addClass( 'd-none' );
             }
 
             if ( response.line_user.profile == null || response.line_user.profile.name == null ) {
@@ -132,7 +132,7 @@ function create_user_list(response) {
         }
         message = '';
         if ( value.line_message.message_type == 0 ) {
-            message = value.line_message.text;
+            message = convert_unicode(value.line_message.text);
         } else if ( value.line_message.message_type == 1 ) {
             if ( value.line_message.account_type == 0 ) {
                 message = user_name + 'が写真を送信しました';
@@ -156,6 +156,12 @@ function create_user_list(response) {
                 message = user_name + 'が' + value.line_message.text;
             } else if ( value.line_message.account_type == 1 ) {
                 message = value.line_message.text;
+            }
+        } else if ( value.line_message.message_type == 9 ) {
+            if ( value.line_message.account_type == 0 ) {
+                message = user_name + 'がスタンプを送信しました';
+            } else if ( value.line_message.account_type == 1 ) {
+                message = 'スタンプを送信しました';
             }
         }
         

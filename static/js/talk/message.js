@@ -2,6 +2,9 @@ $( function() {
     $( '.text-area p' ).each( function( index, value ) {
         $( this ).text(convert_unicode($( this ).text()));
     });
+    $( '.user-area .message-area p' ).each( function( index, value ) {
+        $( this ).text(convert_unicode($( this ).text()));
+    });
     $( '.talk-slide' ).each( function( index, value ) {
         $( this ).slick({
             infinite: false,
