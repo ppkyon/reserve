@@ -38,9 +38,9 @@
                         <thead>
                             <tr>
                                 <th class="blank-sp" style="width: 30px;"></th>
-                                {% include 'table/sort.html' with text='店舗名' target='shop_name' %}
-                                {% include 'table/sort.html' with text='代表氏名' target='name' width='120' %}
-                                {% include 'table/sort.html' with text='都道府県' target='prefecture' width='120' %}
+                                {% include 'table/sort.html' with text='店舗名' target='shop_profile__shop_name' %}
+                                {% include 'table/sort.html' with text='代表氏名' target='shop_profile__manager_family_name_kana' width='120' %}
+                                {% include 'table/sort.html' with text='都道府県' target='shop_profile__shop_prefecture' width='120' %}
                                 <th class="tag-tablet" style="width: 230px;"># タグ</th>
                                 <th style="width: 210px;"></th>
                             </tr>
