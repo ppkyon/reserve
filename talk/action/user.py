@@ -26,13 +26,13 @@ def change(request):
     line_user = LineUser.objects.filter(shop=auth_login.shop, display_id=request.POST.get('id')).values(*get_model_field(LineUser)).first()
     line_user['profile'] = UserProfile.objects.filter(user=line_user['id']).values(*get_model_field(UserProfile)).first()
     line_user['message'] = list(TalkMessage.objects.filter(user=line_user['id']).values(*get_model_field(TalkMessage)).order_by('send_date').all())
+    import logging
+    logger = logging.getLogger('development')
+    logger.info(line_user['message'])
     for line_message_index, line_message_item in enumerate(line_user['message']):
         line_user['message'][line_message_index]['author_profile'] = ManagerProfile.objects.filter(manager_id=line_message_item['author']).values(*get_model_field(ManagerProfile)).first()
         line_user['message'][line_message_index]['display_date'] = naturalday(line_message_item['send_date'] )
         if line_user['message'][line_message_index]['text']:
-            import logging
-            logger = logging.getLogger('development')
-            logger.info(line_user['message'][line_message_index]['text'])
             line_user['message'][line_message_index]['text'] = convert_emoji(line_message_item, line_user['message'][line_message_index]['text'])
         if line_user['message'][line_message_index]['message_type'] == 7:
             line_user['message'][line_message_index]['template'] = list(ShopTemplateCardType.objects.filter(id=line_message_item['template_id']).values(*get_model_field(ShopTemplateCardType)).all())
