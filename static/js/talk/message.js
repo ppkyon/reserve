@@ -100,8 +100,6 @@ function create_message( response, value, last_date ) {
             html += '<div class="content-item d-flex align-items-center position-relative mt-3 mb-3">';
             html += '<img id="line_message_user_image" src="' + image + '">';
             html += '<div class="text-area p-2 ms-5 position-relative">';
-            console.log(value.text);
-            console.log(convert_unicode(value.text.replaceAll('\\n','\n').replaceAll('\\r','')));
             html += '<p class="mb-0">' + convert_unicode(value.text.replaceAll('\\n','\n').replaceAll('\\r','')) + '</p>';
             html += '</div>';
             html += '<p class="ps-1 mt-auto mb-2"> ' + send_date + '</p>';
