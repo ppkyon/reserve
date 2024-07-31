@@ -153,7 +153,6 @@ function create_user_list(response) {
             user_name = value.line_user_profile.name;
         }
         message = '';
-        console.log(value.line_message.text);
         if ( value.line_message.message_type == 0 ) {
             message = convert_unicode(value.line_message.text).replace('\\n',' ').replace('\\r','');
         } else if ( value.line_message.message_type == 1 ) {
