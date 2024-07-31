@@ -226,7 +226,7 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">電話番号</label>
-                                    <input type="text" name="phone_number" class="input-text ps-2 pe-2" value="{{ manager.profile.phone_number|default:'' }}">
+                                    <input type="text" name="phone_number" class="input-text ps-2 pe-2" value="{{ manager.profile.phone_number|default:'' }}" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}">
                                 </div>
                             </div>
                         </div>

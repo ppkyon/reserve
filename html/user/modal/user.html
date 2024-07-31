@@ -164,9 +164,9 @@
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">電話番号</label>
                                     {% if user.profile.phone_number %}
-                                        <input type="text" name="phone_number" value="{{ user.profile.phone_number }}" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                        <input type="text" name="phone_number" value="{{ user.profile.phone_number }}" class="input-text ps-2 pe-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" data-parsley-errors-messages-disabled>
                                     {% else %}
-                                        <input type="text" name="phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                        <input type="text" name="phone_number" value="" class="input-text ps-2 pe-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" data-parsley-errors-messages-disabled>
                                     {% endif %}
                                 </div>
                             </div>
@@ -313,7 +313,7 @@
                             <div class="col-10 offset-1">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <label class="mb-0">電話番号</label>
-                                    <input type="text" name="phone_number" value="" class="input-text ps-2 pe-2" pattern="[0-9-]+$" data-parsley-errors-messages-disabled>
+                                    <input type="text" name="phone_number" value="" class="input-text ps-2 pe-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" data-parsley-errors-messages-disabled>
                                 </div>
                             </div>
                         </div>
