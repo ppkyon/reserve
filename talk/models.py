@@ -60,6 +60,19 @@ class TalkMessage(models.Model):
     class Meta:
         db_table = 'talk_message'
 
+class TalkMessageEmoji(models.Model):
+    id = models.CharField(primary_key=True, max_length=255, null=False, blank=False, unique=True)
+    message = models.ForeignKey(TalkMessage, on_delete=models.CASCADE, related_name="talk_message_emoji")
+    number = models.IntegerField(default=0)
+    index = models.IntegerField(default=0)
+    product_id = models.CharField(max_length=255, null=True)
+    emoji_id = models.CharField(max_length=255, null=True)
+    updated_at = models.DateTimeField(blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'talk_message_emoji'
+
 class TalkMessageCardType(models.Model):
     type_choice = (
         (0, 'product'),

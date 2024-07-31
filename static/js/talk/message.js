@@ -1,17 +1,57 @@
 $( function() {
-    $( '.text-area p' ).each( function( index, value ) {
-        $( this ).text(convert_unicode($( this ).text()));
-    });
-    $( '.user-area .message-area p' ).each( function( index, value ) {
-        $( this ).text(convert_unicode($( this ).text()));
-    });
-    $( '.talk-slide' ).each( function( index, value ) {
-        $( this ).slick({
-            infinite: false,
-            arrows: false,
-            variableWidth: true,
+    if ( check_empty($( '#line_message_user_id' ).val()) ) {
+        var form_data = new FormData();
+        form_data.append( 'text', $( '#user_search' ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#user_search_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            create_user_list(response);
+            setTimeout( function() {
+                $( '.user-area .user-item-area' ).removeClass( 'd-none' );
+                $( '.user-area .content-loader-area' ).addClass( 'd-none' );
+                scroll_message();
+            }, 750 );
+        }).fail( function(){
+                
         });
-    });
+        var form_data = new FormData();
+        form_data.append( 'id', $( '#line_message_user_id' ).val() );
+        $.ajax({
+            'data': form_data,
+            'url': $( '#change_user_url' ).val(),
+            'type': 'POST',
+            'dataType': 'json',
+            'processData': false,
+            'contentType': false,
+        }).done( function( response ){
+            $( '.message-area .content-area').empty();
+            var last_date = '';
+            $.each( response.line_user.message, function( index, value ) {
+                $( '.message-area .content-area').append( create_message( response, value, last_date ).replace(/\n/g, '<br>') );
+                var send_date = new Date( value.send_date );
+                last_date = send_date.getFullYear() + '/' + ( '00' + ( send_date.getMonth() + 1 ) ).slice(-2) + '/' + ( '00' + send_date.getDate() ).slice(-2);
+            });
+            $( '.talk-slide' ).each( function( index, value ) {
+                $( this ).slick({
+                    infinite: false,
+                    arrows: false,
+                    variableWidth: true,
+                });
+            });
+            setTimeout( function() {
+                $( '.message-area .content-area' ).removeClass( 'd-none' );
+                $( '.message-area .content-loader-area' ).addClass( 'd-none' );
+                scroll_message();
+            }, 750 );
+        }).fail( function(){
+                
+        });
+    }
 
     setInterval( function() {
         $.ajax({
@@ -33,7 +73,6 @@ $( function() {
             
         });
     }, 5000 );
-    scroll_message();
 });
 
 function create_message( response, value, last_date ) {

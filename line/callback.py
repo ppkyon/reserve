@@ -12,7 +12,7 @@ from flow.models import (
 from reserve.models import ReserveUserStartDate
 from richmenu.models import UserRichMenu, UserRichMenuClick
 from sign.models import AuthShop, ShopLine, AuthUser
-from talk.models import TalkMessage, TalkRead, TalkUpdate
+from talk.models import TalkMessage, TalkMessageEmoji, TalkRead, TalkUpdate
 from user.models import LineUser, UserProfile, UserAlert
 
 from common import create_code
@@ -167,7 +167,7 @@ def handle_message(line_user_id, shop, body):
     return None
 
 def handle_text_message(user, message, message_type):
-    TalkMessage.objects.create(
+    talk_message = TalkMessage.objects.create(
         id = str(uuid.uuid4()),
         display_id = create_code(16, TalkMessage),
         user = user,
@@ -179,6 +179,16 @@ def handle_text_message(user, message, message_type):
         account_type = 0,
         send_date = datetime.datetime.fromtimestamp(int(message['timestamp'])/1000)
     )
+    if 'emoji_data' in message:
+        for emoji_item in message['emoji_data']:
+            TalkMessageEmoji.objects.create(
+                id = str(uuid.uuid4()),
+                message = talk_message,
+                number = TalkMessageEmoji.objects.filter(message=talk_message).count()+1,
+                index = emoji_item['index'],
+                product_id = emoji_item['productId'],
+                emoji_id = emoji_item['emojiId'],
+            )
 
 def handle_image_message(user, message, message_type):
     id = str(uuid.uuid4()).replace('-', '')
@@ -369,6 +379,10 @@ def get_message_data(body):
     message['id'] = message_data[:message_data.find('","')]
     message_data = message_data[message_data.find('","text":"')+len('","text":"'):]
     message['text'] = message_data[:message_data.find('"},"')]
+    if message['text'] and 'emojis' in message['text']:
+        message['text'] = message_data[:message_data.find('","')]
+        emoji_data = message_data[message_data.find('","emojis":')+len('","emojis":'):]
+        message['emoji_data'] = eval(emoji_data[:emoji_data.find(']')+1])
     message_data = message_data[message_data.find('","stickerId":"')+len('","stickerId":"'):]
     message['sticker_id'] = message_data[:message_data.find('","')]
     message_data = message_data[message_data.find('},"timestamp":')+len('},"timestamp":'):]

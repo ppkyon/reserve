@@ -3,7 +3,7 @@ from django.db import models
 from django.http import JsonResponse
 
 from sign.models import AuthLogin, ManagerProfile
-from talk.models import TalkMessage, TalkPin, TalkRead, TalkManager, TalkStatus, TalkUpdate
+from talk.models import TalkMessage, TalkMessageEmoji, TalkPin, TalkRead, TalkManager, TalkStatus, TalkUpdate
 from template.models import (
     ShopTemplateCardType, ShopTemplateCardTypeLocation, ShopTemplateCardTypePerson, ShopTemplateCardTypeImage,
     ShopTemplateCardTypeAnnounce, ShopTemplateCardTypeAnnounceText, ShopTemplateCardTypeAnnounceAction
@@ -29,6 +29,8 @@ def change(request):
     for line_message_index, line_message_item in enumerate(line_user['message']):
         line_user['message'][line_message_index]['author_profile'] = ManagerProfile.objects.filter(manager_id=line_message_item['author']).values(*get_model_field(ManagerProfile)).first()
         line_user['message'][line_message_index]['display_date'] = naturalday(line_message_item['send_date'] )
+        if line_user['message'][line_message_index]['text']:
+            line_user['message'][line_message_index]['text'] = convert_emoji(line_message_item, line_user['message'][line_message_index]['text'])
         if line_user['message'][line_message_index]['message_type'] == 7:
             line_user['message'][line_message_index]['template'] = list(ShopTemplateCardType.objects.filter(id=line_message_item['template_id']).values(*get_model_field(ShopTemplateCardType)).all())
             for template_index, template_item in enumerate(line_user['message'][line_message_index]['template']):
@@ -62,3 +64,20 @@ def change(request):
     talk_read = TalkRead.objects.filter(user__shop=line_user['shop'], read_flg=False).aggregate(all_read_count=models.Sum('read_count'))
 
     return JsonResponse( {'line_user': line_user, 'talk_read': talk_read}, safe=False )
+
+
+
+def convert_emoji(message, text):
+    replace_list = []
+    for message_emoji in TalkMessageEmoji.objects.filter(message__id=message['id']).order_by('number').all():
+        replace_data = {}
+        add_index = 0
+        if text[message_emoji.index] != '(':
+            add_index = add_index + 1
+        replace_data['line'] = text[message_emoji.index+add_index:message_emoji.index+add_index+text[message_emoji.index+add_index:].find(')')+1]
+        if '(' in replace_data['line'] and ')' in replace_data['line']:
+            replace_data['image'] = '<img src="https://stickershop.line-scdn.net/sticonshop/v1/sticon/' + message_emoji.product_id + '/iPhone/' + message_emoji.emoji_id + '.png" width="15" height="15">'
+            replace_list.append(replace_data)
+    for replace_item in replace_list:
+        text = text.replace(replace_item['line'], replace_item['image'])
+    return text

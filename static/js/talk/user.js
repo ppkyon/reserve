@@ -11,12 +11,19 @@ $( function() {
             'contentType': false,
         }).done( function( response ){
             create_user_list(response);
+            setTimeout( function() {
+                $( '.user-area .user-item-area' ).removeClass( 'd-none' );
+                $( '.user-area .content-loader-area' ).addClass( 'd-none' );
+            }, 750 );
         }).fail( function(){
                 
         });
     });
 
     $( document ).on( 'click', '.user-item-area', function () {
+        $( '.message-area .content-area' ).addClass( 'd-none' );
+        $( '.message-area .content-loader-area' ).removeClass( 'd-none' );
+
         $( '.user-item-area' ).each( function( index, element ) {
             $( this ).removeClass( 'active' );
         });
@@ -110,7 +117,12 @@ $( function() {
                     variableWidth: true,
                 });
             });
-            scroll_message();
+            
+            setTimeout( function() {
+                $( '.message-area .content-area' ).removeClass( 'd-none' );
+                $( '.message-area .content-loader-area' ).addClass( 'd-none' );
+                scroll_message();
+            }, 750 );
         }).fail( function(){
             
         });
@@ -119,6 +131,16 @@ $( function() {
 
 function create_user_list(response) {
     $( '.list-area .user-area').empty();
+    var html = '<div class="content-loader-area">';
+    html += '<div class="loader-area d-flex align-items-center position-absolute text-center">';
+    html += '<div class="table-loader spinner-border">';
+    html += '<span class="visually-hidden">Loading...</span>';
+    html += '</div>';
+    html += '<p class="h5 fw-bold ms-3 mb-0">Loading...</p>';
+    html += '</div>';
+    html += '</div>';
+    $( '.list-area .user-area').append(html);
+
     $.each( response.user_list, function( index, value ){
         user_image = $( '#env_static_url' ).val() + 'img/user-none.png';
         if ( value.line_user_profile != null && value.line_user_profile.image != null && value.line_user_profile.image != '' ) {
@@ -132,7 +154,7 @@ function create_user_list(response) {
         }
         message = '';
         if ( value.line_message.message_type == 0 ) {
-            message = convert_unicode(value.line_message.text);
+            message = convert_unicode(value.line_message.text).replace('\\n',' ').replace('\\r','');
         } else if ( value.line_message.message_type == 1 ) {
             if ( value.line_message.account_type == 0 ) {
                 message = user_name + 'が写真を送信しました';
@@ -167,9 +189,9 @@ function create_user_list(response) {
         
         var html = '<input type="hidden" class="user-area-id" value="' + value.line_user.display_id + '">';
         if ( value.line_user.display_id == $( '#send_' + $( '#send_id' ).val() + '_form [name=id]' ).val() ) {
-            html += '<div class="user-item-area active d-flex align-items-center justify-content-between position-relative p-2">';
+            html += '<div class="user-item-area active d-flex d-none align-items-center justify-content-between position-relative p-2">';
         } else {
-            html += '<div class="user-item-area d-flex align-items-center justify-content-between position-relative p-2">';
+            html += '<div class="user-item-area d-flex d-none align-items-center justify-content-between position-relative p-2">';
         }
         html += '<div class="image-area position-relative">';
         html += '<img src="' + user_image + '">';
