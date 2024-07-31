@@ -18,9 +18,6 @@ def search(request):
     if talk_update:
         talk_update.update_flg = False
         talk_update.save()
-    import logging
-    logger = logging.getLogger('development')
-    logger.info(get_user_list(request))
     return JsonResponse( {'user_list': get_user_list(request), 'all_read_count': get_all_read_count(request)}, safe=False )
 
 def change(request):

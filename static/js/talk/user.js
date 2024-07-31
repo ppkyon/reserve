@@ -141,6 +141,7 @@ function create_user_list(response) {
     html += '</div>';
     $( '.list-area .user-area').append(html);
 
+    console.log(response.user_list);
     $.each( response.user_list, function( index, value ){
         user_image = $( '#env_static_url' ).val() + 'img/user-none.png';
         if ( value.line_user_profile != null && value.line_user_profile.image != null && value.line_user_profile.image != '' ) {
