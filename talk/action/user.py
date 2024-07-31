@@ -32,7 +32,7 @@ def change(request):
         if line_user['message'][line_message_index]['text']:
             import logging
             logger = logging.getLogger('development')
-            logger.info(convert_emoji(line_message_item, line_user['message'][line_message_index]['text']))
+            logger.info(line_message_item, line_user['message'][line_message_index]['text'])
             line_user['message'][line_message_index]['text'] = convert_emoji(line_message_item, line_user['message'][line_message_index]['text'])
         if line_user['message'][line_message_index]['message_type'] == 7:
             line_user['message'][line_message_index]['template'] = list(ShopTemplateCardType.objects.filter(id=line_message_item['template_id']).values(*get_model_field(ShopTemplateCardType)).all())
