@@ -130,6 +130,14 @@ function create_message( response, value, last_date ) {
             html += '</div>';
             html += '<p class="ps-1 mt-auto mb-2"> ' + send_date + '</p>';
             html += '</div>';
+        } else if ( value.message_type == 3 || value.message_type == 4 ) {
+            html += '<div class="content-item d-flex align-items-center position-relative mt-3 mb-3">';
+            html += '<img id="line_message_user_image" src="' + image + '">';
+            html += '<div class="text-area p-2 ms-5 position-relative">';
+            html += '<p class="mb-0">' + value.text.replaceAll('\\n','\n').replaceAll('\\r','') + '</p>';
+            html += '</div>';
+            html += '<p class="ps-1 mt-auto mb-2"> ' + send_date + '</p>';
+            html += '</div>';
         } else if ( value.message_type == 9 ) {
             html += '<div class="content-item d-flex align-items-center position-relative mt-3 mb-3">';
             html += '<img id="line_message_user_image" src="' + image + '">';
