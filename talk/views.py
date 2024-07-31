@@ -31,7 +31,6 @@ class IndexView(ShopView):
             if not line_user_message_item.user.id in temp_line_user:
                 context['line_user'].append(line_user_message_item)
                 temp_line_user.append(line_user_message_item.user.id)
-                break
         
         for line_user_index, line_user_item in enumerate(context['line_user']):
             context['line_user'][line_user_index].profile = UserProfile.objects.filter(user=line_user_item.user).first()

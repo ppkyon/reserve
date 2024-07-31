@@ -168,7 +168,6 @@ function create_user_list(response) {
                 message = '動画を送信しました';
             }
         } else if ( value.line_message.message_type == 3 || value.line_message.message_type == 4 ) {
-            console.log(value.line_message.text);
             if ( value.line_message.account_type == 0 ) {
                 message = user_name + 'が' + value.line_message.text;
             } else if ( value.line_message.account_type == 1 ) {
