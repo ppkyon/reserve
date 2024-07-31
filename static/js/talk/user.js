@@ -141,7 +141,6 @@ function create_user_list(response) {
     html += '</div>';
     $( '.list-area .user-area').append(html);
 
-    console.log(response.user_list);
     $.each( response.user_list, function( index, value ){
         user_image = $( '#env_static_url' ).val() + 'img/user-none.png';
         if ( value.line_user_profile != null && value.line_user_profile.image != null && value.line_user_profile.image != '' ) {
@@ -155,7 +154,6 @@ function create_user_list(response) {
         }
         message = '';
         if ( value.line_message.message_type == 0 ) {
-            console.log(value.line_message.text);
             message = convert_unicode(value.line_message.text).replace('\\n',' ').replace('\\r','');
         } else if ( value.line_message.message_type == 1 ) {
             if ( value.line_message.account_type == 0 ) {
