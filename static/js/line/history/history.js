@@ -417,29 +417,29 @@ $( function(){
                     if ( value.required_flg ) {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="' + value.description + '" required>';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="' + value.description + '" required>';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="' + value.description + '" required>';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="' + value.description + '" required>';
                             }
                         } else {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="" required>';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="" required>';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="" required>';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="" required>';
                             }
                         }
                     } else {
                         if ( check_empty(value.description) ) {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="' + value.description + '">';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="' + value.description + '">';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="' + value.description + '">';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="' + value.description + '">';
                             }
                         } else {
                             if ( check_empty(value.text) ) {
-                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="">';
+                                html += '<input type="text" name="text_' + value.number + '" value="' + value.text + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="">';
                             } else {
-                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\d{2,4}-?\d{2,4}-?\d{3,4}" placeholder="">';
+                                html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="\\d{2,4}-?\\d{2,4}-?\\d{3,4}" placeholder="">';
                             }
                         }
                     }
