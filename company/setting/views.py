@@ -11,7 +11,7 @@ class IndexView(CompanyView):
         context['manager'] = self.request.user
         context['manager'].profile = ManagerProfile.objects.filter(manager=context['manager']).first()
 
-        context['manager_list'] = AuthUser.objects.filter(company=self.request.company, head_flg=False, company_flg=True, delete_flg=False).order_by('created_at').all()
+        context['manager_list'] = AuthUser.objects.filter(company=self.request.company, status__gt=0, head_flg=False, delete_flg=False).order_by('created_at').all()
         for manager_index, manager_item in enumerate(context['manager_list']):
             context['manager_list'][manager_index].profile = ManagerProfile.objects.filter(manager=manager_item).first()
             context['manager_list'][manager_index].author_profile = ManagerProfile.objects.filter(manager_id=manager_item.author).first()
