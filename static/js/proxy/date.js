@@ -169,13 +169,13 @@ $( function(){
                                 if ( check_empty(value.description) ) {
                                     html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '" required>';
                                 } else {
-                                    html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" placeholder="" required>';
+                                    html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="" required>';
                                 }
                             } else {
                                 if ( check_empty(value.description) ) {
                                     html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="' + value.description + '">';
                                 } else {
-                                    html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" placeholder="">';
+                                    html += '<input type="text" name="text_' + value.number + '" class="input-text ps-2" pattern="[\u30A1-\u30FC]*" placeholder="">';
                                 }
                             }
                         } else if ( value.type == 3 ) {
