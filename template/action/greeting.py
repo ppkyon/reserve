@@ -21,9 +21,9 @@ env = environ.Env()
 env.read_env('.env')
 
 def save(request):
-    ShopTemplateGreeting.objects.all().delete()
-
     auth_login = AuthLogin.objects.filter(user=request.user).first()
+    ShopTemplateGreeting.objects.filter(shop=auth_login.shop).all().delete()
+
     number = 1
     for i in range(int(request.POST.get('count'))):
         if request.POST.get('message_type_' + str( i + 1 )) == '1':
