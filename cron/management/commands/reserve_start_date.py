@@ -167,9 +167,9 @@ class Command(BaseCommand):
                                                             reception_flg = False
                                                             break
                                                 else:
-                                                    if reception['manager'] in manager_list and not reception['manager'] in reception_manager_list:
+                                                    if manager in manager_list and not manager in reception_manager_list:
                                                         manager_count = manager_count - 1
-                                                        reception_manager_list.append(reception['manager'])
+                                                        reception_manager_list.append(manager)
 
                                         if not reception_flg:
                                             if not first_date or time.date() == first_date.date():
@@ -321,6 +321,10 @@ class Command(BaseCommand):
                                                 if manager_count > 0 and facility_count > 0:
                                                     reception_flg = False
                                                     break
+                                        else:
+                                            if manager in manager_list and not manager in reception_manager_list:
+                                                manager_count = manager_count - 1
+                                                reception_manager_list.append(manager)
                                             
                                 if not reception_flg:
                                     if not first_date or time.date() == first_date.date():
@@ -481,6 +485,10 @@ class Command(BaseCommand):
                                                         if manager_count > 0 and facility_count > 0:
                                                             reception_flg = False
                                                             break
+                                                else:
+                                                    if manager in manager_list and not manager in reception_manager_list:
+                                                        manager_count = manager_count - 1
+                                                        reception_manager_list.append(manager)
                                         
                                         if not reception_flg:
                                             if not first_date or time.date() == first_date.date():
@@ -635,6 +643,10 @@ class Command(BaseCommand):
                                                 if manager_count > 0 and facility_count > 0:
                                                     reception_flg = False
                                                     break
+                                        else:
+                                            if manager in manager_list and not manager in reception_manager_list:
+                                                manager_count = manager_count - 1
+                                                reception_manager_list.append(manager)
                                             
                                 if not reception_flg:
                                     if not first_date or time.date() == first_date.date():
