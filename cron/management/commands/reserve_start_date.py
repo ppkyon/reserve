@@ -110,13 +110,13 @@ class Command(BaseCommand):
                                                         reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).first()
                                                         if not reception_offline_manager_setting.flg:
                                                             reception_manager = None
+                                                        
+                                                reception_manager_list = list()
+                                                reception_facility_list = list()
                                                 if reception_manager:
                                                     if len(reception_list) > 0:
                                                         people_count = offline.people
                                                         same_count = offline.facility
-                                                        
-                                                        reception_manager_list = list()
-                                                        reception_facility_list = list()
                                                         for reception in reception_list:
                                                             if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
                                                                 if manager_count <= 0 or facility_count <= 0:
@@ -265,13 +265,13 @@ class Command(BaseCommand):
                                                 reception_offline_manager_setting = ReceptionOfflineManagerSetting.objects.filter(manager=reception_manager, offline=offline).first()
                                                 if not reception_offline_manager_setting.flg:
                                                     reception_manager = None
+                                                
+                                        reception_manager_list = list()
+                                        reception_facility_list = list()
                                         if reception_manager:
                                             if len(reception_list) > 0:
                                                 people_count = offline.people
                                                 same_count = offline.facility
-                                                
-                                                reception_manager_list = list()
-                                                reception_facility_list = list()
                                                 for reception in reception_list:
                                                     if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
                                                         if manager_count <= 0 or facility_count <= 0:
@@ -429,13 +429,13 @@ class Command(BaseCommand):
                                                         reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).first()
                                                         if not reception_online_manager_setting.flg:
                                                             reception_manager = None
+                                                        
+                                                reception_manager_list = list()
+                                                reception_facility_list = list()
                                                 if reception_manager:
                                                     if len(reception_list) > 0:
                                                         people_count = online.people
                                                         same_count = online.facility
-                                                        
-                                                        reception_manager_list = list()
-                                                        reception_facility_list = list()
                                                         for reception in reception_list:
                                                             if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
                                                                 if manager_count <= 0 or facility_count <= 0:
@@ -584,6 +584,9 @@ class Command(BaseCommand):
                                                 reception_online_manager_setting = ReceptionOnlineManagerSetting.objects.filter(manager=reception_manager, online=online).first()
                                                 if not reception_online_manager_setting.flg:
                                                     reception_manager = None
+                                                
+                                        reception_manager_list = list()
+                                        reception_facility_list = list()
                                         if reception_manager:
                                             manager_count = len(manager_list)
                                             facility_count = len(facility_list)
@@ -591,9 +594,6 @@ class Command(BaseCommand):
                                             if len(reception_list) > 0:
                                                 people_count = online.people
                                                 same_count = online.facility
-                                                
-                                                reception_manager_list = list()
-                                                reception_facility_list = list()
                                                 for reception in reception_list:
                                                     if time_to > reception['from'] and reception['to'] > time_from and reception['manager'] == manager:
                                                         if manager_count <= 0 or facility_count <= 0:
