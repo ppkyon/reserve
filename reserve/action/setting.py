@@ -117,6 +117,7 @@ def save(request):
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
                     advance = request.POST.get('advance_'+str( i + 1 )),
+                    unit = request.POST.get('unit_'+str( i + 1 )),
                     course_flg = course_flg,
                     display_flg = display_flg,
                 )
@@ -139,6 +140,7 @@ def save(request):
                     facility = request.POST.get('facility_'+str( i + 1 )),
                     question = question,
                     advance = request.POST.get('advance_'+str( i + 1 )),
+                    unit = request.POST.get('unit_'+str( i + 1 )),
                     course_flg = course_flg,
                     display_flg = display_flg,
                 )

@@ -173,6 +173,31 @@ function append_setting_area(type) {
             html += '<button type="button" value="' + value.value + '" class="btn dropdown-item fw-bold border-top p-1 ps-2 pt-2">' + value.name + '</button>';
         }
     });
+
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+
+
+    html += '<div class="d-flex justify-content-start align-items-center mb-2">';
+    html += '<label class="setting-area-tablet mb-0" style="width: 15%;">予約単位</label>';
+    html += '<div class="d-flex align-items-center mb-0">';
+    html += '<div class="input-radio-wrap position-relative me-3 mb-1">';
+    html += '<label for="reserve_unit_' + random + '_60" class="ps-4 mb-0">1時間毎</label>';
+    html += '<input type="radio" id="reserve_unit_' + random + '_60" name="unit_' + random + '" value="60" class="input-radio" data-parsley-multiple="action">';
+    html += '<label for="reserve_unit_' + random + '_60" class="input-radio-mark mb-0"></label>';
+    html += '</div>';                                                                                                                                                                                                                                                                                                                                                                    
+    html += '<div class="input-radio-wrap position-relative me-3 mb-1">';
+    html += '<label for="reserve_unit_' + random + '_30" class="ps-4 mb-0">30分毎</label>';
+    html += '<input type="radio" id="reserve_unit_' + random + '_30" name="unit_' + random + '" value="30" class="input-radio"  data-parsley-multiple="action">';
+    html += '<label for="reserve_unit_' + random + '_30" class="input-radio-mark mb-0"></label>';
+    html += '</div>';
+    html += '<div class="input-radio-wrap position-relative mb-1">';
+    html += '<label for="reserve_unit_' + random + '_15" class="ps-4 mb-0">15分毎</label>';
+    html += '<input type="radio" id="reserve_unit_' + random + '_15" name="unit_' + random + '" value="15" class="input-radio" data-parsley-multiple="action">';
+    html += '<label for="reserve_unit_' + random + '_15" class="input-radio-mark mb-0"></label>';
+    
+    
     html += '</div>';
     html += '</div>';
     html += '</div>';
