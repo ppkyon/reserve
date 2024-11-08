@@ -184,7 +184,7 @@ function append_setting_area(type) {
     html += '<div class="d-flex align-items-center mb-0">';
     html += '<div class="input-radio-wrap position-relative me-3 mb-1">';
     html += '<label for="reserve_unit_' + random + '_60" class="ps-4 mb-0">1時間毎</label>';
-    if(basic_unit == '60'){
+    if( !basic_unit || basic_unit == '60' ){
         html += '<input type="radio" id="reserve_unit_' + random + '_60" name="unit_' + random + '" value="60" class="input-radio" data-parsley-multiple="action" checked>';
     } else {
         html += '<input type="radio" id="reserve_unit_' + random + '_60" name="unit_' + random + '" value="60" class="input-radio" data-parsley-multiple="action">';
