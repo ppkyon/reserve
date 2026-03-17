@@ -11,17 +11,22 @@ from common import get_model_field, display_time
 def get_user_list(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
 
-    # Get all messages sorted by send_date desc (same query as original)
     if request.POST.get('text'):
         line_user_message = TalkMessage.objects.filter(Q(user__shop=auth_login.shop), Q(Q(user__display_name__icontains=request.POST.get('text'))|Q(user__user_profile__name__icontains=request.POST.get('text')))).order_by('send_date').reverse()
     else:
         line_user_message = TalkMessage.objects.filter(user__shop=auth_login.shop).order_by('send_date').reverse()
 
-    # Deduplicate: get latest message ID per user, preserving send_date desc order
+    # Single iteration through all messages (sorted by send_date desc)
+    # Build: 1) latest msg ID per user (for user list)
+    #        2) latest msg ID per line_user_id (for line_message display)
     temp_line_user = set()
     latest_msg_ids_ordered = []
     msg_id_to_user = {}
-    for msg in line_user_message.values('id', 'user'):
+    line_user_id_to_latest_msg_id = {}
+
+    for msg in line_user_message.values('id', 'user', 'line_user_id'):
+        if msg['line_user_id'] and msg['line_user_id'] not in line_user_id_to_latest_msg_id:
+            line_user_id_to_latest_msg_id[msg['line_user_id']] = msg['id']
         if msg['user'] not in temp_line_user:
             temp_line_user.add(msg['user'])
             latest_msg_ids_ordered.append(msg['id'])
@@ -32,10 +37,11 @@ def get_user_list(request):
 
     user_ids = list(msg_id_to_user.values())
 
-    # Batch fetch message dicts (1 query)
+    # Batch fetch all needed message dicts in 1 query
+    all_needed_ids = list(set(latest_msg_ids_ordered) | set(line_user_id_to_latest_msg_id.values()))
     msg_dicts = {
         m['id']: m for m in TalkMessage.objects.filter(
-            id__in=latest_msg_ids_ordered
+            id__in=all_needed_ids
         ).values(*get_model_field(TalkMessage))
     }
 
@@ -46,8 +52,7 @@ def get_user_list(request):
         ).values_list('user', flat=True)
     )
 
-    # Sort: pinned first (by send_date desc), then non-pinned (by send_date desc)
-    # latest_msg_ids_ordered is already in send_date desc order
+    # Sort: pinned first (send_date desc), then non-pinned (send_date desc)
     pinned = []
     non_pinned = []
     for msg_id in latest_msg_ids_ordered:
@@ -59,7 +64,7 @@ def get_user_list(request):
                 non_pinned.append(msg_dict)
     line_user = pinned + non_pinned
 
-    # Batch fetch related data
+    # Batch fetch all related data
     line_users_dict = {
         u['id']: u for u in LineUser.objects.filter(id__in=user_ids).values(*get_model_field(LineUser))
     }
@@ -92,18 +97,23 @@ def get_user_list(request):
         if r['user'] not in reads_dict:
             reads_dict[r['user']] = r
 
-    # Assemble result (same structure as original)
+    # Assemble result
     for line_user_index, line_user_item in enumerate(line_user):
         uid = line_user_item['user']
 
         line_user[line_user_index]['line_user'] = line_users_dict.get(uid)
         line_user[line_user_index]['line_user_profile'] = profiles_dict.get(uid)
 
-        # line_message: per-user query exactly as original
-        line_user[line_user_index]['line_message'] = TalkMessage.objects.filter(line_user_id=line_user_item['line_user_id']).values(*get_model_field(TalkMessage)).order_by('send_date').reverse().first()
-        if line_user[line_user_index]['line_message']:
-            line_user[line_user_index]['line_message']['text'] = convert_emoji(line_user[line_user_index]['line_message'], line_user[line_user_index]['line_message']['text'])
-        line_user[line_user_index]['line_message']['display_date'] = display_time(naturaltime(line_user[line_user_index]['line_message']['send_date']))
+        # line_message: latest message per line_user_id (built during iteration above)
+        line_msg_id = line_user_id_to_latest_msg_id.get(line_user_item['line_user_id'])
+        line_msg_data = msg_dicts.get(line_msg_id) if line_msg_id else None
+        if line_msg_data:
+            line_message = dict(line_msg_data)
+            line_message['text'] = convert_emoji(line_message, line_message['text'])
+        else:
+            line_message = dict(line_user_item)
+        line_message['display_date'] = display_time(naturaltime(line_message['send_date']))
+        line_user[line_user_index]['line_message'] = line_message
 
         manager_id = user_to_manager_id.get(uid)
         line_user[line_user_index]['talk_manager'] = manager_profiles_dict.get(manager_id) if manager_id else None
