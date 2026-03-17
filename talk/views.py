@@ -14,43 +14,27 @@ class IndexView(ShopView):
         context = super().get_context_data(*args, **kwargs)
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
 
-        # Same query as original + select_related to avoid FK N+1
-        line_user_message = list(
-            TalkMessage.objects.filter(
-                user__shop=auth_login.shop,
-                user__delete_flg=False
-            ).select_related('user').order_by('send_date').reverse().all()
-        )
+        line_user_message = list()
+        for line_user_item in LineUser.objects.filter(shop=auth_login.shop, delete_flg=False).all():
+            if TalkMessage.objects.filter(user=line_user_item).exists():
+                line_user_message.append(TalkMessage.objects.filter(user=line_user_item).order_by('send_date').reverse().first())
+        line_user_message = sorted(line_user_message, key=lambda x: x.send_date, reverse=True)
 
-        # Pre-fetch pinned user IDs to avoid per-message TalkPin query
-        pinned_ids = set(
-            TalkPin.objects.filter(
-                user__shop=auth_login.shop, manager=self.request.user, pin_flg=True
-            ).values_list('user_id', flat=True)
-        )
-
-        # Same dedup logic as original, using pre-fetched pin data
         context['line_user'] = list()
         temp_line_user = list()
         for line_user_message_item in line_user_message:
-            if line_user_message_item.user_id in pinned_ids:
-                if not line_user_message_item.user_id in temp_line_user:
+            if TalkPin.objects.filter(user=line_user_message_item.user, manager=self.request.user, pin_flg=True).exists():
+                if not line_user_message_item.user.id in temp_line_user:
                     context['line_user'].append(line_user_message_item)
-                    temp_line_user.append(line_user_message_item.user_id)
+                    temp_line_user.append(line_user_message_item.user.id)
         for line_user_message_item in line_user_message:
-            if not line_user_message_item.user_id in temp_line_user:
+            if not line_user_message_item.user.id in temp_line_user:
                 context['line_user'].append(line_user_message_item)
-                temp_line_user.append(line_user_message_item.user_id)
-
-        # Collect user IDs for batch queries
-        user_ids = [item.user_id for item in context['line_user']]
-
-        # Batch fetch profiles (1 query instead of N)
-        profiles_dict = {p.user_id: p for p in UserProfile.objects.filter(user__in=user_ids)} if user_ids else {}
-
+                temp_line_user.append(line_user_message_item.user.id)
+                break
+        
         for line_user_index, line_user_item in enumerate(context['line_user']):
-            context['line_user'][line_user_index].profile = profiles_dict.get(line_user_item.user_id)
-            # ORIGINAL per-user query for message (unchanged)
+            context['line_user'][line_user_index].profile = UserProfile.objects.filter(user=line_user_item.user).first()
             context['line_user'][line_user_index].message = TalkMessage.objects.filter(user=line_user_item.user).order_by('send_date').reverse().first()
             if context['line_user'][line_user_index].message and context['line_user'][line_user_index].message.text:
                 context['line_user'][line_user_index].message.text = context['line_user'][line_user_index].message.text.replace('\\n',' ').replace('\\r','')
@@ -68,46 +52,28 @@ class IndexView(ShopView):
                 user = context['line_user'][0].user
         if len(context['line_user']) > 0:
             context['line_message_user'] = user
-            context['line_message_user'].profile = profiles_dict.get(user.id) if user else None
-            if context['line_message_user'] and not context['line_message_user'].profile:
-                context['line_message_user'].profile = UserProfile.objects.filter(user=context['line_message_user']).first()
+            context['line_message_user'].profile = UserProfile.objects.filter(user=context['line_message_user']).first()
             if TalkRead.objects.filter(user=context['line_message_user'], manager=self.request.user).exists():
                 read = TalkRead.objects.filter(user=context['line_message_user'], manager=self.request.user).first()
                 read.read_count = 0
                 read.read_flg = False
                 read.save()
 
-        # Batch fetch related data (replaces per-user queries)
-        talk_managers_dict = {}
-        mgr_profile_dict = {}
-        if user_ids:
-            talk_managers_qs = TalkManager.objects.filter(user__in=user_ids)
-            talk_managers_dict = {tm.user_id: tm.manager_id for tm in talk_managers_qs}
-            manager_ids = list(set(talk_managers_dict.values()))
-            if manager_ids:
-                mgr_profile_dict = {mp.manager_id: mp for mp in ManagerProfile.objects.filter(manager__in=manager_ids)}
-
-        statuses_dict = {s.user_id: s for s in TalkStatus.objects.filter(user__in=user_ids)} if user_ids else {}
-        pins_dict = {p.user_id: p for p in TalkPin.objects.filter(user__in=user_ids, manager=self.request.user)} if user_ids else {}
-        reads_dict = {r.user_id: r for r in TalkRead.objects.filter(user__in=user_ids, manager=self.request.user)} if user_ids else {}
-
         for line_user_index, line_user_item in enumerate(context['line_user']):
-            uid = line_user_item.user_id
-            manager_id = talk_managers_dict.get(uid)
-            if manager_id:
-                context['line_user'][line_user_index].message_manager = mgr_profile_dict.get(manager_id)
+            if TalkManager.objects.filter(user=line_user_item.user).exists():
+                context['line_user'][line_user_index].message_manager = ManagerProfile.objects.filter(manager=TalkManager.objects.filter(user=line_user_item.user).first().manager).first()
             else:
                 context['line_user'][line_user_index].message_manager = None
-            if statuses_dict.get(uid):
-                context['line_user'][line_user_index].message_status = statuses_dict.get(uid)
+            if TalkStatus.objects.filter(user=line_user_item.user).exists():
+                context['line_user'][line_user_index].message_status = TalkStatus.objects.filter(user=line_user_item.user).first()
             else:
                 context['line_user'][line_user_index].message_status = None
-            if pins_dict.get(uid):
-                context['line_user'][line_user_index].message_pin = pins_dict.get(uid)
+            if TalkPin.objects.filter(user=line_user_item.user, manager=self.request.user).exists():
+                context['line_user'][line_user_index].message_pin = TalkPin.objects.filter(user=line_user_item.user, manager=self.request.user).first()
             else:
                 context['line_user'][line_user_index].message_pin = None
-            if reads_dict.get(uid):
-                context['line_user'][line_user_index].message_read = reads_dict.get(uid)
+            if TalkRead.objects.filter(user=line_user_item.user, manager=self.request.user).exists():
+                context['line_user'][line_user_index].message_read = TalkRead.objects.filter(user=line_user_item.user, manager=self.request.user).first()
             else:
                 context['line_user'][line_user_index].message_read = None
 
