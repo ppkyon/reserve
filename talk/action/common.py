@@ -1,6 +1,6 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Subquery, OuterRef
 
 from sign.models import AuthLogin, ManagerProfile
 from talk.models import TalkMessage, TalkMessageEmoji, TalkPin, TalkRead, TalkManager, TalkStatus
@@ -10,49 +10,110 @@ from common import get_model_field, display_time
 
 def get_user_list(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
+    search_text = request.POST.get('text')
 
-    temp_line_user = list()
-    line_user = list()
-    if request.POST.get('text'):
-        line_user_message = TalkMessage.objects.filter(Q(user__shop=auth_login.shop), Q(Q(user__display_name__icontains=request.POST.get('text'))|Q(user__user_profile__name__icontains=request.POST.get('text')))).order_by('send_date').reverse().all()
+    # Build base filter
+    if search_text:
+        matching_user_ids = list(
+            LineUser.objects.filter(
+                shop=auth_login.shop
+            ).filter(
+                Q(display_name__icontains=search_text) |
+                Q(user_profile__name__icontains=search_text)
+            ).values_list('id', flat=True).distinct()
+        )
+        if not matching_user_ids:
+            return []
+        msg_filter = Q(user__in=matching_user_ids)
     else:
-        line_user_message = TalkMessage.objects.filter(user__shop=auth_login.shop).order_by('send_date').reverse().all()
-        
-    for line_user_message_item in line_user_message:
-        if TalkPin.objects.filter(user=line_user_message_item.user, manager=request.user, pin_flg=True).exists():
-            if not line_user_message_item.user.id in temp_line_user:
-                line_user.append(TalkMessage.objects.filter(id=line_user_message_item.id).values(*get_model_field(TalkMessage)).first())
-                temp_line_user.append(line_user_message_item.user.id)
-    for line_user_message_item in line_user_message:
-        if not line_user_message_item.user.id in temp_line_user:
-            line_user.append(TalkMessage.objects.filter(id=line_user_message_item.id).values(*get_model_field(TalkMessage)).first())
-            temp_line_user.append(line_user_message_item.user.id)
+        msg_filter = Q(user__shop=auth_login.shop)
 
-    for line_user_index, line_user_item in enumerate(line_user):
-        line_user[line_user_index]['line_user'] = LineUser.objects.filter(shop=auth_login.shop, id=line_user_item['user']).values(*get_model_field(LineUser)).first()
-        line_user[line_user_index]['line_user_profile'] = UserProfile.objects.filter(user__id=line_user_item['line_user']['id']).values(*get_model_field(UserProfile)).first()
-        line_user[line_user_index]['line_message'] = TalkMessage.objects.filter(line_user_id=line_user_item['line_user_id']).values(*get_model_field(TalkMessage)).order_by('send_date').reverse().first()
-        if line_user[line_user_index]['line_message']:
-            line_user[line_user_index]['line_message']['text'] = convert_emoji(line_user[line_user_index]['line_message'], line_user[line_user_index]['line_message']['text'])
-        line_user[line_user_index]['line_message']['display_date'] = display_time(naturaltime(line_user[line_user_index]['line_message']['send_date']))
+    # Get latest message per user in 1 query using subquery
+    latest_for_user = Subquery(
+        TalkMessage.objects.filter(
+            user=OuterRef('user')
+        ).order_by('-send_date').values('id')[:1]
+    )
+    all_messages = list(
+        TalkMessage.objects.filter(
+            msg_filter,
+            id=latest_for_user
+        ).values(*get_model_field(TalkMessage))
+    )
 
-        if TalkManager.objects.filter(user=line_user_item['user']).exists():
-            line_user[line_user_index]['talk_manager'] = ManagerProfile.objects.filter(manager=TalkManager.objects.filter(user=line_user_item['user']).first().manager).values(*get_model_field(ManagerProfile)).first()
-        else:
-            line_user[line_user_index]['talk_manager'] = None
-        if TalkStatus.objects.filter(user=line_user_item['user']).exists():
-            line_user[line_user_index]['talk_status'] = TalkStatus.objects.filter(user=line_user_item['user']).values(*get_model_field(TalkStatus)).first()
-        else:
-            line_user[line_user_index]['talk_status'] = None
-        if TalkPin.objects.filter(user=line_user_item['user'], manager=request.user).exists():
-            line_user[line_user_index]['talk_pin'] = TalkPin.objects.filter(user=line_user_item['user'], manager=request.user).values(*get_model_field(TalkPin)).first()
-        else:
-            line_user[line_user_index]['talk_pin'] = None
-        if TalkRead.objects.filter(user=line_user_item['user'], manager=request.user).exists():
-            line_user[line_user_index]['talk_read'] = TalkRead.objects.filter(user=line_user_item['user'], manager=request.user).values(*get_model_field(TalkRead)).first()
-        else:
-            line_user[line_user_index]['talk_read'] = None
-    
+    if not all_messages:
+        return []
+
+    # Collect user IDs
+    user_ids = [msg['user'] for msg in all_messages]
+
+    # Batch fetch pinned user IDs (1 query)
+    pinned_user_ids = set(
+        TalkPin.objects.filter(
+            user__in=user_ids, manager=request.user, pin_flg=True
+        ).values_list('user', flat=True)
+    )
+
+    # Sort: pinned first (by send_date desc), then non-pinned (by send_date desc)
+    pinned = [m for m in all_messages if m['user'] in pinned_user_ids]
+    non_pinned = [m for m in all_messages if m['user'] not in pinned_user_ids]
+    pinned.sort(key=lambda x: x['send_date'], reverse=True)
+    non_pinned.sort(key=lambda x: x['send_date'], reverse=True)
+    line_user = pinned + non_pinned
+
+    # Batch fetch all related data
+    line_users_dict = {
+        u['id']: u for u in LineUser.objects.filter(id__in=user_ids).values(*get_model_field(LineUser))
+    }
+    profiles_dict = {}
+    for p in UserProfile.objects.filter(user__in=user_ids).values(*get_model_field(UserProfile)):
+        if p['user'] not in profiles_dict:
+            profiles_dict[p['user']] = p
+
+    talk_managers_qs = TalkManager.objects.filter(user__in=user_ids)
+    user_to_manager_id = {tm.user_id: tm.manager_id for tm in talk_managers_qs}
+    manager_ids = list(set(user_to_manager_id.values()))
+    manager_profiles_dict = {}
+    if manager_ids:
+        for mp in ManagerProfile.objects.filter(manager__in=manager_ids).values(*get_model_field(ManagerProfile)):
+            if mp['manager'] not in manager_profiles_dict:
+                manager_profiles_dict[mp['manager']] = mp
+
+    statuses_dict = {}
+    for s in TalkStatus.objects.filter(user__in=user_ids).values(*get_model_field(TalkStatus)):
+        if s['user'] not in statuses_dict:
+            statuses_dict[s['user']] = s
+
+    pins_dict = {}
+    for p in TalkPin.objects.filter(user__in=user_ids, manager=request.user).values(*get_model_field(TalkPin)):
+        if p['user'] not in pins_dict:
+            pins_dict[p['user']] = p
+
+    reads_dict = {}
+    for r in TalkRead.objects.filter(user__in=user_ids, manager=request.user).values(*get_model_field(TalkRead)):
+        if r['user'] not in reads_dict:
+            reads_dict[r['user']] = r
+
+    # Assemble result (exact same structure as original)
+    for item in line_user:
+        uid = item['user']
+
+        # line_message: latest message data with emoji conversion and display_date
+        line_message = dict(item)
+        if line_message:
+            line_message['text'] = convert_emoji(line_message, line_message['text'])
+        line_message['display_date'] = display_time(naturaltime(line_message['send_date']))
+
+        item['line_user'] = line_users_dict.get(uid)
+        item['line_user_profile'] = profiles_dict.get(uid)
+        item['line_message'] = line_message
+
+        manager_id = user_to_manager_id.get(uid)
+        item['talk_manager'] = manager_profiles_dict.get(manager_id) if manager_id else None
+        item['talk_status'] = statuses_dict.get(uid)
+        item['talk_pin'] = pins_dict.get(uid)
+        item['talk_read'] = reads_dict.get(uid)
+
     return line_user
 
 def get_all_read_count(request):
