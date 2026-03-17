@@ -85,8 +85,8 @@ def get_user_list(request):
         line_user[line_user_index]['line_user'] = line_users_dict.get(uid)
         line_user[line_user_index]['line_user_profile'] = profiles_dict.get(uid)
 
-        # line_message: ORIGINAL per-user query (unchanged)
-        line_user[line_user_index]['line_message'] = TalkMessage.objects.filter(line_user_id=line_user_item['line_user_id']).values(*get_model_field(TalkMessage)).order_by('send_date').reverse().first()
+        # line_message: latest message for this user
+        line_user[line_user_index]['line_message'] = TalkMessage.objects.filter(user=line_user_item['user']).values(*get_model_field(TalkMessage)).order_by('send_date').reverse().first()
         if line_user[line_user_index]['line_message']:
             line_user[line_user_index]['line_message']['text'] = convert_emoji(line_user[line_user_index]['line_message'], line_user[line_user_index]['line_message']['text'])
         line_user[line_user_index]['line_message']['display_date'] = display_time(naturaltime(line_user[line_user_index]['line_message']['send_date']))
