@@ -12,38 +12,25 @@ def get_user_list(request):
     auth_login = AuthLogin.objects.filter(user=request.user).first()
 
     if request.POST.get('text'):
-        line_user_message = TalkMessage.objects.filter(Q(user__shop=auth_login.shop), Q(Q(user__display_name__icontains=request.POST.get('text'))|Q(user__user_profile__name__icontains=request.POST.get('text')))).order_by('send_date').reverse()
+        base_qs = TalkMessage.objects.filter(Q(user__shop=auth_login.shop), Q(Q(user__display_name__icontains=request.POST.get('text'))|Q(user__user_profile__name__icontains=request.POST.get('text'))))
     else:
-        line_user_message = TalkMessage.objects.filter(user__shop=auth_login.shop).order_by('send_date').reverse()
+        base_qs = TalkMessage.objects.filter(user__shop=auth_login.shop)
 
-    # Single iteration through all messages (sorted by send_date desc)
-    # Build: 1) latest msg ID per user (for user list)
-    #        2) latest msg ID per line_user_id (for line_message display)
-    temp_line_user = set()
-    latest_msg_ids_ordered = []
-    msg_id_to_user = {}
-    line_user_id_to_latest_msg_id = {}
+    # Get latest message per user using PostgreSQL DISTINCT ON (1 query)
+    all_messages = list(
+        base_qs.order_by('user', '-send_date').distinct('user').values(*get_model_field(TalkMessage))
+    )
 
-    for msg in line_user_message.values('id', 'user', 'line_user_id'):
-        if msg['line_user_id'] and msg['line_user_id'] not in line_user_id_to_latest_msg_id:
-            line_user_id_to_latest_msg_id[msg['line_user_id']] = msg['id']
-        if msg['user'] not in temp_line_user:
-            temp_line_user.add(msg['user'])
-            latest_msg_ids_ordered.append(msg['id'])
-            msg_id_to_user[msg['id']] = msg['user']
-
-    if not latest_msg_ids_ordered:
+    if not all_messages:
         return []
 
-    user_ids = list(msg_id_to_user.values())
+    user_ids = [msg['user'] for msg in all_messages]
 
-    # Batch fetch all needed message dicts in 1 query
-    all_needed_ids = list(set(latest_msg_ids_ordered) | set(line_user_id_to_latest_msg_id.values()))
-    msg_dicts = {
-        m['id']: m for m in TalkMessage.objects.filter(
-            id__in=all_needed_ids
-        ).values(*get_model_field(TalkMessage))
-    }
+    # Get latest message per line_user_id using DISTINCT ON (1 query)
+    line_messages = list(
+        TalkMessage.objects.filter(user__shop=auth_login.shop).order_by('line_user_id', '-send_date').distinct('line_user_id').values(*get_model_field(TalkMessage))
+    )
+    line_message_dict = {lm['line_user_id']: lm for lm in line_messages if lm['line_user_id']}
 
     # Batch fetch pinned user IDs (1 query)
     pinned_user_ids = set(
@@ -53,15 +40,10 @@ def get_user_list(request):
     )
 
     # Sort: pinned first (send_date desc), then non-pinned (send_date desc)
-    pinned = []
-    non_pinned = []
-    for msg_id in latest_msg_ids_ordered:
-        msg_dict = msg_dicts.get(msg_id)
-        if msg_dict:
-            if msg_dict['user'] in pinned_user_ids:
-                pinned.append(msg_dict)
-            else:
-                non_pinned.append(msg_dict)
+    pinned = [m for m in all_messages if m['user'] in pinned_user_ids]
+    non_pinned = [m for m in all_messages if m['user'] not in pinned_user_ids]
+    pinned.sort(key=lambda x: x['send_date'], reverse=True)
+    non_pinned.sort(key=lambda x: x['send_date'], reverse=True)
     line_user = pinned + non_pinned
 
     # Batch fetch all related data
@@ -104,11 +86,10 @@ def get_user_list(request):
         line_user[line_user_index]['line_user'] = line_users_dict.get(uid)
         line_user[line_user_index]['line_user_profile'] = profiles_dict.get(uid)
 
-        # line_message: latest message per line_user_id (built during iteration above)
-        line_msg_id = line_user_id_to_latest_msg_id.get(line_user_item['line_user_id'])
-        line_msg_data = msg_dicts.get(line_msg_id) if line_msg_id else None
-        if line_msg_data:
-            line_message = dict(line_msg_data)
+        # line_message: latest per line_user_id from DISTINCT ON query
+        line_msg = line_message_dict.get(line_user_item['line_user_id'])
+        if line_msg:
+            line_message = dict(line_msg)
             line_message['text'] = convert_emoji(line_message, line_message['text'])
         else:
             line_message = dict(line_user_item)
