@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Subquery, OuterRef
 
 from view import ShopView
 
@@ -15,22 +14,24 @@ class IndexView(ShopView):
         context = super().get_context_data(*args, **kwargs)
         auth_login = AuthLogin.objects.filter(user=self.request.user).first()
 
-        # Get latest message per user in 1 query using subquery
-        latest_for_user = Subquery(
-            TalkMessage.objects.filter(
-                user=OuterRef('user')
-            ).order_by('-send_date').values('id')[:1]
-        )
+        # Get all messages sorted by send_date desc, with user preloaded (same logic as original)
         line_user_message = list(
             TalkMessage.objects.filter(
                 user__shop=auth_login.shop,
-                user__delete_flg=False,
-                id=latest_for_user
+                user__delete_flg=False
             ).select_related('user').order_by('-send_date')
         )
 
+        # Deduplicate: keep only latest message per user (same as original)
+        temp_all_users = set()
+        latest_per_user = []
+        for msg in line_user_message:
+            if msg.user_id not in temp_all_users:
+                temp_all_users.add(msg.user_id)
+                latest_per_user.append(msg)
+
         # Collect user IDs for batch queries
-        user_ids = [msg.user_id for msg in line_user_message]
+        user_ids = [msg.user_id for msg in latest_per_user]
 
         # Batch fetch pinned user IDs (1 query)
         pinned_ids = set(
@@ -42,11 +43,11 @@ class IndexView(ShopView):
         # Sort: pinned first (by send_date desc), then non-pinned (by send_date desc)
         context['line_user'] = list()
         temp_line_user = set()
-        for msg in line_user_message:
+        for msg in latest_per_user:
             if msg.user_id in pinned_ids and msg.user_id not in temp_line_user:
                 context['line_user'].append(msg)
                 temp_line_user.add(msg.user_id)
-        for msg in line_user_message:
+        for msg in latest_per_user:
             if msg.user_id not in temp_line_user:
                 context['line_user'].append(msg)
                 temp_line_user.add(msg.user_id)
@@ -56,7 +57,7 @@ class IndexView(ShopView):
 
         for line_user_index, line_user_item in enumerate(context['line_user']):
             context['line_user'][line_user_index].profile = profiles_dict.get(line_user_item.user_id)
-            context['line_user'][line_user_index].message = line_user_item
+            context['line_user'][line_user_index].message = TalkMessage.objects.filter(user=line_user_item.user).order_by('send_date').reverse().first()
             if context['line_user'][line_user_index].message and context['line_user'][line_user_index].message.text:
                 context['line_user'][line_user_index].message.text = context['line_user'][line_user_index].message.text.replace('\\n',' ').replace('\\r','')
 
